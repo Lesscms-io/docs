@@ -101,8 +101,8 @@ Returns page with sections and widgets (see Widgets documentation).
 
 2. **Widget Renderer**
    - Single component that renders ANY widget type
-   - Switch/map based on widget_type
-   - Pass widget.data and widget.settings to specific renderers
+   - Switch/map based on `widget_type`
+   - Pass `widget.content` (multilingual), `widget.config` (settings), and `widget.settings` (styles) to specific renderers
    - Handle unknown widget types gracefully
 
 3. **CSS Requirements** (CRITICAL)
@@ -218,7 +218,7 @@ Columns are inside sections. Each column has:
 ```json
 {
   "uuid": "column-uuid",
-  "width": 50,
+  "span": 12,
   "settings": {
     // Size
     "columnHeight": null,
@@ -280,7 +280,7 @@ Columns are inside sections. Each column has:
     // Advanced
     "cssClass": ""
   },
-  "widgets": [...]
+  "content": [...]
 }
 ```
 
@@ -288,7 +288,7 @@ Columns are inside sections. Each column has:
 
 | Property | Type | Default | Description |
 |----------|------|---------|-------------|
-| `width` | number | - | Column width as percentage (e.g., 50 for 50%) |
+| `span` | number | `12` | Column span in a 12-column grid (e.g., 6 = 50% width) |
 | `columnHeight` | number/null | `null` | Fixed column height in pixels |
 | `minHeight` | number/null | `null` | Minimum column height in pixels |
 | `verticalAlign` | string | `"flex-start"` | Vertical alignment ("flex-start", "center", "flex-end") |
@@ -301,9 +301,15 @@ Widgets are inside columns. Each widget has:
 ```json
 {
   "uuid": "widget-uuid",
-  "type": "heading",
-  "data": {
-    // Widget-specific content data
+  "widget_type": "heading",
+  "content": {
+    // Multilingual content (e.g., html, text)
+    "html": { "pl": "<p>Treść</p>", "en": "<p>Content</p>" }
+  },
+  "config": {
+    // Widget-specific configuration (non-multilingual)
+    "level": 2,
+    "tag": "h2"
   },
   "settings": {
     // Size
@@ -426,9 +432,15 @@ Sections, columns, and widgets can be made clickable:
 All widgets follow this structure:
 ```json
 {
-  "widget_type": "heading",
   "uuid": "unique-id",
-  "data": { ... },
+  "widget_type": "heading",
+  "content": {
+    "html": { "pl": "<p>Treść</p>", "en": "<p>Content</p>" }
+  },
+  "config": {
+    "level": 2,
+    "tag": "h2"
+  },
   "settings": {
     "paddingTop": 20,
     "marginBottom": 10,
@@ -531,8 +543,9 @@ All widgets follow this structure:
 
 - Get language from URL prefix (/en/, /pl/) or cookie/localStorage
 - Pass language to all fetch calls
-- Widget data is multilingual: `widget.data.text[language]`
-- Fallback: `widget.data.text[language] || widget.data.text.en || ''`
+- Widget content is multilingual: `widget.content.html[language]`
+- Fallback: `widget.content.html[language] || widget.content.html.en || ''`
+- Note: `widget.config` contains non-multilingual settings (level, size, etc.)
 
 ## File Structure
 
@@ -610,9 +623,11 @@ The generated `lcms-styles.css` file serves two purposes:
 
 ```jsx
 // widgets/Heading.js
-export function Heading({ data, settings, language }) {
-  const text = data.text?.[language] || data.text?.en || '';
-  const level = data.level || 2;
+export function Heading({ content, config, settings, language }) {
+  // Content is multilingual (html field with language keys)
+  const html = content.html?.[language] || content.html?.en || '';
+  // Config contains non-multilingual settings
+  const level = config.level || 2;
   const Tag = `h${level}`;
 
   const style = {
@@ -621,11 +636,21 @@ export function Heading({ data, settings, language }) {
     marginBottom: settings.marginBottom,
   };
 
+  // If content is HTML, render with dangerouslySetInnerHTML
+  const isHtml = html.includes('<');
+
   return (
     <div className="lcms-widget lcms-widget-heading" style={style}>
-      <Tag className={`lcms-heading lcms-heading-${level}`}>
-        {text}
-      </Tag>
+      {isHtml ? (
+        <Tag
+          className={`lcms-heading lcms-heading-${level}`}
+          dangerouslySetInnerHTML={{ __html: html }}
+        />
+      ) : (
+        <Tag className={`lcms-heading lcms-heading-${level}`}>
+          {html}
+        </Tag>
+      )}
     </div>
   );
 }

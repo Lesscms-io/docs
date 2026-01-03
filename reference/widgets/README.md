@@ -127,6 +127,76 @@ All widgets can include these settings for styling:
 }
 ```
 
+### Link Settings
+
+Any widget can be made clickable by enabling link settings. This wraps the entire widget in an anchor tag.
+
+```json
+{
+  "settings": {
+    "link": {
+      "enabled": true,
+      "type": "custom",
+      "url": "https://example.com",
+      "target_blank": false
+    }
+  }
+}
+```
+
+#### Link Types
+
+| Type | Description | Required Fields |
+|------|-------------|-----------------|
+| `custom` | Custom URL | `url` |
+| `page` | Internal page link | `page_id` (resolved to URL by API) |
+| `entry` | Collection entry link | `collection_code`, `entry_id` (resolved to URL by API) |
+| `route` | Named route link | `route_uuid` (resolved to URL by API) |
+
+#### Link Properties
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `enabled` | boolean | Whether the link is active |
+| `type` | string | Link type: `custom`, `page`, `entry`, `route` |
+| `url` | string | Final resolved URL (always present when link is enabled) |
+| `target_blank` | boolean | Open link in new tab |
+| `page_id` | string | Page UUID (for `page` type) |
+| `collection_code` | string | Collection code (for `entry` type) |
+| `entry_id` | string | Entry UUID (for `entry` type) |
+| `route_uuid` | string | Route UUID (for `route` type) |
+
+#### Usage Example
+
+```javascript
+function renderWidget(widget, language) {
+  const content = renderWidgetContent(widget, language);
+  const link = widget.settings?.link;
+
+  if (link?.enabled && link?.url) {
+    const target = link.target_blank ? ' target="_blank" rel="noopener noreferrer"' : '';
+    return `<a href="${link.url}"${target} class="lcms-widget-link">${content}</a>`;
+  }
+
+  return content;
+}
+```
+
+#### CSS for Clickable Widgets
+
+```css
+.lcms-widget-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.lcms-widget-link:hover {
+  opacity: 0.9;
+}
+```
+
 ### Responsive Overrides
 
 Settings can have responsive overrides for tablet (768-1199px) and mobile (0-767px):
