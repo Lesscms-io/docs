@@ -8,15 +8,19 @@ A countdown timer that displays remaining time until a target date.
 countdown
 ```
 
-## Data Properties
+## Response Structure
 
-| Property | Type | Global | Description |
-|----------|------|--------|-------------|
-| `target_date` | string | Yes | Target date/time in ISO 8601 format |
-| `show_days` | boolean | Yes | Display days component |
-| `show_hours` | boolean | Yes | Display hours component |
-| `show_minutes` | boolean | Yes | Display minutes component |
-| `show_seconds` | boolean | Yes | Display seconds component |
+| Property | Type | Description |
+|----------|------|-------------|
+| `widget_type` | string | Always `"countdown"` |
+| `uuid` | string | Unique widget identifier |
+| `config` | object | Widget configuration |
+| `config.target_date` | string | Target date/time in ISO 8601 format |
+| `config.show_days` | boolean | Display days component |
+| `config.show_hours` | boolean | Display hours component |
+| `config.show_minutes` | boolean | Display minutes component |
+| `config.show_seconds` | boolean | Display seconds component |
+| `settings` | object | Style settings (optional) |
 
 ## Example Response
 
@@ -24,7 +28,7 @@ countdown
 {
   "widget_type": "countdown",
   "uuid": "countdown-123",
-  "data": {
+  "config": {
     "target_date": "2025-12-31T23:59:59Z",
     "show_days": true,
     "show_hours": true,
@@ -32,9 +36,13 @@ countdown
     "show_seconds": true
   },
   "settings": {
-    "textAlign": "center",
+    "horizontalAlign": "center",
     "paddingTop": 40,
-    "paddingBottom": 40
+    "paddingBottom": 40,
+    "responsive": {
+      "tablet": {},
+      "mobile": {}
+    }
   }
 }
 ```
@@ -42,9 +50,8 @@ countdown
 ## Usage Example
 
 ```javascript
-// Render countdown widget
 function renderCountdown(widget) {
-  const { target_date, show_days, show_hours, show_minutes, show_seconds } = widget.data;
+  const { target_date, show_days, show_hours, show_minutes, show_seconds } = widget.config;
 
   const countdownId = `countdown-${widget.uuid}`;
 
@@ -91,47 +98,5 @@ function initCountdown(element) {
   setInterval(updateCountdown, 1000);
 }
 
-// Initialize all countdown widgets on page
 document.querySelectorAll('.countdown-widget').forEach(initCountdown);
-```
-
-## CSS Example
-
-```css
-.countdown-widget {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-}
-
-.countdown-item {
-  text-align: center;
-  min-width: 80px;
-}
-
-.countdown-item span {
-  display: block;
-  font-size: 48px;
-  font-weight: 700;
-  color: #333;
-}
-
-.countdown-item label {
-  display: block;
-  font-size: 14px;
-  color: #666;
-  text-transform: uppercase;
-  margin-top: 8px;
-}
-
-/* Mobile */
-@media (max-width: 480px) {
-  .countdown-item span {
-    font-size: 32px;
-  }
-
-  .countdown-item {
-    min-width: 60px;
-  }
-}
 ```

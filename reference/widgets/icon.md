@@ -1,6 +1,6 @@
 # Icon Widget
 
-A simple icon display widget with customizable size and color.
+A simple icon display widget.
 
 ## Widget Type
 
@@ -8,13 +8,17 @@ A simple icon display widget with customizable size and color.
 icon
 ```
 
-## Data Properties
+## Response Structure
 
-| Property | Type | Global | Description |
-|----------|------|--------|-------------|
-| `icon` | string | Yes | Font Awesome icon class (e.g., "fa-solid fa-star") |
-| `size` | string | Yes | Icon size: `24`, `32`, `48`, `64` (in pixels) |
-| `color` | string | Yes | Icon color (hex code) |
+| Property | Type | Description |
+|----------|------|-------------|
+| `widget_type` | string | Always `"icon"` |
+| `uuid` | string | Unique widget identifier |
+| `config` | object | Widget configuration |
+| `config.icon` | string | Icon class (e.g., `"bx bx-phone"`) |
+| `config.size` | string | Icon size in pixels (e.g., `"48"`) |
+| `config.color` | string | Icon color (hex, e.g., `"#333333"`) |
+| `settings` | object | Style settings (optional) |
 
 ## Example Response
 
@@ -22,51 +26,35 @@ icon
 {
   "widget_type": "icon",
   "uuid": "icon-123",
-  "data": {
-    "icon": "fa-solid fa-star",
+  "config": {
+    "icon": "bx bx-phone",
     "size": "48",
-    "color": "#FFD700"
+    "color": "#50a5f1"
   },
   "settings": {
-    "textAlign": "center",
-    "marginTop": 10,
-    "marginBottom": 10
+    "horizontalAlign": "center",
+    "responsive": {
+      "tablet": {},
+      "mobile": {}
+    }
   }
 }
 ```
 
-## Size Values
+## Icon Libraries
 
-| Value | Description |
-|-------|-------------|
-| `24` | Small (24px) |
-| `32` | Medium (32px) |
-| `48` | Large (48px) |
-| `64` | Extra large (64px) |
+The system supports various icon libraries:
+
+- **Boxicons** - `bx bx-*`, `bx bxs-*` (solid), `bx bxl-*` (logos)
+- **Font Awesome** - `fa fa-*`, `fas fa-*`, `fab fa-*`
+- **Custom** - Any CSS class that renders an icon
 
 ## Usage Example
 
 ```javascript
-// Render icon widget
 function renderIcon(widget) {
-  const { icon, size, color } = widget.data;
+  const { icon, size, color } = widget.config;
 
-  return `
-    <i
-      class="${icon}"
-      style="font-size: ${size}px; color: ${color};"
-    ></i>
-  `;
+  return `<i class="${icon}" style="font-size: ${size}px; color: ${color};"></i>`;
 }
-```
-
-## Font Awesome Integration
-
-The icon field uses Font Awesome icons. Make sure to include Font Awesome in your frontend:
-
-```html
-<link
-  rel="stylesheet"
-  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
->
 ```

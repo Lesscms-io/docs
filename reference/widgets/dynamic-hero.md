@@ -8,25 +8,28 @@ A hero section that dynamically pulls content from a collection entry.
 dynamic-hero
 ```
 
-## Data Properties
+## Response Structure
 
-| Property | Type | Global | Description |
-|----------|------|--------|-------------|
-| `collection_code` | string | Yes | Collection code |
-| `entry_source` | string | Yes | Entry source: `static` or `url` |
-| `entry_id` | string | Yes | Specific entry ID (when static) |
-| `entry_url_segment` | number | Yes | URL segment index (when url) |
-| `image_field` | string | Yes | Field code for background image |
-| `title_field` | string | Yes | Field code for title |
-| `subtitle_field` | string | Yes | Field code for subtitle |
-| `show_title` | boolean | Yes | Display title |
-| `show_subtitle` | boolean | Yes | Display subtitle |
-| `min_height` | number | Yes | Minimum height in pixels |
-| `overlay_opacity` | number | Yes | Overlay opacity (0-1) |
-| `overlay_color` | string | Yes | Overlay color (hex code) |
-| `text_align` | string | Yes | Text alignment: `left`, `center`, `right` |
-| `text_position` | string | Yes | Vertical position: `top`, `center`, `bottom` |
-| `text_color` | string | Yes | Text color (hex code) |
+| Property | Type | Description |
+|----------|------|-------------|
+| `widget_type` | string | Always `"dynamic-hero"` |
+| `uuid` | string | Unique widget identifier |
+| `config` | object | Widget configuration |
+| `config.collection_code` | string | Collection code |
+| `config.entry_source` | string | `"static"` or `"url"` |
+| `config.entry_id` | string | Entry ID (when static) |
+| `config.entry_url_segment` | number | URL segment index (when url) |
+| `config.image_field` | string | Field code for background image |
+| `config.title_field` | string | Field code for title |
+| `config.subtitle_field` | string | Field code for subtitle |
+| `config.show_title` | boolean | Display title |
+| `config.show_subtitle` | boolean | Display subtitle |
+| `config.overlay_opacity` | number | Overlay opacity (0-1) |
+| `config.overlay_color` | string | Overlay color (hex) |
+| `config.text_align` | string | `"left"`, `"center"`, `"right"` |
+| `config.text_position` | string | `"top"`, `"center"`, `"bottom"` |
+| `config.text_color` | string | Text color (hex) |
+| `settings` | object | Style settings (optional) |
 
 ## Example Response
 
@@ -34,23 +37,29 @@ dynamic-hero
 {
   "widget_type": "dynamic-hero",
   "uuid": "dhero-123",
-  "data": {
+  "config": {
     "collection_code": "blog",
     "entry_source": "url",
+    "entry_id": null,
     "entry_url_segment": 2,
     "image_field": "featured_image",
     "title_field": "title",
     "subtitle_field": "excerpt",
     "show_title": true,
     "show_subtitle": true,
-    "min_height": 500,
-    "overlay_opacity": 0.5,
+    "overlay_opacity": 0.4,
     "overlay_color": "#000000",
     "text_align": "center",
     "text_position": "center",
-    "text_color": "#FFFFFF"
+    "text_color": "#ffffff"
   },
-  "settings": {}
+  "settings": {
+    "minHeight": 500,
+    "responsive": {
+      "tablet": {},
+      "mobile": {}
+    }
+  }
 }
 ```
 
@@ -59,7 +68,7 @@ dynamic-hero
 | Value | Description |
 |-------|-------------|
 | `static` | Use specific `entry_id` |
-| `url` | Extract entry ID from URL segment |
+| `url` | Extract entry from URL segment |
 
 ## Text Position Values
 
@@ -72,15 +81,16 @@ dynamic-hero
 ## Usage Example
 
 ```javascript
-// Render dynamic hero widget
 async function renderDynamicHero(widget, language, urlSegments, api) {
   const {
     collection_code, entry_source, entry_id, entry_url_segment,
     image_field, title_field, subtitle_field,
     show_title, show_subtitle,
-    min_height, overlay_opacity, overlay_color,
+    overlay_opacity, overlay_color,
     text_align, text_position, text_color
-  } = widget.data;
+  } = widget.config;
+
+  const minHeight = widget.settings?.minHeight || 400;
 
   // Determine entry ID
   let targetEntryId = entry_id;
@@ -88,32 +98,23 @@ async function renderDynamicHero(widget, language, urlSegments, api) {
     targetEntryId = urlSegments[entry_url_segment - 1];
   }
 
-  if (!targetEntryId) {
-    return '';
-  }
+  if (!targetEntryId) return '';
 
   // Fetch entry
   const entry = await api.getEntry(collection_code, targetEntryId);
-  if (!entry) {
-    return '';
-  }
+  if (!entry) return '';
 
   // Get field values
   const image = entry.data[image_field]?.url || '';
-  const title = entry.data[title_field]?.[language] || entry.data[title_field]?.en || '';
-  const subtitle = entry.data[subtitle_field]?.[language] || entry.data[subtitle_field]?.en || '';
+  const title = entry.data[title_field]?.[language] || '';
+  const subtitle = entry.data[subtitle_field]?.[language] || '';
 
-  // Map text position to CSS
-  const alignItems = {
-    top: 'flex-start',
-    center: 'center',
-    bottom: 'flex-end'
-  };
+  const alignItems = { top: 'flex-start', center: 'center', bottom: 'flex-end' };
 
   return `
     <section class="dynamic-hero" style="
       position: relative;
-      min-height: ${min_height || 400}px;
+      min-height: ${minHeight}px;
       background-image: url('${image}');
       background-size: cover;
       background-position: center;
@@ -125,7 +126,7 @@ async function renderDynamicHero(widget, language, urlSegments, api) {
         position: absolute;
         inset: 0;
         background: ${overlay_color || '#000000'};
-        opacity: ${overlay_opacity || 0.5};
+        opacity: ${overlay_opacity || 0.4};
       "></div>
       <div class="hero-content" style="
         position: relative;
@@ -135,54 +136,11 @@ async function renderDynamicHero(widget, language, urlSegments, api) {
         padding: 60px 20px;
         max-width: 900px;
       ">
-        ${show_title && title ? `<h1 class="hero-title">${title}</h1>` : ''}
-        ${show_subtitle && subtitle ? `<p class="hero-subtitle">${subtitle}</p>` : ''}
+        ${show_title && title ? `<h1>${title}</h1>` : ''}
+        ${show_subtitle && subtitle ? `<p>${subtitle}</p>` : ''}
       </div>
     </section>
   `;
-}
-```
-
-## CSS Example
-
-```css
-.dynamic-hero {
-  width: 100%;
-  overflow: hidden;
-}
-
-.hero-title {
-  font-size: 48px;
-  font-weight: 700;
-  margin: 0 0 20px;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-}
-
-.hero-subtitle {
-  font-size: 20px;
-  margin: 0;
-  opacity: 0.9;
-  line-height: 1.6;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.2);
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .dynamic-hero {
-    min-height: 300px !important;
-  }
-
-  .hero-title {
-    font-size: 32px;
-  }
-
-  .hero-subtitle {
-    font-size: 16px;
-  }
-
-  .hero-content {
-    padding: 40px 16px !important;
-  }
 }
 ```
 

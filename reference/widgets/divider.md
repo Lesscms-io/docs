@@ -1,6 +1,6 @@
 # Divider Widget
 
-A horizontal line separator with customizable style, color, and width.
+A horizontal line separator with customizable style, color, and thickness.
 
 ## Widget Type
 
@@ -8,13 +8,17 @@ A horizontal line separator with customizable style, color, and width.
 divider
 ```
 
-## Data Properties
+## Response Structure
 
-| Property | Type | Global | Description |
-|----------|------|--------|-------------|
-| `style` | string | Yes | Line style: `solid`, `dashed`, `dotted` |
-| `color` | string | Yes | Line color (hex code) |
-| `width` | string | Yes | Line thickness: `1`, `2`, `3` (in pixels) |
+| Property | Type | Description |
+|----------|------|-------------|
+| `widget_type` | string | Always `"divider"` |
+| `uuid` | string | Unique widget identifier |
+| `config` | object | Widget configuration |
+| `config.style` | string | Line style: `"solid"`, `"dashed"`, `"dotted"` |
+| `config.color` | string | Line color (hex code) |
+| `config.thickness` | number | Line thickness in pixels |
+| `settings` | object | Style settings (optional) |
 
 ## Example Response
 
@@ -22,14 +26,18 @@ divider
 {
   "widget_type": "divider",
   "uuid": "divider-123",
-  "data": {
+  "config": {
     "style": "solid",
-    "color": "#E0E0E0",
-    "width": "1"
+    "color": "#e9ecef",
+    "thickness": 1
   },
   "settings": {
     "marginTop": 20,
-    "marginBottom": 20
+    "marginBottom": 20,
+    "responsive": {
+      "tablet": {},
+      "mobile": {}
+    }
   }
 }
 ```
@@ -45,16 +53,9 @@ divider
 ## Usage Example
 
 ```javascript
-// Render divider widget
 function renderDivider(widget) {
-  const { style, color, width } = widget.data;
+  const { style, color, thickness } = widget.config;
 
-  return `
-    <hr style="
-      border: none;
-      border-top: ${width}px ${style} ${color};
-      margin: 0;
-    ">
-  `;
+  return `<hr style="border: none; border-top: ${thickness}px ${style} ${color}; margin: 0;">`;
 }
 ```

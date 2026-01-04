@@ -1,6 +1,6 @@
 # Icon Box Widget
 
-A content block with an icon, supporting various layouts and styling options.
+A widget combining an icon with text content, commonly used for feature highlights.
 
 ## Widget Type
 
@@ -8,95 +8,104 @@ A content block with an icon, supporting various layouts and styling options.
 icon-box
 ```
 
-## Data Properties
+## Response Structure
 
-| Property | Type | Global | Description |
-|----------|------|--------|-------------|
-| `icon` | string | Yes | Font Awesome icon class |
-| `content` | object | No | Rich text content (multilingual, HTML) |
-| `icon_position` | string | Yes | Icon position: `left`, `right`, `top`, `bottom` |
-| `icon_vertical_align` | string | Yes | Vertical alignment: `top`, `center`, `bottom` |
-| `icon_size` | string | Yes | Icon size: `24`, `32`, `48`, `64` (pixels) |
-| `icon_color` | string | Yes | Icon color (hex code) |
-| `icon_background` | string | Yes | Icon background color (hex code) |
+| Property | Type | Description |
+|----------|------|-------------|
+| `widget_type` | string | Always `"icon-box"` |
+| `uuid` | string | Unique widget identifier |
+| `config` | object | Widget configuration |
+| `config.content_source` | string | `"static"` or `"dynamic"` |
+| `config.icon` | string | Icon class (e.g., `"bx bx-phone"`) |
+| `config.icon_size` | number | Icon size in pixels |
+| `config.icon_color` | string | Icon color (hex) |
+| `config.icon_background` | string | Icon background color |
+| `config.icon_padding` | number | Icon padding in pixels |
+| `config.icon_position` | string | `"left"`, `"right"`, `"top"` |
+| `config.icon_vertical_align` | string | `"top"`, `"center"`, `"bottom"` |
+| `config.collection_code` | string | Collection code (when dynamic) |
+| `config.field_code` | string | Field code (when dynamic) |
+| `config.entry_id` | string | Entry ID (when dynamic) |
+| `content` | object | Widget content (when static) |
+| `content.html` | object | Multilingual HTML content |
+| `settings` | object | Style settings (optional) |
 
-## Example Response
+## Example Response (Static)
 
 ```json
 {
   "widget_type": "icon-box",
   "uuid": "iconbox-123",
-  "data": {
-    "icon": "fa-solid fa-rocket",
-    "content": {
-      "en": "<h3>Fast Delivery</h3><p>We deliver your order within 24 hours.</p>",
-      "pl": "<h3>Szybka dostawa</h3><p>Dostarczamy zamówienie w ciągu 24 godzin.</p>"
-    },
+  "config": {
+    "content_source": "static",
+    "icon": "bx bx-rocket",
+    "icon_size": 48,
+    "icon_color": "#50a5f1",
+    "icon_background": "transparent",
+    "icon_padding": 0,
     "icon_position": "left",
-    "icon_vertical_align": "top",
-    "icon_size": "48",
-    "icon_color": "#FFFFFF",
-    "icon_background": "#007BFF"
+    "icon_vertical_align": "top"
+  },
+  "content": {
+    "html": {
+      "en": "<h3>Fast Delivery</h3><p>We deliver your order within 24 hours.</p>",
+      "pl": "<h3>Szybka dostawa</h3><p>Dostarczamy zamówienia w ciągu 24 godzin.</p>"
+    }
   },
   "settings": {
-    "paddingTop": 20,
-    "paddingBottom": 20
+    "responsive": {
+      "tablet": {},
+      "mobile": {}
+    }
   }
 }
 ```
 
-## Icon Position Values
+## Example Response (Dynamic)
+
+```json
+{
+  "widget_type": "icon-box",
+  "uuid": "iconbox-456",
+  "config": {
+    "content_source": "dynamic",
+    "icon": "bx bx-check-circle",
+    "icon_size": 32,
+    "icon_color": "#28a745",
+    "icon_background": "#e8f5e9",
+    "icon_padding": 12,
+    "icon_position": "top",
+    "icon_vertical_align": "center",
+    "collection_code": "features",
+    "field_code": "description",
+    "entry_id": "feature-1"
+  },
+  "settings": {}
+}
+```
+
+## Icon Position
 
 | Value | Description |
 |-------|-------------|
 | `left` | Icon on the left, content on the right |
 | `right` | Icon on the right, content on the left |
 | `top` | Icon above the content |
-| `bottom` | Icon below the content |
-
-## Vertical Alignment (for left/right positions)
-
-| Value | Description |
-|-------|-------------|
-| `top` | Icon aligned to top of content |
-| `center` | Icon centered vertically |
-| `bottom` | Icon aligned to bottom of content |
 
 ## Usage Example
 
 ```javascript
-// Render icon box widget
 function renderIconBox(widget, language) {
-  const {
-    icon, content, icon_position, icon_size,
-    icon_color, icon_background
-  } = widget.data;
+  const { icon, icon_size, icon_color, icon_position } = widget.config;
+  const html = widget.content?.html?.[language] || widget.content?.html?.en || '';
 
-  const iconHtml = `
-    <div class="icon-box-icon" style="
-      font-size: ${icon_size}px;
-      color: ${icon_color};
-      background: ${icon_background};
-      padding: 16px;
-      border-radius: 50%;
-    ">
-      <i class="${icon}"></i>
-    </div>
-  `;
-
-  const contentHtml = content?.[language] || content?.en || '';
-
-  const isVertical = ['top', 'bottom'].includes(icon_position);
+  const iconHtml = `<i class="${icon}" style="font-size: ${icon_size}px; color: ${icon_color};"></i>`;
+  const flexDir = icon_position === 'top' ? 'column' : 'row';
 
   return `
-    <div class="icon-box" style="
-      display: flex;
-      flex-direction: ${isVertical ? 'column' : 'row'};
-      gap: 16px;
-    ">
-      ${icon_position === 'right' || icon_position === 'bottom'
-        ? contentHtml + iconHtml
-        : iconHtml + contentHtml}
+    <div class="icon-box" style="display: flex; flex-direction: ${flexDir}; gap: 16px;">
+      <div class="icon-box__icon">${iconHtml}</div>
+      <div class="icon-box__content">${html}</div>
     </div>
   `;
 }

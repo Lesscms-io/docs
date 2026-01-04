@@ -8,11 +8,15 @@ An invisible spacing element to add vertical space between widgets.
 spacer
 ```
 
-## Data Properties
+## Response Structure
 
-| Property | Type | Global | Description |
-|----------|------|--------|-------------|
-| `height` | number | Yes | Space height in pixels |
+| Property | Type | Description |
+|----------|------|-------------|
+| `widget_type` | string | Always `"spacer"` |
+| `uuid` | string | Unique widget identifier |
+| `config` | object | Widget configuration |
+| `config.height` | number | Space height in pixels |
+| `settings` | object | Style settings (optional) |
 
 ## Example Response
 
@@ -20,44 +24,24 @@ spacer
 {
   "widget_type": "spacer",
   "uuid": "spacer-123",
-  "data": {
+  "config": {
     "height": 50
   },
-  "settings": {}
+  "settings": {
+    "responsive": {
+      "tablet": {},
+      "mobile": {}
+    }
+  }
 }
 ```
 
 ## Usage Example
 
 ```javascript
-// Render spacer widget
 function renderSpacer(widget) {
-  const { height } = widget.data;
+  const { height } = widget.config;
 
-  return `<div style="height: ${height}px;"></div>`;
-}
-```
-
-## Responsive Considerations
-
-For responsive spacing, you can use the responsive settings override:
-
-```json
-{
-  "widget_type": "spacer",
-  "uuid": "spacer-456",
-  "data": {
-    "height": 80
-  },
-  "settings": {
-    "responsive": {
-      "tablet": {
-        "height": 60
-      },
-      "mobile": {
-        "height": 40
-      }
-    }
-  }
+  return `<div class="spacer" style="height: ${height}px;"></div>`;
 }
 ```

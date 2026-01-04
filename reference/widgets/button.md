@@ -1,6 +1,6 @@
 # Button Widget
 
-A call-to-action button with customizable text, link, style, and size.
+A button widget with multilingual text and configurable link target.
 
 ## Widget Type
 
@@ -8,71 +8,140 @@ A call-to-action button with customizable text, link, style, and size.
 button
 ```
 
-## Data Properties
+## Response Structure
 
-| Property | Type | Global | Description |
-|----------|------|--------|-------------|
-| `text` | object | No | Button label text (multilingual) |
-| `url` | string | Yes | Button link URL |
-| `style` | string | Yes | Button style: `primary`, `secondary`, `outline` |
-| `size` | string | Yes | Button size: `sm`, `md`, `lg` |
-| `target_blank` | boolean | Yes | Open link in new tab |
+| Property | Type | Description |
+|----------|------|-------------|
+| `widget_type` | string | Always `"button"` |
+| `uuid` | string | Unique widget identifier |
+| `config` | object | Widget configuration |
+| `config.link_type` | string | `"custom"`, `"page"`, or `"entry"` |
+| `config.style` | string | Button style: `"primary"`, `"secondary"`, etc. |
+| `config.size` | string | Button size: `"sm"`, `"md"`, `"lg"` |
+| `config.target_blank` | boolean | Open in new tab |
+| `content` | object | Widget content |
+| `content.text` | object | Multilingual button text |
+| `data` | object | Link data |
+| `data.url` | string | Resolved URL for custom links |
+| `data.page_uuid` | string | Page UUID (for page links) |
+| `data.page_code` | string | Page code (for page links) |
+| `data.entry_uuid` | string | Entry UUID (for entry links) |
+| `data.collection_code` | string | Collection code (for entry links) |
+| `data.entry_code` | string | Entry code (for entry links) |
+| `settings` | object | Style settings (optional) |
 
-## Example Response
+## Example Response (Custom URL)
 
 ```json
 {
   "widget_type": "button",
   "uuid": "btn-123",
-  "data": {
-    "text": {
-      "en": "Learn More",
-      "pl": "Dowiedz się więcej"
-    },
-    "url": "https://example.com/about",
+  "config": {
+    "link_type": "custom",
     "style": "primary",
     "size": "md",
     "target_blank": false
   },
+  "content": {
+    "text": {
+      "en": "Learn More",
+      "pl": "Dowiedz się więcej"
+    }
+  },
+  "data": {
+    "url": "https://example.com/contact"
+  },
   "settings": {
-    "textAlign": "center",
-    "marginTop": 20,
-    "marginBottom": 20
+    "horizontalAlign": "center",
+    "responsive": {
+      "tablet": {},
+      "mobile": {}
+    }
   }
 }
 ```
 
-## Style Values
+## Example Response (Page Link)
+
+```json
+{
+  "widget_type": "button",
+  "uuid": "btn-456",
+  "config": {
+    "link_type": "page",
+    "style": "secondary",
+    "size": "lg",
+    "target_blank": false
+  },
+  "content": {
+    "text": {
+      "en": "Contact Us",
+      "pl": "Kontakt"
+    }
+  },
+  "data": {
+    "page_uuid": "abc-123",
+    "page_code": "contact",
+    "url": "/contact"
+  },
+  "settings": {}
+}
+```
+
+## Example Response (Entry Link)
+
+```json
+{
+  "widget_type": "button",
+  "uuid": "btn-789",
+  "config": {
+    "link_type": "entry",
+    "style": "primary",
+    "size": "md",
+    "target_blank": false
+  },
+  "content": {
+    "text": {
+      "en": "Read Article",
+      "pl": "Czytaj artykuł"
+    }
+  },
+  "data": {
+    "entry_uuid": "entry-123",
+    "collection_code": "blog",
+    "entry_code": "my-article",
+    "url": "/blog/my-article"
+  },
+  "settings": {}
+}
+```
+
+## Link Types
 
 | Value | Description |
 |-------|-------------|
-| `primary` | Main accent color, filled background |
-| `secondary` | Secondary color, filled background |
-| `outline` | Transparent background with border |
+| `custom` | Custom URL (use `data.url`) |
+| `page` | Link to a page (use `data.url` or `data.page_code`) |
+| `entry` | Link to a collection entry (use `data.url` or `data.entry_code`) |
 
-## Size Values
+## Button Styles
 
 | Value | Description |
 |-------|-------------|
-| `sm` | Small button (padding: 8px 16px) |
-| `md` | Medium button (padding: 12px 24px) |
-| `lg` | Large button (padding: 16px 32px) |
+| `primary` | Primary action button |
+| `secondary` | Secondary action button |
+| `outline` | Outlined button |
+| `link` | Text link style |
 
 ## Usage Example
 
 ```javascript
-// Render button widget
 function renderButton(widget, language) {
-  const { text, url, style, size, target_blank } = widget.data;
+  const { style, size, target_blank } = widget.config;
+  const text = widget.content?.text?.[language] || widget.content?.text?.en || '';
+  const url = widget.data?.url || '#';
+  const target = target_blank ? ' target="_blank" rel="noopener"' : '';
 
-  return `
-    <a
-      href="${url}"
-      class="btn btn-${style} btn-${size}"
-      ${target_blank ? 'target="_blank" rel="noopener"' : ''}
-    >
-      ${text[language] || text.en || ''}
-    </a>
-  `;
+  return `<a href="${url}" class="btn btn-${style} btn-${size}"${target}>${text}</a>`;
 }
 ```

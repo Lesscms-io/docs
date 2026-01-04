@@ -8,36 +8,48 @@ A text heading widget supporting h1-h6 levels with optional dynamic content from
 heading
 ```
 
-## Data Properties
+## Response Structure
 
-| Property | Type | Global | Description |
-|----------|------|--------|-------------|
-| `text` | object | No | Heading text content (multilingual, rich text) |
-| `level` | number | Yes | Heading level: 1-6 (h1-h6) |
-| `content_source` | string | Yes | Content source: `static` or `dynamic` |
-| `collection_code` | string | Yes | Collection code (when dynamic) |
-| `field_code` | string | Yes | Field to display (when dynamic) |
-| `entry_source` | string | Yes | Entry source: `static` or `url` |
-| `entry_id` | string | Yes | Specific entry ID (when static) |
-| `entry_url_segment` | number | Yes | URL segment index for entry (when url) |
+| Property | Type | Description |
+|----------|------|-------------|
+| `widget_type` | string | Always `"heading"` |
+| `uuid` | string | Unique widget identifier |
+| `config` | object | Widget configuration |
+| `config.content_source` | string | `"static"` or `"dynamic"` |
+| `config.level` | number | Heading level: 1-6 (h1-h6) |
+| `config.collection_code` | string | Collection code (when dynamic) |
+| `config.field_code` | string | Field to display (when dynamic) |
+| `config.entry_id` | string | Specific entry ID (when dynamic + static entry) |
+| `content` | object | Widget content (when static) |
+| `content.html` | object | Multilingual HTML content |
+| `settings` | object | Style settings (optional) |
 
 ## Example Response (Static)
 
 ```json
 {
   "widget_type": "heading",
-  "uuid": "heading-123",
-  "data": {
-    "text": {
+  "uuid": "2dbc3aaa-c75f-4141-b547-e5afb921dbb6",
+  "config": {
+    "content_source": "static",
+    "level": 2
+  },
+  "content": {
+    "html": {
       "en": "<h2>Welcome to Our Website</h2>",
-      "pl": "<h2>Witamy na naszej stronie</h2>"
-    },
-    "level": 2,
-    "content_source": "static"
+      "pl": "<h2><strong>USŁUGI MARKETINGOWE</strong></h2>"
+    }
   },
   "settings": {
-    "textAlign": "center",
-    "marginBottom": 24
+    "horizontalAlign": "center",
+    "responsive": {
+      "tablet": {
+        "horizontalAlign": "center"
+      },
+      "mobile": {
+        "horizontalAlign": "center"
+      }
+    }
   }
 }
 ```
@@ -48,16 +60,19 @@ heading
 {
   "widget_type": "heading",
   "uuid": "heading-456",
-  "data": {
+  "config": {
     "content_source": "dynamic",
+    "level": 1,
     "collection_code": "blog",
     "field_code": "title",
-    "entry_source": "url",
-    "entry_url_segment": 1,
-    "level": 1
+    "entry_id": null
   },
   "settings": {
-    "textAlign": "left"
+    "horizontalAlign": "left",
+    "responsive": {
+      "tablet": {},
+      "mobile": {}
+    }
   }
 }
 ```
@@ -66,40 +81,30 @@ heading
 
 | Value | Description |
 |-------|-------------|
-| `static` | Use the `text` property directly |
+| `static` | Use the `content.html` property directly |
 | `dynamic` | Fetch content from a collection field |
-
-## Entry Source (for dynamic content)
-
-| Value | Description |
-|-------|-------------|
-| `static` | Use specific `entry_id` |
-| `url` | Get entry ID from URL segment |
 
 ## Usage Example
 
 ```javascript
-// Render heading widget
-async function renderHeading(widget, language, urlSegments, api) {
-  const { content_source, text, level } = widget.data;
-  let content = '';
+async function renderHeading(widget, language, entryData, api) {
+  const { content_source, level, collection_code, field_code, entry_id } = widget.config;
+  let text = '';
 
   if (content_source === 'dynamic') {
-    const { collection_code, field_code, entry_source, entry_id, entry_url_segment } = widget.data;
-
-    // Get entry ID from URL or static
-    const entryId = entry_source === 'url'
-      ? urlSegments[entry_url_segment - 1]
-      : entry_id;
-
-    // Fetch entry from API
-    const entry = await api.getEntry(collection_code, entryId);
-    content = entry.data[field_code]?.[language] || '';
+    // For dynamic content, fetch from collection or use provided entry data
+    if (entryData) {
+      text = entryData[field_code]?.[language] || entryData[field_code]?.en || '';
+    } else if (collection_code && entry_id) {
+      const entry = await api.getEntry(collection_code, entry_id);
+      text = entry.data[field_code]?.[language] || '';
+    }
   } else {
-    content = text?.[language] || text?.en || '';
+    // Static content from widget
+    text = widget.content?.html?.[language] || widget.content?.html?.en || '';
   }
 
   const tag = `h${level || 2}`;
-  return `<${tag}>${content}</${tag}>`;
+  return `<${tag}>${text}</${tag}>`;
 }
 ```

@@ -8,53 +8,67 @@ A rich text content widget for paragraphs and formatted text.
 text
 ```
 
-## Data Properties
+## Response Structure
 
-| Property | Type | Global | Description |
-|----------|------|--------|-------------|
-| `content` | object | No | Rich text content (multilingual, HTML) |
+| Property | Type | Description |
+|----------|------|-------------|
+| `widget_type` | string | Always `"text"` |
+| `uuid` | string | Unique widget identifier |
+| `content` | object | Widget content |
+| `content.html` | object | Multilingual HTML content |
+| `settings` | object | Style settings (optional) |
 
 ## Example Response
 
 ```json
 {
   "widget_type": "text",
-  "uuid": "text-123",
-  "data": {
-    "content": {
-      "en": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p><p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p>",
-      "pl": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p><p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p>"
+  "uuid": "7e9d4859-a01a-4c76-af3d-4f73209a446b",
+  "content": {
+    "html": {
+      "en": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>",
+      "pl": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>"
     }
   },
   "settings": {
-    "textAlign": "left",
-    "paddingTop": 16,
-    "paddingBottom": 16
+    "paddingRight": 0,
+    "horizontalAlign": "center",
+    "responsive": {
+      "tablet": {
+        "paddingRight": 0,
+        "horizontalAlign": "center"
+      },
+      "mobile": {
+        "paddingRight": 0,
+        "horizontalAlign": "center"
+      }
+    }
   }
 }
 ```
 
 ## Content Format
 
-The `content` property contains HTML-formatted rich text. Common elements include:
+The `content.html` property contains HTML-formatted rich text. Common elements include:
 
 - `<p>` - Paragraphs
+- `<h1>`-`<h6>` - Headings
 - `<strong>`, `<b>` - Bold text
 - `<em>`, `<i>` - Italic text
 - `<a href="...">` - Links
 - `<ul>`, `<ol>`, `<li>` - Lists
 - `<blockquote>` - Quotes
+- `<span style="...">` - Inline styling
 
 ## Usage Example
 
 ```javascript
-// Render text widget
 function renderText(widget, language) {
-  const content = widget.data.content?.[language]
-    || widget.data.content?.en
+  const html = widget.content?.html?.[language]
+    || widget.content?.html?.en
     || '';
 
-  return `<div class="text-widget">${content}</div>`;
+  return `<div class="text-widget">${html}</div>`;
 }
 ```
 
@@ -66,8 +80,8 @@ function renderText(widget, language) {
 import DOMPurify from 'dompurify';
 
 function renderTextSafe(widget, language) {
-  const content = widget.data.content?.[language] || '';
-  const sanitized = DOMPurify.sanitize(content);
+  const html = widget.content?.html?.[language] || '';
+  const sanitized = DOMPurify.sanitize(html);
 
   return `<div class="text-widget">${sanitized}</div>`;
 }

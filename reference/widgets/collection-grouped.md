@@ -8,24 +8,31 @@ Display collection entries grouped by a field value (e.g., categories, sections)
 collection-grouped
 ```
 
-## Data Properties
+## Response Structure
 
-| Property | Type | Global | Description |
-|----------|------|--------|-------------|
-| `collection_code` | string | Yes | Collection code |
-| `group_by_field` | string | Yes | Field code to group entries by |
-| `style` | string | Yes | Display style: `sections`, `accordion`, `tabs` |
-| `item_layout` | string | Yes | Item layout: `list`, `cards`, `compact` |
-| `posts_count` | number | Yes | Maximum entries per group |
-| `title_field` | string | Yes | Field code for entry title |
-| `description_field` | string | Yes | Field code for description |
-| `price_field` | string | Yes | Field code for price |
-| `image_field` | string | Yes | Field code for image |
-| `show_title` | boolean | Yes | Display entry title |
-| `show_description` | boolean | Yes | Display description |
-| `show_price` | boolean | Yes | Display price |
-| `show_image` | boolean | Yes | Display image |
-| `show_uncategorized` | boolean | Yes | Show entries without group value |
+| Property | Type | Description |
+|----------|------|-------------|
+| `widget_type` | string | Always `"collection-grouped"` |
+| `uuid` | string | Unique widget identifier |
+| `config` | object | Widget configuration |
+| `config.collection_code` | string | Collection code |
+| `config.group_by_field` | string | Field code to group entries by |
+| `config.display_style` | string | Display style: `"sections"`, `"accordion"`, `"tabs"` |
+| `config.posts_count` | number | Maximum entries per group |
+| `config.title_field` | string | Field code for entry title |
+| `config.description_field` | string | Field code for description |
+| `config.price_field` | string | Field code for price |
+| `config.image_field` | string | Field code for image |
+| `config.link_field` | string | Field for entry URL |
+| `config.show_title` | boolean | Display entry title |
+| `config.show_description` | boolean | Display description |
+| `config.show_price` | boolean | Display price |
+| `config.show_image` | boolean | Display image |
+| `config.show_uncategorized` | boolean | Show entries without group value |
+| `data` | object | Fetched and grouped entries |
+| `data.groups` | object | Object with group keys and entry arrays |
+| `data.ungrouped` | array | Entries without group value |
+| `settings` | object | Style settings (optional) |
 
 ## Example Response (Restaurant Menu)
 
@@ -33,27 +40,61 @@ collection-grouped
 {
   "widget_type": "collection-grouped",
   "uuid": "grouped-123",
-  "data": {
+  "config": {
     "collection_code": "menu_items",
     "group_by_field": "category",
-    "style": "sections",
-    "item_layout": "list",
+    "display_style": "sections",
     "posts_count": 50,
     "title_field": "name",
     "description_field": "description",
     "price_field": "price",
     "image_field": "photo",
+    "link_field": "url",
     "show_title": true,
     "show_description": true,
     "show_price": true,
     "show_image": false,
     "show_uncategorized": false
   },
-  "settings": {}
+  "data": {
+    "groups": {
+      "Appetizers": [
+        {
+          "uuid": "item-1",
+          "url": "/menu/spring-rolls",
+          "data": {
+            "name": { "en": "Spring Rolls", "pl": "Sajgonki" },
+            "description": { "en": "Crispy vegetable rolls", "pl": "Chrupiące roladki warzywne" },
+            "price": "$8.99",
+            "category": [{ "code": "appetizers", "value": "Appetizers" }]
+          }
+        }
+      ],
+      "Main Courses": [
+        {
+          "uuid": "item-2",
+          "url": "/menu/pad-thai",
+          "data": {
+            "name": { "en": "Pad Thai", "pl": "Pad Thai" },
+            "description": { "en": "Stir-fried noodles", "pl": "Smażony makaron" },
+            "price": "$14.99",
+            "category": [{ "code": "main", "value": "Main Courses" }]
+          }
+        }
+      ]
+    },
+    "ungrouped": []
+  },
+  "settings": {
+    "responsive": {
+      "tablet": {},
+      "mobile": {}
+    }
+  }
 }
 ```
 
-## Style Values
+## Display Style Values
 
 | Value | Description |
 |-------|-------------|
@@ -61,80 +102,26 @@ collection-grouped
 | `accordion` | Collapsible accordion panels |
 | `tabs` | Tabbed interface |
 
-## Item Layout Values
-
-| Value | Description |
-|-------|-------------|
-| `list` | Simple list layout |
-| `cards` | Card-based layout |
-| `compact` | Minimal compact layout |
-
 ## Usage Example
 
 ```javascript
-// Render collection grouped widget
-async function renderCollectionGrouped(widget, language, api) {
+function renderCollectionGrouped(widget, language) {
   const {
-    collection_code, group_by_field, style, item_layout,
-    posts_count, title_field, description_field, price_field, image_field,
-    show_title, show_description, show_price, show_image,
-    show_uncategorized
-  } = widget.data;
+    display_style, title_field, description_field, price_field, image_field,
+    show_title, show_description, show_price, show_image
+  } = widget.config;
 
-  // Fetch all entries
-  const entries = await api.getCollectionEntries(collection_code, {
-    limit: posts_count || 100
-  });
+  const groups = widget.data?.groups || {};
+  const ungrouped = widget.data?.ungrouped || [];
 
-  // Group entries by field value
-  const groups = {};
-  const ungrouped = [];
-
-  entries.forEach(entry => {
-    const groupValue = entry.data[group_by_field];
-    let groupKey = '';
-
-    // Handle multilingual or option fields
-    if (typeof groupValue === 'object') {
-      if (Array.isArray(groupValue) && groupValue.length > 0) {
-        groupKey = groupValue[0]?.value || groupValue[0];
-      } else {
-        groupKey = groupValue[language] || groupValue.en || groupValue.value || '';
-      }
-    } else {
-      groupKey = groupValue || '';
-    }
-
-    if (groupKey) {
-      if (!groups[groupKey]) {
-        groups[groupKey] = [];
-      }
-      groups[groupKey].push(entry);
-    } else if (show_uncategorized) {
-      ungrouped.push(entry);
-    }
-  });
-
-  // Render based on style
-  switch (style) {
-    case 'accordion':
-      return renderAccordion(groups, ungrouped, widget.data, language);
-    case 'tabs':
-      return renderTabs(groups, widget.data, language);
-    default:
-      return renderSections(groups, ungrouped, widget.data, language);
-  }
-}
-
-function renderSections(groups, ungrouped, data, language) {
   let html = '';
 
   Object.entries(groups).forEach(([groupName, entries]) => {
     html += `
       <section class="grouped-section">
         <h2 class="section-title">${groupName}</h2>
-        <div class="section-items layout-${data.item_layout}">
-          ${renderItems(entries, data, language)}
+        <div class="section-items">
+          ${renderItems(entries, { title_field, description_field, price_field, image_field, show_title, show_description, show_price, show_image }, language)}
         </div>
       </section>
     `;
@@ -144,131 +131,34 @@ function renderSections(groups, ungrouped, data, language) {
     html += `
       <section class="grouped-section">
         <h2 class="section-title">Other</h2>
-        <div class="section-items layout-${data.item_layout}">
-          ${renderItems(ungrouped, data, language)}
+        <div class="section-items">
+          ${renderItems(ungrouped, { title_field, description_field, price_field, image_field, show_title, show_description, show_price, show_image }, language)}
         </div>
       </section>
     `;
   }
 
-  return `<div class="collection-grouped style-sections">${html}</div>`;
+  return `<div class="collection-grouped style-${display_style}">${html}</div>`;
 }
 
-function renderItems(entries, data, language) {
+function renderItems(entries, config, language) {
   return entries.map(entry => {
-    const title = entry.data[data.title_field]?.[language] || '';
-    const description = entry.data[data.description_field]?.[language] || '';
-    const price = entry.data[data.price_field] || '';
-    const image = entry.data[data.image_field]?.url || '';
+    const title = entry.data[config.title_field]?.[language] || '';
+    const description = entry.data[config.description_field]?.[language] || '';
+    const price = entry.data[config.price_field] || '';
+    const image = entry.data[config.image_field] || '';
 
     return `
       <div class="grouped-item">
-        ${data.show_image && image ? `<img src="${image}" alt="${title}">` : ''}
+        ${config.show_image && image ? `<img src="${image}" alt="${title}">` : ''}
         <div class="item-info">
-          ${data.show_title ? `<h3 class="item-title">${title}</h3>` : ''}
-          ${data.show_description ? `<p class="item-description">${description}</p>` : ''}
+          ${config.show_title ? `<h3 class="item-title">${title}</h3>` : ''}
+          ${config.show_description ? `<p class="item-description">${description}</p>` : ''}
         </div>
-        ${data.show_price ? `<span class="item-price">${price}</span>` : ''}
+        ${config.show_price ? `<span class="item-price">${price}</span>` : ''}
       </div>
     `;
   }).join('');
-}
-```
-
-## CSS Example (Restaurant Menu Style)
-
-```css
-.collection-grouped {
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-.grouped-section {
-  margin-bottom: 40px;
-}
-
-.section-title {
-  font-size: 28px;
-  font-weight: 600;
-  padding-bottom: 12px;
-  border-bottom: 2px solid #333;
-  margin-bottom: 24px;
-}
-
-/* List Layout */
-.layout-list .grouped-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  padding: 16px 0;
-  border-bottom: 1px dotted #ccc;
-}
-
-.layout-list .item-info {
-  flex: 1;
-  padding-right: 20px;
-}
-
-.layout-list .item-title {
-  font-size: 18px;
-  font-weight: 500;
-  margin: 0 0 4px;
-}
-
-.layout-list .item-description {
-  font-size: 14px;
-  color: #666;
-  margin: 0;
-}
-
-.layout-list .item-price {
-  font-size: 18px;
-  font-weight: 600;
-  white-space: nowrap;
-}
-
-/* Cards Layout */
-.layout-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 20px;
-}
-
-.layout-cards .grouped-item {
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  overflow: hidden;
-}
-
-.layout-cards .grouped-item img {
-  width: 100%;
-  height: 150px;
-  object-fit: cover;
-}
-
-.layout-cards .item-info {
-  padding: 16px;
-}
-
-/* Accordion Style */
-.style-accordion .grouped-section {
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  margin-bottom: 8px;
-}
-
-.style-accordion .section-title {
-  margin: 0;
-  padding: 16px;
-  border-bottom: none;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
-}
-
-.style-accordion .section-items {
-  padding: 0 16px 16px;
 }
 ```
 

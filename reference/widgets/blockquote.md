@@ -1,6 +1,6 @@
 # Blockquote Widget
 
-A styled quotation block with optional author attribution.
+A styled quotation block with optional author attribution and dynamic content support.
 
 ## Widget Type
 
@@ -8,21 +8,33 @@ A styled quotation block with optional author attribution.
 blockquote
 ```
 
-## Data Properties
+## Response Structure
 
-| Property | Type | Global | Description |
-|----------|------|--------|-------------|
-| `quote` | object | No | Quote text content (multilingual) |
-| `author` | object | No | Author name (multilingual) |
+| Property | Type | Description |
+|----------|------|-------------|
+| `widget_type` | string | Always `"blockquote"` |
+| `uuid` | string | Unique widget identifier |
+| `config` | object | Widget configuration |
+| `config.content_source` | string | `"static"` or `"dynamic"` |
+| `config.collection_code` | string | Collection code (when dynamic) |
+| `config.field_code` | string | Field code (when dynamic) |
+| `config.entry_id` | string | Entry ID (when dynamic) |
+| `content` | object | Widget content (when static) |
+| `content.text` | object | Multilingual quote text |
+| `content.author` | object | Multilingual author name |
+| `settings` | object | Style settings (optional) |
 
-## Example Response
+## Example Response (Static)
 
 ```json
 {
   "widget_type": "blockquote",
   "uuid": "quote-123",
-  "data": {
-    "quote": {
+  "config": {
+    "content_source": "static"
+  },
+  "content": {
+    "text": {
       "en": "The only way to do great work is to love what you do.",
       "pl": "Jedynym sposobem na świetną pracę jest kochać to, co robisz."
     },
@@ -32,22 +44,38 @@ blockquote
     }
   },
   "settings": {
-    "textAlign": "left",
-    "paddingTop": 20,
-    "paddingBottom": 20,
-    "borderColor": "#007BFF"
+    "horizontalAlign": "left",
+    "responsive": {
+      "tablet": {},
+      "mobile": {}
+    }
   }
+}
+```
+
+## Example Response (Dynamic)
+
+```json
+{
+  "widget_type": "blockquote",
+  "uuid": "quote-456",
+  "config": {
+    "content_source": "dynamic",
+    "collection_code": "testimonials",
+    "field_code": "quote",
+    "entry_id": "testimonial-1"
+  },
+  "settings": {}
 }
 ```
 
 ## Usage Example
 
 ```javascript
-// Render blockquote widget
 function renderBlockquote(widget, language) {
-  const { quote, author } = widget.data;
+  const { text, author } = widget.content || {};
 
-  const quoteText = quote?.[language] || quote?.en || '';
+  const quoteText = text?.[language] || text?.en || '';
   const authorText = author?.[language] || author?.en || '';
 
   return `
@@ -56,24 +84,5 @@ function renderBlockquote(widget, language) {
       ${authorText ? `<cite>— ${authorText}</cite>` : ''}
     </blockquote>
   `;
-}
-```
-
-## Styling Example
-
-```css
-.widget-blockquote {
-  border-left: 4px solid #007BFF;
-  padding-left: 20px;
-  margin: 20px 0;
-  font-style: italic;
-}
-
-.widget-blockquote cite {
-  display: block;
-  margin-top: 10px;
-  font-style: normal;
-  font-weight: 600;
-  color: #666;
 }
 ```

@@ -1,6 +1,6 @@
 # Collection Single Widget
 
-Display a single entry from a collection.
+Display a single entry from a collection with optional template-based rendering.
 
 ## Widget Type
 
@@ -8,160 +8,122 @@ Display a single entry from a collection.
 collection-single
 ```
 
-## Data Properties
+## Response Structure
 
-| Property | Type | Global | Description |
-|----------|------|--------|-------------|
-| `collection_code` | string | Yes | Collection code |
-| `entry_id` | string | Yes | Specific entry ID to display |
-| `layout` | string | Yes | Layout: `standard`, `card`, `full` |
-| `title_field` | string | Yes | Field code for title |
-| `content_field` | string | Yes | Field code for main content |
-| `image_field` | string | Yes | Field code for image |
-| `show_title` | boolean | Yes | Display title |
-| `show_content` | boolean | Yes | Display content |
-| `show_image` | boolean | Yes | Display image |
+| Property | Type | Description |
+|----------|------|-------------|
+| `widget_type` | string | Always `"collection-single"` |
+| `uuid` | string | Unique widget identifier |
+| `config` | object | Widget configuration |
+| `config.collection_code` | string | Collection code |
+| `config.entry_source` | string | `"static"` or `"url"` |
+| `config.entry_id` | string | Specific entry ID (when static) |
+| `config.entry_url_segment` | number | URL segment index (when url) |
+| `config.template_code` | string | Template code to use (optional) |
+| `config.title_field` | string | Field code for title |
+| `config.content_field` | string | Field code for content |
+| `config.image_field` | string | Field code for image |
+| `config.link_field` | string | Field for entry URL |
+| `config.show_title` | boolean | Display title |
+| `config.show_content` | boolean | Display content |
+| `config.show_image` | boolean | Display image |
+| `data` | object | Fetched entry data |
+| `data.entry` | object | Entry object with data |
+| `settings` | object | Style settings (optional) |
 
-## Example Response
+## Example Response (Static Entry)
 
 ```json
 {
   "widget_type": "collection-single",
   "uuid": "single-123",
-  "data": {
+  "config": {
     "collection_code": "team",
+    "entry_source": "static",
     "entry_id": "entry-uuid-456",
-    "layout": "card",
+    "entry_url_segment": null,
+    "template_code": null,
     "title_field": "name",
     "content_field": "bio",
     "image_field": "photo",
+    "link_field": "url",
     "show_title": true,
     "show_content": true,
     "show_image": true
   },
+  "data": {
+    "entry": {
+      "uuid": "entry-uuid-456",
+      "url": "/team/john-doe",
+      "data": {
+        "name": { "en": "John Doe", "pl": "John Doe" },
+        "bio": { "en": "Software engineer...", "pl": "Inżynier oprogramowania..." },
+        "photo": "https://cdn.example.com/john.jpg"
+      }
+    }
+  },
   "settings": {
-    "textAlign": "center",
-    "maxWidth": 600
+    "horizontalAlign": "center",
+    "responsive": {
+      "tablet": {},
+      "mobile": {}
+    }
   }
 }
 ```
 
-## Layout Values
+## Example Response (URL Entry)
+
+```json
+{
+  "widget_type": "collection-single",
+  "uuid": "single-456",
+  "config": {
+    "collection_code": "blog",
+    "entry_source": "url",
+    "entry_id": null,
+    "entry_url_segment": 2,
+    "template_code": "blog-detail",
+    "title_field": "title",
+    "content_field": "content",
+    "image_field": "featured_image",
+    "link_field": "url",
+    "show_title": true,
+    "show_content": true,
+    "show_image": true
+  },
+  "settings": {}
+}
+```
+
+## Entry Source Values
 
 | Value | Description |
 |-------|-------------|
-| `standard` | Simple layout with stacked elements |
-| `card` | Card layout with shadow and padding |
-| `full` | Full-width layout with image header |
+| `static` | Use specific `entry_id` |
+| `url` | Extract entry from URL segment |
 
 ## Usage Example
 
 ```javascript
-// Render collection single widget
-async function renderCollectionSingle(widget, language, api) {
-  const {
-    collection_code, entry_id, layout,
-    title_field, content_field, image_field,
-    show_title, show_content, show_image
-  } = widget.data;
+function renderCollectionSingle(widget, language) {
+  const { show_title, show_content, show_image, title_field, content_field, image_field } = widget.config;
+  const entry = widget.data?.entry;
 
-  if (!entry_id) {
-    return '';
-  }
-
-  // Fetch entry from API
-  const entry = await api.getEntry(collection_code, entry_id);
-
-  if (!entry) {
-    return '<p>Entry not found.</p>';
-  }
+  if (!entry) return '<p>Entry not found.</p>';
 
   const title = entry.data[title_field]?.[language] || '';
   const content = entry.data[content_field]?.[language] || '';
-  const image = entry.data[image_field]?.url || '';
+  const image = entry.data[image_field] || '';
 
   return `
-    <article class="collection-single layout-${layout}">
-      ${show_image && image ? `
-        <div class="single-image">
-          <img src="${image}" alt="${title}">
-        </div>
-      ` : ''}
+    <article class="collection-single">
+      ${show_image && image ? `<div class="single-image"><img src="${image}" alt="${title}"></div>` : ''}
       <div class="single-content">
         ${show_title && title ? `<h2 class="single-title">${title}</h2>` : ''}
         ${show_content && content ? `<div class="single-body">${content}</div>` : ''}
       </div>
     </article>
   `;
-}
-```
-
-## CSS Example
-
-```css
-/* Standard Layout */
-.layout-standard .single-image img {
-  width: 100%;
-  max-width: 400px;
-  border-radius: 8px;
-}
-
-.layout-standard .single-content {
-  margin-top: 24px;
-}
-
-/* Card Layout */
-.layout-card {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
-  overflow: hidden;
-  max-width: 400px;
-  margin: 0 auto;
-}
-
-.layout-card .single-image img {
-  width: 100%;
-  height: 250px;
-  object-fit: cover;
-}
-
-.layout-card .single-content {
-  padding: 24px;
-  text-align: center;
-}
-
-.layout-card .single-title {
-  margin: 0 0 12px;
-}
-
-.layout-card .single-body {
-  color: #666;
-  line-height: 1.6;
-}
-
-/* Full Layout */
-.layout-full .single-image {
-  position: relative;
-  height: 400px;
-  margin-bottom: 32px;
-}
-
-.layout-full .single-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.layout-full .single-title {
-  font-size: 36px;
-  margin-bottom: 24px;
-}
-
-.layout-full .single-body {
-  max-width: 800px;
-  margin: 0 auto;
-  font-size: 18px;
-  line-height: 1.8;
 }
 ```

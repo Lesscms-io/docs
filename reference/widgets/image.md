@@ -1,6 +1,6 @@
 # Image Widget
 
-An image display widget supporting both static images and dynamic content from collections.
+An image widget with optional dynamic content from collections.
 
 ## Widget Type
 
@@ -8,20 +8,21 @@ An image display widget supporting both static images and dynamic content from c
 image
 ```
 
-## Data Properties
-
-| Property | Type | Global | Description |
-|----------|------|--------|-------------|
-| `image_source` | string | Yes | Image source: `static` or `dynamic` |
-| `image` | object | Yes | Image data (when static) |
-
-### Image Object Structure (static)
+## Response Structure
 
 | Property | Type | Description |
 |----------|------|-------------|
-| `url` | string | Image URL |
-| `alt` | object | Alt text (multilingual) |
-| `title` | object | Title text (multilingual) |
+| `widget_type` | string | Always `"image"` |
+| `uuid` | string | Unique widget identifier |
+| `config` | object | Widget configuration |
+| `config.image_source` | string | `"static"` or `"dynamic"` |
+| `config.collection_code` | string | Collection code (when dynamic) |
+| `config.field_code` | string | Field code (when dynamic) |
+| `config.entry_id` | string | Entry ID (when dynamic) |
+| `content` | object | Widget content (when static) |
+| `content.url` | string | Image URL |
+| `content.alt` | object | Multilingual alt text |
+| `settings` | object | Style settings (optional) |
 
 ## Example Response (Static)
 
@@ -29,110 +30,75 @@ image
 {
   "widget_type": "image",
   "uuid": "img-123",
-  "data": {
-    "image_source": "static",
-    "image": {
-      "url": "https://cdn.example.com/images/hero.jpg",
-      "alt": {
-        "en": "Beautiful landscape",
-        "pl": "Piękny krajobraz"
-      },
-      "title": {
-        "en": "Mountain View",
-        "pl": "Widok na góry"
-      }
+  "config": {
+    "image_source": "static"
+  },
+  "content": {
+    "url": "https://cdn.example.com/images/hero.jpg",
+    "alt": {
+      "en": "Company headquarters",
+      "pl": "Siedziba firmy"
     }
   },
   "settings": {
-    "textAlign": "center",
-    "width": "100%",
-    "maxWidth": 800,
-    "borderRadius": 8
+    "horizontalAlign": "center",
+    "responsive": {
+      "tablet": {},
+      "mobile": {}
+    }
   }
 }
 ```
 
 ## Example Response (Dynamic)
 
-When `image_source` is `dynamic`, the image is fetched from a collection entry:
-
 ```json
 {
   "widget_type": "image",
   "uuid": "img-456",
-  "data": {
+  "config": {
     "image_source": "dynamic",
     "collection_code": "products",
     "field_code": "main_image",
-    "entry_source": "url",
-    "entry_url_segment": 1
+    "entry_id": "product-123"
   },
-  "settings": {}
+  "settings": {
+    "responsive": {
+      "tablet": {},
+      "mobile": {}
+    }
+  }
 }
 ```
+
+## Content Source
+
+| Value | Description |
+|-------|-------------|
+| `static` | Use `content.url` and `content.alt` directly |
+| `dynamic` | Fetch image from collection field |
 
 ## Usage Example
 
 ```javascript
-// Render image widget
-function renderImage(widget, language) {
-  const { image_source, image } = widget.data;
-  const settings = widget.settings || {};
+async function renderImage(widget, language, entryData, api) {
+  const { image_source, collection_code, field_code, entry_id } = widget.config;
+  let url = '';
+  let alt = '';
 
-  if (image_source !== 'static' || !image?.url) {
-    return '';
+  if (image_source === 'dynamic') {
+    // Fetch from collection or use provided entry data
+    if (entryData) {
+      url = entryData[field_code] || '';
+    } else if (collection_code && entry_id) {
+      const entry = await api.getEntry(collection_code, entry_id);
+      url = entry.data[field_code] || '';
+    }
+  } else {
+    url = widget.content?.url || '';
+    alt = widget.content?.alt?.[language] || widget.content?.alt?.en || '';
   }
 
-  const alt = image.alt?.[language] || image.alt?.en || '';
-  const title = image.title?.[language] || image.title?.en || '';
-
-  const styles = [];
-  if (settings.width) styles.push(`width: ${settings.width}`);
-  if (settings.maxWidth) styles.push(`max-width: ${settings.maxWidth}px`);
-  if (settings.borderRadius) styles.push(`border-radius: ${settings.borderRadius}px`);
-
-  return `
-    <img
-      src="${image.url}"
-      alt="${alt}"
-      ${title ? `title="${title}"` : ''}
-      style="${styles.join('; ')}"
-      loading="lazy"
-    >
-  `;
-}
-```
-
-## Responsive Images
-
-For optimal performance, consider using responsive images with srcset:
-
-```javascript
-function renderResponsiveImage(widget, language) {
-  const { image } = widget.data;
-
-  if (!image?.url) return '';
-
-  const alt = image.alt?.[language] || '';
-  const baseUrl = image.url;
-
-  // Assuming your CDN supports image transformations
-  return `
-    <picture>
-      <source
-        media="(max-width: 768px)"
-        srcset="${baseUrl}?w=768"
-      >
-      <source
-        media="(max-width: 1200px)"
-        srcset="${baseUrl}?w=1200"
-      >
-      <img
-        src="${baseUrl}"
-        alt="${alt}"
-        loading="lazy"
-      >
-    </picture>
-  `;
+  return `<img src="${url}" alt="${alt}" class="img-fluid" />`;
 }
 ```
