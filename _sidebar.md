@@ -17,39 +17,47 @@
 
 * **Widgets**
   * [Overview](reference/widgets/)
+
+* **Basic Widgets**
   * [Button](reference/widgets/button.md)
-  * [Icon](reference/widgets/icon.md)
   * [Divider](reference/widgets/divider.md)
   * [Spacer](reference/widgets/spacer.md)
   * [Icon Box](reference/widgets/icon-box.md)
-  * [Key-Value](reference/widgets/key-value.md)
-  * [Star Rating](reference/widgets/star-rating.md)
+
+* **Text Widgets**
   * [Text](reference/widgets/text.md)
   * [Heading](reference/widgets/heading.md)
-  * [Blockquote](reference/widgets/blockquote.md)
-  * [Icon List](reference/widgets/icon-list.md)
+
+* **Media Widgets**
   * [Image](reference/widgets/image.md)
   * [Gallery](reference/widgets/gallery.md)
   * [Video](reference/widgets/video.md)
-  * [Google Maps](reference/widgets/google-maps.md)
-  * [Image Carousel](reference/widgets/image-carousel.md)
+
+* **Layout Widgets**
   * [Hero](reference/widgets/hero.md)
-  * [Toggle](reference/widgets/toggle.md)
   * [Grid](reference/widgets/grid.md)
+
+* **Interactive Widgets**
   * [Countdown](reference/widgets/countdown.md)
   * [Counter](reference/widgets/counter.md)
   * [Progress Bar](reference/widgets/progress-bar.md)
   * [Testimonial](reference/widgets/testimonial.md)
   * [Alert](reference/widgets/alert.md)
+
+* **Navigation Widgets**
   * [Menu](reference/widgets/menu.md)
   * [Social Icons](reference/widgets/social-icons.md)
+
+* **Integration Widgets**
+  * [Google Maps](reference/widgets/google-maps.md)
+
+* **Collection Widgets**
   * [Collection Grid](reference/widgets/collection-grid.md)
   * [Collection Carousel](reference/widgets/collection-carousel.md)
   * [Collection Single](reference/widgets/collection-single.md)
-  * [Value List](reference/widgets/value-list.md)
-  * [Collection Field](reference/widgets/collection-field.md)
-  * [Dynamic Hero](reference/widgets/dynamic-hero.md)
   * [Collection Grouped](reference/widgets/collection-grouped.md)
+  * [Value List](reference/widgets/value-list.md)
+  * [Data Field](reference/widgets/data-field.md)
 
 * **Guides**
   * [AI Frontend Generation](guides/ai-frontend-generation.md)
