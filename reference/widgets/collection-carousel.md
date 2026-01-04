@@ -15,21 +15,18 @@ collection-carousel
 | `widget_type` | string | Always `"collection-carousel"` |
 | `uuid` | string | Unique widget identifier |
 | `config` | object | Widget configuration |
-| `config.collection_code` | string | Collection code to display |
-| `config.posts_count` | number | Maximum entries to display |
-| `config.slides_per_view` | number | Visible slides |
-| `config.autoplay` | boolean | Enable auto-advance |
-| `config.autoplay_interval` | number | Autoplay interval (ms) |
-| `config.show_arrows` | boolean | Display navigation arrows |
-| `config.show_dots` | boolean | Display navigation dots |
-| `config.title_field` | string | Field code for title |
-| `config.excerpt_field` | string | Field code for excerpt |
-| `config.image_field` | string | Field code for image |
-| `config.link_field` | string | Field for entry URL |
-| `config.show_title` | boolean | Display title |
-| `config.show_excerpt` | boolean | Display excerpt |
-| `data` | object | Fetched entries |
-| `data.entries` | array | Array of collection entries |
+| `config.collection_code` | string\|null | Collection code to display |
+| `config.posts_count` | number | Maximum entries to display (default: 6) |
+| `config.slides_per_view` | number | Visible slides (default: 3) |
+| `config.autoplay` | boolean | Enable auto-advance (default: true) |
+| `config.autoplay_interval` | number | Autoplay interval in ms (default: 5000) |
+| `config.show_arrows` | boolean | Display navigation arrows (default: true) |
+| `config.show_dots` | boolean | Display navigation dots (default: true) |
+| `config.title_field` | string\|null | Field code for title |
+| `config.excerpt_field` | string\|null | Field code for excerpt |
+| `config.image_field` | string\|null | Field code for image |
+| `config.show_title` | boolean | Display title (default: true) |
+| `config.show_excerpt` | boolean | Display excerpt (default: true) |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response
@@ -49,29 +46,15 @@ collection-carousel
     "title_field": "author_name",
     "excerpt_field": "testimonial_text",
     "image_field": "author_photo",
-    "link_field": "url",
     "show_title": true,
     "show_excerpt": true
-  },
-  "data": {
-    "entries": [
-      {
-        "uuid": "entry-1",
-        "url": "/testimonials/1",
-        "data": {
-          "author_name": { "en": "Jane Doe", "pl": "Jane Doe" },
-          "testimonial_text": { "en": "Great service!", "pl": "Świetna obsługa!" },
-          "author_photo": "https://cdn.example.com/jane.jpg"
-        }
-      }
-    ]
   },
   "settings": {
     "paddingTop": 40,
     "paddingBottom": 40,
     "responsive": {
-      "tablet": { "slides_per_view": 2 },
-      "mobile": { "slides_per_view": 1 }
+      "tablet": {},
+      "mobile": {}
     }
   }
 }
@@ -94,9 +77,9 @@ function renderCollectionCarousel(widget, language) {
   const carouselId = `carousel-${widget.uuid}`;
 
   const slides = entries.map(entry => {
-    const title = entry.data[title_field]?.[language] || '';
-    const excerpt = entry.data[excerpt_field]?.[language] || '';
-    const image = entry.data[image_field] || '';
+    const title = title_field ? (entry.data[title_field]?.[language] || '') : '';
+    const excerpt = excerpt_field ? (entry.data[excerpt_field]?.[language] || '') : '';
+    const image = image_field ? entry.data[image_field] : '';
 
     return `
       <div class="carousel-slide">

@@ -15,26 +15,26 @@ collection-grouped
 | `widget_type` | string | Always `"collection-grouped"` |
 | `uuid` | string | Unique widget identifier |
 | `config` | object | Widget configuration |
-| `config.collection_code` | string | Collection code |
-| `config.group_by_field` | string | Field code to group entries by |
-| `config.display_style` | string | Display style: `"sections"`, `"accordion"`, `"tabs"` |
-| `config.posts_count` | number | Maximum entries per group |
-| `config.title_field` | string | Field code for entry title |
-| `config.description_field` | string | Field code for description |
-| `config.price_field` | string | Field code for price |
-| `config.image_field` | string | Field code for image |
-| `config.link_field` | string | Field for entry URL |
-| `config.show_title` | boolean | Display entry title |
-| `config.show_description` | boolean | Display description |
-| `config.show_price` | boolean | Display price |
-| `config.show_image` | boolean | Display image |
-| `config.show_uncategorized` | boolean | Show entries without group value |
-| `data` | object | Fetched and grouped entries |
-| `data.groups` | object | Object with group keys and entry arrays |
-| `data.ungrouped` | array | Entries without group value |
+| `config.collection_code` | string\|null | Collection code |
+| `config.route_uuid` | string\|null | Route UUID for link generation |
+| `config.group_by_field` | string\|null | Field code to group entries by |
+| `config.style` | string | Display style: `"sections"`, `"accordion"`, `"tabs"` (default: `"sections"`) |
+| `config.item_layout` | string | Item layout: `"list"`, `"grid"` (default: `"list"`) |
+| `config.posts_count` | number | Maximum entries per group (default: 50) |
+| `config.title_field` | string\|null | Field code for entry title |
+| `config.description_field` | string\|null | Field code for description |
+| `config.price_field` | string\|null | Field code for price |
+| `config.image_field` | string\|null | Field code for image |
+| `config.show_title` | boolean | Display entry title (default: true) |
+| `config.show_description` | boolean | Display description (default: true) |
+| `config.show_price` | boolean | Display price (default: true) |
+| `config.show_image` | boolean | Display image (default: false) |
+| `config.show_uncategorized` | boolean | Show entries without group value (default: true) |
+| `config.use_custom_layout` | boolean | Use custom layout (legacy, default: false) |
+| `config.layout_config` | object\|null | Custom layout configuration (legacy) |
 | `settings` | object | Style settings (optional) |
 
-## Example Response (Restaurant Menu)
+## Example Response
 
 ```json
 {
@@ -42,48 +42,22 @@ collection-grouped
   "uuid": "grouped-123",
   "config": {
     "collection_code": "menu_items",
+    "route_uuid": null,
     "group_by_field": "category",
-    "display_style": "sections",
+    "style": "sections",
+    "item_layout": "list",
     "posts_count": 50,
     "title_field": "name",
     "description_field": "description",
     "price_field": "price",
     "image_field": "photo",
-    "link_field": "url",
     "show_title": true,
     "show_description": true,
     "show_price": true,
     "show_image": false,
-    "show_uncategorized": false
-  },
-  "data": {
-    "groups": {
-      "Appetizers": [
-        {
-          "uuid": "item-1",
-          "url": "/menu/spring-rolls",
-          "data": {
-            "name": { "en": "Spring Rolls", "pl": "Sajgonki" },
-            "description": { "en": "Crispy vegetable rolls", "pl": "Chrupiące roladki warzywne" },
-            "price": "$8.99",
-            "category": [{ "code": "appetizers", "value": "Appetizers" }]
-          }
-        }
-      ],
-      "Main Courses": [
-        {
-          "uuid": "item-2",
-          "url": "/menu/pad-thai",
-          "data": {
-            "name": { "en": "Pad Thai", "pl": "Pad Thai" },
-            "description": { "en": "Stir-fried noodles", "pl": "Smażony makaron" },
-            "price": "$14.99",
-            "category": [{ "code": "main", "value": "Main Courses" }]
-          }
-        }
-      ]
-    },
-    "ungrouped": []
+    "show_uncategorized": true,
+    "use_custom_layout": false,
+    "layout_config": null
   },
   "settings": {
     "responsive": {
@@ -102,13 +76,21 @@ collection-grouped
 | `accordion` | Collapsible accordion panels |
 | `tabs` | Tabbed interface |
 
+## Item Layout Values
+
+| Value | Description |
+|-------|-------------|
+| `list` | Vertical list layout |
+| `grid` | Grid layout |
+
 ## Usage Example
 
 ```javascript
 function renderCollectionGrouped(widget, language) {
   const {
-    display_style, title_field, description_field, price_field, image_field,
-    show_title, show_description, show_price, show_image
+    style, item_layout,
+    title_field, description_field, price_field, image_field,
+    show_title, show_description, show_price, show_image, show_uncategorized
   } = widget.config;
 
   const groups = widget.data?.groups || {};
@@ -120,33 +102,33 @@ function renderCollectionGrouped(widget, language) {
     html += `
       <section class="grouped-section">
         <h2 class="section-title">${groupName}</h2>
-        <div class="section-items">
+        <div class="section-items layout-${item_layout}">
           ${renderItems(entries, { title_field, description_field, price_field, image_field, show_title, show_description, show_price, show_image }, language)}
         </div>
       </section>
     `;
   });
 
-  if (ungrouped.length > 0) {
+  if (show_uncategorized && ungrouped.length > 0) {
     html += `
       <section class="grouped-section">
         <h2 class="section-title">Other</h2>
-        <div class="section-items">
+        <div class="section-items layout-${item_layout}">
           ${renderItems(ungrouped, { title_field, description_field, price_field, image_field, show_title, show_description, show_price, show_image }, language)}
         </div>
       </section>
     `;
   }
 
-  return `<div class="collection-grouped style-${display_style}">${html}</div>`;
+  return `<div class="collection-grouped style-${style}">${html}</div>`;
 }
 
 function renderItems(entries, config, language) {
   return entries.map(entry => {
-    const title = entry.data[config.title_field]?.[language] || '';
-    const description = entry.data[config.description_field]?.[language] || '';
-    const price = entry.data[config.price_field] || '';
-    const image = entry.data[config.image_field] || '';
+    const title = config.title_field ? (entry.data[config.title_field]?.[language] || '') : '';
+    const description = config.description_field ? (entry.data[config.description_field]?.[language] || '') : '';
+    const price = config.price_field ? entry.data[config.price_field] : '';
+    const image = config.image_field ? entry.data[config.image_field] : '';
 
     return `
       <div class="grouped-item">
