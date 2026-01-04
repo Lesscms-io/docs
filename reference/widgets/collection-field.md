@@ -1,6 +1,6 @@
 # Collection Field Widget
 
-Display a single field from a collection entry with customizable rendering.
+Display a single field from a collection entry with customizable rendering and styling.
 
 ## Widget Type
 
@@ -8,16 +8,46 @@ Display a single field from a collection entry with customizable rendering.
 collection-field
 ```
 
-## Data Properties
+## Response Structure
 
-| Property | Type | Global | Description |
-|----------|------|--------|-------------|
-| `collection_code` | string | Yes | Collection code |
-| `entry_source` | string | Yes | Entry source: `static` or `url` |
-| `entry_id` | string | Yes | Specific entry ID (when static) |
-| `entry_url_segment` | number | Yes | URL segment index (when url) |
-| `field_code` | string | Yes | Field code to display |
-| `display_as` | string | Yes | Render as: `p`, `h1`-`h6`, `span`, `image`, `gallery` |
+| Property | Type | Description |
+|----------|------|-------------|
+| `widget_type` | string | Always `"collection-field"` |
+| `uuid` | string | Unique widget identifier |
+| `config` | object | Widget configuration |
+| `config.collection_code` | string\|null | Collection code |
+| `config.field_code` | string\|null | Field code to display |
+| `config.field_type` | string | Field type (default: `"text"`) |
+| `config.display_as` | string | Render element: `"p"`, `"h1"`-`"h6"`, `"span"` (default: `"p"`) |
+| `config.entry_source` | string | Entry source: `"static"` or `"url"` (default: `"static"`) |
+| `config.entry_id` | string\|null | Specific entry ID (when `entry_source` is `"static"`) |
+| `config.entry_url_segment` | number | URL segment index (when `entry_source` is `"url"`, default: 1) |
+| `config.label` | object | Multilingual label text `{ "en": "...", "pl": "..." }` |
+| `config.label_position` | string | Label position: `"hidden"`, `"above"`, `"inline"` (default: `"hidden"`) |
+| `config.label_background` | string\|null | Label background color |
+| `config.label_color` | string\|null | Label text color |
+| `config.label_padding` | number | Label padding in px (default: 0) |
+| `config.label_font_size` | string\|null | Label font size (e.g., `"14px"`) |
+| `config.label_font_weight` | string\|null | Label font weight (e.g., `"bold"`) |
+| `config.value_background` | string\|null | Value background color |
+| `config.value_color` | string\|null | Value text color |
+| `config.value_padding` | number | Value padding in px (default: 0) |
+| `config.date_format` | string | Date format: `"full"`, `"short"`, `"relative"`, `"custom"` (default: `"full"`) |
+| `config.show_time` | boolean | Show time for datetime fields (default: true) |
+| `config.custom_date_format` | string\|null | Custom date format string |
+| `config.link_text` | object | Multilingual link button text (for _link field) |
+| `config.button_style` | string | Button style: `"primary"`, `"secondary"`, `"outline"` (default: `"primary"`) |
+| `config.button_size` | string | Button size: `"sm"`, `"md"`, `"lg"` (default: `"md"`) |
+| `config.show_icon` | boolean | Show icon (default: false) |
+| `config.icon` | string\|null | Icon class (e.g., `"bx bx-link"`) |
+| `config.icon_position` | string | Icon position: `"left"`, `"right"` (default: `"left"`) |
+| `config.icon_size` | string | Icon size in px (default: `"24"`) |
+| `config.icon_color` | string | Icon color (default: `"#50a5f1"`) |
+| `config.icon_background` | string | Icon background (default: `"transparent"`) |
+| `config.icon_padding` | string | Icon padding (default: `"0"`) |
+| `config.icon_border_radius` | string | Icon border radius (default: `"0"`) |
+| `config.icon_gap` | string | Gap between icon and content (default: `"12"`) |
+| `settings` | object | Style settings (optional) |
 
 ## Example Response (Static Entry)
 
@@ -25,14 +55,46 @@ collection-field
 {
   "widget_type": "collection-field",
   "uuid": "field-123",
-  "data": {
+  "config": {
     "collection_code": "team",
+    "field_code": "bio",
+    "field_type": "richtext",
+    "display_as": "p",
     "entry_source": "static",
     "entry_id": "entry-uuid-456",
-    "field_code": "bio",
-    "display_as": "p"
+    "entry_url_segment": 1,
+    "label": { "en": "Biography", "pl": "Biografia" },
+    "label_position": "above",
+    "label_background": null,
+    "label_color": "#333333",
+    "label_padding": 0,
+    "label_font_size": "14px",
+    "label_font_weight": "bold",
+    "value_background": null,
+    "value_color": null,
+    "value_padding": 0,
+    "date_format": "full",
+    "show_time": true,
+    "custom_date_format": null,
+    "link_text": {},
+    "button_style": "primary",
+    "button_size": "md",
+    "show_icon": false,
+    "icon": null,
+    "icon_position": "left",
+    "icon_size": "24",
+    "icon_color": "#50a5f1",
+    "icon_background": "transparent",
+    "icon_padding": "0",
+    "icon_border_radius": "0",
+    "icon_gap": "12"
   },
-  "settings": {}
+  "settings": {
+    "responsive": {
+      "tablet": {},
+      "mobile": {}
+    }
+  }
 }
 ```
 
@@ -42,12 +104,39 @@ collection-field
 {
   "widget_type": "collection-field",
   "uuid": "field-456",
-  "data": {
+  "config": {
     "collection_code": "products",
-    "entry_source": "url",
-    "entry_url_segment": 2,
     "field_code": "description",
-    "display_as": "p"
+    "field_type": "text",
+    "display_as": "p",
+    "entry_source": "url",
+    "entry_id": null,
+    "entry_url_segment": 2,
+    "label": {},
+    "label_position": "hidden",
+    "label_background": null,
+    "label_color": null,
+    "label_padding": 0,
+    "label_font_size": null,
+    "label_font_weight": null,
+    "value_background": null,
+    "value_color": null,
+    "value_padding": 0,
+    "date_format": "full",
+    "show_time": true,
+    "custom_date_format": null,
+    "link_text": {},
+    "button_style": "primary",
+    "button_size": "md",
+    "show_icon": false,
+    "icon": null,
+    "icon_position": "left",
+    "icon_size": "24",
+    "icon_color": "#50a5f1",
+    "icon_background": "transparent",
+    "icon_padding": "0",
+    "icon_border_radius": "0",
+    "icon_gap": "12"
   },
   "settings": {}
 }
@@ -58,16 +147,15 @@ collection-field
 | Value | Description |
 |-------|-------------|
 | `static` | Use specific `entry_id` |
-| `url` | Extract entry ID from URL segment |
+| `url` | Extract entry ID from URL segment at `entry_url_segment` index |
 
-### URL Segment Example
+## Label Position Values
 
-For URL `/products/shoes/running-shoe-123`:
-- Segment 1: `products`
-- Segment 2: `shoes`
-- Segment 3: `running-shoe-123`
-
-If `entry_url_segment` is `3`, it will use `running-shoe-123` as the entry identifier.
+| Value | Description |
+|-------|-------------|
+| `hidden` | Don't show label |
+| `above` | Label above the value |
+| `inline` | Label inline with value |
 
 ## Display As Values
 
@@ -76,18 +164,26 @@ If `entry_url_segment` is `3`, it will use `running-shoe-123` as the entry ident
 | `p` | Paragraph |
 | `h1` - `h6` | Heading levels |
 | `span` | Inline span |
-| `image` | Render as image |
-| `gallery` | Render as image gallery |
+
+## Date Format Values
+
+| Value | Description |
+|-------|-------------|
+| `full` | Full date (e.g., "January 15, 2024") |
+| `short` | Short date (e.g., "01/15/24") |
+| `relative` | Relative time (e.g., "2 days ago") |
+| `custom` | Use `custom_date_format` string |
 
 ## Usage Example
 
 ```javascript
-// Render collection field widget
 async function renderCollectionField(widget, language, urlSegments, api) {
   const {
-    collection_code, entry_source, entry_id, entry_url_segment,
-    field_code, display_as
-  } = widget.data;
+    collection_code, field_code, display_as,
+    entry_source, entry_id, entry_url_segment,
+    label, label_position,
+    show_icon, icon, icon_position
+  } = widget.config;
 
   // Determine entry ID
   let targetEntryId = entry_id;
@@ -95,72 +191,47 @@ async function renderCollectionField(widget, language, urlSegments, api) {
     targetEntryId = urlSegments[entry_url_segment - 1];
   }
 
-  if (!targetEntryId) {
+  if (!targetEntryId || !collection_code || !field_code) {
     return '';
   }
 
   // Fetch entry
   const entry = await api.getEntry(collection_code, targetEntryId);
-  if (!entry) {
-    return '';
-  }
+  if (!entry) return '';
 
   // Get field value
   const fieldValue = entry.data[field_code];
   let content = '';
 
   // Handle multilingual fields
-  if (typeof fieldValue === 'object' && !Array.isArray(fieldValue) && fieldValue !== null) {
-    // Check if it's an image object
-    if (fieldValue.url) {
-      content = fieldValue;
-    } else {
-      // Multilingual text
-      content = fieldValue[language] || fieldValue.en || '';
-    }
+  if (typeof fieldValue === 'object' && fieldValue !== null && !Array.isArray(fieldValue)) {
+    content = fieldValue[language] || fieldValue.en || '';
   } else {
     content = fieldValue || '';
   }
 
+  // Build label HTML
+  const labelHtml = label_position !== 'hidden' && label?.[language]
+    ? `<span class="field-label">${label[language]}</span>`
+    : '';
+
+  // Build icon HTML
+  const iconHtml = show_icon && icon
+    ? `<i class="${icon}" style="font-size: ${widget.config.icon_size}px; color: ${widget.config.icon_color}"></i>`
+    : '';
+
   // Render based on display_as
-  switch (display_as) {
-    case 'image':
-      return renderImage(content, field_code);
-    case 'gallery':
-      return renderGallery(content);
-    case 'h1':
-    case 'h2':
-    case 'h3':
-    case 'h4':
-    case 'h5':
-    case 'h6':
-      return `<${display_as}>${content}</${display_as}>`;
-    case 'span':
-      return `<span>${content}</span>`;
-    default:
-      return `<p>${content}</p>`;
-  }
-}
+  const tag = display_as || 'p';
+  const valueHtml = `<${tag} class="field-value">${content}</${tag}>`;
 
-function renderImage(imageData, alt) {
-  if (typeof imageData === 'string') {
-    return `<img src="${imageData}" alt="${alt}">`;
-  }
-  if (imageData?.url) {
-    return `<img src="${imageData.url}" alt="${imageData.alt || alt}">`;
-  }
-  return '';
-}
-
-function renderGallery(images) {
-  if (!Array.isArray(images)) return '';
-
-  const items = images.map(img => {
-    const url = typeof img === 'string' ? img : img.url;
-    return `<img src="${url}" alt="" loading="lazy">`;
-  }).join('');
-
-  return `<div class="field-gallery">${items}</div>`;
+  return `
+    <div class="collection-field ${label_position === 'inline' ? 'inline' : ''}">
+      ${icon_position === 'left' ? iconHtml : ''}
+      ${labelHtml}
+      ${valueHtml}
+      ${icon_position === 'right' ? iconHtml : ''}
+    </div>
+  `;
 }
 ```
 
@@ -168,6 +239,6 @@ function renderGallery(images) {
 
 - **Dynamic page titles**: Display entry title as h1
 - **Product descriptions**: Show product description from collection
-- **Dynamic images**: Display entry's featured image
-- **SEO content**: Pull meta description from entry fields
-- **Template layouts**: Build flexible entry detail pages
+- **Entry metadata**: Display creation date, author, category
+- **Price displays**: Show product prices with custom formatting
+- **Contact info**: Display phone, email from entries
