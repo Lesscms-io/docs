@@ -8,15 +8,20 @@ An animated number counter that counts up to a target value.
 counter
 ```
 
-## Data Properties
+## Response Structure
 
-| Property | Type | Global | Description |
-|----------|------|--------|-------------|
-| `number` | number | Yes | Target number to count to |
-| `prefix` | object | No | Text before the number (multilingual) |
-| `suffix` | object | No | Text after the number (multilingual) |
-| `title` | object | No | Counter title/label (multilingual) |
-| `duration` | number | Yes | Animation duration in milliseconds |
+| Property | Type | Description |
+|----------|------|-------------|
+| `widget_type` | string | Always `"counter"` |
+| `uuid` | string | Unique widget identifier |
+| `config` | object | Widget configuration |
+| `config.number` | number | Target number to count to (default: 0) |
+| `config.duration` | number | Animation duration in milliseconds (default: 2000) |
+| `content` | object | Widget content |
+| `content.prefix` | string | Text before the number (localized) |
+| `content.suffix` | string | Text after the number (localized) |
+| `content.title` | string | Counter title/label (localized) |
+| `settings` | object | Style settings (optional) |
 
 ## Example Response
 
@@ -24,21 +29,14 @@ counter
 {
   "widget_type": "counter",
   "uuid": "counter-123",
-  "data": {
+  "config": {
     "number": 5000,
-    "prefix": {
-      "en": "",
-      "pl": ""
-    },
-    "suffix": {
-      "en": "+",
-      "pl": "+"
-    },
-    "title": {
-      "en": "Happy Customers",
-      "pl": "Zadowolonych klientów"
-    },
     "duration": 2000
+  },
+  "content": {
+    "prefix": "",
+    "suffix": "+",
+    "title": "Happy Customers"
   },
   "settings": {
     "textAlign": "center"
@@ -52,21 +50,14 @@ counter
 {
   "widget_type": "counter",
   "uuid": "counter-456",
-  "data": {
+  "config": {
     "number": 1500000,
-    "prefix": {
-      "en": "$",
-      "pl": ""
-    },
-    "suffix": {
-      "en": "",
-      "pl": " zł"
-    },
-    "title": {
-      "en": "Revenue Generated",
-      "pl": "Wygenerowany przychód"
-    },
     "duration": 2500
+  },
+  "content": {
+    "prefix": "$",
+    "suffix": "",
+    "title": "Revenue Generated"
   },
   "settings": {}
 }
@@ -75,13 +66,9 @@ counter
 ## Usage Example
 
 ```javascript
-// Render counter widget
 function renderCounter(widget, language) {
-  const { number, prefix, suffix, title, duration } = widget.data;
-
-  const prefixText = prefix?.[language] || prefix?.en || '';
-  const suffixText = suffix?.[language] || suffix?.en || '';
-  const titleText = title?.[language] || title?.en || '';
+  const { number, duration } = widget.config;
+  const { prefix, suffix, title } = widget.content;
 
   const counterId = `counter-${widget.uuid}`;
 
@@ -91,11 +78,11 @@ function renderCounter(widget, language) {
       data-duration="${duration || 2000}"
     >
       <div class="counter-value">
-        <span class="prefix">${prefixText}</span>
+        <span class="prefix">${prefix || ''}</span>
         <span class="number">0</span>
-        <span class="suffix">${suffixText}</span>
+        <span class="suffix">${suffix || ''}</span>
       </div>
-      ${titleText ? `<div class="counter-title">${titleText}</div>` : ''}
+      ${title ? `<div class="counter-title">${title}</div>` : ''}
     </div>
   `;
 }
@@ -126,7 +113,7 @@ function animateCounter(element) {
   requestAnimationFrame(update);
 }
 
-// Initialize with Intersection Observer (start animation when visible)
+// Initialize with Intersection Observer
 function initCounters() {
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
@@ -169,18 +156,4 @@ initCounters();
   color: #666;
   margin-top: 8px;
 }
-```
-
-## Number Formatting
-
-For large numbers, consider using locale-specific formatting:
-
-```javascript
-// Format with thousand separators
-numberEl.textContent = currentValue.toLocaleString('en-US');
-// Output: 1,500,000
-
-// Format with European style
-numberEl.textContent = currentValue.toLocaleString('de-DE');
-// Output: 1.500.000
 ```

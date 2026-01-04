@@ -8,13 +8,17 @@ A layout container that arranges child widgets in a responsive grid with configu
 grid
 ```
 
-## Data Properties
+## Response Structure
 
-| Property | Type | Global | Description |
-|----------|------|--------|-------------|
-| `columns` | array | Yes | Column configuration with width percentages and nested widgets |
-| `gap` | number | Yes | Gap between columns in pixels |
-| `stack_on_mobile` | boolean | Yes | Stack columns vertically on mobile |
+| Property | Type | Description |
+|----------|------|-------------|
+| `widget_type` | string | Always `"grid"` |
+| `uuid` | string | Unique widget identifier |
+| `config` | object | Widget configuration |
+| `config.columns` | array | Column configuration with width percentages and nested widgets |
+| `config.gap` | number | Gap between columns in pixels (default: 16) |
+| `config.stack_on_mobile` | boolean | Stack columns vertically on mobile (default: true) |
+| `settings` | object | Style settings (optional) |
 
 ### Column Structure
 
@@ -31,7 +35,7 @@ Each column in the `columns` array contains:
 {
   "widget_type": "grid",
   "uuid": "grid-123",
-  "data": {
+  "config": {
     "columns": [
       {
         "width": 60,
@@ -39,19 +43,18 @@ Each column in the `columns` array contains:
           {
             "widget_type": "heading",
             "uuid": "heading-nested-1",
-            "data": {
-              "text": { "en": "Main Content", "pl": "Główna treść" },
+            "config": {
               "level": 2
+            },
+            "content": {
+              "text": "Main Content"
             }
           },
           {
             "widget_type": "text",
             "uuid": "text-nested-1",
-            "data": {
-              "content": {
-                "en": "<p>This is the main content area.</p>",
-                "pl": "<p>To jest główny obszar treści.</p>"
-              }
+            "content": {
+              "content": "<p>This is the main content area.</p>"
             }
           }
         ]
@@ -62,11 +65,11 @@ Each column in the `columns` array contains:
           {
             "widget_type": "image",
             "uuid": "image-nested-1",
-            "data": {
+            "config": {
               "image_source": "static",
               "image": {
                 "url": "https://cdn.example.com/sidebar-image.jpg",
-                "alt": { "en": "Sidebar image" }
+                "alt": "Sidebar image"
               }
             }
           }
@@ -89,10 +92,12 @@ Each column in the `columns` array contains:
 
 ```json
 {
-  "columns": [
-    { "width": 50, "content": [...] },
-    { "width": 50, "content": [...] }
-  ]
+  "config": {
+    "columns": [
+      { "width": 50, "content": [...] },
+      { "width": 50, "content": [...] }
+    ]
+  }
 }
 ```
 
@@ -100,11 +105,13 @@ Each column in the `columns` array contains:
 
 ```json
 {
-  "columns": [
-    { "width": 33.33, "content": [...] },
-    { "width": 33.33, "content": [...] },
-    { "width": 33.33, "content": [...] }
-  ]
+  "config": {
+    "columns": [
+      { "width": 33.33, "content": [...] },
+      { "width": 33.33, "content": [...] },
+      { "width": 33.33, "content": [...] }
+    ]
+  }
 }
 ```
 
@@ -112,10 +119,12 @@ Each column in the `columns` array contains:
 
 ```json
 {
-  "columns": [
-    { "width": 70, "content": [...] },
-    { "width": 30, "content": [...] }
-  ]
+  "config": {
+    "columns": [
+      { "width": 70, "content": [...] },
+      { "width": 30, "content": [...] }
+    ]
+  }
 }
 ```
 
@@ -124,7 +133,7 @@ Each column in the `columns` array contains:
 ```javascript
 // Render grid widget (recursively renders nested widgets)
 function renderGrid(widget, language, renderWidget) {
-  const { columns, gap, stack_on_mobile } = widget.data;
+  const { columns, gap, stack_on_mobile } = widget.config;
   const settings = widget.settings || {};
 
   if (!columns || columns.length === 0) {
@@ -194,14 +203,14 @@ The Grid widget supports any widget type in its columns, including other Grid wi
 ```json
 {
   "widget_type": "grid",
-  "data": {
+  "config": {
     "columns": [
       {
         "width": 50,
         "content": [
           {
             "widget_type": "grid",
-            "data": {
+            "config": {
               "columns": [
                 { "width": 50, "content": [...] },
                 { "width": 50, "content": [...] }

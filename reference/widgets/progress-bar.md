@@ -8,14 +8,19 @@ An animated progress bar showing percentage completion.
 progress-bar
 ```
 
-## Data Properties
+## Response Structure
 
-| Property | Type | Global | Description |
-|----------|------|--------|-------------|
-| `title` | object | No | Progress bar label (multilingual) |
-| `percentage` | number | Yes | Progress percentage (0-100) |
-| `color` | string | Yes | Bar color (hex code) |
-| `show_percentage` | boolean | Yes | Display percentage text |
+| Property | Type | Description |
+|----------|------|-------------|
+| `widget_type` | string | Always `"progress-bar"` |
+| `uuid` | string | Unique widget identifier |
+| `config` | object | Widget configuration |
+| `config.percentage` | number | Progress percentage (0-100, default: 0) |
+| `config.color` | string | Bar color (hex code) |
+| `config.show_percentage` | boolean | Display percentage text (default: true) |
+| `content` | object | Widget content |
+| `content.title` | string | Progress bar label (localized) |
+| `settings` | object | Style settings (optional) |
 
 ## Example Response
 
@@ -23,14 +28,13 @@ progress-bar
 {
   "widget_type": "progress-bar",
   "uuid": "progress-123",
-  "data": {
-    "title": {
-      "en": "Project Progress",
-      "pl": "Postęp projektu"
-    },
+  "config": {
     "percentage": 75,
     "color": "#28a745",
     "show_percentage": true
+  },
+  "content": {
+    "title": "Project Progress"
   },
   "settings": {
     "marginTop": 16,
@@ -46,31 +50,37 @@ progress-bar
   {
     "widget_type": "progress-bar",
     "uuid": "skill-1",
-    "data": {
-      "title": { "en": "HTML/CSS", "pl": "HTML/CSS" },
+    "config": {
       "percentage": 95,
       "color": "#E34F26",
       "show_percentage": true
+    },
+    "content": {
+      "title": "HTML/CSS"
     }
   },
   {
     "widget_type": "progress-bar",
     "uuid": "skill-2",
-    "data": {
-      "title": { "en": "JavaScript", "pl": "JavaScript" },
+    "config": {
       "percentage": 85,
       "color": "#F7DF1E",
       "show_percentage": true
+    },
+    "content": {
+      "title": "JavaScript"
     }
   },
   {
     "widget_type": "progress-bar",
     "uuid": "skill-3",
-    "data": {
-      "title": { "en": "Vue.js", "pl": "Vue.js" },
+    "config": {
       "percentage": 80,
       "color": "#4FC08D",
       "show_percentage": true
+    },
+    "content": {
+      "title": "Vue.js"
     }
   }
 ]
@@ -81,16 +91,16 @@ progress-bar
 ```javascript
 // Render progress bar widget
 function renderProgressBar(widget, language) {
-  const { title, percentage, color, show_percentage } = widget.data;
+  const { percentage, color, show_percentage } = widget.config;
+  const { title } = widget.content;
 
-  const titleText = title?.[language] || title?.en || '';
   const progressId = `progress-${widget.uuid}`;
 
   return `
     <div id="${progressId}" class="progress-widget" data-percentage="${percentage}">
-      ${titleText || show_percentage ? `
+      ${title || show_percentage ? `
         <div class="progress-header">
-          ${titleText ? `<span class="progress-title">${titleText}</span>` : ''}
+          ${title ? `<span class="progress-title">${title}</span>` : ''}
           ${show_percentage ? `<span class="progress-percentage">0%</span>` : ''}
         </div>
       ` : ''}

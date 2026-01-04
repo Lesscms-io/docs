@@ -8,16 +8,20 @@ Display unique values from a collection field as a list, tags, or buttons.
 value-list
 ```
 
-## Data Properties
+## Response Structure
 
-| Property | Type | Global | Description |
-|----------|------|--------|-------------|
-| `collection_code` | string | Yes | Collection code |
-| `value_field` | string | Yes | Field code to extract values from |
-| `display_style` | string | Yes | Display style: `list`, `inline`, `tags`, `buttons` |
-| `show_count` | boolean | Yes | Show count of entries per value |
-| `link_enabled` | boolean | Yes | Make values clickable |
-| `link_url_pattern` | string | Yes | URL pattern with `{value}` placeholder |
+| Property | Type | Description |
+|----------|------|-------------|
+| `widget_type` | string | Always `"value-list"` |
+| `uuid` | string | Unique widget identifier |
+| `config` | object | Widget configuration |
+| `config.collection_code` | string | Collection code |
+| `config.value_field` | string | Field code to extract values from |
+| `config.display_style` | string | Display style: `list`, `inline`, `tags`, `buttons` (default: `list`) |
+| `config.show_count` | boolean | Show count of entries per value (default: false) |
+| `config.link_enabled` | boolean | Make values clickable (default: false) |
+| `config.link_url_pattern` | string | URL pattern with `{value}` placeholder |
+| `settings` | object | Style settings (optional) |
 
 ## Example Response
 
@@ -25,7 +29,7 @@ value-list
 {
   "widget_type": "value-list",
   "uuid": "valuelist-123",
-  "data": {
+  "config": {
     "collection_code": "blog",
     "value_field": "category",
     "display_style": "tags",
@@ -37,6 +41,24 @@ value-list
     "paddingTop": 20,
     "paddingBottom": 20
   }
+}
+```
+
+## Example Response (Simple List)
+
+```json
+{
+  "widget_type": "value-list",
+  "uuid": "valuelist-456",
+  "config": {
+    "collection_code": "products",
+    "value_field": "brand",
+    "display_style": "list",
+    "show_count": false,
+    "link_enabled": false,
+    "link_url_pattern": null
+  },
+  "settings": {}
 }
 ```
 
@@ -57,7 +79,7 @@ async function renderValueList(widget, language, api) {
   const {
     collection_code, value_field, display_style,
     show_count, link_enabled, link_url_pattern
-  } = widget.data;
+  } = widget.config;
 
   // Fetch all entries and extract unique values
   const entries = await api.getCollectionEntries(collection_code);
