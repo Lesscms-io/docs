@@ -6,13 +6,14 @@ Widgets are the building blocks of page content in LessCMS. Each widget has spec
 
 | Category | Description |
 |----------|-------------|
-| **Basic** | Button, Icon, Divider, Spacer, Icon Box, Key-Value, Star Rating |
-| **Text** | Text, Heading, Blockquote, Icon List |
-| **Media** | Image, Gallery, Video, Google Maps, Image Carousel |
-| **Layout** | Hero, Toggle, Grid |
-| **Interactive** | Countdown, Counter, Progress Bar, Testimonial, Alert |
-| **Navigation** | Menu, Social Icons |
-| **Collections** | Collection Grid, Collection Carousel, Collection Single, Value List, Collection Field, Dynamic Hero, Collection Grouped |
+| **Basic** | Button, Divider, Spacer, Icon Box |
+| **Text** | Text, Heading |
+| **Media** | Image, Gallery, Video |
+| **Layout** | Grid |
+| **Interactive** | Hero, Countdown, Counter, Progress Bar, Testimonial, Alert |
+| **Navigation** | Menu |
+| **Integrations** | Google Maps, Social Icons |
+| **Collections** | Collection Grid, Collection Carousel, Collection Single, Collection Grouped, Value List, Data Field |
 
 ## Common Widget Structure
 
@@ -22,8 +23,11 @@ Every widget in the API response follows this structure:
 {
   "widget_type": "heading",
   "uuid": "widget-uuid-123",
-  "data": {
-    // Widget-specific data (see individual widget docs)
+  "config": {
+    // Widget-specific configuration
+  },
+  "content": {
+    // Widget-specific content (localized)
   },
   "settings": {
     // Common styling settings (see below)
@@ -37,8 +41,8 @@ Widget data properties can be:
 
 | Type | Description | Example |
 |------|-------------|---------|
-| **Global** | Same value for all languages | `"style": "primary"` |
-| **Multilingual** | Object with language keys | `"text": {"en": "Hello", "pl": "Cześć"}` |
+| **Config** | Global settings, same for all languages | `"style": "primary"` |
+| **Content** | Localized text content | `"text": "Hello"` (already resolved for requested language) |
 
 ## Common Widget Settings
 
@@ -223,48 +227,42 @@ Settings can have responsive overrides for tablet (768-1199px) and mobile (0-767
 ## Widget List
 
 ### Basic Widgets
-- [Button](widgets/button.md)
-- [Icon](widgets/icon.md)
-- [Divider](widgets/divider.md)
-- [Spacer](widgets/spacer.md)
-- [Icon Box](widgets/icon-box.md)
-- [Key-Value](widgets/key-value.md)
-- [Star Rating](widgets/star-rating.md)
+- [Button](reference/widgets/button.md)
+- [Divider](reference/widgets/divider.md)
+- [Spacer](reference/widgets/spacer.md)
+- [Icon Box](reference/widgets/icon-box.md)
 
 ### Text Widgets
-- [Text](widgets/text.md)
-- [Heading](widgets/heading.md)
-- [Blockquote](widgets/blockquote.md)
-- [Icon List](widgets/icon-list.md)
+- [Text](reference/widgets/text.md)
+- [Heading](reference/widgets/heading.md)
 
 ### Media Widgets
-- [Image](widgets/image.md)
-- [Gallery](widgets/gallery.md)
-- [Video](widgets/video.md)
-- [Google Maps](widgets/google-maps.md)
-- [Image Carousel](widgets/image-carousel.md)
+- [Image](reference/widgets/image.md)
+- [Gallery](reference/widgets/gallery.md)
+- [Video](reference/widgets/video.md)
 
 ### Layout Widgets
-- [Hero](widgets/hero.md)
-- [Toggle](widgets/toggle.md)
-- [Grid](widgets/grid.md)
+- [Grid](reference/widgets/grid.md)
 
 ### Interactive Widgets
-- [Countdown](widgets/countdown.md)
-- [Counter](widgets/counter.md)
-- [Progress Bar](widgets/progress-bar.md)
-- [Testimonial](widgets/testimonial.md)
-- [Alert](widgets/alert.md)
+- [Hero](reference/widgets/hero.md)
+- [Countdown](reference/widgets/countdown.md)
+- [Counter](reference/widgets/counter.md)
+- [Progress Bar](reference/widgets/progress-bar.md)
+- [Testimonial](reference/widgets/testimonial.md)
+- [Alert](reference/widgets/alert.md)
 
 ### Navigation Widgets
-- [Menu](widgets/menu.md)
-- [Social Icons](widgets/social-icons.md)
+- [Menu](reference/widgets/menu.md)
+
+### Integration Widgets
+- [Google Maps](reference/widgets/google-maps.md)
+- [Social Icons](reference/widgets/social-icons.md)
 
 ### Collection Widgets
-- [Collection Grid](widgets/collection-grid.md)
-- [Collection Carousel](widgets/collection-carousel.md)
-- [Collection Single](widgets/collection-single.md)
-- [Value List](widgets/value-list.md)
-- [Collection Field](widgets/collection-field.md)
-- [Dynamic Hero](widgets/dynamic-hero.md)
-- [Collection Grouped](widgets/collection-grouped.md)
+- [Collection Grid](reference/widgets/collection-grid.md)
+- [Collection Carousel](reference/widgets/collection-carousel.md)
+- [Collection Single](reference/widgets/collection-single.md)
+- [Collection Grouped](reference/widgets/collection-grouped.md)
+- [Value List](reference/widgets/value-list.md)
+- [Data Field](reference/widgets/data-field.md)
