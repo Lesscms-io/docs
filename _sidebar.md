@@ -17,33 +17,33 @@
 
 * **Widgets**
   * [Overview](reference/widgets/)
-  * Basic
+  * [Basic](reference/widgets/?id=basic)
     * [Button](reference/widgets/button.md)
     * [Divider](reference/widgets/divider.md)
     * [Spacer](reference/widgets/spacer.md)
     * [Icon Box](reference/widgets/icon-box.md)
-  * Text
+  * [Text](reference/widgets/?id=text)
     * [Text](reference/widgets/text.md)
     * [Heading](reference/widgets/heading.md)
-  * Media
+  * [Media](reference/widgets/?id=media)
     * [Image](reference/widgets/image.md)
     * [Gallery](reference/widgets/gallery.md)
     * [Video](reference/widgets/video.md)
-  * Layout
+  * [Layout](reference/widgets/?id=layout)
     * [Hero](reference/widgets/hero.md)
     * [Grid](reference/widgets/grid.md)
-  * Interactive
+  * [Interactive](reference/widgets/?id=interactive)
     * [Countdown](reference/widgets/countdown.md)
     * [Counter](reference/widgets/counter.md)
     * [Progress Bar](reference/widgets/progress-bar.md)
     * [Testimonial](reference/widgets/testimonial.md)
     * [Alert](reference/widgets/alert.md)
-  * Navigation
+  * [Navigation](reference/widgets/?id=navigation)
     * [Menu](reference/widgets/menu.md)
     * [Social Icons](reference/widgets/social-icons.md)
-  * Integrations
+  * [Integrations](reference/widgets/?id=integrations)
     * [Google Maps](reference/widgets/google-maps.md)
-  * Collections
+  * [Collections](reference/widgets/?id=collections)
     * [Collection Grid](reference/widgets/collection-grid.md)
     * [Collection Carousel](reference/widgets/collection-carousel.md)
     * [Collection Single](reference/widgets/collection-single.md)

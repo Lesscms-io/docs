@@ -363,6 +363,38 @@
       background: #9CA3AF;
     }
 
+    /* Sidebar collapse arrows */
+    .sidebar-nav .app-sub-sidebar li:before {
+      content: none;
+    }
+
+    .sidebar-nav > ul > li > ul {
+      display: none;
+    }
+
+    .sidebar-nav > ul > li.open > ul,
+    .sidebar-nav > ul > li.active > ul,
+    .sidebar-nav > ul > li.collapse > ul {
+      display: block;
+    }
+
+    .sidebar-nav li.folder > a:before {
+      content: '';
+      display: inline-block;
+      width: 0;
+      height: 0;
+      margin-right: 8px;
+      border-left: 6px solid var(--text-tertiary);
+      border-top: 4px solid transparent;
+      border-bottom: 4px solid transparent;
+      transition: transform 0.2s ease;
+    }
+
+    .sidebar-nav li.folder.open > a:before,
+    .sidebar-nav li.folder.active > a:before {
+      transform: rotate(90deg);
+    }
+
     /* Mobile */
     @media screen and (max-width: 768px) {
       .markdown-section {
@@ -411,7 +443,9 @@
         previousText: '← Previous',
         nextText: 'Next →',
         crossChapter: true
-      }
+      },
+
+      sidebarDisplayLevel: 1
     }
   </script>
 
@@ -419,6 +453,7 @@
   <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/search.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/docsify-copy-code@2"></script>
   <script src="//cdn.jsdelivr.net/npm/docsify-pagination@2/dist/docsify-pagination.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/docsify-sidebar-collapse/dist/docsify-sidebar-collapse.min.js"></script>
 
   <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-bash.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-javascript.min.js"></script>
