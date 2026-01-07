@@ -193,6 +193,7 @@ Sections are the top-level containers. Each section has:
     },
 
     // Advanced
+    "cssId": "",
     "cssClass": ""
   },
   "columns": [...]
@@ -210,6 +211,8 @@ Sections are the top-level containers. Each section has:
 | `columnGap` | number | `0` | Gap between columns in pixels |
 | `stackOnTablet` | boolean | `false` | Stack columns vertically on tablet |
 | `stackOnMobile` | boolean | `true` | Stack columns vertically on mobile |
+| `cssId` | string | `""` | HTML ID attribute for anchor links (e.g., "contact" allows linking via #contact) |
+| `cssClass` | string | `""` | Custom CSS class(es) for styling |
 
 ### Column Settings
 
@@ -278,6 +281,7 @@ Columns are inside sections. Each column has:
     },
 
     // Advanced
+    "cssId": "",
     "cssClass": ""
   },
   "content": [...]
@@ -293,6 +297,8 @@ Columns are inside sections. Each column has:
 | `minHeight` | number/null | `null` | Minimum column height in pixels |
 | `verticalAlign` | string | `"flex-start"` | Vertical alignment ("flex-start", "center", "flex-end") |
 | `horizontalAlign` | string | `"stretch"` | Horizontal alignment ("flex-start", "center", "flex-end", "stretch") |
+| `cssId` | string | `""` | HTML ID attribute for anchor links |
+| `cssClass` | string | `""` | Custom CSS class(es) for styling |
 
 ### Widget Settings
 
@@ -372,6 +378,7 @@ Widgets are inside columns. Each widget has:
     },
 
     // Advanced
+    "cssId": "",
     "cssClass": ""
   }
 }
@@ -387,6 +394,8 @@ Widgets are inside columns. Each widget has:
 | `fullHeight` | boolean | `false` | Widget takes full parent height |
 | `verticalAlign` | string | `"top"` | Vertical alignment ("top", "center", "bottom") |
 | `horizontalAlign` | string | `"stretch"` | Horizontal alignment ("flex-start", "center", "flex-end", "stretch") |
+| `cssId` | string | `""` | HTML ID attribute for anchor links |
+| `cssClass` | string | `""` | Custom CSS class(es) for styling |
 
 ### Responsive Settings
 
