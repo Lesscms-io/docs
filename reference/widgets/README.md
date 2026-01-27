@@ -6,7 +6,7 @@ Widgets are the building blocks of page content in LessCMS. Each widget has spec
 
 | Category | Description |
 |----------|-------------|
-| **Basic** | Button, Divider, Spacer, Icon Box |
+| **Basic** | Button, Divider, Spacer, Icon Box, Service Card |
 | **Text** | Text, Heading |
 | **Media** | Image, Gallery, Video |
 | **Layout** | Grid |
@@ -231,6 +231,7 @@ Settings can have responsive overrides for tablet (768-1199px) and mobile (0-767
 - [Divider](reference/widgets/divider.md)
 - [Spacer](reference/widgets/spacer.md)
 - [Icon Box](reference/widgets/icon-box.md)
+- [Service Card](reference/widgets/service-card.md)
 
 ### Text Widgets
 - [Text](reference/widgets/text.md)

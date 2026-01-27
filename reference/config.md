@@ -35,6 +35,7 @@ curl -H "x-api-key: YOUR_API_KEY" \
     },
     "fonts": ["Inter", "Roboto"],
     "custom_css_urls": ["https://cdn.example.com/custom.css"],
+    "custom_css": ".my-class { color: red; font-weight: bold; }",
     "available_widgets": [
       "text",
       "text-rich-html",
@@ -110,6 +111,7 @@ curl -H "x-api-key: YOUR_API_KEY" \
 | `styles` | object | Theme style settings (colors, typography, layout) |
 | `fonts` | array | Google Font family names enabled for this project |
 | `custom_css_urls` | array | URLs to external custom stylesheets |
+| `custom_css` | string\|null | Inline custom CSS code for the project (`null` if not set) |
 | `available_widgets` | array | Widget type codes enabled for page builder |
 | `available_fonts` | array | All available Google Fonts for font picker |
 | `google_fonts_url` | string | Pre-built Google Fonts URL for `<link>` tag |
@@ -176,12 +178,21 @@ async function isHomepage(pageUuid) {
 ```javascript
 const config = await fetchConfig();
 
+// Load external CSS stylesheets
 config.data.custom_css_urls.forEach(url => {
   const link = document.createElement('link');
   link.rel = 'stylesheet';
   link.href = url;
   document.head.appendChild(link);
 });
+
+// Load inline custom CSS
+if (config.data.custom_css) {
+  const style = document.createElement('style');
+  style.dataset.lesscmsCustomCss = 'true';
+  style.textContent = config.data.custom_css;
+  document.head.appendChild(style);
+}
 ```
 
 ### Apply Theme Styles (CSS Variables)
