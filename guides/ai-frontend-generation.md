@@ -358,6 +358,16 @@ Widgets are inside columns. Each widget has:
     "borderStyle": "solid",
     "boxShadow": "",
 
+    // Hover effects
+    "hover": {
+      "backgroundColor": "",
+      "backgroundOpacity": 100,
+      "borderColor": "",
+      "borderWidth": null,
+      "boxShadow": "",
+      "transitionDuration": 300
+    },
+
     // Responsive
     "hidden": false,
     "responsive": {
@@ -424,6 +434,89 @@ Breakpoints:
 - **Desktop**: > 1024px
 - **Tablet**: 768px - 1024px
 - **Mobile**: < 768px
+
+### Hover Settings
+
+Widgets support hover effects that are applied when the user hovers over the element. Hover settings are stored in the `settings.hover` object:
+
+```json
+{
+  "settings": {
+    "hover": {
+      "backgroundColor": "#f0f0f0",
+      "backgroundOpacity": 100,
+      "borderColor": "#007bff",
+      "borderWidth": 2,
+      "boxShadow": "0 4px 6px rgba(0,0,0,0.1)",
+      "transitionDuration": 300
+    },
+    "responsive": {
+      "tablet": {
+        "hover": {
+          "backgroundColor": "#e0e0e0"
+        }
+      },
+      "mobile": {
+        "hover": {
+          "boxShadow": ""
+        }
+      }
+    }
+  }
+}
+```
+
+#### Hover Settings Reference
+
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| `backgroundColor` | string | `""` | Background color on hover |
+| `backgroundOpacity` | number | `100` | Background opacity on hover (0-100) |
+| `borderColor` | string | `""` | Border color on hover |
+| `borderWidth` | number/null | `null` | Border width on hover in pixels (null = no change) |
+| `boxShadow` | string | `""` | Box shadow on hover (CSS value) |
+| `transitionDuration` | number | `300` | Transition animation duration in milliseconds |
+
+#### Rendering Hover Effects
+
+To render hover effects, generate a dynamic `<style>` tag with CSS `:hover` rules:
+
+```javascript
+function generateHoverCss(widgetId, hover) {
+  if (!hover || (!hover.backgroundColor && !hover.borderColor && !hover.boxShadow)) {
+    return ''
+  }
+
+  const transitionDuration = hover.transitionDuration ?? 300
+
+  let css = `#${widgetId} { transition: all ${transitionDuration}ms ease; }`
+  css += `#${widgetId}:hover {`
+
+  if (hover.backgroundColor) {
+    const opacity = hover.backgroundOpacity ?? 100
+    if (opacity < 100) {
+      css += `background-color: ${hexToRgba(hover.backgroundColor, opacity / 100)};`
+    } else {
+      css += `background-color: ${hover.backgroundColor};`
+    }
+  }
+
+  if (hover.borderColor) {
+    css += `border-color: ${hover.borderColor};`
+  }
+
+  if (hover.borderWidth !== undefined && hover.borderWidth !== null) {
+    css += `border-width: ${hover.borderWidth}px;`
+  }
+
+  if (hover.boxShadow) {
+    css += `box-shadow: ${hover.boxShadow};`
+  }
+
+  css += '}'
+  return css
+}
+```
 
 ### Link Settings
 
