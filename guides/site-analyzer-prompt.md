@@ -167,6 +167,16 @@ Strona
 - `borderStyle` — `solid`, `dashed` lub `dotted`
 - `boxShadow` — cień: brak, mały (`0 1px 3px rgba(0,0,0,0.12)`), średni (`0 4px 6px rgba(0,0,0,0.1)`), duży (`0 10px 20px rgba(0,0,0,0.15)`)
 
+#### Pozycja
+- `sticky` — sekcja przyklejona do góry ekranu (sticky)
+- `stickyZIndex` — z-index dla sticky elementu
+
+#### Animacje scroll
+- `animationType` — animacja przy wejściu w viewport: `none`, `fade-in`, `slide-up`, `slide-down`, `slide-left`, `slide-right`, `zoom-in`, `zoom-out`, `flip`
+- `animationDuration` — czas trwania animacji (ms)
+- `animationDelay` — opóźnienie animacji (ms)
+- `animationOnce` — animacja odtwarza się tylko raz (domyślnie true)
+
 #### Responsywność
 - `stackOnTablet` — złóż kolumny na tablecie (true/false)
 - `stackOnMobile` — złóż kolumny na mobile (domyślnie true)
@@ -238,8 +248,11 @@ Identyczne opcje jak sekcja i kolumna.
 Każdy element (sekcja, kolumna, widget) wspiera hover:
 - `hover.backgroundColor` — kolor tła po najechaniu
 - `hover.borderColor` — kolor obramowania po najechaniu
-- `hover.boxShadow` — cień po najechaniu
+- `hover.boxShadow` — cień po najechaniu (brak/mały/średni/duży)
 - `hover.borderWidth` — grubość obramowania po najechaniu
+- `hover.translateY` — przesunięcie w pionie (px, np. -8px = uniesienie karty)
+- `hover.scale` — skalowanie (np. 1.05 = powiększenie o 5%)
+- `hover.rotate` — obrót (stopnie, np. 5 = obrót o 5°)
 - `transitionDuration` — czas tranzycji: 0-2000ms
 
 #### Responsywność
@@ -345,6 +358,7 @@ settings.responsive.mobile.hidden = true
 **gallery** — Galeria
 - `images` — lista obrazów
 - `columns` — 2-5 kolumn
+- `enable_lightbox` — fullscreen po kliknięciu
 
 **video** — Wideo
 - `source` — `youtube`, `vimeo`, `url`
@@ -468,18 +482,31 @@ settings.responsive.mobile.hidden = true
 - `accent_color` — kolor akcentowy
 - `style` — `card`, `minimal`, `overlay`
 
-#### NAVIGATION (2 widgety)
+#### NAVIGATION (3 widgety)
 
-**menu** — Menu nawigacyjne
+**menu** — Menu nawigacyjne z logo i CTA
 - `menu_code` — kod menu (zdefiniowane w LessCMS)
-- `layout` — `horizontal` lub `vertical`
+- `layout` — `horizontal`, `vertical`, `centered`
+- `hamburger_breakpoint` — `never`, `mobile`, `tablet` — wbudowany hamburger menu
+- **Logo:** `logo_light` (obraz, jasne tło), `logo_dark` (obraz, ciemne tło), `logo_height` (px, domyślnie 40), `logo_position` (`left`/`center`/`right`)
+- **Kolory:** `link_color` (kolor linków, domyślnie `var:text`), `link_hover_color` (kolor po najechaniu, domyślnie `var:info`)
+- **CTA:** `cta_text`, `cta_url`, `cta_position` (`left`/`right`/`below`), `cta_style` (pełna paleta Bootstrap: primary/secondary/success/danger/warning/info/light/dark + outline-*), `cta_size` (sm/md/lg)
+- **Odstęp:** `items_gap` (`sm`=4px / `md`=8px / `lg`=16px)
 
 **social-icons** — Ikony społecznościowe
 - `items` — lista `[{platform, url}]`
 - `size` — `sm`, `md`, `lg`
 - `style` — `default`, `circle`, `square`
 
-#### COLLECTION (9 widgetów)
+**breadcrumbs** — Ścieżka nawigacji
+- `separator` — `>`, `>>`, `/`, `-`, `|`
+- `show_home` — pokaż stronę główną
+- `home_label` — etykieta strony głównej
+- `color` — kolor linków
+- `active_color` — kolor aktywnego elementu
+- `show_dynamic_last` — ostatni element dynamicznie z URL
+
+#### COLLECTION (6 widgetów)
 
 **collection-grid** — Siatka kolekcji
 - `collection` — kod kolekcji
@@ -528,17 +555,68 @@ settings.responsive.mobile.hidden = true
 
 ---
 
-### 12. CUSTOM CSS
+### 12. CUSTOM CSS I KLASY CSS
 
-W LessCMS można dodać własny CSS do projektu. Użyj tego gdy:
-- Standardowe ustawienia nie wystarczają
-- Potrzebne są animacje CSS
-- Konieczne jest nadpisanie domyślnych stylów
-- Chcesz dodać efekty, których nie ma w ustawieniach
+Każda sekcja, kolumna i widget posiada pola zaawansowane:
+- **`cssClass`** — własna nazwa klasy CSS (np. `my-card`, `hero-overlay`). Można nadać dowolną nazwę i potem ją ostylować w Custom CSS projektu.
+- **`cssId`** — unikalny identyfikator HTML (np. `section-hero`).
 
-CSS odnosi się do elementów za pomocą:
-- `cssClass` — własna klasa na sekcji/kolumnie/widgecie
-- `cssId` — identyfikator HTML
+**Jak używać:** Nadaj elementowi klasę w polu `cssClass`, a następnie w Custom CSS projektu napisz reguły dla tej klasy. Dzięki temu można osiągnąć dowolne efekty wykraczające poza natywne ustawienia, np.:
+
+```css
+/* Gradient overlay na sekcji hero */
+.hero-overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, #003323 0%, transparent 100%);
+}
+
+/* Filtr na zdjęciach */
+.photo-filter img {
+  filter: contrast(1.05) saturate(0.85);
+}
+
+/* Hover z opacity (natywny hover tego nie obsługuje) */
+.fade-card:hover {
+  opacity: 0.8;
+}
+```
+
+### 13. OGRANICZENIA LESSCMS I OBEJŚCIA
+
+#### Czego LessCMS NIE ma (wymaga zewnętrznych rozwiązań lub embed)
+| Brak | Obejście |
+|------|----------|
+| Mapy Leaflet z custom markerami | Widget `google-maps` jako zamiennik. Lub `embed` z Leaflet JS |
+| Zaawansowane formularze (multi-step, payment) | Widget `form` obsługuje proste formularze. Dla zaawansowanych: `embed` z Typeform, Tally |
+| Cookie banner / GDPR popup | Widget `embed` z gotowym rozwiązaniem (CookieConsent, Osano) |
+
+#### Co wymaga Custom CSS (da się, ale ręczna praca)
+| Efekt | Rozwiązanie |
+|-------|-------------|
+| Gradient overlay (::before) | `cssClass: "hero-overlay"` + `::before { background: linear-gradient(...) }` |
+| CSS filters na obrazach | `cssClass: "photo-filter"` + `.photo-filter img { filter: ... }` |
+| Position absolute | `cssClass` + reguła CSS (sticky jest natywne!) |
+| Nakładające się elementy | Ujemne marginy natywnie LUB `cssClass` z `position: absolute` |
+| Hover opacity/filter | `cssClass` + `.class:hover { opacity/filter: ... }` (translateY, scale, rotate są natywne!) |
+
+#### Co działa natywnie (bez Custom CSS)
+- Tła: kolor, gradient (linear/radial), obraz z opacity
+- Spacing: padding, margin (także ujemne)
+- Border: radius, width, color, style + box-shadow
+- Hover: backgroundColor, borderColor, boxShadow, borderWidth, **translateY, scale, rotate** + transition
+- Sticky: sekcja przyklejona do góry ekranu z z-index
+- Scroll animations: fade-in, slide-up/down/left/right, zoom-in/out, flip
+- Responsywność: override per breakpoint (tablet, mobile), stack kolumn, ukrywanie
+- Layout: 1-4 kolumny, contentWidth, fullHeight, verticalAlign, horizontalAlign
+- Link: cała sekcja/kolumna/widget jako klikalna
+- Hamburger menu: widget `menu` z `hamburger_breakpoint` (mobile/tablet)
+- Menu z logo: `logo_light`/`logo_dark` z pozycją i regulowaną wysokością
+- Menu CTA: wbudowany przycisk CTA z pełną paletą Bootstrap, pozycja left/right/below
+- Formularze: widget `form` z polami text/email/textarea/select/checkbox
+- Lightbox: widget `gallery` z `enable_lightbox`
+- Breadcrumbs: natywny widget `breadcrumbs`
 
 ---
 
