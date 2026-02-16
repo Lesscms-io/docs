@@ -132,6 +132,62 @@ function initCounters() {
 initCounters();
 ```
 
+## Multi-Item Support
+
+The counter widget supports displaying multiple counters in a grid. When multiple items are configured, the API returns a multi-item structure:
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `multi_item` | boolean | `true` when widget has multiple items |
+| `multi_columns` | number | Number of grid columns (1-4) |
+| `multi_gap` | number | Gap between items in pixels (default: 16) |
+| `items` | array | Array of individual counter widgets |
+
+### Multi-Item Example Response
+
+```json
+{
+  "widget_type": "counter",
+  "uuid": "counter-789",
+  "multi_item": true,
+  "multi_columns": 3,
+  "multi_gap": 16,
+  "items": [
+    {
+      "widget_type": "counter",
+      "config": { "number": 5000, "duration": 2000, "alignment": "center", "number_size": "xl" },
+      "content": { "prefix": "$", "suffix": "+", "title": "Revenue" }
+    },
+    {
+      "widget_type": "counter",
+      "config": { "number": 1200, "duration": 2000, "alignment": "center", "number_size": "xl" },
+      "content": { "prefix": "", "suffix": "+", "title": "Projects" }
+    },
+    {
+      "widget_type": "counter",
+      "config": { "number": 50, "duration": 2000, "alignment": "center", "number_size": "xl" },
+      "content": { "prefix": "", "suffix": "", "title": "Countries" }
+    }
+  ],
+  "settings": {}
+}
+```
+
+### Rendering Multi-Item
+
+```javascript
+function renderCounterWidget(widget) {
+  if (widget.multi_item) {
+    return `
+      <div style="display: grid; grid-template-columns: repeat(${widget.multi_columns}, 1fr); gap: ${widget.multi_gap}px;">
+        ${widget.items.map(item => renderCounter(item)).join('')}
+      </div>
+    `;
+  }
+  return renderCounter(widget);
+}
+```
+
 ## CSS Example
 
 ```css

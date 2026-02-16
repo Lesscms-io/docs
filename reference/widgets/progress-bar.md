@@ -43,48 +43,39 @@ progress-bar
 }
 ```
 
-## Multiple Progress Bars Example
+## Multi-Item Support
+
+The progress-bar widget supports displaying multiple progress bars in a grid. When multiple items are configured, the API returns a multi-item structure:
 
 ```json
-[
-  {
-    "widget_type": "progress-bar",
-    "uuid": "skill-1",
-    "config": {
-      "percentage": 95,
-      "color": "#E34F26",
-      "show_percentage": true
+{
+  "widget_type": "progress-bar",
+  "uuid": "progress-multi",
+  "multi_item": true,
+  "multi_columns": 1,
+  "multi_gap": 16,
+  "items": [
+    {
+      "widget_type": "progress-bar",
+      "config": { "percentage": 95, "color": "#E34F26", "show_percentage": true },
+      "content": { "title": "HTML/CSS" }
     },
-    "content": {
-      "title": "HTML/CSS"
-    }
-  },
-  {
-    "widget_type": "progress-bar",
-    "uuid": "skill-2",
-    "config": {
-      "percentage": 85,
-      "color": "#F7DF1E",
-      "show_percentage": true
+    {
+      "widget_type": "progress-bar",
+      "config": { "percentage": 85, "color": "#F7DF1E", "show_percentage": true },
+      "content": { "title": "JavaScript" }
     },
-    "content": {
-      "title": "JavaScript"
+    {
+      "widget_type": "progress-bar",
+      "config": { "percentage": 80, "color": "#4FC08D", "show_percentage": true },
+      "content": { "title": "Vue.js" }
     }
-  },
-  {
-    "widget_type": "progress-bar",
-    "uuid": "skill-3",
-    "config": {
-      "percentage": 80,
-      "color": "#4FC08D",
-      "show_percentage": true
-    },
-    "content": {
-      "title": "Vue.js"
-    }
-  }
-]
+  ],
+  "settings": {}
+}
 ```
+
+Per-item fields (`title`, `percentage`) are unique to each item. Shared fields (`color`, `show_percentage`) are the same across all items.
 
 ## Usage Example
 

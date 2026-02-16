@@ -75,6 +75,37 @@ link
 | `fade` | Icon fades in on hover |
 | `underline` | Underline appears on hover |
 
+## Multi-Item Support
+
+The link widget supports displaying multiple links in a grid. When multiple items are configured, the API returns a multi-item structure:
+
+```json
+{
+  "widget_type": "link",
+  "uuid": "link-multi",
+  "multi_item": true,
+  "multi_columns": 2,
+  "multi_gap": 16,
+  "items": [
+    {
+      "widget_type": "link",
+      "config": { "icon": "fa-solid fa-arrow-right", "icon_position": "right", "animation": "slide", "color": "#50a5f1", "target_blank": false },
+      "content": { "text": { "en": "About Us" } },
+      "data": { "url": "/about" }
+    },
+    {
+      "widget_type": "link",
+      "config": { "icon": "fa-solid fa-arrow-right", "icon_position": "right", "animation": "slide", "color": "#50a5f1", "target_blank": false },
+      "content": { "text": { "en": "Contact" } },
+      "data": { "url": "/contact" }
+    }
+  ],
+  "settings": {}
+}
+```
+
+Per-item fields (`text`, `url`, `target_blank`) are unique to each item. Shared fields (`icon`, `icon_position`, `animation`, `color`) are the same across all items.
+
 ## Usage Example
 
 ```javascript

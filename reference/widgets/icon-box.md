@@ -21,6 +21,7 @@ icon-box
 | `config.icon_color` | string | Icon color (hex) |
 | `config.icon_background` | string | Icon background color |
 | `config.icon_padding` | number | Icon padding in pixels |
+| `config.icon_border_radius` | number | Icon border radius in pixels |
 | `config.icon_position` | string | `"left"`, `"right"`, `"top"` |
 | `config.icon_vertical_align` | string | `"top"`, `"center"`, `"bottom"` |
 | `config.collection_code` | string | Collection code (when dynamic) |
@@ -43,6 +44,7 @@ icon-box
     "icon_color": "#50a5f1",
     "icon_background": "transparent",
     "icon_padding": 0,
+    "icon_border_radius": 0,
     "icon_position": "left",
     "icon_vertical_align": "top"
   },
@@ -74,6 +76,7 @@ icon-box
     "icon_color": "#28a745",
     "icon_background": "#e8f5e9",
     "icon_padding": 12,
+    "icon_border_radius": 8,
     "icon_position": "top",
     "icon_vertical_align": "center",
     "collection_code": "features",
@@ -91,6 +94,38 @@ icon-box
 | `left` | Icon on the left, content on the right |
 | `right` | Icon on the right, content on the left |
 | `top` | Icon above the content |
+
+## Multi-Item Support
+
+The icon-box widget supports displaying multiple icon boxes in a grid. When multiple items are configured, the API returns a multi-item structure with `multi_item: true`, `multi_columns`, and `items[]` array. Each item has the same structure as a single icon-box widget (without `uuid` and `settings`). Shared style fields (icon_position, icon_size, icon_color, etc.) are the same across all items.
+
+```json
+{
+  "widget_type": "icon-box",
+  "uuid": "iconbox-multi",
+  "multi_item": true,
+  "multi_columns": 3,
+  "multi_gap": 16,
+  "items": [
+    {
+      "widget_type": "icon-box",
+      "config": { "content_source": "static", "icon": "bx bx-rocket", "icon_size": 48, "icon_color": "#50a5f1", "icon_position": "top" },
+      "content": { "html": { "en": "<h3>Fast</h3><p>Lightning fast delivery.</p>" } }
+    },
+    {
+      "widget_type": "icon-box",
+      "config": { "content_source": "static", "icon": "bx bx-shield", "icon_size": 48, "icon_color": "#50a5f1", "icon_position": "top" },
+      "content": { "html": { "en": "<h3>Secure</h3><p>Enterprise-grade security.</p>" } }
+    },
+    {
+      "widget_type": "icon-box",
+      "config": { "content_source": "static", "icon": "bx bx-support", "icon_size": 48, "icon_color": "#50a5f1", "icon_position": "top" },
+      "content": { "html": { "en": "<h3>Support</h3><p>24/7 customer support.</p>" } }
+    }
+  ],
+  "settings": {}
+}
+```
 
 ## Usage Example
 

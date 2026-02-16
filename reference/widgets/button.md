@@ -133,6 +133,35 @@ button
 | `outline` | Outlined button |
 | `link` | Text link style |
 
+## Multi-Item Support
+
+The button widget supports displaying multiple buttons in a grid. When multiple items are configured, the API returns a multi-item structure with `multi_item: true`, `multi_columns`, and `items[]` array. Each item has the same structure as a single button widget (without `uuid` and `settings`).
+
+```json
+{
+  "widget_type": "button",
+  "uuid": "btn-multi",
+  "multi_item": true,
+  "multi_columns": 2,
+  "multi_gap": 16,
+  "items": [
+    {
+      "widget_type": "button",
+      "config": { "link_type": "custom", "style": "primary", "size": "md", "target_blank": false },
+      "content": { "text": { "en": "Learn More" } },
+      "data": { "url": "/about" }
+    },
+    {
+      "widget_type": "button",
+      "config": { "link_type": "custom", "style": "outline", "size": "md", "target_blank": false },
+      "content": { "text": { "en": "Contact" } },
+      "data": { "url": "/contact" }
+    }
+  ],
+  "settings": {}
+}
+```
+
 ## Usage Example
 
 ```javascript
@@ -143,5 +172,14 @@ function renderButton(widget, language) {
   const target = target_blank ? ' target="_blank" rel="noopener"' : '';
 
   return `<a href="${url}" class="btn btn-${style} btn-${size}"${target}>${text}</a>`;
+}
+
+function renderButtonWidget(widget, language) {
+  if (widget.multi_item) {
+    return `<div style="display: grid; grid-template-columns: repeat(${widget.multi_columns}, 1fr); gap: ${widget.multi_gap}px;">
+      ${widget.items.map(item => renderButton(item, language)).join('')}
+    </div>`;
+  }
+  return renderButton(widget, language);
 }
 ```

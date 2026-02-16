@@ -100,6 +100,40 @@ service-card
 }
 ```
 
+## Multi-Item Support
+
+The service-card widget supports displaying multiple cards in a grid. When multiple items are configured, the API returns a multi-item structure:
+
+```json
+{
+  "widget_type": "service-card",
+  "uuid": "service-multi",
+  "multi_item": true,
+  "multi_columns": 3,
+  "multi_gap": 16,
+  "items": [
+    {
+      "widget_type": "service-card",
+      "config": { "icon": "fa-solid fa-tree", "icon_color": "#2e7d32", "icon_background": "#e8f5e9", "link_url": "/services/tree-cutting" },
+      "content": { "badge": {}, "title": { "en": "Tree Cutting" }, "description": { "en": "Safe tree removal." }, "link_text": { "en": "Learn more" } }
+    },
+    {
+      "widget_type": "service-card",
+      "config": { "icon": "fa-solid fa-cut", "icon_color": "#2e7d32", "icon_background": "#e8f5e9", "link_url": "/services/pruning" },
+      "content": { "badge": {}, "title": { "en": "Tree Pruning" }, "description": { "en": "Professional crown care." }, "link_text": { "en": "Learn more" } }
+    },
+    {
+      "widget_type": "service-card",
+      "config": { "icon": "fa-solid fa-leaf", "icon_color": "#2e7d32", "icon_background": "#e8f5e9", "link_url": "/services/planting" },
+      "content": { "badge": {}, "title": { "en": "Tree Planting" }, "description": { "en": "Expert planting service." }, "link_text": { "en": "Learn more" } }
+    }
+  ],
+  "settings": {}
+}
+```
+
+Per-item fields (`badge`, `icon`, `title`, `description`, `link_text`, `link_url`) are unique to each item. Shared fields (`icon_color`, `icon_background`, `badge_color`, `badge_background`, `text_color`, `background_color`) are the same across all items.
+
 ## Usage Example
 
 ```javascript

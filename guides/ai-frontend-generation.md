@@ -552,6 +552,33 @@ All widgets follow this structure:
 }
 ```
 
+### Multi-Item Widgets
+
+Some widgets (counter, button, icon-box, progress-bar, service-card, team-member, pricing-table, pill, link) support a multi-item mode where multiple instances are displayed in a CSS Grid. Check for `multi_item: true`:
+
+```json
+{
+  "uuid": "unique-id",
+  "widget_type": "counter",
+  "multi_item": true,
+  "multi_columns": 3,
+  "multi_gap": 16,
+  "items": [
+    { "widget_type": "counter", "config": {...}, "content": {...} },
+    { "widget_type": "counter", "config": {...}, "content": {...} },
+    { "widget_type": "counter", "config": {...}, "content": {...} }
+  ],
+  "settings": {...}
+}
+```
+
+When rendering, wrap items in a grid:
+```html
+<div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;">
+  <!-- render each item as a normal widget -->
+</div>
+```
+
 ### Basic Widgets
 - `heading` - h1-h6 with text (multilingual)
 - `text` - Rich HTML content (multilingual)
