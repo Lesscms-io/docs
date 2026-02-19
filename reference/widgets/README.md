@@ -6,13 +6,14 @@ Widgets are the building blocks of page content in LessCMS. Each widget has spec
 
 | Category | Description |
 |----------|-------------|
-| **Basic** | Button, Divider, Spacer, Icon Box, Service Card |
-| **Text** | Text, Heading |
-| **Media** | Image, Gallery, Video |
+| **Basic** | Button, Divider, Spacer, Icon Box, Service Card, Link, Pill, Team Member, Pricing Table |
+| **Text** | Text, Heading, Blockquote |
+| **Media** | Image, Gallery, Video, PDF Viewer |
 | **Layout** | Grid |
-| **Interactive** | Hero, Countdown, Counter, Progress Bar, Testimonial, Alert |
+| **Interactive** | Hero, Countdown, Counter, Progress Bar, Testimonial, Alert, Accordion, Tabs, Timeline |
+| **Cards** | CTA Box, Feature List, Icon List |
 | **Navigation** | Menu |
-| **Integrations** | Google Maps, Social Icons |
+| **Integrations** | Google Maps, Social Icons, Embed, Table |
 | **Collections** | Collection Grid, Collection Carousel, Collection Single, Collection Grouped, Value List, Data Field |
 
 ## Common Widget Structure
@@ -232,15 +233,21 @@ Settings can have responsive overrides for tablet (768-1199px) and mobile (0-767
 - [Spacer](reference/widgets/spacer.md)
 - [Icon Box](reference/widgets/icon-box.md)
 - [Service Card](reference/widgets/service-card.md)
+- [Link](reference/widgets/link.md)
+- [Pill](reference/widgets/pill.md)
+- [Team Member](reference/widgets/team-member.md)
+- [Pricing Table](reference/widgets/pricing-table.md)
 
 ### Text Widgets
 - [Text](reference/widgets/text.md)
 - [Heading](reference/widgets/heading.md)
+- [Blockquote](reference/widgets/blockquote.md)
 
 ### Media Widgets
 - [Image](reference/widgets/image.md)
 - [Gallery](reference/widgets/gallery.md)
 - [Video](reference/widgets/video.md)
+- [PDF Viewer](reference/widgets/pdf-viewer.md)
 
 ### Layout Widgets
 - [Grid](reference/widgets/grid.md)
@@ -252,6 +259,14 @@ Settings can have responsive overrides for tablet (768-1199px) and mobile (0-767
 - [Progress Bar](reference/widgets/progress-bar.md)
 - [Testimonial](reference/widgets/testimonial.md)
 - [Alert](reference/widgets/alert.md)
+- [Accordion](reference/widgets/accordion.md)
+- [Tabs](reference/widgets/tabs.md)
+- [Timeline](reference/widgets/timeline.md)
+
+### Cards Widgets
+- [CTA Box](reference/widgets/cta-box.md)
+- [Feature List](reference/widgets/feature-list.md)
+- [Icon List](reference/widgets/icon-list.md)
 
 ### Navigation Widgets
 - [Menu](reference/widgets/menu.md)
@@ -259,6 +274,8 @@ Settings can have responsive overrides for tablet (768-1199px) and mobile (0-767
 ### Integration Widgets
 - [Google Maps](reference/widgets/google-maps.md)
 - [Social Icons](reference/widgets/social-icons.md)
+- [Embed](reference/widgets/embed.md)
+- [Table](reference/widgets/table.md)
 
 ### Collection Widgets
 - [Collection Grid](reference/widgets/collection-grid.md)
