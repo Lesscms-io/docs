@@ -16,9 +16,11 @@ button
 | `uuid` | string | Unique widget identifier |
 | `config` | object | Widget configuration |
 | `config.link_type` | string | `"custom"`, `"page"`, or `"entry"` |
-| `config.style` | string | Button style: `"primary"`, `"secondary"`, etc. |
+| `config.style` | string | Button style: `"primary"`, `"secondary"`, `"outline"` |
 | `config.size` | string | Button size: `"sm"`, `"md"`, `"lg"` |
 | `config.target_blank` | boolean | Open in new tab |
+| `config.icon` | string | Icon class (e.g., `"fa-solid fa-arrow-right"`) |
+| `config.icon_position` | string | Icon position relative to text |
 | `content` | object | Widget content |
 | `content.text` | object | Multilingual button text |
 | `data` | object | Link data |
@@ -45,7 +47,7 @@ button
   "content": {
     "text": {
       "en": "Learn More",
-      "pl": "Dowiedz się więcej"
+      "pl": "Dowiedz sie wiecej"
     }
   },
   "data": {
@@ -88,34 +90,6 @@ button
 }
 ```
 
-## Example Response (Entry Link)
-
-```json
-{
-  "widget_type": "button",
-  "uuid": "btn-789",
-  "config": {
-    "link_type": "entry",
-    "style": "primary",
-    "size": "md",
-    "target_blank": false
-  },
-  "content": {
-    "text": {
-      "en": "Read Article",
-      "pl": "Czytaj artykuł"
-    }
-  },
-  "data": {
-    "entry_uuid": "entry-123",
-    "collection_code": "blog",
-    "entry_code": "my-article",
-    "url": "/blog/my-article"
-  },
-  "settings": {}
-}
-```
-
 ## Link Types
 
 | Value | Description |
@@ -131,7 +105,6 @@ button
 | `primary` | Primary action button |
 | `secondary` | Secondary action button |
 | `outline` | Outlined button |
-| `link` | Text link style |
 
 ## Multi-Item Support
 

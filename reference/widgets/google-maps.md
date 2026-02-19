@@ -1,6 +1,6 @@
 # Google Maps Widget
 
-An embedded Google Maps widget with customizable location, zoom, and map type.
+An embedded Google Maps widget with customizable address, zoom, and map type.
 
 ## Widget Type
 
@@ -15,34 +15,28 @@ google-maps
 | `widget_type` | string | Always `"google-maps"` |
 | `uuid` | string | Unique widget identifier |
 | `config` | object | Widget configuration |
-| `config.location_source` | string | `"address"` or `"coordinates"` |
-| `config.address` | object | Multilingual address text |
-| `config.lat` | number | Latitude (when using coordinates) |
-| `config.lng` | number | Longitude (when using coordinates) |
-| `config.zoom` | number | Zoom level (1-21) |
+| `config.api_key` | string | Google Maps API key |
+| `config.address` | object | Multilingual address text `{ "en": "...", "pl": "..." }` |
+| `config.zoom` | number | Zoom level (1-21, default: 14) |
 | `config.map_type` | string | Map type: `"roadmap"` or `"satellite"` |
-| `config.show_marker` | boolean | Show marker on map |
 | `settings` | object | Style settings (optional) |
 
-> **Note**: The API does not expose the Google Maps API key for security reasons. Use the embed URL method or configure your own API key on the frontend.
+> **Note**: The `api_key` is configured per widget in the CMS. For security, consider proxying map requests through your backend rather than exposing the key in client-side code.
 
-## Example Response (Address)
+## Example Response
 
 ```json
 {
   "widget_type": "google-maps",
   "uuid": "maps-123",
   "config": {
-    "location_source": "address",
+    "api_key": "AIzaSy...",
     "address": {
       "en": "1600 Amphitheatre Parkway, Mountain View, CA",
       "pl": "1600 Amphitheatre Parkway, Mountain View, CA"
     },
-    "lat": null,
-    "lng": null,
     "zoom": 14,
-    "map_type": "roadmap",
-    "show_marker": true
+    "map_type": "roadmap"
   },
   "settings": {
     "minHeight": 400,
@@ -51,25 +45,6 @@ google-maps
       "mobile": {}
     }
   }
-}
-```
-
-## Example Response (Coordinates)
-
-```json
-{
-  "widget_type": "google-maps",
-  "uuid": "maps-456",
-  "config": {
-    "location_source": "coordinates",
-    "address": {},
-    "lat": 37.4224764,
-    "lng": -122.0842499,
-    "zoom": 15,
-    "map_type": "satellite",
-    "show_marker": true
-  },
-  "settings": {}
 }
 ```
 
@@ -94,20 +69,15 @@ google-maps
 
 ```javascript
 function renderGoogleMaps(widget, language) {
-  const { location_source, address, lat, lng, zoom, show_marker } = widget.config;
+  const { api_key, address, zoom, map_type } = widget.config;
   const height = widget.settings?.minHeight || 400;
 
-  let query = '';
-  if (location_source === 'coordinates' && lat && lng) {
-    query = `${lat},${lng}`;
-  } else {
-    query = address?.[language] || address?.en || '';
-  }
-
+  const query = address?.[language] || address?.en || '';
   if (!query) return '';
 
   const encodedQuery = encodeURIComponent(query);
 
+  // Using embed URL (no API key required for basic embeds)
   return `
     <div class="google-maps-wrapper" style="width: 100%; height: ${height}px; overflow: hidden;">
       <iframe

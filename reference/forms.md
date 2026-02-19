@@ -194,8 +194,6 @@ POST /v1/:workspace_code/:project_code/forms/:form_uuid/submit
 |-------|------|----------|-------------|
 | `data` | object | Yes | Key-value pairs matching form field codes |
 | `page_uuid` | string | No | UUID of the page the form was submitted from |
-| `_hp_field` | string | No | Honeypot field (leave empty, bots fill it) |
-| `_ts` | string | No | Timestamp for timing-based bot detection |
 | `_captcha_token` | string | No* | Cloudflare Turnstile token. Required when Turnstile is configured on the server |
 
 ### Example Request
@@ -210,7 +208,6 @@ curl -X POST \
       "email": "john@example.com",
       "message": "Hello, I have a question."
     },
-    "_ts": "1706000000000",
     "_captcha_token": "0.turnstile_token_here..."
   }' \
   https://api.lesscms.com/v1/workspace/project/forms/550e8400-e29b-41d4-a716-446655440000/submit
@@ -257,84 +254,17 @@ HTTP Status: `429 Too Many Requests`
 
 ## Anti-Spam Protection
 
-The Forms API includes multiple anti-spam mechanisms:
-
-### Honeypot Field
-
-Add a hidden field to your form. Bots typically fill all fields, humans leave it empty.
-
-```html
-<div style="display: none;">
-  <input type="text" name="_hp_field" tabindex="-1" autocomplete="off" />
-</div>
-```
-
-If `_hp_field` is filled, the API returns a fake success response (HTTP 201) but does **not** save the submission.
-
-### Timestamp Validation
-
-Record the page load time and send it with the submission. If the form is submitted in less than 2 seconds, it's likely a bot.
-
-```javascript
-const pageLoadTime = Date.now();
-
-async function submitForm(formData) {
-  await fetch(`${API_URL}/forms/${formUuid}/submit`, {
-    method: 'POST',
-    headers: {
-      'x-api-key': API_KEY,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      data: formData,
-      _ts: String(pageLoadTime)
-    })
-  });
-}
-```
+Form submissions are protected by built-in proprietary anti-spam mechanisms that work automatically. No additional configuration is required — the protection is always active.
 
 ### Cloudflare Turnstile
 
-LessCMS uses [Cloudflare Turnstile](https://developers.cloudflare.com/turnstile/) for invisible CAPTCHA protection. When configured, the `captcha_site_key` field is included in form GET responses.
+When configured, LessCMS additionally uses [Cloudflare Turnstile](https://developers.cloudflare.com/turnstile/) for invisible CAPTCHA protection. The `captcha_site_key` field is included in form GET responses when Turnstile is active.
 
-**How it works:**
+**Integration:**
 
-1. Fetch the form via `GET /forms/:form_code` — the response includes `captcha_site_key`
-2. Load the Turnstile SDK on the page: `https://challenges.cloudflare.com/turnstile/v0/api.js`
-3. Render the Turnstile widget using the `captcha_site_key`
-4. The widget generates a token automatically (invisible to the user)
-5. Send the token as `_captcha_token` in the form submission POST body
-6. The server verifies the token with Cloudflare before accepting the submission
-
-**Integration example:**
-
-```html
-<!-- Load Turnstile SDK -->
-<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async></script>
-
-<!-- Container for the widget -->
-<div id="turnstile-container"></div>
-
-<script>
-// After fetching form and getting captcha_site_key:
-let captchaToken = '';
-
-turnstile.render('#turnstile-container', {
-  sitekey: form.captcha_site_key,
-  callback: (token) => { captchaToken = token; }
-});
-
-// Include token in submission:
-fetch(`${API_URL}/forms/${formUuid}/submit`, {
-  method: 'POST',
-  headers: { 'x-api-key': API_KEY, 'Content-Type': 'application/json' },
-  body: JSON.stringify({
-    data: formData,
-    _captcha_token: captchaToken
-  })
-});
-</script>
-```
+1. Fetch the form via `GET /forms/:form_code` — check if `captcha_site_key` is present
+2. If present, load the Turnstile SDK: `https://challenges.cloudflare.com/turnstile/v0/api.js`
+3. Render the widget and send the generated token as `_captcha_token` in the submission
 
 **Error response** (missing or invalid token):
 
@@ -387,10 +317,6 @@ async function renderForm(formCode, language) {
   return `
     <form data-form-uuid="${form.uuid}">
       ${fields}
-      <div style="display: none;">
-        <input type="text" name="_hp_field" tabindex="-1" autocomplete="off" />
-      </div>
-      <input type="hidden" name="_ts" value="${Date.now()}" />
       <button type="submit">Submit</button>
     </form>
   `;
@@ -411,8 +337,6 @@ async function handleSubmit(formElement) {
   });
 
   const formUuid = formElement.dataset.formUuid;
-  const hpField = formElement.querySelector('[name="_hp_field"]')?.value || '';
-  const ts = formElement.querySelector('[name="_ts"]')?.value || '';
 
   const response = await fetch(
     `https://api.lesscms.com/v1/workspace/project/forms/${formUuid}/submit`,
@@ -423,9 +347,7 @@ async function handleSubmit(formElement) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        data: formData,
-        _hp_field: hpField,
-        _ts: ts
+        data: formData
       })
     }
   );

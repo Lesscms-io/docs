@@ -16,10 +16,9 @@ collection-grouped
 | `uuid` | string | Unique widget identifier |
 | `config` | object | Widget configuration |
 | `config.collection_code` | string\|null | Collection code |
-| `config.route_uuid` | string\|null | Route UUID for link generation |
 | `config.group_by_field` | string\|null | Field code to group entries by |
 | `config.style` | string | Display style: `"sections"`, `"accordion"`, `"tabs"` (default: `"sections"`) |
-| `config.item_layout` | string | Item layout: `"list"`, `"grid"` (default: `"list"`) |
+| `config.item_layout` | string | Item layout: `"list"`, `"cards"`, `"compact"` (default: `"list"`) |
 | `config.posts_count` | number | Maximum entries per group (default: 50) |
 | `config.title_field` | string\|null | Field code for entry title |
 | `config.description_field` | string\|null | Field code for description |
@@ -30,8 +29,6 @@ collection-grouped
 | `config.show_price` | boolean | Display price (default: true) |
 | `config.show_image` | boolean | Display image (default: false) |
 | `config.show_uncategorized` | boolean | Show entries without group value (default: true) |
-| `config.use_custom_layout` | boolean | Use custom layout (legacy, default: false) |
-| `config.layout_config` | object\|null | Custom layout configuration (legacy) |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response
@@ -42,7 +39,6 @@ collection-grouped
   "uuid": "grouped-123",
   "config": {
     "collection_code": "menu_items",
-    "route_uuid": null,
     "group_by_field": "category",
     "style": "sections",
     "item_layout": "list",
@@ -55,9 +51,7 @@ collection-grouped
     "show_description": true,
     "show_price": true,
     "show_image": false,
-    "show_uncategorized": true,
-    "use_custom_layout": false,
-    "layout_config": null
+    "show_uncategorized": true
   },
   "settings": {
     "responsive": {
@@ -81,7 +75,8 @@ collection-grouped
 | Value | Description |
 |-------|-------------|
 | `list` | Vertical list layout |
-| `grid` | Grid layout |
+| `cards` | Card-based layout |
+| `compact` | Compact minimal layout |
 
 ## Usage Example
 

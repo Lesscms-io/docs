@@ -1,6 +1,6 @@
 # Alert Widget
 
-A notification/alert box with title, message, and customizable type.
+A notification/alert box with title, content, and customizable type.
 
 ## Widget Type
 
@@ -16,7 +16,7 @@ alert
 | `uuid` | string | Unique widget identifier |
 | `content` | object | Widget content |
 | `content.title` | object | Multilingual alert title |
-| `content.message` | object | Multilingual alert message |
+| `content.content` | object | Multilingual alert content text |
 | `config` | object | Widget configuration |
 | `config.type` | string | Alert type: `"info"`, `"success"`, `"warning"`, `"danger"` |
 | `config.dismissible` | boolean | Allow user to dismiss/close the alert |
@@ -31,11 +31,11 @@ alert
   "content": {
     "title": {
       "en": "Important Notice",
-      "pl": "Ważna informacja"
+      "pl": "Wazna informacja"
     },
-    "message": {
+    "content": {
       "en": "Our office will be closed on December 25th for the holiday.",
-      "pl": "Nasze biuro będzie zamknięte 25 grudnia z powodu święta."
+      "pl": "Nasze biuro bedzie zamkniete 25 grudnia z powodu swieta."
     }
   },
   "config": {
@@ -66,21 +66,21 @@ alert
 
 ```javascript
 function renderAlert(widget, language) {
-  const { title, message } = widget.content;
+  const { title, content } = widget.content;
   const { type, dismissible } = widget.config;
 
   const titleText = title?.[language] || title?.en || '';
-  const messageText = message?.[language] || message?.en || '';
+  const contentText = content?.[language] || content?.en || '';
   const alertType = type || 'info';
 
   return `
     <div class="alert alert-${alertType}" role="alert">
       <div class="alert-body">
         ${titleText ? `<strong class="alert-title">${titleText}</strong>` : ''}
-        ${messageText ? `<p class="alert-message">${messageText}</p>` : ''}
+        ${contentText ? `<p class="alert-content">${contentText}</p>` : ''}
       </div>
       ${dismissible ? `
-        <button class="alert-dismiss" onclick="this.parentElement.remove()" aria-label="Close">×</button>
+        <button class="alert-dismiss" onclick="this.parentElement.remove()" aria-label="Close">&times;</button>
       ` : ''}
     </div>
   `;

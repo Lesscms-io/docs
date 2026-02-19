@@ -19,10 +19,8 @@ hero
 | `config.overlay_opacity` | number | Background overlay opacity 0-1 (default: 0.4) |
 | `config.overlay_color` | string | Background overlay color (default: `"#000000"`) |
 | `config.text_align` | string | Text alignment: `"left"`, `"center"`, `"right"` (default: `"center"`) |
-| `config.text_position` | string | Text position: `"left"`, `"center"`, `"right"` (default: `"center"`) |
+| `config.text_position` | string | Vertical text position: `"top"`, `"center"`, `"bottom"` (default: `"center"`) |
 | `config.text_color` | string | Text color (default: `"#ffffff"`) |
-| `config.button_style` | string | Button style: `"primary"`, `"secondary"`, etc. (default: `"primary"`) |
-| `config.button_size` | string | Button size: `"sm"`, `"md"`, `"lg"` (default: `"lg"`) |
 | `content` | object | Widget content |
 | `settings` | object | Style settings (optional) |
 
@@ -68,9 +66,7 @@ When `content_source` is `"dynamic"`:
     "overlay_color": "#000000",
     "text_align": "center",
     "text_position": "center",
-    "text_color": "#ffffff",
-    "button_style": "primary",
-    "button_size": "lg"
+    "text_color": "#ffffff"
   },
   "content": {
     "title": {
@@ -79,7 +75,7 @@ When `content_source` is `"dynamic"`:
     },
     "subtitle": {
       "en": "We build amazing digital experiences.",
-      "pl": "Tworzymy niesamowite cyfrowe doświadczenia."
+      "pl": "Tworzymy niesamowite cyfrowe doswiadczenia."
     },
     "background_url": "https://cdn.example.com/hero-bg.jpg",
     "button_text": {
@@ -119,15 +115,13 @@ When `content_source` is `"dynamic"`:
     "overlay_opacity": 0.5,
     "overlay_color": "#1a1a2e",
     "text_align": "left",
-    "text_position": "left",
-    "text_color": "#ffffff",
-    "button_style": "secondary",
-    "button_size": "lg"
+    "text_position": "bottom",
+    "text_color": "#ffffff"
   },
   "content": {
     "button_text": {
       "en": "Learn More",
-      "pl": "Dowiedz się więcej"
+      "pl": "Dowiedz sie wiecej"
     },
     "button_url": "#details"
   },
@@ -161,28 +155,30 @@ When `content_source` is `"dynamic"`:
 
 | Value | Description |
 |-------|-------------|
-| `left` | Content positioned on left |
-| `center` | Content centered |
-| `right` | Content positioned on right |
+| `top` | Content positioned at top |
+| `center` | Content centered vertically |
+| `bottom` | Content positioned at bottom |
 
 ## Usage Example (Static)
 
 ```javascript
 function renderHero(widget, language) {
-  const { content_source, overlay_opacity, overlay_color, text_align, text_position, text_color, button_style, button_size } = widget.config;
+  const { content_source, overlay_opacity, overlay_color, text_align, text_position, text_color } = widget.config;
   const { title, subtitle, background_url, button_text, button_url } = widget.content;
 
   const titleText = title?.[language] || title?.en || '';
   const subtitleText = subtitle?.[language] || subtitle?.en || '';
   const buttonText = button_text?.[language] || button_text?.en || '';
 
+  const alignItems = text_position === 'top' ? 'flex-start' : text_position === 'bottom' ? 'flex-end' : 'center';
+
   return `
     <section class="hero" style="
       position: relative;
       min-height: 500px;
       display: flex;
-      align-items: center;
-      justify-content: ${text_position};
+      align-items: ${alignItems};
+      justify-content: center;
     ">
       <div class="hero-bg" style="
         position: absolute;
@@ -207,7 +203,7 @@ function renderHero(widget, language) {
         ${titleText ? `<h1>${titleText}</h1>` : ''}
         ${subtitleText ? `<p class="hero-subtitle">${subtitleText}</p>` : ''}
         ${buttonText && button_url ? `
-          <a href="${button_url}" class="btn btn-${button_style} btn-${button_size}">${buttonText}</a>
+          <a href="${button_url}" class="btn btn-primary btn-lg">${buttonText}</a>
         ` : ''}
       </div>
     </section>
@@ -223,8 +219,7 @@ async function renderDynamicHero(widget, language, urlSegments, api) {
     collection_code, entry_source, entry_id, entry_url_segment,
     image_field, title_field, subtitle_field,
     show_title, show_subtitle,
-    overlay_opacity, overlay_color, text_align, text_position, text_color,
-    button_style, button_size
+    overlay_opacity, overlay_color, text_align, text_position, text_color
   } = widget.config;
   const { button_text, button_url } = widget.content;
 
@@ -257,13 +252,15 @@ async function renderDynamicHero(widget, language, urlSegments, api) {
   const subtitleText = show_subtitle && subtitle_field ? getFieldValue(subtitle_field) : '';
   const buttonLabel = button_text?.[language] || button_text?.en || '';
 
+  const alignItems = text_position === 'top' ? 'flex-start' : text_position === 'bottom' ? 'flex-end' : 'center';
+
   return `
     <section class="hero hero-dynamic" style="
       position: relative;
       min-height: 500px;
       display: flex;
-      align-items: center;
-      justify-content: ${text_position};
+      align-items: ${alignItems};
+      justify-content: center;
     ">
       <div class="hero-bg" style="
         position: absolute;
@@ -288,7 +285,7 @@ async function renderDynamicHero(widget, language, urlSegments, api) {
         ${titleText ? `<h1>${titleText}</h1>` : ''}
         ${subtitleText ? `<p class="hero-subtitle">${subtitleText}</p>` : ''}
         ${buttonLabel && button_url ? `
-          <a href="${button_url}" class="btn btn-${button_style} btn-${button_size}">${buttonLabel}</a>
+          <a href="${button_url}" class="btn btn-primary btn-lg">${buttonLabel}</a>
         ` : ''}
       </div>
     </section>

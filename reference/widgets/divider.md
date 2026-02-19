@@ -1,6 +1,6 @@
 # Divider Widget
 
-A horizontal line separator with customizable style, color, and thickness.
+A horizontal line separator with customizable style, color, and width.
 
 ## Widget Type
 
@@ -17,7 +17,7 @@ divider
 | `config` | object | Widget configuration |
 | `config.style` | string | Line style: `"solid"`, `"dashed"`, `"dotted"` |
 | `config.color` | string | Line color (hex code) |
-| `config.thickness` | number | Line thickness in pixels |
+| `config.width` | string | Line width in pixels: `"1"`, `"2"`, `"3"` |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response
@@ -29,7 +29,7 @@ divider
   "config": {
     "style": "solid",
     "color": "#e9ecef",
-    "thickness": 1
+    "width": "1"
   },
   "settings": {
     "marginTop": 20,
@@ -50,12 +50,20 @@ divider
 | `dashed` | Dashed line |
 | `dotted` | Dotted line |
 
+## Width Values
+
+| Value | Description |
+|-------|-------------|
+| `"1"` | 1px line |
+| `"2"` | 2px line |
+| `"3"` | 3px line |
+
 ## Usage Example
 
 ```javascript
 function renderDivider(widget) {
-  const { style, color, thickness } = widget.config;
+  const { style, color, width } = widget.config;
 
-  return `<hr style="border: none; border-top: ${thickness}px ${style} ${color}; margin: 0;">`;
+  return `<hr style="border: none; border-top: ${width}px ${style} ${color}; margin: 0;">`;
 }
 ```

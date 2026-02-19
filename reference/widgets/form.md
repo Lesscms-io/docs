@@ -1,6 +1,6 @@
 # Form Widget
 
-A contact form widget with dynamic fields, anti-spam protection, and email notifications.
+A form widget that renders a form defined in LessCMS Forms. The widget references a form by code and provides layout/style customization.
 
 ## Widget Type
 
@@ -13,20 +13,22 @@ form
 | Property | Type | Description |
 |----------|------|-------------|
 | `widget_type` | string | Always `"form"` |
-| `uuid` | string | Unique widget identifier (also used as `form_uuid` for submissions) |
+| `uuid` | string | Unique widget identifier |
 | `config` | object | Widget configuration |
-| `config.fields` | array | List of form field definitions |
-| `config.fields[].code` | string | Field identifier |
-| `config.fields[].type` | string | Field type: `"text"`, `"email"`, `"textarea"`, `"select"`, `"checkbox"` |
-| `config.fields[].label` | string/object | Field label (string or multilingual object) |
-| `config.fields[].placeholder` | string/object | Placeholder text (string or multilingual object) |
-| `config.fields[].required` | boolean | Whether the field is required |
-| `config.fields[].options` | array | Options for `select` fields: `[{value, label}]` |
-| `config.submit_text` | string/object | Submit button text (multilingual) |
-| `config.success_message` | string/object | Message shown after successful submission (multilingual) |
-| `config.error_message` | string/object | Message shown on submission error (multilingual) |
-| `config.button_color` | string | Hex color for submit button (e.g. `"#50a5f1"`) |
-| `config.form_uuid` | string | UUID used for the submission endpoint |
+| `config.form_code` | string | Code of the form to render (references Forms API) |
+| `config.submit_text` | object | Multilingual submit button text `{ "en": "Send", "pl": "Wyslij" }` |
+| `config.button_style` | string | Submit button CSS style |
+| `config.button_size` | string | Submit button size |
+| `config.button_border_radius` | string | Button border radius |
+| `config.button_padding` | string | Button padding |
+| `config.button_icon` | string | Button icon class |
+| `config.button_icon_position` | string | Icon position relative to text |
+| `config.button_align` | string | Button alignment: `"left"`, `"center"`, `"right"` |
+| `config.label_position` | string | Label position: `"top"`, `"side"` |
+| `config.columns` | string | Form columns: `"1"`, `"2"` |
+| `config.input_size` | string | Input size |
+| `config.input_border_radius` | string | Input border radius |
+| `config.input_padding` | string | Input padding |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response
@@ -34,83 +36,25 @@ form
 ```json
 {
   "widget_type": "form",
-  "uuid": "form-abc-123",
+  "uuid": "form-widget-123",
   "config": {
-    "form_uuid": "form-abc-123",
-    "fields": [
-      {
-        "code": "name",
-        "type": "text",
-        "label": {
-          "en": "Full Name",
-          "pl": "Imie i nazwisko"
-        },
-        "placeholder": {
-          "en": "Enter your name",
-          "pl": "Wpisz swoje imie"
-        },
-        "required": true
-      },
-      {
-        "code": "email",
-        "type": "email",
-        "label": {
-          "en": "Email",
-          "pl": "Email"
-        },
-        "placeholder": {
-          "en": "your@email.com",
-          "pl": "twoj@email.com"
-        },
-        "required": true
-      },
-      {
-        "code": "message",
-        "type": "textarea",
-        "label": {
-          "en": "Message",
-          "pl": "Wiadomosc"
-        },
-        "placeholder": {
-          "en": "Your message...",
-          "pl": "Twoja wiadomosc..."
-        },
-        "required": true
-      },
-      {
-        "code": "category",
-        "type": "select",
-        "label": "Category",
-        "required": false,
-        "options": [
-          { "value": "general", "label": "General Inquiry" },
-          { "value": "support", "label": "Support" },
-          { "value": "sales", "label": "Sales" }
-        ]
-      },
-      {
-        "code": "agree_terms",
-        "type": "checkbox",
-        "label": {
-          "en": "I agree to the terms",
-          "pl": "Akceptuje regulamin"
-        },
-        "required": true
-      }
-    ],
+    "form_code": "contact",
     "submit_text": {
       "en": "Send Message",
       "pl": "Wyslij wiadomosc"
     },
-    "success_message": {
-      "en": "Thank you! Your message has been sent.",
-      "pl": "Dziekujemy! Wiadomosc zostala wyslana."
-    },
-    "error_message": {
-      "en": "Something went wrong. Please try again.",
-      "pl": "Cos poszlo nie tak. Sprobuj ponownie."
-    },
-    "button_color": "#50a5f1"
+    "button_style": "primary",
+    "button_size": "md",
+    "button_border_radius": "4px",
+    "button_padding": "",
+    "button_icon": "",
+    "button_icon_position": "",
+    "button_align": "left",
+    "label_position": "top",
+    "columns": "1",
+    "input_size": "",
+    "input_border_radius": "",
+    "input_padding": ""
   },
   "settings": {
     "responsive": {
@@ -121,12 +65,49 @@ form
 }
 ```
 
-## Submission Endpoint
+## How It Works
 
-Forms are submitted via POST to the public API:
+The form widget works in two steps:
+
+1. **Page render**: The widget provides the `form_code` and layout settings
+2. **Form fetch**: The frontend fetches form definition (fields, validation) from the Forms API using the `form_code`
 
 ```
-POST /forms/{form_uuid}/submit
+GET /v1/:workspace/:project/forms/:form_code
+```
+
+This returns the form fields, validation rules, success message, and optional `captcha_site_key`. See [Forms API](../forms.md) for details.
+
+## Layout Settings
+
+### Label Position
+
+| Value | Description |
+|-------|-------------|
+| `top` | Labels above input fields |
+| `side` | Labels beside input fields |
+
+### Columns
+
+| Value | Description |
+|-------|-------------|
+| `"1"` | Single column layout |
+| `"2"` | Two column layout |
+
+### Button Align
+
+| Value | Description |
+|-------|-------------|
+| `left` | Button aligned left |
+| `center` | Button centered |
+| `right` | Button aligned right |
+
+## Submission
+
+Form submissions go through the Forms API:
+
+```
+POST /v1/:workspace/:project/forms/:form_uuid/submit
 ```
 
 ### Request Body
@@ -138,69 +119,52 @@ POST /forms/{form_uuid}/submit
     "email": "john@example.com",
     "message": "Hello, I have a question."
   },
-  "_hp_field": "",
-  "_ts": 1708300000000
+  "_captcha_token": "0.turnstile_token_here..."
 }
 ```
 
-| Field | Type | Description |
-|-------|------|-------------|
-| `data` | object | Key-value pairs matching form field codes |
-| `_hp_field` | string | Honeypot field (must be empty for valid submissions) |
-| `_ts` | number | Timestamp when form was loaded (submissions < 2s are rejected) |
+See [Forms API](../forms.md) for full submission documentation including Cloudflare Turnstile CAPTCHA.
 
-### Response (Success)
+## Usage Example
 
-```json
-{
-  "success": true,
-  "message": "Form submitted successfully"
+```javascript
+async function renderFormWidget(widget, language, api) {
+  const { form_code, submit_text, button_align, label_position, columns } = widget.config;
+
+  // Fetch form definition from Forms API
+  const { data: form } = await api.getForm(form_code);
+  if (!form) return '<p>Form not found</p>';
+
+  const submitLabel = submit_text?.[language] || submit_text?.en || 'Submit';
+
+  const fields = form.fields.map(field => {
+    const label = field.label_translation?.[language] || field.label;
+    const required = field.required ? 'required' : '';
+
+    if (field.type === 'textarea') {
+      return `
+        <div class="form-group">
+          <label>${label}</label>
+          <textarea name="${field.code}" placeholder="${field.placeholder || ''}" ${required}></textarea>
+        </div>
+      `;
+    }
+
+    return `
+      <div class="form-group">
+        <label>${label}</label>
+        <input type="${field.type}" name="${field.code}" placeholder="${field.placeholder || ''}" ${required} />
+      </div>
+    `;
+  }).join('');
+
+  return `
+    <form data-form-uuid="${form.uuid}" class="lcms-form columns-${columns} labels-${label_position}">
+      ${fields}
+      <div style="text-align: ${button_align};">
+        <button type="submit">${submitLabel}</button>
+      </div>
+    </form>
+  `;
 }
 ```
-
-### Response (Validation Error)
-
-```json
-{
-  "error": "Missing required field: email"
-}
-```
-
-### Rate Limiting
-
-- **5 submissions per IP per form per minute**
-- Returns `429 Too Many Requests` when exceeded
-
-## Anti-Spam Protection
-
-The form widget includes built-in anti-spam measures:
-
-1. **Honeypot field** — A hidden input field (`_hp_field`). If filled (by bots), the submission returns 200 OK but is silently discarded.
-2. **Timestamp validation** — The form records when it was loaded (`_ts`). Submissions made less than 2 seconds after loading are rejected as likely bot activity.
-3. **Rate limiting** — Maximum 5 submissions per IP per form per minute.
-
-## Email Notifications
-
-When `email_to` is configured in form settings (via the CMS admin panel), each submission triggers an email notification to the specified address. The email contains:
-
-- All submitted field values in a formatted table
-- Submitter's IP address
-- Submission date and time
-
-## Field Types
-
-| Type | HTML Element | Description |
-|------|-------------|-------------|
-| `text` | `<input type="text">` | Single-line text input |
-| `email` | `<input type="email">` | Email input with validation |
-| `textarea` | `<textarea>` | Multi-line text input |
-| `select` | `<select>` | Dropdown with predefined options |
-| `checkbox` | `<input type="checkbox">` | Boolean checkbox |
-
-## Implementation Notes
-
-- Labels and placeholders can be either plain strings or multilingual objects (`{ "en": "...", "pl": "..." }`)
-- The Vue renderer (`LcmsForm.vue`) handles both formats via `extractValue()`
-- Client-side validation runs before submission (required fields, email format)
-- The form hides after successful submission and shows the success message
-- Button color is applied as inline CSS (`backgroundColor`, `borderColor`)

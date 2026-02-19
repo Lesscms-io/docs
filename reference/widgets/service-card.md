@@ -18,10 +18,12 @@ service-card
 | `config.icon` | string | Icon class (e.g., `"fa-solid fa-tree"`) |
 | `config.icon_color` | string | Icon color (hex) |
 | `config.icon_background` | string | Icon background color |
-| `config.highlighted` | boolean | Whether the card is highlighted/featured |
 | `config.link_url` | string | URL for the call-to-action link |
 | `config.badge_color` | string | Badge text color |
 | `config.badge_background` | string | Badge background color |
+| `config.text_color` | string | Card text color |
+| `config.background_color` | string | Card background color |
+| `config.show_badge` | boolean | Whether to show the badge |
 | `content` | object | Multilingual content |
 | `content.badge` | object | Multilingual badge text (optional) |
 | `content.title` | object | Multilingual title text |
@@ -39,10 +41,12 @@ service-card
     "icon": "fa-solid fa-tree",
     "icon_color": "#2e7d32",
     "icon_background": "#e8f5e9",
-    "highlighted": false,
     "link_url": "/services/tree-cutting",
     "badge_color": null,
-    "badge_background": null
+    "badge_background": null,
+    "text_color": "",
+    "background_color": "",
+    "show_badge": false
   },
   "content": {
     "badge": {},
@@ -52,18 +56,18 @@ service-card
     },
     "description": {
       "en": "Safe tree removal using climbing or platform techniques.",
-      "pl": "Bezpieczne usuwanie drzew metodą alpinistyczną lub z wykorzystaniem podnośnika."
+      "pl": "Bezpieczne usuwanie drzew metoda alpinistyczna lub z wykorzystaniem podnosnika."
     },
     "link_text": {
       "en": "Learn more",
-      "pl": "Dowiedz się więcej"
+      "pl": "Dowiedz sie wiecej"
     }
   },
   "settings": {}
 }
 ```
 
-## Example Response (Highlighted with Badge)
+## Example Response (With Badge)
 
 ```json
 {
@@ -73,10 +77,12 @@ service-card
     "icon": "fa-solid fa-cut",
     "icon_color": "#ffffff",
     "icon_background": "rgba(255, 255, 255, 0.15)",
-    "highlighted": true,
     "link_url": "/services/tree-pruning",
     "badge_color": "#1a4d3e",
-    "badge_background": "#4ade80"
+    "badge_background": "#4ade80",
+    "text_color": "#ffffff",
+    "background_color": "#1a4d3e",
+    "show_badge": true
   },
   "content": {
     "badge": {
@@ -89,11 +95,11 @@ service-card
     },
     "description": {
       "en": "Professional crown care. We perform formative, clearing and sanitary cuts.",
-      "pl": "Profesjonalna pielęgnacja koron drzew. Wykonujemy cięcia formujące, prześwietlające i sanitarne."
+      "pl": "Profesjonalna pielegnacja koron drzew. Wykonujemy ciecia formujace, przeswietlajace i sanitarne."
     },
     "link_text": {
       "en": "Learn more",
-      "pl": "Dowiedz się więcej"
+      "pl": "Dowiedz sie wiecej"
     }
   },
   "settings": {}
@@ -114,17 +120,17 @@ The service-card widget supports displaying multiple cards in a grid. When multi
   "items": [
     {
       "widget_type": "service-card",
-      "config": { "icon": "fa-solid fa-tree", "icon_color": "#2e7d32", "icon_background": "#e8f5e9", "link_url": "/services/tree-cutting" },
+      "config": { "icon": "fa-solid fa-tree", "icon_color": "#2e7d32", "icon_background": "#e8f5e9", "link_url": "/services/tree-cutting", "show_badge": false },
       "content": { "badge": {}, "title": { "en": "Tree Cutting" }, "description": { "en": "Safe tree removal." }, "link_text": { "en": "Learn more" } }
     },
     {
       "widget_type": "service-card",
-      "config": { "icon": "fa-solid fa-cut", "icon_color": "#2e7d32", "icon_background": "#e8f5e9", "link_url": "/services/pruning" },
+      "config": { "icon": "fa-solid fa-cut", "icon_color": "#2e7d32", "icon_background": "#e8f5e9", "link_url": "/services/pruning", "show_badge": false },
       "content": { "badge": {}, "title": { "en": "Tree Pruning" }, "description": { "en": "Professional crown care." }, "link_text": { "en": "Learn more" } }
     },
     {
       "widget_type": "service-card",
-      "config": { "icon": "fa-solid fa-leaf", "icon_color": "#2e7d32", "icon_background": "#e8f5e9", "link_url": "/services/planting" },
+      "config": { "icon": "fa-solid fa-leaf", "icon_color": "#2e7d32", "icon_background": "#e8f5e9", "link_url": "/services/planting", "show_badge": false },
       "content": { "badge": {}, "title": { "en": "Tree Planting" }, "description": { "en": "Expert planting service." }, "link_text": { "en": "Learn more" } }
     }
   ],
@@ -132,13 +138,13 @@ The service-card widget supports displaying multiple cards in a grid. When multi
 }
 ```
 
-Per-item fields (`badge`, `icon`, `title`, `description`, `link_text`, `link_url`) are unique to each item. Shared fields (`icon_color`, `icon_background`, `badge_color`, `badge_background`, `text_color`, `background_color`) are the same across all items.
+Per-item fields (`badge`, `icon`, `title`, `description`, `link_text`, `link_url`, `icon_color`, `icon_background`, `badge_color`, `badge_background`, `text_color`, `background_color`, `show_badge`) are unique to each item.
 
 ## Usage Example
 
 ```javascript
 function renderServiceCard(widget, language) {
-  const { icon, icon_color, icon_background, highlighted, link_url, badge_color, badge_background } = widget.config;
+  const { icon, icon_color, icon_background, link_url, badge_color, badge_background, text_color, background_color, show_badge } = widget.config;
   const { badge, title, description, link_text } = widget.content;
 
   const badgeText = badge?.[language] || badge?.en || '';
@@ -146,10 +152,13 @@ function renderServiceCard(widget, language) {
   const descText = description?.[language] || description?.en || '';
   const linkTextValue = link_text?.[language] || link_text?.en || '';
 
-  const cardClass = highlighted ? 'service-card service-card--highlighted' : 'service-card';
+  const cardStyle = [
+    text_color ? `color: ${text_color}` : '',
+    background_color ? `background: ${background_color}` : ''
+  ].filter(Boolean).join('; ');
 
   let badgeHtml = '';
-  if (badgeText) {
+  if (show_badge && badgeText) {
     const badgeStyle = `color: ${badge_color || '#1a4d3e'}; background: ${badge_background || '#4ade80'};`;
     badgeHtml = `<span class="service-card__badge" style="${badgeStyle}">${badgeText}</span>`;
   }
@@ -157,14 +166,14 @@ function renderServiceCard(widget, language) {
   const iconStyle = `color: ${icon_color || '#2e7d32'}; background: ${icon_background || '#e8f5e9'};`;
 
   return `
-    <div class="${cardClass}">
+    <div class="service-card" style="${cardStyle}">
       ${badgeHtml}
       <div class="service-card__icon" style="${iconStyle}">
         <i class="${icon}"></i>
       </div>
       <h3 class="service-card__title">${titleText}</h3>
       <p class="service-card__description">${descText}</p>
-      ${linkTextValue && link_url ? `<a href="${link_url}" class="service-card__link">${linkTextValue} →</a>` : ''}
+      ${linkTextValue && link_url ? `<a href="${link_url}" class="service-card__link">${linkTextValue} &rarr;</a>` : ''}
     </div>
   `;
 }
@@ -181,11 +190,6 @@ function renderServiceCard(widget, language) {
   border-radius: 1rem;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   position: relative;
-}
-
-.service-card--highlighted {
-  background: #1a4d3e;
-  color: #fff;
 }
 
 .service-card__badge {
