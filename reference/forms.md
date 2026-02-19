@@ -72,7 +72,8 @@ curl -H "x-api-key: YOUR_API_KEY" \
         "success_message_translation": {
           "pl": "Dziękujemy! Odezwiemy się wkrótce."
         }
-      }
+      },
+      "captcha_site_key": "0x4AAAAAAA..."
     }
   ]
 }
@@ -151,10 +152,13 @@ curl -H "x-api-key: YOUR_API_KEY" \
       "success_message_translation": {
         "pl": "Dziękujemy! Odezwiemy się wkrótce."
       }
-    }
+    },
+    "captcha_site_key": "0x4AAAAAAA..."
   }
 }
 ```
+
+> **Note:** The `captcha_site_key` field is only included when Cloudflare Turnstile is configured on the server. See [Cloudflare Turnstile](#cloudflare-turnstile) section below.
 
 ### Error Response
 
@@ -192,6 +196,7 @@ POST /v1/:workspace_code/:project_code/forms/:form_uuid/submit
 | `page_uuid` | string | No | UUID of the page the form was submitted from |
 | `_hp_field` | string | No | Honeypot field (leave empty, bots fill it) |
 | `_ts` | string | No | Timestamp for timing-based bot detection |
+| `_captcha_token` | string | No* | Cloudflare Turnstile token. Required when Turnstile is configured on the server |
 
 ### Example Request
 
@@ -205,7 +210,8 @@ curl -X POST \
       "email": "john@example.com",
       "message": "Hello, I have a question."
     },
-    "_ts": "1706000000000"
+    "_ts": "1706000000000",
+    "_captcha_token": "0.turnstile_token_here..."
   }' \
   https://api.lesscms.com/v1/workspace/project/forms/550e8400-e29b-41d4-a716-446655440000/submit
 ```
@@ -286,6 +292,61 @@ async function submitForm(formData) {
   });
 }
 ```
+
+### Cloudflare Turnstile
+
+LessCMS uses [Cloudflare Turnstile](https://developers.cloudflare.com/turnstile/) for invisible CAPTCHA protection. When configured, the `captcha_site_key` field is included in form GET responses.
+
+**How it works:**
+
+1. Fetch the form via `GET /forms/:form_code` — the response includes `captcha_site_key`
+2. Load the Turnstile SDK on the page: `https://challenges.cloudflare.com/turnstile/v0/api.js`
+3. Render the Turnstile widget using the `captcha_site_key`
+4. The widget generates a token automatically (invisible to the user)
+5. Send the token as `_captcha_token` in the form submission POST body
+6. The server verifies the token with Cloudflare before accepting the submission
+
+**Integration example:**
+
+```html
+<!-- Load Turnstile SDK -->
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async></script>
+
+<!-- Container for the widget -->
+<div id="turnstile-container"></div>
+
+<script>
+// After fetching form and getting captcha_site_key:
+let captchaToken = '';
+
+turnstile.render('#turnstile-container', {
+  sitekey: form.captcha_site_key,
+  callback: (token) => { captchaToken = token; }
+});
+
+// Include token in submission:
+fetch(`${API_URL}/forms/${formUuid}/submit`, {
+  method: 'POST',
+  headers: { 'x-api-key': API_KEY, 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    data: formData,
+    _captcha_token: captchaToken
+  })
+});
+</script>
+```
+
+**Error response** (missing or invalid token):
+
+```json
+{
+  "error": "CAPTCHA verification failed"
+}
+```
+
+HTTP Status: `403 Forbidden`
+
+> **Note:** If `captcha_site_key` is not present in the form response, Turnstile is not configured and `_captcha_token` is not required.
 
 ---
 
