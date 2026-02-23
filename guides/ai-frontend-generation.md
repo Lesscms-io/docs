@@ -583,7 +583,7 @@ When rendering, wrap items in a grid:
 - `heading` - h1-h6 with text (multilingual)
 - `text` - Rich HTML content (multilingual)
 - `button` - Link button with style/size
-- `image` - Image with alt text
+- `image` - Image with alt text and style presets (rounded, shadow, border, etc.)
 - `icon` - Font Awesome icon
 - `divider` - Horizontal line
 - `spacer` - Vertical space

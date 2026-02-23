@@ -16,6 +16,7 @@ image
 | `uuid` | string | Unique widget identifier |
 | `config` | object | Widget configuration |
 | `config.image_source` | string | `"static"` or `"dynamic"` |
+| `config.image_style` | string | Image style preset: `"none"`, `"rounded"`, `"rounded-lg"`, `"circle"`, `"shadow-sm"`, `"shadow-lg"`, `"rounded-shadow"`, `"border"`, `"border-rounded"` |
 | `config.collection_code` | string | Collection code (when dynamic) |
 | `config.field_code` | string | Field code (when dynamic) |
 | `config.entry_id` | string | Entry ID (when dynamic) |
@@ -31,7 +32,8 @@ image
   "widget_type": "image",
   "uuid": "img-123",
   "config": {
-    "image_source": "static"
+    "image_source": "static",
+    "image_style": "rounded-shadow"
   },
   "content": {
     "url": "https://cdn.example.com/images/hero.jpg",
@@ -58,6 +60,7 @@ image
   "uuid": "img-456",
   "config": {
     "image_source": "dynamic",
+    "image_style": "none",
     "collection_code": "products",
     "field_code": "main_image",
     "entry_id": "product-123"
@@ -78,11 +81,25 @@ image
 | `static` | Use `content.url` and `content.alt` directly |
 | `dynamic` | Fetch image from collection field |
 
+## Image Style Presets
+
+| Value | Description | CSS |
+|-------|-------------|-----|
+| `none` | No style (default) | — |
+| `rounded` | Rounded corners | `border-radius: 12px` |
+| `rounded-lg` | Large rounded corners | `border-radius: 24px` |
+| `circle` | Circle / ellipse | `border-radius: 50%` |
+| `shadow-sm` | Light shadow | `box-shadow: 0 2px 8px rgba(0,0,0,0.1)` |
+| `shadow-lg` | Heavy shadow | `box-shadow: 0 8px 24px rgba(0,0,0,0.2)` |
+| `rounded-shadow` | Rounded + shadow | `border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15)` |
+| `border` | Border | `border: 2px solid #e0e0e0` |
+| `border-rounded` | Border + rounded | `border: 2px solid #e0e0e0; border-radius: 12px` |
+
 ## Usage Example
 
 ```javascript
 async function renderImage(widget, language, entryData, api) {
-  const { image_source, collection_code, field_code, entry_id } = widget.config;
+  const { image_source, image_style, collection_code, field_code, entry_id } = widget.config;
   let url = '';
   let alt = '';
 
@@ -99,6 +116,20 @@ async function renderImage(widget, language, entryData, api) {
     alt = widget.content?.alt?.[language] || widget.content?.alt?.en || '';
   }
 
-  return `<img src="${url}" alt="${alt}" class="img-fluid" />`;
+  // Apply image style preset
+  const styleMap = {
+    'none': '',
+    'rounded': 'border-radius: 12px',
+    'rounded-lg': 'border-radius: 24px',
+    'circle': 'border-radius: 50%',
+    'shadow-sm': 'box-shadow: 0 2px 8px rgba(0,0,0,0.1)',
+    'shadow-lg': 'box-shadow: 0 8px 24px rgba(0,0,0,0.2)',
+    'rounded-shadow': 'border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15)',
+    'border': 'border: 2px solid #e0e0e0',
+    'border-rounded': 'border: 2px solid #e0e0e0; border-radius: 12px'
+  };
+  const style = styleMap[image_style] || '';
+
+  return `<img src="${url}" alt="${alt}" class="img-fluid" style="${style}" />`;
 }
 ```
