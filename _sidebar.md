@@ -58,6 +58,7 @@
   * [Navigation](reference/widgets/?id=navigation)
     * [Menu](reference/widgets/menu.md)
     * [Breadcrumbs](reference/widgets/breadcrumbs.md)
+    * [Table of Contents](reference/widgets/toc.md)
   * [Integrations](reference/widgets/?id=integrations)
     * [Google Maps](reference/widgets/google-maps.md)
     * [Social Icons](reference/widgets/social-icons.md)

@@ -299,6 +299,9 @@ Columns are inside sections. Each column has:
 | `horizontalAlign` | string | `"stretch"` | Horizontal alignment ("flex-start", "center", "flex-end", "stretch") |
 | `cssId` | string | `""` | HTML ID attribute for anchor links |
 | `cssClass` | string | `""` | Custom CSS class(es) for styling |
+| `sticky` | boolean | `false` | Enable sticky positioning for the column |
+| `stickyTop` | number | `0` | Top offset in pixels when sticky (e.g., 100 for sticky navbar clearance) |
+| `stickyZIndex` | number | `10` | Z-index of the sticky column |
 
 ### Widget Settings
 
