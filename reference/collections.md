@@ -86,6 +86,7 @@ GET /v1/:workspace_code/:project_code/collections/:code
 |-----------|------|-------------|
 | `page` | integer | Page number for pagination (default: `1`) |
 | `pageSize` | integer | Number of entries per page (default: `20`) |
+| `exclude_entry_id` | string | Exclude entry with this `entry_id` from results. Useful for "related posts" widgets that should not show the currently viewed entry. |
 | `{field_name}` | string | Filter by field value (case-insensitive substring match) |
 
 ### Example Request
@@ -222,6 +223,16 @@ curl -H "x-api-key: YOUR_API_KEY" \
 ```
 
 Filters use case-insensitive substring matching (regex).
+
+### Excluding Current Entry
+
+When building "related posts" or "other entries" widgets, exclude the currently viewed entry:
+
+```bash
+# Exclude a specific entry by its entry_id
+curl -H "x-api-key: YOUR_API_KEY" \
+  "https://api.lesscms.com/v1/workspace/project/collections/blog-posts?exclude_entry_id=my-current-post"
+```
 
 ### Pagination
 
