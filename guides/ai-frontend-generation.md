@@ -557,7 +557,7 @@ All widgets follow this structure:
 
 ### Multi-Item Widgets
 
-Some widgets (counter, button, icon-box, progress-bar, service-card, team-member, pricing-table, pill, link) support a multi-item mode where multiple instances are displayed in a CSS Grid. Check for `multi_item: true`:
+Some widgets (counter, button, icon-box, numbered-box, progress-bar, service-card, team-member, pricing-table, pill, link) support a multi-item mode where multiple instances are displayed in a CSS Grid. Check for `multi_item: true`:
 
 ```json
 {
@@ -591,6 +591,7 @@ When rendering, wrap items in a grid:
 - `divider` - Horizontal line
 - `spacer` - Vertical space
 - `icon-box` - Icon + content block
+- `numbered-box` - Auto-numbered (01, 02...) + content block
 - `star-rating` - Star rating display
 
 ### Media Widgets

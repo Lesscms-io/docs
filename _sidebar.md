@@ -23,6 +23,7 @@
     * [Divider](reference/widgets/divider.md)
     * [Spacer](reference/widgets/spacer.md)
     * [Icon Box](reference/widgets/icon-box.md)
+    * [Numbered Box](reference/widgets/numbered-box.md)
     * [Service Card](reference/widgets/service-card.md)
     * [Link](reference/widgets/link.md)
     * [Pill](reference/widgets/pill.md)
