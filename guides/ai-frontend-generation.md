@@ -624,6 +624,7 @@ When rendering, wrap items in a grid:
 - `progress-bar` - Progress indicator
 - `testimonial` - Quote with author
 - `alert` - Notification box
+- `form` - Contact form (fetches definition from /forms/{code}), supports full input styling (background, text, border, focus, placeholder colors)
 
 ## CSS Structure
 

@@ -26,9 +26,16 @@ form
 | `config.button_align` | string | Button alignment: `"left"`, `"center"`, `"right"` |
 | `config.label_position` | string | Label position: `"top"`, `"side"` |
 | `config.columns` | string | Form columns: `"1"`, `"2"` |
-| `config.input_size` | string | Input size |
-| `config.input_border_radius` | string | Input border radius |
-| `config.input_padding` | string | Input padding |
+| `config.input_size` | string | Input size: `"sm"`, `"md"`, `"lg"` |
+| `config.input_border_radius` | string | Input border radius: `"none"`, `"sm"`, `"md"`, `"lg"`, `"pill"` |
+| `config.input_padding` | string | Input padding in px |
+| `config.input_background_color` | string | Input background color (hex or `"var:primary"` variable reference) |
+| `config.input_text_color` | string | Input text color |
+| `config.input_border_color` | string | Input border color |
+| `config.input_border_width` | string | Input border width in px |
+| `config.input_border_style` | string | Input border style: `"solid"`, `"dashed"`, `"dotted"` |
+| `config.input_focus_border_color` | string | Input border color on focus |
+| `config.input_placeholder_color` | string | Input placeholder text color |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response
@@ -52,9 +59,16 @@ form
     "button_align": "left",
     "label_position": "top",
     "columns": "1",
-    "input_size": "",
-    "input_border_radius": "",
-    "input_padding": ""
+    "input_size": "md",
+    "input_border_radius": "md",
+    "input_padding": "",
+    "input_background_color": "",
+    "input_text_color": "",
+    "input_border_color": "var:border",
+    "input_border_width": "",
+    "input_border_style": "",
+    "input_focus_border_color": "var:primary",
+    "input_placeholder_color": ""
   },
   "settings": {
     "responsive": {
