@@ -67,6 +67,24 @@ curl -H "x-api-key: YOUR_API_KEY" \
           "placeholder": "Your message..."
         }
       ],
+      "consents": [
+        {
+          "code": "privacy_policy",
+          "content": {
+            "en": "I agree to the <a href=\"/privacy\">Privacy Policy</a>",
+            "pl": "Akceptuję <a href=\"/privacy\">Politykę Prywatności</a>"
+          },
+          "required": true
+        },
+        {
+          "code": "newsletter",
+          "content": {
+            "en": "I want to receive newsletter",
+            "pl": "Chcę otrzymywać newsletter"
+          },
+          "required": false
+        }
+      ],
       "settings": {
         "success_message": "Thank you! We'll get back to you soon.",
         "success_message_translation": {
@@ -147,6 +165,24 @@ curl -H "x-api-key: YOUR_API_KEY" \
         "placeholder": "Your message..."
       }
     ],
+    "consents": [
+      {
+        "code": "privacy_policy",
+        "content": {
+          "en": "I agree to the <a href=\"/privacy\">Privacy Policy</a>",
+          "pl": "Akceptuję <a href=\"/privacy\">Politykę Prywatności</a>"
+        },
+        "required": true
+      },
+      {
+        "code": "newsletter",
+        "content": {
+          "en": "I want to receive newsletter",
+          "pl": "Chcę otrzymywać newsletter"
+        },
+        "required": false
+      }
+    ],
     "settings": {
       "success_message": "Thank you! We'll get back to you soon.",
       "success_message_translation": {
@@ -157,6 +193,14 @@ curl -H "x-api-key: YOUR_API_KEY" \
   }
 }
 ```
+
+### Consent Object
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `code` | string | Unique consent identifier (e.g., `privacy_policy`) |
+| `content` | object | Multilingual consent text (HTML allowed). Keys are language codes |
+| `required` | boolean | Whether the user must check this consent to submit the form |
 
 > **Note:** The `captcha_site_key` field is only included when Cloudflare Turnstile is configured on the server. See [Cloudflare Turnstile](#cloudflare-turnstile) section below.
 
@@ -193,6 +237,7 @@ POST /v1/:workspace_code/:project_code/forms/:form_uuid/submit
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
 | `data` | object | Yes | Key-value pairs matching form field codes |
+| `consents` | object | No | Key-value pairs of consent codes to boolean values. Required consents must be `true` |
 | `page_uuid` | string | No | UUID of the page the form was submitted from |
 | `_captcha_token` | string | No* | Cloudflare Turnstile token. Required when Turnstile is configured on the server |
 
@@ -207,6 +252,10 @@ curl -X POST \
       "name": "John Doe",
       "email": "john@example.com",
       "message": "Hello, I have a question."
+    },
+    "consents": {
+      "privacy_policy": true,
+      "newsletter": false
     },
     "_captcha_token": "0.turnstile_token_here..."
   }' \
@@ -233,6 +282,16 @@ If a required field is missing:
   "error": "Validation failed",
   "message": "Field \"Email\" is required",
   "field": "email"
+}
+```
+
+If a required consent is not checked:
+
+```json
+{
+  "error": "Validation failed",
+  "message": "Consent \"privacy_policy\" is required",
+  "field": "privacy_policy"
 }
 ```
 
@@ -314,9 +373,24 @@ async function renderForm(formCode, language) {
     `;
   }).join('');
 
+  const consents = (form.consents || []).map(consent => {
+    const text = consent.content?.[language] || consent.content?.en || consent.code;
+    const required = consent.required ? 'required' : '';
+    return `
+      <div class="form-consent">
+        <label>
+          <input type="checkbox" name="consent_${consent.code}" ${required} />
+          <span>${text}</span>
+          ${consent.required ? '<span class="required">*</span>' : ''}
+        </label>
+      </div>
+    `;
+  }).join('');
+
   return `
     <form data-form-uuid="${form.uuid}">
       ${fields}
+      ${consents}
       <button type="submit">Submit</button>
     </form>
   `;
@@ -328,11 +402,14 @@ async function renderForm(formCode, language) {
 ```javascript
 async function handleSubmit(formElement) {
   const formData = {};
+  const consents = {};
   const fields = formElement.querySelectorAll('input, textarea, select');
 
   fields.forEach(field => {
-    if (field.name && !field.name.startsWith('_')) {
-      formData[field.name] = field.value;
+    if (field.name && field.name.startsWith('consent_')) {
+      consents[field.name.replace('consent_', '')] = field.checked;
+    } else if (field.name && !field.name.startsWith('_')) {
+      formData[field.name] = field.type === 'checkbox' ? field.checked : field.value;
     }
   });
 
@@ -347,7 +424,8 @@ async function handleSubmit(formElement) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        data: formData
+        data: formData,
+        consents: consents
       })
     }
   );
