@@ -1,6 +1,6 @@
 # LessCMS Public API Documentation
 
-Welcome to the LessCMS Public API documentation. This API provides programmatic access to your published content, allowing you to build websites, mobile apps, and other integrations.
+Welcome to the LessCMS Public API documentation. This API provides programmatic access to your published content, allowing you to build websites, mobile apps and other integrations.
 
 ## What is LessCMS API?
 
