@@ -66,6 +66,8 @@ cta-box
     "button_page_id": "",
     "button_collection_code": "",
     "button_entry_id": "",
+    "button_route_uuid": null,
+    "button_target_blank": false,
     "background_color": "#50a5f1",
     "button_color": "#ffffff",
     "button_style": "",

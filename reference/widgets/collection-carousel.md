@@ -50,7 +50,8 @@ collection-carousel
     "image_field": "author_photo",
     "show_title": true,
     "show_excerpt": true,
-    "exclude_current_entry": false
+    "exclude_current_entry": false,
+    "route_uuid": null
   },
   "settings": {
     "paddingTop": 40,

@@ -44,6 +44,8 @@ button
     "style": "primary",
     "size": "md",
     "target_blank": false,
+    "border_radius": "md",
+    "padding": null,
     "icon": null,
     "icon_position": "left",
     "text": {

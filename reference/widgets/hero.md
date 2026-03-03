@@ -80,6 +80,16 @@ When `content_source` is `"dynamic"`:
     "text_color": "#ffffff",
     "button_style": "primary",
     "button_size": "lg",
+    "button_border_radius": "md",
+    "button_padding": null,
+    "button_icon": null,
+    "button_icon_position": "left",
+    "button_link_type": "custom",
+    "button_target_blank": false,
+    "button_page_id": null,
+    "button_entry_id": null,
+    "button_collection_code": null,
+    "button_route_uuid": null,
     "title": {
       "en": "Welcome to Our Website",
       "pl": "Witamy na naszej stronie"

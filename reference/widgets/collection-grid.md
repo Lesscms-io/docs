@@ -98,6 +98,7 @@ collection-grid
       "pl": "Czytaj wiecej"
     },
     "exclude_current_entry": false,
+    "exclude_url_segment": null,
     "filter_field": null,
     "filter_source": "static",
     "filter_value": null,

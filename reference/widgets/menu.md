@@ -79,6 +79,7 @@ menu
     "cta_style": "primary",
     "cta_size": "md",
     "cta_border_radius": "md",
+    "cta_padding": null,
     "cta_icon": null,
     "cta_icon_position": "left"
   },

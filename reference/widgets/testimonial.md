@@ -47,6 +47,7 @@ testimonial
   "widget_type": "testimonial",
   "uuid": "testimonial-123",
   "widget": {
+    "content_source": "static",
     "rating": 5,
     "image": {
       "url": "https://cdn.example.com/avatars/john.jpg",
@@ -62,6 +63,31 @@ testimonial
     "backgroundColor": "#F8F9FA",
     "borderRadius": 12
   }
+}
+```
+
+## Example Response (Dynamic Mode)
+
+```json
+{
+  "widget_type": "testimonial",
+  "uuid": "test-789",
+  "widget": {
+    "content_source": "dynamic",
+    "collection_code": "testimonials",
+    "field_code": null,
+    "entry_id": null,
+    "entry_source": "url_segment",
+    "entry_url_segment": "slug",
+    "quote_field": "quote",
+    "author_field": "author",
+    "position_field": "position",
+    "image_field": "avatar",
+    "rating_field": "rating",
+    "rating": null,
+    "image": null
+  },
+  "settings": {}
 }
 ```
 
