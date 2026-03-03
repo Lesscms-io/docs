@@ -1,6 +1,6 @@
 # Form Widget
 
-A form widget that renders a form defined in LessCMS Forms. The widget references a form by code and provides layout/style customization.
+A form widget that supports two modes: referencing a system form by code (new mode), or inline field definitions (legacy mode).
 
 ## Widget Type
 
@@ -8,7 +8,9 @@ A form widget that renders a form defined in LessCMS Forms. The widget reference
 form
 ```
 
-## Response Structure
+## Response Structure (Form Code Mode)
+
+When `form_code` is set, the widget references a system form. The frontend fetches the form definition separately via the Forms API.
 
 | Property | Type | Description |
 |----------|------|-------------|
@@ -16,13 +18,13 @@ form
 | `uuid` | string | Unique widget identifier |
 | `config` | object | Widget configuration |
 | `config.form_code` | string | Code of the form to render (references Forms API) |
-| `config.submit_text` | object | Multilingual submit button text `{ "en": "Send", "pl": "Wyslij" }` |
-| `config.button_style` | string | Submit button CSS style |
-| `config.button_size` | string | Submit button size |
-| `config.button_border_radius` | string | Button border radius |
+| `config.submit_text` | string | Submit button text |
+| `config.button_style` | string | Submit button CSS style (default: `"info"`) |
+| `config.button_size` | string | Submit button size (default: `"md"`) |
+| `config.button_border_radius` | string | Button border radius (default: `"md"`) |
 | `config.button_padding` | string | Button padding |
 | `config.button_icon` | string | Button icon class |
-| `config.button_icon_position` | string | Icon position relative to text |
+| `config.button_icon_position` | string | Icon position: `"left"` or `"right"` (default: `"left"`) |
 | `config.button_align` | string | Button alignment: `"left"`, `"center"`, `"right"` |
 | `config.label_position` | string | Label position: `"top"`, `"side"` |
 | `config.columns` | string | Form columns: `"1"`, `"2"` |
@@ -38,7 +40,37 @@ form
 | `config.input_placeholder_color` | string | Input placeholder text color |
 | `settings` | object | Style settings (optional) |
 
-## Example Response
+## Response Structure (Legacy Inline Fields Mode)
+
+When `form_code` is not set, the widget uses inline field definitions. This is the backward-compatible mode.
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `widget_type` | string | Always `"form"` |
+| `uuid` | string | Unique widget identifier |
+| `config` | object | Widget configuration |
+| `config.form_uuid` | string | Form identifier (same as widget uuid) |
+| `config.fields` | array | Array of form field definitions |
+| `config.fields[].code` | string | Field code/name |
+| `config.code` | string | Alias for per-field code (inside each field object) |
+| `config.fields[].type` | string | Field type: `"text"`, `"email"`, `"textarea"`, `"select"`, etc. |
+| `config.type` | string | Alias for per-field type (inside each field object) |
+| `config.fields[].label` | string | Field label |
+| `config.label` | string | Alias for per-field label (inside each field object) |
+| `config.fields[].placeholder` | string | Field placeholder text |
+| `config.placeholder` | string | Alias for per-field placeholder (inside each field object) |
+| `config.fields[].required` | boolean | Whether the field is required (default: false) |
+| `config.required` | boolean | Alias for per-field required flag (inside each field object) |
+| `config.fields[].options` | array | Options for select/radio fields |
+| `config.options` | array | Alias for per-field options (inside each field object) |
+| `config.submit_text` | string | Submit button text (default: `"Submit"`) |
+| `config.success_message` | string | Message shown after successful submission |
+| `config.error_message` | string | Message shown on submission error |
+| `config.button_color` | string | Button background color |
+| `config.email_to` | string | Email address to send submissions to |
+| `settings` | object | Style settings (optional) |
+
+## Example Response (Form Code Mode)
 
 ```json
 {
@@ -46,16 +78,13 @@ form
   "uuid": "form-widget-123",
   "config": {
     "form_code": "contact",
-    "submit_text": {
-      "en": "Send Message",
-      "pl": "Wyslij wiadomosc"
-    },
-    "button_style": "primary",
+    "submit_text": "Send Message",
+    "button_style": "info",
     "button_size": "md",
-    "button_border_radius": "4px",
+    "button_border_radius": "md",
     "button_padding": "",
     "button_icon": "",
-    "button_icon_position": "",
+    "button_icon_position": "left",
     "button_align": "left",
     "label_position": "top",
     "columns": "1",
@@ -75,6 +104,49 @@ form
       "tablet": {},
       "mobile": {}
     }
+  }
+}
+```
+
+## Example Response (Legacy Inline Fields Mode)
+
+```json
+{
+  "widget_type": "form",
+  "uuid": "form-widget-456",
+  "config": {
+    "form_uuid": "form-widget-456",
+    "fields": [
+      {
+        "code": "name",
+        "type": "text",
+        "label": "Name",
+        "placeholder": "Your name",
+        "required": true,
+        "options": []
+      },
+      {
+        "code": "email",
+        "type": "email",
+        "label": "Email",
+        "placeholder": "your@email.com",
+        "required": true,
+        "options": []
+      },
+      {
+        "code": "message",
+        "type": "textarea",
+        "label": "Message",
+        "placeholder": "Your message...",
+        "required": false,
+        "options": []
+      }
+    ],
+    "submit_text": "Submit",
+    "success_message": "Thank you! Your message has been sent.",
+    "error_message": "Something went wrong. Please try again.",
+    "button_color": "#50a5f1",
+    "email_to": "contact@example.com"
   }
 }
 ```

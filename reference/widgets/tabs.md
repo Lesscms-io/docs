@@ -17,6 +17,7 @@ tabs
 | `content` | object | Widget content |
 | `content.items` | array | List of tab items |
 | `content.items[].title` | object | Multilingual tab title |
+| `content.title` | object | Alias for per-item multilingual tab title (inside each item) |
 | `content.items[].content` | object | Multilingual tab content (HTML) |
 | `config` | object | Widget configuration |
 | `config.active_color` | string\|null | Color of active tab |

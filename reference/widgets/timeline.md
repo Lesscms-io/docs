@@ -17,6 +17,7 @@ timeline
 | `content` | object | Widget content |
 | `content.items` | array | List of timeline events |
 | `content.items[].date` | object | Multilingual date label |
+| `content.date` | object | Alias for per-item multilingual date label (inside each item) |
 | `content.items[].title` | object | Multilingual event title |
 | `content.items[].content` | object | Multilingual event description |
 | `config` | object | Widget configuration |

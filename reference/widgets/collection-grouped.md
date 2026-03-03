@@ -16,6 +16,7 @@ collection-grouped
 | `uuid` | string | Unique widget identifier |
 | `config` | object | Widget configuration |
 | `config.collection_code` | string\|null | Collection code |
+| `config.route_uuid` | string\|null | UUID of the route used for entry links |
 | `config.group_by_field` | string\|null | Field code to group entries by |
 | `config.style` | string | Display style: `"sections"`, `"accordion"`, `"tabs"` (default: `"sections"`) |
 | `config.item_layout` | string | Item layout: `"list"`, `"cards"`, `"compact"` (default: `"list"`) |
@@ -29,6 +30,9 @@ collection-grouped
 | `config.show_price` | boolean | Display price (default: true) |
 | `config.show_image` | boolean | Display image (default: false) |
 | `config.show_uncategorized` | boolean | Show entries without group value (default: true) |
+| `config.exclude_current_entry` | boolean | Exclude current entry from results (default: false) |
+| `config.use_custom_layout` | boolean | Use custom layout configuration (default: false) |
+| `config.layout_config` | object\|null | Custom layout configuration object |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response
@@ -39,6 +43,7 @@ collection-grouped
   "uuid": "grouped-123",
   "config": {
     "collection_code": "menu_items",
+    "route_uuid": null,
     "group_by_field": "category",
     "style": "sections",
     "item_layout": "list",
@@ -51,7 +56,10 @@ collection-grouped
     "show_description": true,
     "show_price": true,
     "show_image": false,
-    "show_uncategorized": true
+    "show_uncategorized": true,
+    "exclude_current_entry": false,
+    "use_custom_layout": false,
+    "layout_config": null
   },
   "settings": {
     "responsive": {

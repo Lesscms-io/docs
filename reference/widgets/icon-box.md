@@ -15,13 +15,15 @@ icon-box
 | `widget_type` | string | Always `"icon-box"` |
 | `uuid` | string | Unique widget identifier |
 | `config` | object | Widget configuration |
+| `config.content_source` | string | Content source: `"static"` or `"dynamic"` (default: `"static"`) |
 | `config.icon` | string | Icon class (e.g., `"bx bx-phone"`) |
-| `config.icon_size` | string | Icon size: `"24"`, `"32"`, `"48"`, `"64"` (pixels) |
-| `config.icon_color` | string | Icon color (hex) |
-| `config.icon_background` | string | Icon background color (hex) |
-| `config.icon_border_radius` | number | Icon border radius in pixels |
-| `config.icon_position` | string | `"left"`, `"right"`, `"top"`, `"bottom"` |
-| `config.icon_vertical_align` | string | `"top"`, `"center"`, `"bottom"` |
+| `config.icon_size` | number | Icon size in pixels (default: 48) |
+| `config.icon_color` | string | Icon color (hex, default: `"#50a5f1"`) |
+| `config.icon_background` | string | Icon background color (default: `"transparent"`) |
+| `config.icon_padding` | number | Icon padding in pixels (default: 0) |
+| `config.icon_border_radius` | number | Icon border radius in pixels (default: 0) |
+| `config.icon_position` | string | `"left"`, `"right"`, `"top"`, `"bottom"` (default: `"left"`) |
+| `config.icon_vertical_align` | string | `"top"`, `"center"`, `"bottom"` (default: `"top"`) |
 | `content` | object | Widget content |
 | `content.html` | object | Multilingual HTML content |
 | `settings` | object | Style settings (optional) |
@@ -48,10 +50,12 @@ When used in multi-item mode, each item has:
   "widget_type": "icon-box",
   "uuid": "iconbox-123",
   "config": {
+    "content_source": "static",
     "icon": "bx bx-rocket",
-    "icon_size": "48",
+    "icon_size": 48,
     "icon_color": "#50a5f1",
     "icon_background": "transparent",
+    "icon_padding": 0,
     "icon_border_radius": 0,
     "icon_position": "left",
     "icon_vertical_align": "top"

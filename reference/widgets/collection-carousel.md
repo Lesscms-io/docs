@@ -27,6 +27,7 @@ collection-carousel
 | `config.image_field` | string\|null | Field code for image |
 | `config.show_title` | boolean | Display title (default: true) |
 | `config.show_excerpt` | boolean | Display excerpt (default: true) |
+| `config.exclude_current_entry` | boolean | Exclude current entry from carousel results (default: false) |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response
@@ -47,7 +48,8 @@ collection-carousel
     "excerpt_field": "testimonial_text",
     "image_field": "author_photo",
     "show_title": true,
-    "show_excerpt": true
+    "show_excerpt": true,
+    "exclude_current_entry": false
   },
   "settings": {
     "paddingTop": 40,

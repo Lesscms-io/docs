@@ -15,12 +15,26 @@ value-list
 | `widget_type` | string | Always `"value-list"` |
 | `uuid` | string | Unique widget identifier |
 | `config` | object | Widget configuration |
-| `config.collection_code` | string | Collection code |
-| `config.value_field` | string | Field code to extract values from |
-| `config.display_style` | string | Display style: `list`, `inline`, `tags`, `buttons` (default: `list`) |
-| `config.show_count` | boolean | Show count of entries per value (default: false) |
-| `config.link_enabled` | boolean | Make values clickable (default: false) |
-| `config.link_url_pattern` | string | URL pattern with `{value}` placeholder |
+| `config.collection_code` | string\|null | Collection code |
+| `config.value_field` | string\|null | Field code to extract values from |
+| `config.group_field` | string\|null | Field code to group values by |
+| `config.display_style` | string | Display style: `"list"`, `"inline"`, `"tags"`, `"buttons"` (default: `"list"`) |
+| `config.columns` | number | Number of columns for layout (default: `1`) |
+| `config.show_count` | boolean | Show count of entries per value (default: `false`) |
+| `config.filter_field` | string\|null | Field code to filter entries by |
+| `config.filter_value` | string\|null | Value to match for filtering |
+| `config.sort_field` | string\|null | Field code to sort values by |
+| `config.sort_dir` | string | Sort direction: `"asc"` or `"desc"` (default: `"asc"`) |
+| `config.visible_limit` | number | Maximum number of values to display initially (default: `0` = unlimited) |
+| `config.show_more_text` | string\|null | Text for the "show more" link |
+| `config.show_more_url` | string\|null | URL for the "show more" link |
+| `config.tag_bg_color` | string\|null | Background color for tag items (hex) |
+| `config.tag_border_color` | string\|null | Border color for tag items (hex) |
+| `config.tag_text_color` | string\|null | Text color for tag items (hex) |
+| `config.more_bg_color` | string\|null | Background color for "show more" button (hex) |
+| `config.more_text_color` | string\|null | Text color for "show more" button (hex) |
+| `config.link_enabled` | boolean | Make values clickable (default: `false`) |
+| `config.link_url_pattern` | string\|null | URL pattern with `{value}` placeholder |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response
@@ -32,8 +46,22 @@ value-list
   "config": {
     "collection_code": "blog",
     "value_field": "category",
+    "group_field": null,
     "display_style": "tags",
+    "columns": 1,
     "show_count": true,
+    "filter_field": null,
+    "filter_value": null,
+    "sort_field": null,
+    "sort_dir": "asc",
+    "visible_limit": 0,
+    "show_more_text": null,
+    "show_more_url": null,
+    "tag_bg_color": "#f0f0f0",
+    "tag_border_color": null,
+    "tag_text_color": "#333333",
+    "more_bg_color": null,
+    "more_text_color": null,
     "link_enabled": true,
     "link_url_pattern": "/blog/category/{value}"
   },
@@ -53,8 +81,22 @@ value-list
   "config": {
     "collection_code": "products",
     "value_field": "brand",
+    "group_field": null,
     "display_style": "list",
+    "columns": 1,
     "show_count": false,
+    "filter_field": null,
+    "filter_value": null,
+    "sort_field": null,
+    "sort_dir": "asc",
+    "visible_limit": 0,
+    "show_more_text": null,
+    "show_more_url": null,
+    "tag_bg_color": null,
+    "tag_border_color": null,
+    "tag_text_color": null,
+    "more_bg_color": null,
+    "more_text_color": null,
     "link_enabled": false,
     "link_url_pattern": null
   },

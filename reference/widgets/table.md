@@ -17,6 +17,7 @@ table
 | `content` | object | Widget content |
 | `content.headers` | array | Table headers |
 | `content.headers[].text` | object | Multilingual header text |
+| `content.text` | object | Alias for per-header multilingual text (inside each header) |
 | `content.rows` | array | Table rows (array of arrays) |
 | `config` | object | Widget configuration |
 | `config.header_bg` | string\|null | Header background color |

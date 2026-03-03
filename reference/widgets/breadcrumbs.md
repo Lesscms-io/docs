@@ -21,6 +21,12 @@ breadcrumbs
 | `config.color` | string | Link color (hex) |
 | `config.active_color` | string | Active (current page) color (hex) |
 | `config.show_dynamic_last` | boolean | Show dynamic last breadcrumb from URL (default: false) |
+| `config.dynamic_last_collection_code` | string | Collection code for the dynamic last breadcrumb item (default: `""`) |
+| `config.dynamic_last_field_code` | string | Field code to use as label for the dynamic last breadcrumb (default: `""`) |
+| `config.dynamic_last_entry_source` | string | Source for resolving the dynamic entry: `"url"` (default: `"url"`) |
+| `config.dynamic_last_entry_id` | string | Static entry ID for the dynamic last breadcrumb (default: `""`) |
+| `config.dynamic_last_url_segment` | number | URL segment index to use for dynamic entry lookup (default: 1) |
+| `config.items` | array | Static breadcrumb items (optional, injected from page context at render time) |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response
@@ -38,7 +44,12 @@ breadcrumbs
     },
     "color": "#6c757d",
     "active_color": "#212529",
-    "show_dynamic_last": false
+    "show_dynamic_last": false,
+    "dynamic_last_collection_code": "",
+    "dynamic_last_field_code": "",
+    "dynamic_last_entry_source": "url",
+    "dynamic_last_entry_id": "",
+    "dynamic_last_url_segment": 1
   },
   "settings": {
     "responsive": {

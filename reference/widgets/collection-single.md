@@ -16,14 +16,19 @@ collection-single
 | `uuid` | string | Unique widget identifier |
 | `config` | object | Widget configuration |
 | `config.collection_code` | string\|null | Collection code |
-| `config.entry_id` | string\|null | Specific entry ID |
-| `config.layout` | string | Display layout: `"standard"`, `"card"`, `"full"` (default: `"standard"`) |
+| `config.route_uuid` | string\|null | UUID of the route used for entry links |
+| `config.entry_source` | string | Entry source: `"static"` (specific entry) or `"url"` (from URL segment) (default: `"static"`) |
+| `config.entry_id` | string\|null | Specific entry ID (used when entry_source is `"static"`) |
+| `config.entry_url_segment` | number | URL segment index to resolve entry from (default: 1, used when entry_source is `"url"`) |
+| `config.entry_template` | string | Entry template identifier for rendering (default: `"default:standard"`) |
 | `config.title_field` | string\|null | Field code for title |
 | `config.content_field` | string\|null | Field code for content |
 | `config.image_field` | string\|null | Field code for image |
 | `config.show_title` | boolean | Display title (default: true) |
 | `config.show_content` | boolean | Display content (default: true) |
 | `config.show_image` | boolean | Display image (default: true) |
+| `config.use_custom_layout` | boolean | Use custom layout configuration (default: false) |
+| `config.layout_config` | object\|null | Custom layout configuration object |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response
@@ -34,14 +39,19 @@ collection-single
   "uuid": "single-123",
   "config": {
     "collection_code": "team",
+    "route_uuid": null,
+    "entry_source": "static",
     "entry_id": "entry-uuid-456",
-    "layout": "standard",
+    "entry_url_segment": 1,
+    "entry_template": "default:standard",
     "title_field": "name",
     "content_field": "bio",
     "image_field": "photo",
     "show_title": true,
     "show_content": true,
-    "show_image": true
+    "show_image": true,
+    "use_custom_layout": false,
+    "layout_config": null
   },
   "settings": {
     "horizontalAlign": "center",
@@ -53,20 +63,12 @@ collection-single
 }
 ```
 
-## Layout Values
-
-| Value | Description |
-|-------|-------------|
-| `standard` | Standard layout with image, title, and content |
-| `card` | Card-style layout with shadow and border |
-| `full` | Full-width layout |
-
 ## Usage Example
 
 ```javascript
 function renderCollectionSingle(widget, language) {
   const {
-    layout, show_title, show_content, show_image,
+    entry_template, show_title, show_content, show_image,
     title_field, content_field, image_field
   } = widget.config;
 
@@ -78,7 +80,7 @@ function renderCollectionSingle(widget, language) {
   const image = image_field ? entry.data[image_field] : '';
 
   return `
-    <article class="collection-single layout-${layout}">
+    <article class="collection-single template-${entry_template}">
       ${show_image && image ? `<div class="single-image"><img src="${image}" alt="${title}"></div>` : ''}
       <div class="single-content">
         ${show_title && title ? `<h2 class="single-title">${title}</h2>` : ''}

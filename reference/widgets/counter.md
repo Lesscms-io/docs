@@ -17,6 +17,11 @@ counter
 | `config` | object | Widget configuration |
 | `config.number` | number | Target number to count to (default: 0) |
 | `config.duration` | number | Animation duration in milliseconds (default: 2000) |
+| `config.alignment` | string | Text alignment: `"left"`, `"center"`, `"right"` (default: `"center"`) |
+| `config.number_size` | string | Number font size preset (default: `"xl"`) |
+| `config.number_color` | string\|null | Number text color (hex code or null for default) |
+| `config.title_color` | string\|null | Title text color (hex code or null for default) |
+| `config.prefix_color` | string\|null | Prefix/suffix text color (hex code or null for default) |
 | `content` | object | Widget content |
 | `content.prefix` | string | Text before the number (localized) |
 | `content.suffix` | string | Text after the number (localized) |
@@ -31,7 +36,12 @@ counter
   "uuid": "counter-123",
   "config": {
     "number": 5000,
-    "duration": 2000
+    "duration": 2000,
+    "alignment": "center",
+    "number_size": "xl",
+    "number_color": null,
+    "title_color": null,
+    "prefix_color": null
   },
   "content": {
     "prefix": "",
@@ -52,7 +62,12 @@ counter
   "uuid": "counter-456",
   "config": {
     "number": 1500000,
-    "duration": 2500
+    "duration": 2500,
+    "alignment": "center",
+    "number_size": "xl",
+    "number_color": "#50a5f1",
+    "title_color": null,
+    "prefix_color": "#50a5f1"
   },
   "content": {
     "prefix": "$",
@@ -67,7 +82,7 @@ counter
 
 ```javascript
 function renderCounter(widget, language) {
-  const { number, duration } = widget.config;
+  const { number, duration, alignment, number_size, number_color, title_color, prefix_color } = widget.config;
   const { prefix, suffix, title } = widget.content;
 
   const counterId = `counter-${widget.uuid}`;

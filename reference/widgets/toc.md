@@ -20,7 +20,11 @@ toc
 | `content.items[].label` | object | Multilingual item label `{ "en": "Introduction", "pl": "Wprowadzenie" }` |
 | `content.items[].anchor` | string | Target element ID (without `#`) |
 | `config` | object | Widget configuration |
-| `config.highlight_color` | string | Color for active item highlight (hex, default: `"#50a5f1"`) |
+| `config.field_code` | string\|null | Field code to auto-generate TOC from (e.g., richtext field) |
+| `config.heading_level` | string | Heading level to extract from source field (default: `"h2"`) |
+| `config.source_widget_uuid` | string\|null | UUID of the source widget to extract headings from |
+| `config.text_color` | string\|null | Text color for TOC items (hex) |
+| `config.highlight_color` | string\|null | Color for active item highlight (hex, default: `"#50a5f1"`) |
 | `config.show_border` | boolean | Show left border on active item (default: `false`) |
 | `settings` | object | Style settings (optional) |
 
@@ -51,6 +55,10 @@ toc
     ]
   },
   "config": {
+    "field_code": null,
+    "heading_level": "h2",
+    "source_widget_uuid": null,
+    "text_color": null,
     "highlight_color": "#50a5f1",
     "show_border": true
   },

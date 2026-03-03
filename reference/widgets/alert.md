@@ -20,6 +20,7 @@ alert
 | `config` | object | Widget configuration |
 | `config.type` | string | Alert type: `"info"`, `"success"`, `"warning"`, `"danger"` |
 | `config.dismissible` | boolean | Allow user to dismiss/close the alert |
+| `config.show_title` | boolean | Show the alert title (default: true) |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response
@@ -40,7 +41,8 @@ alert
   },
   "config": {
     "type": "info",
-    "dismissible": true
+    "dismissible": true,
+    "show_title": true
   },
   "settings": {
     "marginTop": 16,

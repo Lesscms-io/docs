@@ -16,15 +16,19 @@ menu
 | `uuid` | string | Unique widget identifier |
 | `config` | object | Widget configuration |
 | `config.menu_code` | string | Code of the menu to display |
+| `config.label_field` | string\|null | Field code to use as label for menu items |
 | `config.logo_light` | string\|null | Light logo image URL |
 | `config.logo_dark` | string\|null | Dark logo image URL |
 | `config.logo_height` | number | Logo height in pixels |
 | `config.logo_position` | string | Logo position: `"left"`, `"center"`, `"right"` (default: `"left"`) |
 | `config.layout` | string | Menu layout: `"horizontal"`, `"vertical"`, `"centered"` (default: `"horizontal"`) |
 | `config.hamburger_breakpoint` | string | When to show hamburger: `"never"`, `"mobile"`, `"tablet"` (default: `"never"`) |
+| `config.items_alignment` | string | Menu items alignment: `"left"`, `"center"`, `"right"` (default: `"left"`) |
 | `config.items_gap` | string | Gap between menu items: `"sm"`, `"md"`, `"lg"` (default: `"md"`) |
+| `config.items_indent` | number | Left indent for menu items in pixels (default: 0) |
 | `config.link_color` | string | Menu link color (hex) |
 | `config.link_hover_color` | string | Menu link hover color (hex) |
+| `config.link_hover_bg` | string\|null | Menu link hover background color (hex) |
 | `config.cta_text` | string | CTA button text |
 | `config.cta_position` | string | CTA position: `"left"`, `"right"`, `"below"` (default: `"right"`) |
 | `config.cta_link_type` | string | CTA link type: `"custom"`, `"page"`, `"entry"` |
@@ -36,6 +40,9 @@ menu
 | `config.cta_target_blank` | boolean | Open CTA in new tab |
 | `config.cta_style` | string | CTA button style (Bootstrap variants) |
 | `config.cta_size` | string | CTA button size: `"sm"`, `"md"`, `"lg"` |
+| `config.cta_border_radius` | string | CTA button border radius: `"sm"`, `"md"`, `"lg"` (default: `"md"`) |
+| `config.cta_icon` | string\|null | CTA button icon class (e.g., `"bx bx-right-arrow-alt"`) |
+| `config.cta_icon_position` | string | CTA icon position: `"left"`, `"right"` (default: `"left"`) |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response
@@ -46,15 +53,19 @@ menu
   "uuid": "menu-123",
   "config": {
     "menu_code": "main-nav",
+    "label_field": null,
     "logo_light": "https://cdn.example.com/logo.png",
     "logo_dark": "https://cdn.example.com/logo-dark.png",
     "logo_height": 40,
     "logo_position": "left",
     "layout": "horizontal",
     "hamburger_breakpoint": "mobile",
+    "items_alignment": "left",
     "items_gap": "md",
+    "items_indent": 0,
     "link_color": "#333333",
     "link_hover_color": "#50a5f1",
+    "link_hover_bg": null,
     "cta_text": "Get Started",
     "cta_position": "right",
     "cta_link_type": "custom",
@@ -65,7 +76,10 @@ menu
     "cta_route_uuid": "",
     "cta_target_blank": false,
     "cta_style": "primary",
-    "cta_size": "md"
+    "cta_size": "md",
+    "cta_border_radius": "md",
+    "cta_icon": null,
+    "cta_icon_position": "left"
   },
   "settings": {
     "paddingTop": 16,

@@ -15,6 +15,7 @@ accordion
 | `widget_type` | string | Always `"accordion"` |
 | `uuid` | string | Unique widget identifier |
 | `content` | object | Widget content |
+| `content.title` | object | Multilingual accordion title |
 | `content.items` | array | List of accordion items |
 | `content.items[].title` | object | Multilingual item title |
 | `content.items[].content` | object | Multilingual item content (HTML) |

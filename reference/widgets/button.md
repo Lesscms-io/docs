@@ -23,13 +23,14 @@ button
 | `config.icon_position` | string | Icon position relative to text |
 | `content` | object | Widget content |
 | `content.text` | object | Multilingual button text |
-| `data` | object | Link data |
-| `data.url` | string | Resolved URL for custom links |
-| `data.page_uuid` | string | Page UUID (for page links) |
-| `data.page_code` | string | Page code (for page links) |
-| `data.entry_uuid` | string | Entry UUID (for entry links) |
-| `data.collection_code` | string | Collection code (for entry links) |
-| `data.entry_code` | string | Entry code (for entry links) |
+| `data` | object | Link data (varies by `link_type`) |
+| `data.url` | string | Resolved URL |
+| `data.page_uuid` | string\|null | Page UUID (for `page` links) |
+| `data.page_code` | string\|null | Page code (for `page` links) |
+| `data.route_uuid` | string\|null | Route UUID for URL resolution (for `page` and `entry` links) |
+| `data.entry_uuid` | string\|null | Entry UUID (for `entry` links) |
+| `data.collection_code` | string\|null | Collection code (for `entry` links) |
+| `data.entry_code` | string\|null | Entry code (for `entry` links) |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response (Custom URL)
@@ -42,7 +43,9 @@ button
     "link_type": "custom",
     "style": "primary",
     "size": "md",
-    "target_blank": false
+    "target_blank": false,
+    "icon": null,
+    "icon_position": "left"
   },
   "content": {
     "text": {
@@ -73,7 +76,9 @@ button
     "link_type": "page",
     "style": "secondary",
     "size": "lg",
-    "target_blank": false
+    "target_blank": false,
+    "icon": "fa-solid fa-envelope",
+    "icon_position": "left"
   },
   "content": {
     "text": {
@@ -84,6 +89,7 @@ button
   "data": {
     "page_uuid": "abc-123",
     "page_code": "contact",
+    "route_uuid": "route-789",
     "url": "/contact"
   },
   "settings": {}
@@ -120,13 +126,13 @@ The button widget supports displaying multiple buttons in a grid. When multiple 
   "items": [
     {
       "widget_type": "button",
-      "config": { "link_type": "custom", "style": "primary", "size": "md", "target_blank": false },
+      "config": { "link_type": "custom", "style": "primary", "size": "md", "target_blank": false, "icon": null, "icon_position": "left" },
       "content": { "text": { "en": "Learn More" } },
       "data": { "url": "/about" }
     },
     {
       "widget_type": "button",
-      "config": { "link_type": "custom", "style": "outline", "size": "md", "target_blank": false },
+      "config": { "link_type": "custom", "style": "outline", "size": "md", "target_blank": false, "icon": null, "icon_position": "left" },
       "content": { "text": { "en": "Contact" } },
       "data": { "url": "/contact" }
     }
@@ -139,12 +145,17 @@ The button widget supports displaying multiple buttons in a grid. When multiple 
 
 ```javascript
 function renderButton(widget, language) {
-  const { style, size, target_blank } = widget.config;
+  const { style, size, target_blank, icon, icon_position } = widget.config;
   const text = widget.content?.text?.[language] || widget.content?.text?.en || '';
   const url = widget.data?.url || '#';
   const target = target_blank ? ' target="_blank" rel="noopener"' : '';
+  const iconHtml = icon ? `<i class="${icon}"></i> ` : '';
 
-  return `<a href="${url}" class="btn btn-${style} btn-${size}"${target}>${text}</a>`;
+  const content = icon_position === 'right'
+    ? `${text} ${iconHtml}`
+    : `${iconHtml}${text}`;
+
+  return `<a href="${url}" class="btn btn-${style} btn-${size}"${target}>${content}</a>`;
 }
 
 function renderButtonWidget(widget, language) {

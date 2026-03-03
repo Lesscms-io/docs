@@ -18,7 +18,14 @@ service-card
 | `config.icon` | string | Icon class (e.g., `"fa-solid fa-tree"`) |
 | `config.icon_color` | string | Icon color (hex) |
 | `config.icon_background` | string | Icon background color |
+| `config.highlighted` | boolean | Whether the card is highlighted/featured (default: false) |
 | `config.link_url` | string | URL for the call-to-action link |
+| `config.link_type` | string | Link type: `"custom"`, `"page"`, `"entry"`, `"route"` (default: `"custom"`) |
+| `config.link_page_id` | string\|null | Page ID (when link_type is `"page"`) |
+| `config.link_collection_code` | string\|null | Collection code (when link_type is `"entry"`) |
+| `config.link_entry_id` | string\|null | Entry ID (when link_type is `"entry"`) |
+| `config.link_route_uuid` | string\|null | Route UUID (when link_type is `"route"`) |
+| `config.link_target_blank` | boolean | Open link in new tab (default: false) |
 | `config.badge_color` | string | Badge text color |
 | `config.badge_background` | string | Badge background color |
 | `config.text_color` | string | Card text color |
@@ -41,7 +48,14 @@ service-card
     "icon": "fa-solid fa-tree",
     "icon_color": "#2e7d32",
     "icon_background": "#e8f5e9",
+    "highlighted": false,
     "link_url": "/services/tree-cutting",
+    "link_type": "custom",
+    "link_page_id": null,
+    "link_collection_code": null,
+    "link_entry_id": null,
+    "link_route_uuid": null,
+    "link_target_blank": false,
     "badge_color": null,
     "badge_background": null,
     "text_color": "",
@@ -77,7 +91,14 @@ service-card
     "icon": "fa-solid fa-cut",
     "icon_color": "#ffffff",
     "icon_background": "rgba(255, 255, 255, 0.15)",
+    "highlighted": true,
     "link_url": "/services/tree-pruning",
+    "link_type": "custom",
+    "link_page_id": null,
+    "link_collection_code": null,
+    "link_entry_id": null,
+    "link_route_uuid": null,
+    "link_target_blank": false,
     "badge_color": "#1a4d3e",
     "badge_background": "#4ade80",
     "text_color": "#ffffff",

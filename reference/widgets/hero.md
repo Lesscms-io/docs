@@ -21,6 +21,8 @@ hero
 | `config.text_align` | string | Text alignment: `"left"`, `"center"`, `"right"` (default: `"center"`) |
 | `config.text_position` | string | Vertical text position: `"top"`, `"center"`, `"bottom"` (default: `"center"`) |
 | `config.text_color` | string | Text color (default: `"#ffffff"`) |
+| `config.button_style` | string | Button style variant (default: `"primary"`) |
+| `config.button_size` | string | Button size: `"sm"`, `"md"`, `"lg"` (default: `"lg"`) |
 | `content` | object | Widget content |
 | `settings` | object | Style settings (optional) |
 
@@ -66,7 +68,9 @@ When `content_source` is `"dynamic"`:
     "overlay_color": "#000000",
     "text_align": "center",
     "text_position": "center",
-    "text_color": "#ffffff"
+    "text_color": "#ffffff",
+    "button_style": "primary",
+    "button_size": "lg"
   },
   "content": {
     "title": {
@@ -116,7 +120,9 @@ When `content_source` is `"dynamic"`:
     "overlay_color": "#1a1a2e",
     "text_align": "left",
     "text_position": "bottom",
-    "text_color": "#ffffff"
+    "text_color": "#ffffff",
+    "button_style": "primary",
+    "button_size": "lg"
   },
   "content": {
     "button_text": {

@@ -16,8 +16,9 @@ feature-list
 | `uuid` | string | Unique widget identifier |
 | `content` | object | Widget content |
 | `content.items` | array | List of feature items |
-| `content.items[].text` | object | Multilingual feature text |
-| `content.items[].included` | boolean | Whether feature is included |
+| `content.items[].text` | object | Multilingual feature text `{ "en": "...", "pl": "..." }` |
+| `content.text` | object | Alias for per-item multilingual text (inside each item) |
+| `content.items[].included` | boolean | Whether feature is included (default: true) |
 | `config` | object | Widget configuration |
 | `config.icon_included` | string | Icon class for included items |
 | `config.icon_excluded` | string | Icon class for excluded items |
