@@ -33,6 +33,16 @@ collection-grid
 | `config.show_date` | boolean | Display date (default: true) |
 | `config.show_read_more` | boolean | Display read more link (default: true) |
 | `config.read_more_text` | object | Multilingual read more text `{ "en": "...", "pl": "..." }` |
+| `config.exclude_current_entry` | boolean | Exclude current entry from results (useful on detail pages) |
+| `config.gap` | string | Grid gap: `"0"`, `"8"`, `"16"`, `"24"`, `"32"`, `"48"` (pixels) |
+| `config.content_gap` | string | Gap between content elements: `"0"`, `"4"`, `"8"`, `"12"`, `"16"`, `"24"` (pixels) |
+| `config.tags_field` | string\|null | Field code for tags |
+| `config.show_tags` | boolean | Display tags (default: false) |
+| `config.card_background_color` | string\|null | Card background color (hex or `var:*`) |
+| `config.card_text_color` | string\|null | Card text color (hex or `var:*`) |
+| `config.card_border_radius` | number | Card border radius in pixels |
+| `config.card_padding` | number | Card inner padding in pixels |
+| `config.field_order` | array | Order of displayed fields (managed via drag & drop in CMS) |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response
@@ -62,7 +72,17 @@ collection-grid
     "read_more_text": {
       "en": "Read More",
       "pl": "Czytaj wiecej"
-    }
+    },
+    "exclude_current_entry": false,
+    "gap": "24",
+    "content_gap": "8",
+    "tags_field": "tags",
+    "show_tags": true,
+    "card_background_color": "#ffffff",
+    "card_text_color": null,
+    "card_border_radius": 8,
+    "card_padding": 16,
+    "field_order": ["image", "date", "title", "excerpt", "tags", "read_more"]
   },
   "settings": {
     "responsive": {

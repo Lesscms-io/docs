@@ -19,6 +19,12 @@ google-maps
 | `config.address` | object | Multilingual address text `{ "en": "...", "pl": "..." }` |
 | `config.zoom` | number | Zoom level (1-21, default: 14) |
 | `config.map_type` | string | Map type: `"roadmap"` or `"satellite"` |
+| `config.street_view_control` | boolean | Show Street View pegman control |
+| `config.zoom_control` | boolean | Show zoom +/- buttons |
+| `config.fullscreen_control` | boolean | Show fullscreen button |
+| `config.map_type_control` | boolean | Show map/satellite toggle |
+| `config.scroll_wheel` | boolean | Enable zoom via scroll wheel |
+| `config.draggable` | boolean | Allow map panning by dragging |
 | `settings` | object | Style settings (optional) |
 
 > **Note**: The `api_key` is configured per widget in the CMS. For security, consider proxying map requests through your backend rather than exposing the key in client-side code.
@@ -36,7 +42,13 @@ google-maps
       "pl": "1600 Amphitheatre Parkway, Mountain View, CA"
     },
     "zoom": 14,
-    "map_type": "roadmap"
+    "map_type": "roadmap",
+    "street_view_control": true,
+    "zoom_control": true,
+    "fullscreen_control": true,
+    "map_type_control": true,
+    "scroll_wheel": true,
+    "draggable": true
   },
   "settings": {
     "minHeight": 400,
