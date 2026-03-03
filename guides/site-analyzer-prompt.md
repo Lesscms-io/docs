@@ -273,11 +273,13 @@ Nadpisywanie per breakpoint: `settings.responsive.tablet.paddingTop = 20`
 
 **google-maps** — `api_key`, `address`, `zoom`, `map_type` (roadmap/satellite)
 
-#### LAYOUT (2)
+#### LAYOUT (3)
 
 **hero** — `content_source` (static/dynamic), `title`, `subtitle`, `background_image`, `button_text`, `button_url`, `overlay`, `text_position`, `text_color`. Dynamiczny content source: pobranie tytułu/podtytułu/obrazka z kolekcji
 
 **grid** — `columns`, `gap`, `stack_on_mobile`
+
+**block-content** — Reużywalny blok treści. `block_code` — kod bloku zdefiniowanego w LessCMS. Bloki to fragmenty treści (np. stopka, CTA, banner) zarządzane centralnie i wstawiane na wiele stron jednocześnie. Zmiana bloku aktualizuje go wszędzie.
 
 #### INTERACTIVE (11)
 
@@ -301,7 +303,14 @@ Nadpisywanie per breakpoint: `settings.responsive.tablet.paddingTop = 20`
 
 **embed** — `code` (HTML), `height`
 
-**form** — `fields` [{label, type, required, placeholder, options}], `submit_text`, `success_message`, `error_message`, `email_to`, `button_color`. Typy pól: text, email, textarea, select, checkbox
+**form** — Formularz kontaktowy/zgłoszeniowy. Wymaga wcześniej zdefiniowanego formularza w LessCMS (pola, zgody, ustawienia).
+- `form_code` — kod formularza zdefiniowanego w LessCMS
+- `submit_text` — tekst przycisku (wielojęzyczny, nadpisuje ustawienia formularza)
+- **Layout:** `label_position` (top/side), `columns` (1/2)
+- **Stylowanie przycisku:** `button_style` (primary/secondary/outline + kolory Bootstrap), `button_size` (sm/md/lg), `button_border_radius`, `button_padding`, `button_icon` (Font Awesome), `button_icon_position` (left/right), `button_align` (left/center/right)
+- **Stylowanie inputów:** `input_size`, `input_border_radius`, `input_padding`, `input_background_color`, `input_text_color`, `input_border_color`, `input_border_width`, `input_border_style` (solid/dashed/dotted), `input_focus_border_color`, `input_placeholder_color`
+- **Formularz w LessCMS zawiera:** pola (text, email, textarea, select, checkbox + label, placeholder, required, opcje), zgody/konsenty (HTML, wymagane/opcjonalne), ustawienia (email_to, powiadomienia, success_message, captcha Turnstile)
+- **Antyspam:** honeypot, walidacja timestamp, rate limiting (5/min/IP), opcjonalny Cloudflare Turnstile
 
 #### NAVIGATION (3)
 
@@ -335,7 +344,60 @@ Nadpisywanie per breakpoint: `settings.responsive.tablet.paddingTop = 20`
 
 ---
 
-### 12. CUSTOM CSS I KLASY CSS
+### 12. FORMULARZE (Forms)
+
+LessCMS ma wbudowany system formularzy. Formularze definiuje się w panelu (nie w page builderze) i osadza na stronie widgetem `form`.
+
+#### Definicja formularza (w panelu LessCMS)
+- **Pola** — lista pól z typami: `text`, `email`, `textarea`, `select`, `checkbox`
+  - Każde pole: `code`, `label` (wielojęzyczny), `placeholder`, `required`, `options` (dla select)
+- **Zgody (consenty)** — lista zgód wymaganych od użytkownika
+  - Każda zgoda: `code`, `content` (wielojęzyczny HTML — np. link do polityki prywatności), `required`
+- **Ustawienia** — `email_to` (adresy powiadomień), `success_message`, `notifications_enabled`, captcha (Cloudflare Turnstile)
+
+#### Osadzanie na stronie
+Widget `form` z `form_code` referencją do zdefiniowanego formularza + stylowanie przycisku i inputów (szczegóły w liście widgetów).
+
+#### Publiczne API formularzy
+- `GET /forms` — lista aktywnych formularzy z polami, zgodami i ustawieniami
+- `GET /forms/:code` — pojedynczy formularz
+- `POST /forms/:uuid/submit` — wysłanie formularza (z walidacją pól, zgód i antyspamem)
+
+#### Zgłoszenia (submissions)
+- Status: new → read → archived
+- Flagowanie spamu
+- Eksport CSV
+- Dane + zgody per zgłoszenie
+
+---
+
+### 13. BLOKI (Blocks)
+
+Bloki to reużywalne fragmenty treści zarządzane centralnie. Zmiana bloku automatycznie aktualizuje go na wszystkich stronach gdzie jest osadzony.
+
+#### Zastosowania
+- Wspólna stopka (footer) na wielu stronach
+- Powtarzalny baner CTA
+- Sekcja "O nas" używana na wielu podstronach
+- Nagłówek z danymi kontaktowymi
+
+#### Struktura
+- Blok ma własne pola (dynamiczne, zdefiniowane w schemacie) — analogicznie do kolekcji
+- Treść wielojęzyczna (MongoDB)
+- Kategorie bloków dla organizacji
+- Wersjonowanie zmian
+
+#### Osadzanie na stronie
+Widget `block-content` z `block_code` referencją do bloku.
+
+#### Publiczne API bloków
+- `GET /blocks` — lista publicznych bloków
+- `GET /blocks/:code` — pojedynczy blok z treścią
+- `GET /blocks/preview/:token` — podgląd draft wersji
+
+---
+
+### 14. CUSTOM CSS I KLASY CSS
 
 Każda sekcja, kolumna i widget posiada pola zaawansowane:
 - **`cssClass`** — własna nazwa klasy CSS (np. `my-card`, `hero-overlay`). Można nadać dowolną nazwę i potem ją ostylować w Custom CSS projektu.
@@ -367,13 +429,13 @@ Każda sekcja, kolumna i widget posiada pola zaawansowane:
 
 ---
 
-### 13. OGRANICZENIA LESSCMS I OBEJŚCIA
+### 15. OGRANICZENIA LESSCMS I OBEJŚCIA
 
 #### Czego LessCMS NIE ma (wymaga zewnętrznych rozwiązań lub embed)
 | Brak | Obejście |
 |------|----------|
 | Mapy Leaflet z custom markerami | Widget `google-maps` jako zamiennik (bez custom markerów). Lub `embed` z Leaflet JS |
-| Zaawansowane formularze (multi-step, payment) | Widget `form` obsługuje proste formularze. Dla zaawansowanych: `embed` z Typeform, Tally |
+| Zaawansowane formularze (multi-step, payment, file upload) | Widget `form` obsługuje formularze z polami, zgodami, stylowaniem i captchą. Dla multi-step/payment: `embed` z Typeform, Tally |
 | Cookie banner / GDPR popup | Widget `embed` z gotowym rozwiązaniem (CookieConsent, Osano) |
 
 #### Co wymaga Custom CSS (da się, ale ręczna praca)
@@ -405,7 +467,8 @@ Gdy proponujesz te efekty, **ZAWSZE** podaj konkretną `cssClass` + kod CSS:
 - Hamburger menu: widget `menu` z `hamburger_breakpoint` (mobile/tablet)
 - Menu z logo: `logo_light`/`logo_dark` z pozycją (left/center/right) i regulowaną wysokością
 - Menu CTA: wbudowany przycisk CTA z pełną paletą Bootstrap (solid + outline), pozycja left/right/below
-- Formularze: widget `form` z polami text/email/textarea/select/checkbox
+- Formularze: widget `form` z polami text/email/textarea/select/checkbox, zgody/konsenty, stylowanie inputów i przycisku, layout 1-2 kolumny, antyspam, captcha
+- Bloki: widget `block-content` — reużywalne fragmenty treści (footer, CTA, banner) zarządzane centralnie
 - Lightbox: widget `gallery` z `enable_lightbox`
 - Breadcrumbs: natywny widget `breadcrumbs`
 
