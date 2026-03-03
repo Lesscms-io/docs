@@ -21,8 +21,14 @@ Odpowiedz w języku polskim.
 2. Dopasuj elementy strony do dostępnych widgetów LessCMS (lista poniżej)
 3. Jeśli element nie ma idealnego odpowiednika, zaproponuj najbliższe rozwiązanie
 4. Podaj konkretne wartości (kolory hex, rozmiary w px, nazwy czcionek)
+4a. **WSZYSTKIE kolory podawaj WYŁĄCZNIE w formacie HEX** (np. `#FF5733`). Nigdy nie używaj rgba(), rgb(), hsl() ani innych formatów. Jeśli kolor źródłowy jest w rgba/rgb — przelicz go na HEX (przy rgba z opacity na białym tle).
 5. Dla kolorów: użyj zmiennych kolorów (`var:primary`, `var:accent` itp.) tam gdzie to logiczne
 6. Zawsze myśl responsywnie — zaproponuj ustawienia dla tabletu i mobile gdzie to istotne
+7. **ZAWSZE zdefiniuj WSZYSTKIE kolory projektu** — nie pomijaj żadnej kategorii. Nawet jeśli strona źródłowa nie używa danego koloru jawnie, dobierz sensowną wartość spójną z paletą. Wymagane kolory:
+   - **Marki:** primary, secondary, accent
+   - **Semantyczne:** success, danger, warning, info
+   - **Neutralne:** light, dark, white, black
+   - **Treści:** text, muted, link, background, background-alt, border
 
 ---
 
@@ -92,8 +98,6 @@ Arial, Helvetica, Georgia, Times New Roman, Verdana, Tahoma, Trebuchet MS, Couri
 
 ### 5. GOTOWE MOTYWY
 
-Można wybrać gotowy motyw jako punkt startowy:
-
 | Motyw | Primary | Secondary | Accent | Heading Font | Body Font | Font Size | Border Radius | Container |
 |-------|---------|-----------|--------|-------------|-----------|-----------|---------------|-----------|
 | **Modern** | #3B82F6 | #64748B | #F59E0B | Inter | Inter | 16px | 8px | 1200px |
@@ -134,38 +138,25 @@ Strona
 - `backgroundColor` — kolor tła (hex lub `var:nazwa`)
 - `backgroundOpacity` — przezroczystość tła: 0-100%
 - **Gradient:**
-  - `useGradient` — włącz gradient
-  - `gradientType` — `linear` lub `radial`
-  - `gradientAngle` — kąt 0-360° (tylko linear)
-  - `gradientColorStart` — kolor startowy
-  - `gradientColorEnd` — kolor końcowy
+  - `useGradient`, `gradientType` (`linear`/`radial`), `gradientAngle` (0-360°), `gradientColorStart`, `gradientColorEnd`
+  - **Gradient + obraz:** Gdy oba są ustawione, gradient nakłada się NA WIERZCH obrazu. Aby obraz prześwitywał, użyj kolorów z przezroczystością (rgba) w gradiencie. Dzięki temu nie potrzeba Custom CSS z `::before` do efektu overlay!
 - **Obraz tła:**
-  - `backgroundImage` — URL obrazu
-  - `backgroundSize` — `cover`, `contain` lub `auto`
-  - `backgroundPosition` — `center center`, `top center`, `bottom center`, `left center`, `right center`
-  - `backgroundImageOpacity` — przezroczystość: 0-100%
+  - `backgroundImage`, `backgroundSize` (`cover`/`contain`/`auto`), `backgroundPosition`, `backgroundImageOpacity` (0-100%)
 
 #### Rozmiar
-- `fullHeight` — pełna wysokość ekranu (true/false)
+- `fullHeight` — pełna wysokość ekranu
 - `sectionHeight` — wysokość w px
-- `contentWidth` — szerokość treści: `100%`, `1400px`, `1200px`, `960px` lub `custom`
+- `contentWidth` — `100%`, `1400px`, `1200px`, `960px` lub `custom`
 - `customWidth` — własna szerokość w px
 
-#### Padding (wewnętrzny odstęp)
-- `paddingTop`, `paddingRight`, `paddingBottom`, `paddingLeft` — w px
-
-#### Margin (zewnętrzny odstęp)
-- `marginTop`, `marginRight`, `marginBottom`, `marginLeft` — w px (mogą być ujemne)
-
-#### Przerwa między kolumnami
-- `columnGap` — w px
+#### Spacing
+- Padding: `paddingTop`, `paddingRight`, `paddingBottom`, `paddingLeft` — w px
+- Margin: `marginTop`, `marginRight`, `marginBottom`, `marginLeft` — w px (mogą być ujemne)
+- `columnGap` — przerwa między kolumnami w px
 
 #### Obramowanie i cień
-- `borderRadius` — zaokrąglenie rogów w px
-- `borderWidth` — grubość obramowania w px
-- `borderColor` — kolor obramowania
-- `borderStyle` — `solid`, `dashed` lub `dotted`
-- `boxShadow` — cień: brak, mały (`0 1px 3px rgba(0,0,0,0.12)`), średni (`0 4px 6px rgba(0,0,0,0.1)`), duży (`0 10px 20px rgba(0,0,0,0.15)`)
+- `borderRadius`, `borderWidth`, `borderColor`, `borderStyle` (`solid`/`dashed`/`dotted`)
+- `boxShadow` — brak, mały, średni, duży
 
 #### Pozycja
 - `sticky` — sekcja przyklejona do góry ekranu (sticky)
@@ -178,380 +169,169 @@ Strona
 - `animationOnce` — animacja odtwarza się tylko raz (domyślnie true)
 
 #### Responsywność
-- `stackOnTablet` — złóż kolumny na tablecie (true/false)
-- `stackOnMobile` — złóż kolumny na mobile (domyślnie true)
-- `hidden` — ukryj sekcję na danym breakpoincie
+- `stackOnTablet`, `stackOnMobile` (domyślnie true)
+- `hidden` — ukryj na breakpoincie
 
 #### Link
-Cała sekcja może być klikalnym linkiem:
-- `link.type` — `custom` (URL), `page` (strona wewnętrzna), `collection`, `entry` lub `route`
-- `link.url` — adres URL
-- `link.target_blank` — otwórz w nowej karcie
+- `link.type` — `custom`, `page`, `collection`, `entry`, `route`
+- `link.url`, `link.target_blank`
 
 #### Zaawansowane
-- `cssId` — identyfikator HTML (dla kotwic)
-- `cssClass` — własne klasy CSS
+- `cssId`, `cssClass`
 
 ---
 
 ### 8. USTAWIENIA KOLUMNY
 
-#### Tło
-Identyczne opcje jak sekcja: kolor, gradient, obraz tła.
-
-#### Rozmiar
-- `columnHeight` — wysokość w px (null = auto)
-- `minHeight` — minimalna wysokość w px
-- Padding: `paddingTop`, `paddingRight`, `paddingBottom`, `paddingLeft`
-- Margin: `marginTop`, `marginRight`, `marginBottom`, `marginLeft`
-
-#### Wyrównanie
-- `verticalAlign` — `flex-start` (góra), `center` (środek), `flex-end` (dół)
-- `horizontalAlign` — `flex-start` (lewo), `center` (środek), `flex-end` (prawo)
-
-#### Obramowanie i cień
-Identyczne opcje jak sekcja.
-
-#### Responsywność
-- `hidden` — ukryj kolumnę na danym breakpoincie
-
-#### Link i zaawansowane
-Identyczne opcje jak sekcja.
+- Tło: identyczne jak sekcja (kolor, gradient, obraz)
+- `columnHeight` (px, null=auto), `minHeight`
+- Padding, Margin: jak sekcja
+- `verticalAlign` — `flex-start`/`center`/`flex-end`
+- `horizontalAlign` — `flex-start`/`center`/`flex-end`
+- Obramowanie, cień, responsywność, link, zaawansowane: jak sekcja
 
 ---
 
 ### 9. USTAWIENIA WIDGETU
 
-#### Tło
-Identyczne opcje jak sekcja: kolor, gradient, obraz tła.
+- Tło: identyczne jak sekcja
+- `widthMode` (`full`/`auto`/`fixed`), `width`, `maxWidth`
+- `heightMode` (`auto`/`full`/`fixed`), `height`, `minHeight`
+- Padding, Margin, Wyrównanie: jak kolumna
+- Obramowanie i cień: jak sekcja
+- **Hover:** `hover.backgroundColor`, `hover.borderColor`, `hover.boxShadow`, `hover.borderWidth`, `hover.translateY`, `hover.scale`, `hover.rotate`, `transitionDuration` (0-2000ms)
+- Responsywność, link, zaawansowane: jak sekcja
 
-#### Rozmiar
-- `widthMode` — `full` (pełna), `auto` (automatyczna), `fixed` (stała)
-- `width` — szerokość w px (dla `fixed`)
-- `maxWidth` — maksymalna szerokość w px
-- `heightMode` — `auto`, `full` (pełna), `fixed` (stała)
-- `height` — wysokość w px (dla `fixed`)
-- `minHeight` — minimalna wysokość w px
-
-#### Spacing
-- Padding: `paddingTop`, `paddingRight`, `paddingBottom`, `paddingLeft`
-- Margin: `marginTop`, `marginRight`, `marginBottom`, `marginLeft`
-
-#### Wyrównanie
-- `verticalAlign` — `flex-start`, `center`, `flex-end`
-- `horizontalAlign` — `flex-start`, `center`, `flex-end`
-
-#### Obramowanie i cień
-Identyczne opcje jak sekcja i kolumna.
-
-#### Hover (efekt najechania)
-Każdy element (sekcja, kolumna, widget) wspiera hover:
+#### Hover — szczegóły
+Każdy widget (a także sekcja i kolumna) posiada wbudowany tryb hover z parametrami:
 - `hover.backgroundColor` — kolor tła po najechaniu
 - `hover.borderColor` — kolor obramowania po najechaniu
 - `hover.boxShadow` — cień po najechaniu (brak/mały/średni/duży)
 - `hover.borderWidth` — grubość obramowania po najechaniu
-- `hover.translateY` — przesunięcie w pionie (px, np. -8px = uniesienie karty)
-- `hover.scale` — skalowanie (np. 1.05 = powiększenie o 5%)
-- `hover.rotate` — obrót (stopnie, np. 5 = obrót o 5°)
-- `transitionDuration` — czas tranzycji: 0-2000ms
+- `hover.translateY` — przesunięcie w pionie po najechaniu (px, np. -8px = uniesienie karty)
+- `hover.scale` — skalowanie po najechaniu (np. 1.05 = powiększenie o 5%)
+- `hover.rotate` — obrót po najechaniu (stopnie, np. 5 = obrót o 5°)
+- `transitionDuration` — czas tranzycji 0-2000ms
 
-#### Responsywność
-- `hidden` — ukryj widget na danym breakpoincie
-
-#### Link i zaawansowane
-Identyczne opcje jak sekcja.
+**Ważne:** Hover natywnie NIE obsługuje `opacity`, `filter` ani pseudo-elementów (`::before`/`::after`). Te efekty wymagają Custom CSS z użyciem `cssClass`.
 
 ---
 
 ### 10. BREAKPOINTY RESPONSYWNE
 
-| Breakpoint | Zakres | Podgląd |
-|-----------|--------|---------|
-| **Desktop** | ≥1200px | 100% |
-| **Tablet** | 768-1199px | 768px |
-| **Mobile** | <768px | 375px |
+| Breakpoint | Zakres |
+|-----------|--------|
+| **Desktop** | ≥1200px |
+| **Tablet** | 768-1199px |
+| **Mobile** | <768px |
 
-Każde ustawienie (padding, margin, tło, widoczność itp.) może być nadpisane per breakpoint:
-```
-settings.responsive.tablet.paddingTop = 20
-settings.responsive.mobile.hidden = true
-```
+Nadpisywanie per breakpoint: `settings.responsive.tablet.paddingTop = 20`
 
 ---
 
 ### 11. LISTA WIDGETÓW
 
-#### BASIC (7 widgetów)
+#### BASIC (10)
 
-**button** — Przycisk
-- `text` — tekst przycisku
-- `url` — adres URL
-- `style` — `primary`, `secondary`, `outline`
-- `size` — `sm`, `md`, `lg`
-- `target_blank` — otwórz w nowej karcie
+**button** — `text`, `url`, `style` (primary/secondary/outline), `size` (sm/md/lg), `target_blank`, `border_radius` (sm/md/lg), `icon` (Font Awesome, np. `fa-solid fa-arrow-right`), `icon_position` (left/right)
 
-**divider** — Separator/linia pozioma
-- `style` — `solid`, `dashed`, `dotted`
-- `color` — kolor linii
-- `width` — grubość: `1px`, `2px`, `3px`
+**divider** — `style` (solid/dashed/dotted), `color`, `width` (1px/2px/3px)
 
-**spacer** — Odstęp pionowy
-- `height` — wysokość w px
+**spacer** — `height` (px)
 
-**link** — Link tekstowy
-- `text` — tekst linku
-- `url` — adres URL
-- `icon` — ikona (opcjonalnie)
-- `icon_position` — `left`, `right`, `none`
-- `animation` — `none`, `slide`, `fade`, `underline`
-- `color` — kolor
-- `target_blank` — nowa karta
+**link** — `text`, `url`, `icon`, `icon_position` (left/right/none), `animation` (none/slide/fade/underline), `color`, `target_blank`
 
-**service-card** — Karta usługi
-- `badge` — tekst badge'a
-- `icon` — ikona
-- `title` — tytuł
-- `description` — opis
-- `link` — URL
-- `icon_color`, `background_color`, `badge_color` — kolory
+**service-card** — `badge`, `icon`, `title`, `description`, `link`, `icon_color`, `background_color`, `badge_color`, `highlighted`, `icon_background`, `badge_background`, `highlight_color`, `link_text`, `link_url`
 
-**icon-box** — Ikona z treścią
-- `icon` — ikona
-- `content` — treść (richtext)
-- `icon_position` — `left`, `right`, `top`, `bottom`
-- `vertical_alignment` — wyrównanie pionowe
-- `icon_size` — `24px`, `32px`, `48px`, `64px`
-- `icon_color`, `background_color` — kolory
+**feature-list** — `items` [{text, included}], included/excluded_icon, included/excluded_color, `columns` (1-3)
 
-**cta-box** — Call-to-action
-- `title` — tytuł
-- `subtitle` — podtytuł
-- `button_text` — tekst przycisku
-- `button_url` — URL przycisku
-- `background_color` — kolor tła
-- `button_color` — kolor przycisku
-- `text_color` — `light` lub `dark`
-- `alignment` — wyrównanie
+**table** — `headers`, `rows`, `header_bg_color`, `header_text_color` (light/dark), `striped`, `bordered`
 
-#### TEXT (3 widgety)
+**team-member** — `image`, `name`, `position`, `bio`, `social_links` [{platform, url}], `accent_color`, `style` (card/minimal/overlay)
 
-**text** — Tekst (richtext)
-- `content` — treść HTML z edytora WYSIWYG
+**icon-box** — `icon`, `content` (richtext), `icon_position` (left/right/top/bottom), `icon_size` (24/32/48/64px), `icon_color`, `background_color`
 
-**heading** — Nagłówek
-- `content` — tekst nagłówka
-- `content_source` — `static` lub `dynamic` (z kolekcji)
+**cta-box** — `title`, `subtitle`, `button_text`, `button_url`, `background_color`, `button_color`, `text_color` (light/dark), `alignment`
 
-**blockquote** — Cytat
-- `quote` — treść cytatu
-- `author` — autor
-- `source` — źródło
-- `style` — `simple`, `bordered`, `filled`
-- `accent_color` — kolor akcentowy
+#### TEXT (3)
 
-#### MEDIA (5 widgetów)
+**text** — `content` (richtext HTML). Obsługuje inline: `font-size` (dowolna jednostka: px, rem, em, vw, clamp()), `font-weight` (100-900), `color` z opacity (rgba), `background-color` (highlight) z opacity, `font-family`, `line-height`, `text-align`
 
-**image** — Obraz
-- `image` — plik obrazu
-- `image_source` — `static` lub `dynamic`
+**heading** — `content`, `content_source` (static/dynamic). Obsługuje inline: `font-size` (dowolna jednostka: px, rem, em, vw, clamp()), `font-weight` (100-900), `color` z opacity (rgba), `font-family`, `line-height`, `text-align`
 
-**gallery** — Galeria
-- `images` — lista obrazów
-- `columns` — 2-5 kolumn
-- `enable_lightbox` — fullscreen po kliknięciu
+**blockquote** — `quote`, `author`, `source`, `style` (simple/bordered/filled), `accent_color`
 
-**video** — Wideo
-- `source` — `youtube`, `vimeo`, `url`
-- `url` — adres wideo
-- `autoplay`, `loop`, `muted` — opcje odtwarzania
+#### MEDIA (5)
 
-**pdf-viewer** — Podgląd PDF
-- `file` — plik PDF
-- `height` — wysokość
-- `page_mode` — `double` lub `single`
-- `show_controls`, `show_thumbnails`, `show_outline`, `show_fullscreen`, `show_download` — opcje widoczności
-- `background_color` — kolor tła
+**image** — `image`, `image_source` (static/dynamic)
 
-**google-maps** — Mapa Google
-- `api_key` — klucz API
-- `address` — adres
-- `zoom` — poziom przybliżenia
-- `map_type` — `roadmap` lub `satellite`
+**gallery** — `images` (lista), `columns` (2-5), `enable_lightbox` (fullscreen po kliknięciu)
 
-#### LAYOUT (2 widgety)
+**video** — `source` (youtube/vimeo/url), `url`, `autoplay`, `loop`, `muted`
 
-**hero** — Sekcja hero
-- `content_source` — `static` lub `dynamic`
-- Tryb statyczny: `title`, `subtitle`, `background_image`
-- Tryb dynamiczny: `collection`, `entry_source` (`static`/`URL`), pola z kolekcji
-- `button_text`, `button_url` — przycisk
-- `overlay` — nakładka
-- `text_position` — pozycja tekstu
-- `text_color` — kolor tekstu
+**pdf-viewer** — `file`, `height`, `page_mode` (double/single), show_controls/thumbnails/outline/fullscreen/download, `background_color`
 
-**grid** — Siatka
-- `columns` — definicja kolumn
-- `gap` — odstęp
-- `stack_on_mobile` — złóż na mobile
+**google-maps** — `api_key`, `address`, `zoom`, `map_type` (roadmap/satellite)
 
-#### INTERACTIVE (13 widgetów)
+#### LAYOUT (2)
 
-**countdown** — Odliczanie
-- `target_date` — data docelowa
-- `show_days`, `show_hours`, `show_minutes`, `show_seconds` — widoczność elementów
+**hero** — `content_source` (static/dynamic), `title`, `subtitle`, `background_image`, `button_text`, `button_url`, `overlay`, `text_position`, `text_color`. Dynamiczny content source: pobranie tytułu/podtytułu/obrazka z kolekcji
 
-**counter** — Licznik animowany
-- `number` — wartość liczbowa
-- `prefix`, `suffix` — tekst przed/po
-- `title` — tytuł
-- `duration` — czas animacji
+**grid** — `columns`, `gap`, `stack_on_mobile`
 
-**progress-bar** — Pasek postępu
-- `title` — tytuł
-- `percentage` — procent: 0-100
-- `color` — kolor
-- `show_percentage` — pokaż procent
+#### INTERACTIVE (11)
 
-**testimonial** — Referencja/opinia
-- `quote` — treść opinii
-- `author` — autor
-- `position` — stanowisko
-- `image` — zdjęcie
-- `rating` — ocena
+**countdown** — `target_date`, show_days/hours/minutes/seconds
 
-**accordion** — Akordeon (rozwijane sekcje)
-- `items` — lista `[{title, content}]`
-- `icon_color` — kolor ikony
-- `border_color` — kolor obramowania
-- `allow_multiple` — zezwól na wiele otwartych
-- `first_open` — pierwszy otwarty domyślnie
+**counter** — `number`, `prefix`, `suffix`, `title`, `duration`
 
-**tabs** — Zakładki
-- `items` — lista `[{title, content}]`
-- `active_color` — kolor aktywnej zakładki
-- `border_color` — kolor obramowania
-- `style` — `underline`, `pills`, `boxed`
-- `alignment` — wyrównanie
+**progress-bar** — `title`, `percentage` (0-100), `color`, `show_percentage`
 
-**timeline** — Oś czasu
-- `items` — lista `[{date, title, content}]`
-- `layout` — `left`, `right`, `alternate`
-- `line_color` — kolor linii
-- `dot_color` — kolor kropek
+**testimonial** — `quote`, `author`, `position`, `image`, `rating`
 
-**table** — Tabela danych
-- `headers` — lista nagłówków
-- `rows` — wiersze danych
-- `header_bg_color` — kolor tła nagłówka
-- `header_text_color` — `light` lub `dark`
-- `striped` — paski zebry
-- `bordered` — obramowanie
+**accordion** — `items` [{title, content}], `icon_color`, `border_color`, `allow_multiple`, `first_open`
 
-**feature-list** — Lista funkcji
-- `items` — lista `[{text, included: true/false}]`
-- `included_icon`, `excluded_icon` — ikony
-- `included_color`, `excluded_color` — kolory
-- `columns` — 1-3 kolumny
+**tabs** — `items` [{title, content}], `active_color`, `border_color`, `style` (underline/pills/boxed), `alignment`
 
-**pricing-table** — Tabela cenowa
-- `title`, `subtitle` — nagłówki
-- `price` — cena
-- `period` — okres (np. "/mies.")
-- `features` — lista funkcji
-- `button_text`, `button_url` — przycisk
-- `highlighted` — wyróżniony
-- `badge` — etykieta
-- kolory konfiguracji
+**timeline** — `items` [{date, title, content}], `layout` (left/right/alternate), `line_color`, `dot_color`
 
-**alert** — Komunikat
-- `title` — tytuł
-- `content` — treść
-- `type` — `info`, `success`, `warning`, `danger`
-- `dismissible` — możliwość zamknięcia
+**pricing-table** — `title`, `subtitle`, `price`, `period`, `features`, `button_text`, `button_url`, `highlighted`, `badge`, kolory
 
-**embed** — Osadzony HTML
-- `code` — kod HTML
-- `height` — wysokość
+**alert** — `title`, `content`, `type` (info/success/warning/danger), `dismissible`
 
-**team-member** — Członek zespołu
-- `image` — zdjęcie
-- `name` — imię i nazwisko
-- `position` — stanowisko
-- `bio` — biografia
-- `social_links` — lista `[{platform, url}]`
-- `accent_color` — kolor akcentowy
-- `style` — `card`, `minimal`, `overlay`
+**embed** — `code` (HTML), `height`
 
-#### NAVIGATION (3 widgety)
+**form** — `fields` [{label, type, required, placeholder, options}], `submit_text`, `success_message`, `error_message`, `email_to`, `button_color`. Typy pól: text, email, textarea, select, checkbox
+
+#### NAVIGATION (3)
 
 **menu** — Menu nawigacyjne z logo i CTA
 - `menu_code` — kod menu (zdefiniowane w LessCMS)
 - `layout` — `horizontal`, `vertical`, `centered`
 - `hamburger_breakpoint` — `never`, `mobile`, `tablet` — wbudowany hamburger menu
 - **Logo:** `logo_light` (obraz, jasne tło), `logo_dark` (obraz, ciemne tło), `logo_height` (px, domyślnie 40), `logo_position` (`left`/`center`/`right`)
-- **Kolory:** `link_color` (kolor linków, domyślnie `var:text`), `link_hover_color` (kolor po najechaniu, domyślnie `var:info`)
-- **CTA:** `cta_text`, `cta_url`, `cta_position` (`left`/`right`/`below`), `cta_style` (pełna paleta Bootstrap: primary/secondary/success/danger/warning/info/light/dark + outline-*), `cta_size` (sm/md/lg)
+- **Kolory:** `link_color` (kolor linków, domyślnie `var:text`), `link_hover_color` (kolor po najechaniu, domyślnie `var:info`), `link_hover_bg` (tło linku po najechaniu)
+- **Wyrównanie:** `items_alignment` (`left`/`center`/`right`) — wyrównanie pozycji menu
+- **CTA:** `cta_text`, `cta_url`, `cta_position` (`left`/`right`/`below`), `cta_style` (pełna paleta Bootstrap: primary/secondary/success/danger/warning/info/light/dark + outline-*), `cta_size` (sm/md/lg), `cta_border_radius` (sm/md/lg), `cta_icon` (Font Awesome), `cta_icon_position` (left/right)
 - **Odstęp:** `items_gap` (`sm`=4px / `md`=8px / `lg`=16px)
 
-**social-icons** — Ikony społecznościowe
-- `items` — lista `[{platform, url}]`
-- `size` — `sm`, `md`, `lg`
-- `style` — `default`, `circle`, `square`
+**social-icons** — `items` [{platform, url}], `size` (sm/md/lg), `style` (default/circle/square)
 
-**breadcrumbs** — Ścieżka nawigacji
-- `separator` — `>`, `>>`, `/`, `-`, `|`
-- `show_home` — pokaż stronę główną
-- `home_label` — etykieta strony głównej
-- `color` — kolor linków
-- `active_color` — kolor aktywnego elementu
-- `show_dynamic_last` — ostatni element dynamicznie z URL
+**breadcrumbs** — `separator` (>/→/|/·), `show_home`, `home_label`, `color`, `active_color`, `show_dynamic_last` (ostatni element dynamicznie z URL)
 
-#### COLLECTION (6 widgetów)
+#### COLLECTION (6)
 
-**collection-grid** — Siatka kolekcji
-- `collection` — kod kolekcji
-- `layout` — `grid`, `list`, `cards`
-- `columns` — liczba kolumn
-- `posts_count` — liczba wpisów
-- `order_by` — `created_at`, `title`, `random`
-- `order_direction` — `asc`, `desc`
-- Pola: `title_field`, `excerpt_field`, `image_field`, `date_field`
-- Widoczność: `show_title`, `show_excerpt`, `show_image`, `show_date`
-- `text_limit` — limit tekstu
+**collection-grid** — `collection`, `layout` (grid/list/cards), `columns`, `posts_count`, `order_by`, `order_direction`, title/excerpt/image/date_field, show_title/excerpt/image/date, `text_limit`
 
-**collection-carousel** — Karuzela kolekcji
-- `collection` — kod kolekcji
-- `posts_count` — liczba wpisów
-- `slides_per_view` — 1-4 slajdy
-- `autoplay`, `autoplay_delay` — auto-odtwarzanie
-- `show_arrows`, `show_dots` — nawigacja
-- Pola: `title_field`, `excerpt_field`, `image_field`
+**collection-carousel** — `collection`, `posts_count`, `slides_per_view` (1-4), `autoplay`, `autoplay_delay`, `show_arrows`, `show_dots`, title/excerpt/image_field
 
-**collection-single** — Pojedynczy wpis
-- `collection`, `entry` — kolekcja i wpis
-- `layout` — `standard`, `card`, `full`
-- Pola: `title_field`, `content_field`, `image_field`
-- Widoczność: `show_title`, `show_content`, `show_image`
+**collection-single** — `collection`, `entry`, `layout` (standard/card/full), title/content/image_field, show_title/content/image
 
-**value-list** — Lista wartości
-- `collection`, `field` — kolekcja i pole
-- `display_style` — `list`, `inline`, `tags`, `buttons`
-- `show_count` — pokaż liczbę
-- `link` — linkowanie
+**value-list** — `collection`, `field`, `display_style` (list/inline/tags/buttons), `show_count`, `link`
 
-**data-field** — Pole danych
-- `value_source` — `static` lub `dynamic`
-- `collection`, `entry`, `field` — źródło danych
-- `entry_source` — `static` lub `URL`
-- `display_type` — `p`, `h1`-`h6`, `span`, `image`, `gallery`
+**data-field** — `value_source` (static/dynamic), `collection`, `entry`, `field`, `entry_source` (static/URL), `display_type` (p/h1-h6/span/image/gallery)
 
-**collection-grouped** — Grupowane wpisy
-- `collection` — kod kolekcji
-- `group_by_field` — pole grupujące
-- `style` — `sections`, `accordion`, `tabs`
-- `item_layout` — `list`, `cards`, `compact`
-- `posts_count` — liczba wpisów
-- Pola i widoczność jak w collection-grid
+**collection-grouped** — `collection`, `group_by_field`, `style` (sections/accordion/tabs), `item_layout` (list/cards/compact), `posts_count`, pola jak collection-grid
 
 ---
 
@@ -583,37 +363,48 @@ Każda sekcja, kolumna i widget posiada pola zaawansowane:
 }
 ```
 
+**Ważne dla analizy:** Gdy element wymaga efektów niedostępnych natywnie (opacity, filter, pseudo-elementy, niestandardowe animacje @keyframes, position absolute), zaproponuj konkretną nazwę `cssClass` i odpowiadający jej kod Custom CSS. Pamiętaj że translateY, scale, rotate w hover oraz scroll animations i sticky SĄ natywne.
+
+---
+
 ### 13. OGRANICZENIA LESSCMS I OBEJŚCIA
 
 #### Czego LessCMS NIE ma (wymaga zewnętrznych rozwiązań lub embed)
 | Brak | Obejście |
 |------|----------|
-| Mapy Leaflet z custom markerami | Widget `google-maps` jako zamiennik. Lub `embed` z Leaflet JS |
+| Mapy Leaflet z custom markerami | Widget `google-maps` jako zamiennik (bez custom markerów). Lub `embed` z Leaflet JS |
 | Zaawansowane formularze (multi-step, payment) | Widget `form` obsługuje proste formularze. Dla zaawansowanych: `embed` z Typeform, Tally |
 | Cookie banner / GDPR popup | Widget `embed` z gotowym rozwiązaniem (CookieConsent, Osano) |
 
 #### Co wymaga Custom CSS (da się, ale ręczna praca)
+Gdy proponujesz te efekty, **ZAWSZE** podaj konkretną `cssClass` + kod CSS:
+
 | Efekt | Rozwiązanie |
 |-------|-------------|
-| Gradient overlay (::before) | `cssClass: "hero-overlay"` + `::before { background: linear-gradient(...) }` |
+| Gradient overlay (::before) — zaawansowane | Proste overlay: użyj natywnego gradientu + obraz tła. Zaawansowane (np. niesymetryczne, wielowarstwowe): `cssClass: "hero-overlay"` + `::before { background: linear-gradient(...) }` |
 | CSS filters na obrazach | `cssClass: "photo-filter"` + `.photo-filter img { filter: ... }` |
 | Position absolute | `cssClass` + reguła CSS (sticky jest natywne!) |
 | Nakładające się elementy | Ujemne marginy natywnie LUB `cssClass` z `position: absolute` |
+| Badge/etykieta na karcie | `cssClass` + `::before` lub `position: absolute` |
+| Pills/tagi (flex-wrap) | Widget `text` z inline HTML lub `value-list` z `display_style: tags` |
+| Niestandardowe animacje @keyframes | `cssClass` + `@keyframes` w Custom CSS (proste scroll animations są natywne!) |
+| SVG pattern w tle | `cssClass` + `::before { background-image: url("data:image/svg+xml,...") }` |
 | Hover opacity/filter | `cssClass` + `.class:hover { opacity/filter: ... }` (translateY, scale, rotate są natywne!) |
 
 #### Co działa natywnie (bez Custom CSS)
-- Tła: kolor, gradient (linear/radial), obraz z opacity
+- Tła: kolor, gradient (linear/radial), obraz z opacity, **gradient + obraz jednocześnie** (gradient nakłada się na wierzch obrazu — kolory gradientu z rgba dają efekt overlay)
 - Spacing: padding, margin (także ujemne)
-- Border: radius, width, color, style + box-shadow
+- Border: radius, width, color, style + box-shadow (brak/mały/średni/duży)
 - Hover: backgroundColor, borderColor, boxShadow, borderWidth, **translateY, scale, rotate** + transition
 - Sticky: sekcja przyklejona do góry ekranu z z-index
-- Scroll animations: fade-in, slide-up/down/left/right, zoom-in/out, flip
+- Scroll animations: fade-in, slide-up/down/left/right, zoom-in/out, flip (scroll-triggered, z opóźnieniem)
 - Responsywność: override per breakpoint (tablet, mobile), stack kolumn, ukrywanie
+- Typografia inline: font-size (dowolna jednostka: px/rem/em/vw/clamp()), font-weight (100-900), color z opacity (rgba), highlight z opacity, font-family, line-height
 - Layout: 1-4 kolumny, contentWidth, fullHeight, verticalAlign, horizontalAlign
-- Link: cała sekcja/kolumna/widget jako klikalna
+- Link: cała sekcja/kolumna/widget jako klikalna (page, custom URL, collection, entry)
 - Hamburger menu: widget `menu` z `hamburger_breakpoint` (mobile/tablet)
-- Menu z logo: `logo_light`/`logo_dark` z pozycją i regulowaną wysokością
-- Menu CTA: wbudowany przycisk CTA z pełną paletą Bootstrap, pozycja left/right/below
+- Menu z logo: `logo_light`/`logo_dark` z pozycją (left/center/right) i regulowaną wysokością
+- Menu CTA: wbudowany przycisk CTA z pełną paletą Bootstrap (solid + outline), pozycja left/right/below
 - Formularze: widget `form` z polami text/email/textarea/select/checkbox
 - Lightbox: widget `gallery` z `enable_lightbox`
 - Breadcrumbs: natywny widget `breadcrumbs`
@@ -622,94 +413,69 @@ Każda sekcja, kolumna i widget posiada pola zaawansowane:
 
 ## FORMAT ODPOWIEDZI
 
-Odpowiedz w następującym formacie:
-
----
-
 ### 1. USTAWIENIA PROJEKTU
 
-#### Style globalne
-Podaj jakie kolory ustawić:
-- **Primary color**: #hexkolor — [do czego służy na stronie]
-- **Secondary color**: #hexkolor — [do czego]
-- **Accent color**: #hexkolor — [do czego]
-- Kolory semantyczne (jeśli inne niż domyślne)
-- Kolory treści: text_color, background_color itp.
-- Kolory niestandardowe (jeśli potrzebne)
+#### Style globalne — WSZYSTKIE kolory (każdy musi być zdefiniowany)
+
+**Kolory marki:**
+- **Primary color**: #hex — [do czego]
+- **Secondary color**: #hex — [do czego]
+- **Accent color**: #hex — [do czego]
+
+**Kolory semantyczne:**
+- **Success**: #hex
+- **Danger**: #hex
+- **Warning**: #hex
+- **Info**: #hex
+
+**Kolory neutralne:**
+- **Light**: #hex
+- **Dark**: #hex
+- **White**: #hex
+- **Black**: #hex
+
+**Kolory treści:**
+- **Text**: #hex
+- **Muted**: #hex
+- **Link**: #hex
+- **Background**: #hex
+- **Background-alt**: #hex
+- **Border**: #hex
+
+Kolory niestandardowe (jeśli potrzebne)
 
 #### Czcionki
-- **Heading font**: [nazwa czcionki] — [skąd wniosek]
-- **Body font**: [nazwa czcionki] — [skąd wniosek]
+- **Heading font**: [nazwa] — [skąd wniosek]
+- **Body font**: [nazwa] — [skąd wniosek]
 
 #### Typografia i layout
-- **Font size base**: [wartość px]
-- **Line height**: [wartość]
-- **Border radius**: [wartość px]
-- **Container max width**: [wartość px]
+- Font size base, Line height, Border radius, Container max width
 
 #### Gotowy motyw
-Jeśli strona pasuje do jednego z gotowych motywów (Modern, Classic, Minimal, Vibrant, Dark, Corporate), zaproponuj go jako punkt startowy i opisz jakie modyfikacje trzeba wprowadzić.
+Jeśli pasuje — zaproponuj jako punkt startowy + modyfikacje.
 
 ---
 
 ### 2. STRUKTURA STRONY
 
-Dla każdej sekcji strony (od góry do dołu):
+Dla każdej sekcji (od góry do dołu):
 
-#### Sekcja N: [Nazwa opisowa, np. "Hero", "O nas", "Usługi"]
+#### Sekcja N: [Nazwa opisowa]
 
 **Layout:** [1/2/3/4 kolumny]
 
-**Ustawienia sekcji:**
-- Tło: [kolor/gradient/obraz]
-- Padding: góra/prawo/dół/lewo w px
-- contentWidth: [wartość]
-- Inne istotne ustawienia
+**Ustawienia sekcji:** tło, padding, contentWidth, inne
 
 **Kolumna 1:**
 | Widget | Typ | Konfiguracja |
 |--------|-----|-------------|
-| [nazwa] | [typ widgetu] | [kluczowe ustawienia] |
+| ... | ... | ... |
 
-Dla każdego widgetu podaj:
-- Typ widgetu (z listy powyżej)
-- Wszystkie istotne pola i ich wartości
-- Ustawienia stylu widgetu (tło, padding, wyrównanie) jeśli inne niż domyślne
-
-**Kolumna 2:** (jeśli dotyczy)
-...
-
-**Responsywność:**
-- Tablet: [zmiany, np. stackOnTablet: true]
-- Mobile: [zmiany, np. zmniejszony padding]
+**Responsywność:** tablet/mobile zmiany
 
 ---
 
 ### 3. CUSTOM CSS (jeśli potrzebny)
 
-```css
-/* Opisz co robi każda reguła */
-.klasa {
-  właściwość: wartość;
-}
-```
-
----
-
 ### 4. UWAGI I OGRANICZENIA
-
-- Elementy, których nie da się odwzorować 1:1 i zaproponowane obejścia
-- Sugestie dotyczące kolekcji (jeśli treść powinna być dynamiczna)
-- Rekomendacje dotyczące responsywności
-
----
-
-## WSKAZÓWKI
-
-- Bądź konkretny — podaj dokładne wartości hex, px, nazwy czcionek
-- Używaj zmiennych kolorów (`var:primary` itp.) zamiast hex tam, gdzie kolor powinien być spójny z motywem
-- Myśl o sekcjach — każdy logiczny blok strony to osobna sekcja
-- Priorytetyzuj widgety z listy — nie wymyślaj widgetów, których nie ma
-- Jeśli element strony wymaga custom CSS, umieść go w sekcji 3
-- Zawsze uwzględnij responsywność — jak sekcja powinna wyglądać na mobile/tablecie
 ````
