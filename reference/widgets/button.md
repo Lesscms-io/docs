@@ -90,6 +90,33 @@ button
 }
 ```
 
+## Example Response (Entry Link)
+
+```json
+{
+  "widget_type": "button",
+  "uuid": "btn-789",
+  "widget": {
+    "link_type": "entry",
+    "style": "primary",
+    "size": "md",
+    "target_blank": false,
+    "icon": null,
+    "icon_position": "left",
+    "text": {
+      "en": "Read Article",
+      "pl": "Czytaj artykul"
+    },
+    "entry_uuid": "entry-abc-123",
+    "collection_code": "blog",
+    "entry_code": "how-to-get-started",
+    "route_uuid": "route-456",
+    "url": "/blog/how-to-get-started"
+  },
+  "settings": {}
+}
+```
+
 ## Link Types
 
 | Value | Description |

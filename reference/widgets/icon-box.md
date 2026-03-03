@@ -72,6 +72,32 @@ When used in multi-item mode, each item has:
 }
 ```
 
+## Example Response (Dynamic Content)
+
+```json
+{
+  "widget_type": "icon-box",
+  "uuid": "iconbox-456",
+  "widget": {
+    "content_source": "dynamic",
+    "icon": "bx bx-news",
+    "icon_size": 48,
+    "icon_color": "#50a5f1",
+    "icon_background": "transparent",
+    "icon_padding": 0,
+    "icon_border_radius": 0,
+    "icon_position": "left",
+    "icon_vertical_align": "top",
+    "collection_code": "services",
+    "field_code": "description",
+    "entry_id": "entry-123",
+    "entry_source": "url",
+    "entry_url_segment": 1
+  },
+  "settings": {}
+}
+```
+
 ## Icon Position
 
 | Value | Description |

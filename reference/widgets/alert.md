@@ -26,7 +26,7 @@ alert
 | `widget.text_color` | string\|null | Custom text color, used when type is `"custom"` |
 | `settings` | object | Style settings (optional) |
 
-## Example Response
+## Example Response (Preset Type)
 
 ```json
 {
@@ -43,7 +43,11 @@ alert
     },
     "type": "info",
     "dismissible": true,
-    "show_title": true
+    "show_title": true,
+    "icon": null,
+    "background_color": null,
+    "border_color": null,
+    "text_color": null
   },
   "settings": {
     "marginTop": 16,
@@ -53,6 +57,33 @@ alert
       "mobile": {}
     }
   }
+}
+```
+
+## Example Response (Custom Type)
+
+```json
+{
+  "widget_type": "alert",
+  "uuid": "alert-456",
+  "widget": {
+    "title": {
+      "en": "Maintenance Scheduled",
+      "pl": "Planowana przerwa techniczna"
+    },
+    "message": {
+      "en": "System maintenance is scheduled for Saturday 2:00 AM - 4:00 AM.",
+      "pl": "Przerwa techniczna zaplanowana na sobote 2:00 - 4:00."
+    },
+    "type": "custom",
+    "dismissible": false,
+    "show_title": true,
+    "icon": "fa-solid fa-wrench",
+    "background_color": "#fff3cd",
+    "border_color": "#ffc107",
+    "text_color": "#856404"
+  },
+  "settings": {}
 }
 ```
 

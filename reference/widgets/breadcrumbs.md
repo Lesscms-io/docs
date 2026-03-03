@@ -49,7 +49,12 @@ breadcrumbs
     "dynamic_last_field_code": "",
     "dynamic_last_entry_source": "url",
     "dynamic_last_entry_id": "",
-    "dynamic_last_url_segment": 1
+    "dynamic_last_url_segment": 1,
+    "items": [
+      { "label": "Home", "url": "/" },
+      { "label": "Blog", "url": "/blog" },
+      { "label": "My Article", "url": null }
+    ]
   },
   "settings": {
     "responsive": {

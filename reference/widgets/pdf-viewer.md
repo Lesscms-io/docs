@@ -35,6 +35,7 @@ pdf-viewer
   "uuid": "pdf-viewer-123",
   "widget": {
     "file": "https://cdn.example.com/documents/catalog.pdf",
+    "height_mode": "fixed",
     "height": 700,
     "page_mode": "double",
     "show_controls": true,
