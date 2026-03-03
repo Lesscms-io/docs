@@ -24,6 +24,8 @@ cta-box
 | `config.button_page_id` | string | Page ID for internal page link (when `button_link_type` is `"page"`) |
 | `config.button_collection_code` | string | Collection code for collection link (when `button_link_type` is `"collection"`) |
 | `config.button_entry_id` | string | Collection entry ID for entry link (when `button_link_type` is `"collection"`) |
+| `config.button_route_uuid` | string\|null | Route UUID for link URL resolution (default: `null`) |
+| `config.button_target_blank` | boolean | Open button link in new tab (default: `false`) |
 | `config.background_color` | string\|null | Box background color |
 | `config.button_color` | string\|null | Button background color |
 | `config.button_style` | string | Button CSS style class (e.g. `"info"`, `"success"`) |

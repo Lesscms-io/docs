@@ -17,6 +17,17 @@ testimonial
 | `config` | object | Widget configuration |
 | `config.rating` | number | Star rating (1-5, optional) |
 | `config.image` | object | Author avatar image (optional) |
+| `config.content_source` | string | Content source mode: `"static"`, `"dynamic"` (default: `"static"`) |
+| `config.collection_code` | string\|null | Collection code for dynamic mode (default: `null`) |
+| `config.field_code` | string\|null | Field code for dynamic content (default: `null`) |
+| `config.entry_id` | string\|null | Entry UUID for dynamic mode (default: `null`) |
+| `config.entry_source` | string\|null | Entry source mode: `"static"`, `"url"` (default: `null`) |
+| `config.entry_url_segment` | integer\|null | URL segment index for URL-based entry in dynamic mode (default: `null`) |
+| `config.quote_field` | string\|null | Field code for quote text in dynamic mode (default: `null`) |
+| `config.author_field` | string\|null | Field code for author name in dynamic mode (default: `null`) |
+| `config.position_field` | string\|null | Field code for author position in dynamic mode (default: `null`) |
+| `config.image_field` | string\|null | Field code for avatar image in dynamic mode (default: `null`) |
+| `config.rating_field` | string\|null | Field code for rating value in dynamic mode (default: `null`) |
 | `content` | object | Widget content |
 | `content.quote` | string | Testimonial text (localized) |
 | `content.author` | string | Author name (localized) |

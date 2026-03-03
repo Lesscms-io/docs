@@ -16,13 +16,17 @@ gallery
 | `uuid` | string | Unique widget identifier |
 | `config` | object | Widget configuration |
 | `config.content_source` | string | Image source: `"static"` or `"dynamic"` (default: `"static"`) |
-| `config.type` | string | Display type: `"grid"` or `"carousel"` (default: `"grid"`) |
+| `config.type` | string | Display type: `"grid"`, `"carousel"`, or `"mosaic"` (default: `"grid"`) |
 | `config.columns` | number | Number of grid columns (default: 3) |
 | `config.gap` | number | Gap between images in pixels (default: 8) |
 | `config.aspect` | string | Image aspect ratio: `"square"`, `"landscape"`, `"portrait"`, etc. (default: `"square"`) |
+| `config.mosaic_variant` | string | Mosaic layout variant: `"featured"`, `"alternating"`, `"masonry"`, `"collage"` (default: `"featured"`) |
 | `config.show_arrows` | boolean | Show navigation arrows for carousel (default: true) |
 | `config.show_dots` | boolean | Show dot indicators for carousel (default: true) |
 | `config.carousel_style` | string | Carousel style preset (default: `"default"`) |
+| `config.autoplay` | boolean | Enable carousel autoplay (default: true) |
+| `config.interval` | integer | Carousel autoplay interval in milliseconds (default: 3000) |
+| `config.loop` | boolean | Enable carousel loop (default: true) |
 | `config.enable_lightbox` | boolean | Enable lightbox on click (default: false) |
 | `config.images` | array | Array of image objects (static mode only) |
 | `config.images[].url` | string | Image URL |

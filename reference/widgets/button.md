@@ -19,6 +19,8 @@ button
 | `config.style` | string | Button style: `"primary"`, `"secondary"`, `"outline"` |
 | `config.size` | string | Button size: `"sm"`, `"md"`, `"lg"` |
 | `config.target_blank` | boolean | Open in new tab |
+| `config.border_radius` | string | Button border radius preset (`"none"`, `"sm"`, `"md"`, `"lg"`, `"full"`) |
+| `config.padding` | string\|null | Custom button padding CSS value |
 | `config.icon` | string | Icon class (e.g., `"fa-solid fa-arrow-right"`) |
 | `config.icon_position` | string | Icon position relative to text |
 | `content` | object | Widget content |

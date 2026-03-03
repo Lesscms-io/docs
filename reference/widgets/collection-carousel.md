@@ -28,6 +28,7 @@ collection-carousel
 | `config.show_title` | boolean | Display title (default: true) |
 | `config.show_excerpt` | boolean | Display excerpt (default: true) |
 | `config.exclude_current_entry` | boolean | Exclude current entry from carousel results (default: false) |
+| `config.route_uuid` | string\|null | Route UUID for entry URL resolution |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response

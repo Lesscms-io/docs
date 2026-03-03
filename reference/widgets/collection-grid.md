@@ -44,6 +44,7 @@ collection-grid
 | `config.show_tags` | boolean | Display tags (default: false) |
 | `config.read_more_text` | object | Multilingual read more text `{ "en": "...", "pl": "..." }` |
 | `config.exclude_current_entry` | boolean | Exclude current entry from results (useful on detail pages) |
+| `config.exclude_url_segment` | integer\|null | URL segment index containing entry_id for exclusion |
 | `config.filter_field` | string\|null | Field code to filter entries by |
 | `config.filter_source` | string | Filter value source: `"static"`, `"url"` (default: `"static"`) |
 | `config.filter_value` | string\|null | Static filter value |

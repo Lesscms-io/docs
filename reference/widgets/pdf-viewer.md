@@ -17,6 +17,7 @@ pdf-viewer
 | `config` | object | Widget configuration |
 | `config.file` | string\|null | URL of the PDF file |
 | `config.height` | number | Viewer height in pixels (default: 600) |
+| `config.height_mode` | string | Height mode: `"fixed"`, `"auto"` (default: `"fixed"`) |
 | `config.page_mode` | string | Page mode: `"single"`, `"double"` |
 | `config.show_controls` | boolean | Show navigation controls |
 | `config.show_thumbnails` | boolean | Show page thumbnails |

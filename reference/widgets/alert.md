@@ -18,9 +18,13 @@ alert
 | `content.title` | object | Multilingual alert title |
 | `content.content` | object | Multilingual alert content text |
 | `config` | object | Widget configuration |
-| `config.type` | string | Alert type: `"info"`, `"success"`, `"warning"`, `"danger"` |
+| `config.type` | string | Alert type: `"info"`, `"success"`, `"warning"`, `"danger"`, `"custom"` |
 | `config.dismissible` | boolean | Allow user to dismiss/close the alert |
 | `config.show_title` | boolean | Show the alert title (default: true) |
+| `config.icon` | string\|null | Custom icon class (Font Awesome), used when type is `"custom"` |
+| `config.background_color` | string\|null | Custom background color, used when type is `"custom"` |
+| `config.border_color` | string\|null | Custom border color, used when type is `"custom"` |
+| `config.text_color` | string\|null | Custom text color, used when type is `"custom"` |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response

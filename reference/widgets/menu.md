@@ -41,6 +41,7 @@ menu
 | `config.cta_style` | string | CTA button style (Bootstrap variants) |
 | `config.cta_size` | string | CTA button size: `"sm"`, `"md"`, `"lg"` |
 | `config.cta_border_radius` | string | CTA button border radius: `"sm"`, `"md"`, `"lg"` (default: `"md"`) |
+| `config.cta_padding` | string\|null | Custom CTA button padding CSS value |
 | `config.cta_icon` | string\|null | CTA button icon class (e.g., `"bx bx-right-arrow-alt"`) |
 | `config.cta_icon_position` | string | CTA icon position: `"left"`, `"right"` (default: `"left"`) |
 | `settings` | object | Style settings (optional) |

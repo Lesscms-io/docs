@@ -23,6 +23,16 @@ hero
 | `config.text_color` | string | Text color (default: `"#ffffff"`) |
 | `config.button_style` | string | Button style variant (default: `"primary"`) |
 | `config.button_size` | string | Button size: `"sm"`, `"md"`, `"lg"` (default: `"lg"`) |
+| `config.button_border_radius` | string | Button border radius preset: `"none"`, `"sm"`, `"md"`, `"lg"`, `"full"` (default: `"md"`) |
+| `config.button_padding` | string\|null | Custom button padding CSS value (default: `null`) |
+| `config.button_icon` | string\|null | Button icon class (Font Awesome) (default: `null`) |
+| `config.button_icon_position` | string | Button icon position: `"left"`, `"right"` (default: `"left"`) |
+| `config.button_link_type` | string | Button link type: `"custom"`, `"page"`, `"entry"` (default: `"custom"`) |
+| `config.button_target_blank` | boolean | Open button link in new tab (default: `false`) |
+| `config.button_page_id` | string\|null | Page UUID for page link type (default: `null`) |
+| `config.button_entry_id` | string\|null | Entry UUID for entry link type (default: `null`) |
+| `config.button_collection_code` | string\|null | Collection code for entry link type (default: `null`) |
+| `config.button_route_uuid` | string\|null | Route UUID for link URL resolution (default: `null`) |
 | `content` | object | Widget content |
 | `settings` | object | Style settings (optional) |
 
