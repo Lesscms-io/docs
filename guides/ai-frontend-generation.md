@@ -102,7 +102,7 @@ Returns page with sections and widgets (see Widgets documentation).
 2. **Widget Renderer**
    - Single component that renders ANY widget type
    - Switch/map based on `widget_type`
-   - Pass `widget.content` (multilingual), `widget.config` (settings), and `widget.settings` (styles) to specific renderers
+   - Pass `widget.widget` (all widget data, flat object) and `widget.settings` (styles) to specific renderers
    - Handle unknown widget types gracefully
 
 3. **CSS Requirements** (CRITICAL)
@@ -311,14 +311,11 @@ Widgets are inside columns. Each widget has:
 {
   "uuid": "widget-uuid",
   "widget_type": "heading",
-  "content": {
-    // Multilingual content (e.g., html, text)
-    "html": { "pl": "<p>Treść</p>", "en": "<p>Content</p>" }
-  },
-  "config": {
-    // Widget-specific configuration (non-multilingual)
+  "widget": {
+    // All widget data in a flat object (multilingual + config)
+    "html": { "pl": "<p>Treść</p>", "en": "<p>Content</p>" },
     "level": 2,
-    "tag": "h2"
+    "content_source": "static"
   },
   "settings": {
     // Size
@@ -539,12 +536,10 @@ All widgets follow this structure:
 {
   "uuid": "unique-id",
   "widget_type": "heading",
-  "content": {
-    "html": { "pl": "<p>Treść</p>", "en": "<p>Content</p>" }
-  },
-  "config": {
+  "widget": {
+    "html": { "pl": "<p>Treść</p>", "en": "<p>Content</p>" },
     "level": 2,
-    "tag": "h2"
+    "content_source": "static"
   },
   "settings": {
     "paddingTop": 20,
@@ -554,6 +549,8 @@ All widgets follow this structure:
   }
 }
 ```
+
+The `widget` key contains ALL widget-specific data in a flat object — both multilingual content and configuration. The `settings` key contains container styling (padding, margin, background, border, etc.).
 
 ### Multi-Item Widgets
 
@@ -567,9 +564,9 @@ Some widgets (counter, button, icon-box, numbered-box, progress-bar, service-car
   "multi_columns": 3,
   "multi_gap": 16,
   "items": [
-    { "widget_type": "counter", "config": {...}, "content": {...} },
-    { "widget_type": "counter", "config": {...}, "content": {...} },
-    { "widget_type": "counter", "config": {...}, "content": {...} }
+    { "widget_type": "counter", "widget": {...} },
+    { "widget_type": "counter", "widget": {...} },
+    { "widget_type": "counter", "widget": {...} }
   ],
   "settings": {...}
 }
@@ -677,9 +674,10 @@ When rendering, wrap items in a grid:
 
 - Get language from URL prefix (/en/, /pl/) or cookie/localStorage
 - Pass language to all fetch calls
-- Widget content is multilingual: `widget.content.html[language]`
-- Fallback: `widget.content.html[language] || widget.content.html.en || ''`
-- Note: `widget.config` contains non-multilingual settings (level, size, etc.)
+- Widget data is in `widget.widget` — multilingual fields are objects with language keys
+- Access: `widget.widget.html[language]`
+- Fallback: `widget.widget.html[language] || widget.widget.html.en || ''`
+- Non-multilingual fields are simple values: `widget.widget.level`, `widget.widget.style`, etc.
 
 ## File Structure
 

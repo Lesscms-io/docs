@@ -14,16 +14,14 @@ link
 |----------|------|-------------|
 | `widget_type` | string | Always `"link"` |
 | `uuid` | string | Unique widget identifier |
-| `config` | object | Widget configuration |
-| `config.icon` | string | Icon class (FontAwesome), default `"fa-solid fa-arrow-right"` |
-| `config.icon_position` | string | `"left"`, `"right"`, or `"none"` |
-| `config.animation` | string | Hover animation: `"none"`, `"slide"`, `"fade"`, `"underline"` |
-| `config.color` | string\|null | Custom link color (hex) |
-| `config.target_blank` | boolean | Open in new tab |
-| `content` | object | Widget content |
-| `content.text` | object | Multilingual link text |
-| `data` | object | Link data |
-| `data.url` | string | Link URL |
+| `widget` | object | Widget properties |
+| `widget.icon` | string | Icon class (FontAwesome), default `"fa-solid fa-arrow-right"` |
+| `widget.icon_position` | string | `"left"`, `"right"`, or `"none"` |
+| `widget.animation` | string | Hover animation: `"none"`, `"slide"`, `"fade"`, `"underline"` |
+| `widget.color` | string\|null | Custom link color (hex) |
+| `widget.target_blank` | boolean | Open in new tab |
+| `widget.text` | object | Multilingual link text |
+| `widget.url` | string | Link URL |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response
@@ -32,20 +30,16 @@ link
 {
   "widget_type": "link",
   "uuid": "link-123",
-  "config": {
+  "widget": {
     "icon": "fa-solid fa-arrow-right",
     "icon_position": "right",
     "animation": "slide",
     "color": "#50a5f1",
-    "target_blank": false
-  },
-  "content": {
+    "target_blank": false,
     "text": {
       "en": "Learn more",
-      "pl": "Dowiedz się więcej"
-    }
-  },
-  "data": {
+      "pl": "Dowiedz sie wiecej"
+    },
     "url": "https://example.com/about"
   },
   "settings": {
@@ -89,15 +83,11 @@ The link widget supports displaying multiple links in a grid. When multiple item
   "items": [
     {
       "widget_type": "link",
-      "config": { "icon": "fa-solid fa-arrow-right", "icon_position": "right", "animation": "slide", "color": "#50a5f1", "target_blank": false },
-      "content": { "text": { "en": "About Us" } },
-      "data": { "url": "/about" }
+      "widget": { "icon": "fa-solid fa-arrow-right", "icon_position": "right", "animation": "slide", "color": "#50a5f1", "target_blank": false, "text": { "en": "About Us" }, "url": "/about" }
     },
     {
       "widget_type": "link",
-      "config": { "icon": "fa-solid fa-arrow-right", "icon_position": "right", "animation": "slide", "color": "#50a5f1", "target_blank": false },
-      "content": { "text": { "en": "Contact" } },
-      "data": { "url": "/contact" }
+      "widget": { "icon": "fa-solid fa-arrow-right", "icon_position": "right", "animation": "slide", "color": "#50a5f1", "target_blank": false, "text": { "en": "Contact" }, "url": "/contact" }
     }
   ],
   "settings": {}
@@ -110,9 +100,9 @@ Per-item fields (`text`, `url`, `target_blank`) are unique to each item. Shared 
 
 ```javascript
 function renderLink(widget, language) {
-  const { icon, icon_position, animation, color, target_blank } = widget.config;
-  const text = widget.content?.text?.[language] || widget.content?.text?.en || '';
-  const url = widget.data?.url || '#';
+  const { icon, icon_position, animation, color, target_blank } = widget.widget;
+  const text = widget.widget?.text?.[language] || widget.widget?.text?.en || '';
+  const url = widget.widget?.url || '#';
 
   const target = target_blank ? ' target="_blank" rel="noopener noreferrer"' : '';
   const style = color ? ` style="color: ${color}"` : '';

@@ -14,21 +14,21 @@ collection-carousel
 |----------|------|-------------|
 | `widget_type` | string | Always `"collection-carousel"` |
 | `uuid` | string | Unique widget identifier |
-| `config` | object | Widget configuration |
-| `config.collection_code` | string\|null | Collection code to display |
-| `config.posts_count` | number | Maximum entries to display (default: 6) |
-| `config.slides_per_view` | number | Visible slides (default: 3) |
-| `config.autoplay` | boolean | Enable auto-advance (default: true) |
-| `config.autoplay_interval` | number | Autoplay interval in ms (default: 5000) |
-| `config.show_arrows` | boolean | Display navigation arrows (default: true) |
-| `config.show_dots` | boolean | Display navigation dots (default: true) |
-| `config.title_field` | string\|null | Field code for title |
-| `config.excerpt_field` | string\|null | Field code for excerpt |
-| `config.image_field` | string\|null | Field code for image |
-| `config.show_title` | boolean | Display title (default: true) |
-| `config.show_excerpt` | boolean | Display excerpt (default: true) |
-| `config.exclude_current_entry` | boolean | Exclude current entry from carousel results (default: false) |
-| `config.route_uuid` | string\|null | Route UUID for entry URL resolution |
+| `widget` | object | Widget data |
+| `widget.collection_code` | string\|null | Collection code to display |
+| `widget.posts_count` | number | Maximum entries to display (default: 6) |
+| `widget.slides_per_view` | number | Visible slides (default: 3) |
+| `widget.autoplay` | boolean | Enable auto-advance (default: true) |
+| `widget.autoplay_interval` | number | Autoplay interval in ms (default: 5000) |
+| `widget.show_arrows` | boolean | Display navigation arrows (default: true) |
+| `widget.show_dots` | boolean | Display navigation dots (default: true) |
+| `widget.title_field` | string\|null | Field code for title |
+| `widget.excerpt_field` | string\|null | Field code for excerpt |
+| `widget.image_field` | string\|null | Field code for image |
+| `widget.show_title` | boolean | Display title (default: true) |
+| `widget.show_excerpt` | boolean | Display excerpt (default: true) |
+| `widget.exclude_current_entry` | boolean | Exclude current entry from carousel results (default: false) |
+| `widget.route_uuid` | string\|null | Route UUID for entry URL resolution |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response
@@ -37,7 +37,7 @@ collection-carousel
 {
   "widget_type": "collection-carousel",
   "uuid": "carousel-123",
-  "config": {
+  "widget": {
     "collection_code": "testimonials",
     "posts_count": 10,
     "slides_per_view": 3,
@@ -71,9 +71,12 @@ function renderCollectionCarousel(widget, language) {
     slides_per_view, autoplay, autoplay_interval,
     show_arrows, show_dots, show_title, show_excerpt,
     title_field, excerpt_field, image_field
-  } = widget.config;
+  } = widget.widget;
 
-  const entries = widget.data?.entries || [];
+  // Note: entries are NOT included in the API response.
+  // You must fetch collection entries separately using the collection API.
+  // This example assumes entries are fetched and passed in.
+  const entries = []; // Fetch from /api/:project_code/collections/:collection_code
 
   if (entries.length === 0) return '';
 
@@ -102,8 +105,8 @@ function renderCollectionCarousel(widget, language) {
     >
       <div class="carousel-track">${slides}</div>
       ${show_arrows ? `
-        <button class="carousel-prev" aria-label="Previous">‹</button>
-        <button class="carousel-next" aria-label="Next">›</button>
+        <button class="carousel-prev" aria-label="Previous">&#8249;</button>
+        <button class="carousel-next" aria-label="Next">&#8250;</button>
       ` : ''}
       ${show_dots ? `<div class="carousel-dots"></div>` : ''}
     </div>

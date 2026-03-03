@@ -14,27 +14,27 @@ value-list
 |----------|------|-------------|
 | `widget_type` | string | Always `"value-list"` |
 | `uuid` | string | Unique widget identifier |
-| `config` | object | Widget configuration |
-| `config.collection_code` | string\|null | Collection code |
-| `config.value_field` | string\|null | Field code to extract values from |
-| `config.group_field` | string\|null | Field code to group values by |
-| `config.display_style` | string | Display style: `"list"`, `"inline"`, `"tags"`, `"buttons"` (default: `"list"`) |
-| `config.columns` | number | Number of columns for layout (default: `1`) |
-| `config.show_count` | boolean | Show count of entries per value (default: `false`) |
-| `config.filter_field` | string\|null | Field code to filter entries by |
-| `config.filter_value` | string\|null | Value to match for filtering |
-| `config.sort_field` | string\|null | Field code to sort values by |
-| `config.sort_dir` | string | Sort direction: `"asc"` or `"desc"` (default: `"asc"`) |
-| `config.visible_limit` | number | Maximum number of values to display initially (default: `0` = unlimited) |
-| `config.show_more_text` | string\|null | Text for the "show more" link |
-| `config.show_more_url` | string\|null | URL for the "show more" link |
-| `config.tag_bg_color` | string\|null | Background color for tag items (hex) |
-| `config.tag_border_color` | string\|null | Border color for tag items (hex) |
-| `config.tag_text_color` | string\|null | Text color for tag items (hex) |
-| `config.more_bg_color` | string\|null | Background color for "show more" button (hex) |
-| `config.more_text_color` | string\|null | Text color for "show more" button (hex) |
-| `config.link_enabled` | boolean | Make values clickable (default: `false`) |
-| `config.link_url_pattern` | string\|null | URL pattern with `{value}` placeholder |
+| `widget` | object | Widget data |
+| `widget.collection_code` | string\|null | Collection code |
+| `widget.value_field` | string\|null | Field code to extract values from |
+| `widget.group_field` | string\|null | Field code to group values by |
+| `widget.display_style` | string | Display style: `"list"`, `"inline"`, `"tags"`, `"buttons"` (default: `"list"`) |
+| `widget.columns` | number | Number of columns for layout (default: `1`) |
+| `widget.show_count` | boolean | Show count of entries per value (default: `false`) |
+| `widget.filter_field` | string\|null | Field code to filter entries by |
+| `widget.filter_value` | string\|null | Value to match for filtering |
+| `widget.sort_field` | string\|null | Field code to sort values by |
+| `widget.sort_dir` | string | Sort direction: `"asc"` or `"desc"` (default: `"asc"`) |
+| `widget.visible_limit` | number | Maximum number of values to display initially (default: `0` = unlimited) |
+| `widget.show_more_text` | string\|null | Text for the "show more" link |
+| `widget.show_more_url` | string\|null | URL for the "show more" link |
+| `widget.tag_bg_color` | string\|null | Background color for tag items (hex) |
+| `widget.tag_border_color` | string\|null | Border color for tag items (hex) |
+| `widget.tag_text_color` | string\|null | Text color for tag items (hex) |
+| `widget.more_bg_color` | string\|null | Background color for "show more" button (hex) |
+| `widget.more_text_color` | string\|null | Text color for "show more" button (hex) |
+| `widget.link_enabled` | boolean | Make values clickable (default: `false`) |
+| `widget.link_url_pattern` | string\|null | URL pattern with `{value}` placeholder |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response
@@ -43,7 +43,7 @@ value-list
 {
   "widget_type": "value-list",
   "uuid": "valuelist-123",
-  "config": {
+  "widget": {
     "collection_code": "blog",
     "value_field": "category",
     "group_field": null,
@@ -78,7 +78,7 @@ value-list
 {
   "widget_type": "value-list",
   "uuid": "valuelist-456",
-  "config": {
+  "widget": {
     "collection_code": "products",
     "value_field": "brand",
     "group_field": null,
@@ -121,7 +121,7 @@ async function renderValueList(widget, language, api) {
   const {
     collection_code, value_field, display_style,
     show_count, link_enabled, link_url_pattern
-  } = widget.config;
+  } = widget.widget;
 
   // Fetch all entries and extract unique values
   const entries = await api.getCollectionEntries(collection_code);

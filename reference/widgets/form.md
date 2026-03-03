@@ -16,28 +16,28 @@ When `form_code` is set, the widget references a system form. The frontend fetch
 |----------|------|-------------|
 | `widget_type` | string | Always `"form"` |
 | `uuid` | string | Unique widget identifier |
-| `config` | object | Widget configuration |
-| `config.form_code` | string | Code of the form to render (references Forms API) |
-| `config.submit_text` | string | Submit button text |
-| `config.button_style` | string | Submit button CSS style (default: `"info"`) |
-| `config.button_size` | string | Submit button size (default: `"md"`) |
-| `config.button_border_radius` | string | Button border radius (default: `"md"`) |
-| `config.button_padding` | string | Button padding |
-| `config.button_icon` | string | Button icon class |
-| `config.button_icon_position` | string | Icon position: `"left"` or `"right"` (default: `"left"`) |
-| `config.button_align` | string | Button alignment: `"left"`, `"center"`, `"right"` |
-| `config.label_position` | string | Label position: `"top"`, `"side"` |
-| `config.columns` | string | Form columns: `"1"`, `"2"` |
-| `config.input_size` | string | Input size: `"sm"`, `"md"`, `"lg"` |
-| `config.input_border_radius` | string | Input border radius: `"none"`, `"sm"`, `"md"`, `"lg"`, `"pill"` |
-| `config.input_padding` | string | Input padding in px |
-| `config.input_background_color` | string | Input background color (hex or `"var:primary"` variable reference) |
-| `config.input_text_color` | string | Input text color |
-| `config.input_border_color` | string | Input border color |
-| `config.input_border_width` | string | Input border width in px |
-| `config.input_border_style` | string | Input border style: `"solid"`, `"dashed"`, `"dotted"` |
-| `config.input_focus_border_color` | string | Input border color on focus |
-| `config.input_placeholder_color` | string | Input placeholder text color |
+| `widget` | object | Widget data |
+| `widget.form_code` | string | Code of the form to render (references Forms API) |
+| `widget.submit_text` | string | Submit button text |
+| `widget.button_style` | string | Submit button CSS style (default: `"info"`) |
+| `widget.button_size` | string | Submit button size (default: `"md"`) |
+| `widget.button_border_radius` | string | Button border radius (default: `"md"`) |
+| `widget.button_padding` | string | Button padding |
+| `widget.button_icon` | string | Button icon class |
+| `widget.button_icon_position` | string | Icon position: `"left"` or `"right"` (default: `"left"`) |
+| `widget.button_align` | string | Button alignment: `"left"`, `"center"`, `"right"` |
+| `widget.label_position` | string | Label position: `"top"`, `"side"` |
+| `widget.columns` | string | Form columns: `"1"`, `"2"` |
+| `widget.input_size` | string | Input size: `"sm"`, `"md"`, `"lg"` |
+| `widget.input_border_radius` | string | Input border radius: `"none"`, `"sm"`, `"md"`, `"lg"`, `"pill"` |
+| `widget.input_padding` | string | Input padding in px |
+| `widget.input_background_color` | string | Input background color (hex or `"var:primary"` variable reference) |
+| `widget.input_text_color` | string | Input text color |
+| `widget.input_border_color` | string | Input border color |
+| `widget.input_border_width` | string | Input border width in px |
+| `widget.input_border_style` | string | Input border style: `"solid"`, `"dashed"`, `"dotted"` |
+| `widget.input_focus_border_color` | string | Input border color on focus |
+| `widget.input_placeholder_color` | string | Input placeholder text color |
 | `settings` | object | Style settings (optional) |
 
 ## Response Structure (Legacy Inline Fields Mode)
@@ -48,26 +48,20 @@ When `form_code` is not set, the widget uses inline field definitions. This is t
 |----------|------|-------------|
 | `widget_type` | string | Always `"form"` |
 | `uuid` | string | Unique widget identifier |
-| `config` | object | Widget configuration |
-| `config.form_uuid` | string | Form identifier (same as widget uuid) |
-| `config.fields` | array | Array of form field definitions |
-| `config.fields[].code` | string | Field code/name |
-| `config.code` | string | Alias for per-field code (inside each field object) |
-| `config.fields[].type` | string | Field type: `"text"`, `"email"`, `"textarea"`, `"select"`, etc. |
-| `config.type` | string | Alias for per-field type (inside each field object) |
-| `config.fields[].label` | string | Field label |
-| `config.label` | string | Alias for per-field label (inside each field object) |
-| `config.fields[].placeholder` | string | Field placeholder text |
-| `config.placeholder` | string | Alias for per-field placeholder (inside each field object) |
-| `config.fields[].required` | boolean | Whether the field is required (default: false) |
-| `config.required` | boolean | Alias for per-field required flag (inside each field object) |
-| `config.fields[].options` | array | Options for select/radio fields |
-| `config.options` | array | Alias for per-field options (inside each field object) |
-| `config.submit_text` | string | Submit button text (default: `"Submit"`) |
-| `config.success_message` | string | Message shown after successful submission |
-| `config.error_message` | string | Message shown on submission error |
-| `config.button_color` | string | Button background color |
-| `config.email_to` | string | Email address to send submissions to |
+| `widget` | object | Widget data |
+| `widget.form_uuid` | string | Form identifier (same as widget uuid) |
+| `widget.fields` | array | Array of form field definitions |
+| `widget.fields[].code` | string | Field code/name |
+| `widget.fields[].type` | string | Field type: `"text"`, `"email"`, `"textarea"`, `"select"`, etc. |
+| `widget.fields[].label` | string | Field label |
+| `widget.fields[].placeholder` | string | Field placeholder text |
+| `widget.fields[].required` | boolean | Whether the field is required (default: false) |
+| `widget.fields[].options` | array | Options for select/radio fields |
+| `widget.submit_text` | string | Submit button text (default: `"Submit"`) |
+| `widget.success_message` | string | Message shown after successful submission |
+| `widget.error_message` | string | Message shown on submission error |
+| `widget.button_color` | string | Button background color |
+| `widget.email_to` | string | Email address to send submissions to |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response (Form Code Mode)
@@ -76,7 +70,7 @@ When `form_code` is not set, the widget uses inline field definitions. This is t
 {
   "widget_type": "form",
   "uuid": "form-widget-123",
-  "config": {
+  "widget": {
     "form_code": "contact",
     "submit_text": "Send Message",
     "button_style": "info",
@@ -114,7 +108,7 @@ When `form_code` is not set, the widget uses inline field definitions. This is t
 {
   "widget_type": "form",
   "uuid": "form-widget-456",
-  "config": {
+  "widget": {
     "form_uuid": "form-widget-456",
     "fields": [
       {
@@ -215,7 +209,7 @@ See [Forms API](../forms.md) for full submission documentation including Cloudfl
 
 ```javascript
 async function renderFormWidget(widget, language, api) {
-  const { form_code, submit_text, button_align, label_position, columns } = widget.config;
+  const { form_code, submit_text, button_align, label_position, columns } = widget.widget;
 
   // Fetch form definition from Forms API
   const { data: form } = await api.getForm(form_code);

@@ -14,16 +14,14 @@ accordion
 |----------|------|-------------|
 | `widget_type` | string | Always `"accordion"` |
 | `uuid` | string | Unique widget identifier |
-| `content` | object | Widget content |
-| `content.title` | object | Multilingual accordion title |
-| `content.items` | array | List of accordion items |
-| `content.items[].title` | object | Multilingual item title |
-| `content.items[].content` | object | Multilingual item content (HTML) |
-| `config` | object | Widget configuration |
-| `config.icon_color` | string\|null | Color of expand/collapse icon |
-| `config.border_color` | string\|null | Border color of items |
-| `config.allow_multiple` | boolean | Allow multiple items open at once |
-| `config.first_open` | boolean | First item open by default |
+| `widget` | object | Widget data |
+| `widget.items` | array | List of accordion items |
+| `widget.items[].title` | object | Multilingual item title |
+| `widget.items[].content` | object | Multilingual item content (HTML) |
+| `widget.icon_color` | string\|null | Color of expand/collapse icon |
+| `widget.border_color` | string\|null | Border color of items |
+| `widget.allow_multiple` | boolean | Allow multiple items open at once |
+| `widget.first_open` | boolean | First item open by default |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response
@@ -32,7 +30,7 @@ accordion
 {
   "widget_type": "accordion",
   "uuid": "accordion-123",
-  "content": {
+  "widget": {
     "items": [
       {
         "title": {
@@ -54,9 +52,7 @@ accordion
           "pl": "<p>Zarejestruj się za darmo i stwórz swój pierwszy projekt.</p>"
         }
       }
-    ]
-  },
-  "config": {
+    ],
     "icon_color": "#50a5f1",
     "border_color": "#e0e0e0",
     "allow_multiple": false,
@@ -69,8 +65,8 @@ accordion
 
 ```javascript
 function renderAccordion(widget, language) {
-  const { items } = widget.content;
-  const { allow_multiple, first_open, icon_color, border_color } = widget.config;
+  const { items } = widget.widget;
+  const { allow_multiple, first_open, icon_color, border_color } = widget.widget;
 
   return `
     <div class="accordion" data-allow-multiple="${allow_multiple}">

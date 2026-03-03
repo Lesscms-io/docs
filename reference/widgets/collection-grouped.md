@@ -14,25 +14,25 @@ collection-grouped
 |----------|------|-------------|
 | `widget_type` | string | Always `"collection-grouped"` |
 | `uuid` | string | Unique widget identifier |
-| `config` | object | Widget configuration |
-| `config.collection_code` | string\|null | Collection code |
-| `config.route_uuid` | string\|null | UUID of the route used for entry links |
-| `config.group_by_field` | string\|null | Field code to group entries by |
-| `config.style` | string | Display style: `"sections"`, `"accordion"`, `"tabs"` (default: `"sections"`) |
-| `config.item_layout` | string | Item layout: `"list"`, `"cards"`, `"compact"` (default: `"list"`) |
-| `config.posts_count` | number | Maximum entries per group (default: 50) |
-| `config.title_field` | string\|null | Field code for entry title |
-| `config.description_field` | string\|null | Field code for description |
-| `config.price_field` | string\|null | Field code for price |
-| `config.image_field` | string\|null | Field code for image |
-| `config.show_title` | boolean | Display entry title (default: true) |
-| `config.show_description` | boolean | Display description (default: true) |
-| `config.show_price` | boolean | Display price (default: true) |
-| `config.show_image` | boolean | Display image (default: false) |
-| `config.show_uncategorized` | boolean | Show entries without group value (default: true) |
-| `config.exclude_current_entry` | boolean | Exclude current entry from results (default: false) |
-| `config.use_custom_layout` | boolean | Use custom layout configuration (default: false) |
-| `config.layout_config` | object\|null | Custom layout configuration object |
+| `widget` | object | Widget data |
+| `widget.collection_code` | string\|null | Collection code |
+| `widget.route_uuid` | string\|null | UUID of the route used for entry links |
+| `widget.group_by_field` | string\|null | Field code to group entries by |
+| `widget.style` | string | Display style: `"sections"`, `"accordion"`, `"tabs"` (default: `"sections"`) |
+| `widget.item_layout` | string | Item layout: `"list"`, `"cards"`, `"compact"` (default: `"list"`) |
+| `widget.posts_count` | number | Maximum entries per group (default: 50) |
+| `widget.title_field` | string\|null | Field code for entry title |
+| `widget.description_field` | string\|null | Field code for description |
+| `widget.price_field` | string\|null | Field code for price |
+| `widget.image_field` | string\|null | Field code for image |
+| `widget.show_title` | boolean | Display entry title (default: true) |
+| `widget.show_description` | boolean | Display description (default: true) |
+| `widget.show_price` | boolean | Display price (default: true) |
+| `widget.show_image` | boolean | Display image (default: false) |
+| `widget.show_uncategorized` | boolean | Show entries without group value (default: true) |
+| `widget.exclude_current_entry` | boolean | Exclude current entry from results (default: false) |
+| `widget.use_custom_layout` | boolean | Use custom layout configuration (default: false) |
+| `widget.layout_config` | object\|null | Custom layout configuration object |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response
@@ -41,7 +41,7 @@ collection-grouped
 {
   "widget_type": "collection-grouped",
   "uuid": "grouped-123",
-  "config": {
+  "widget": {
     "collection_code": "menu_items",
     "route_uuid": null,
     "group_by_field": "category",
@@ -94,10 +94,12 @@ function renderCollectionGrouped(widget, language) {
     style, item_layout,
     title_field, description_field, price_field, image_field,
     show_title, show_description, show_price, show_image, show_uncategorized
-  } = widget.config;
+  } = widget.widget;
 
-  const groups = widget.data?.groups || {};
-  const ungrouped = widget.data?.ungrouped || [];
+  // Note: groups and ungrouped are NOT included in the API response.
+  // You must fetch collection entries separately and group them client-side.
+  const groups = {}; // Group entries by group_by_field value
+  const ungrouped = []; // Entries without a group value
 
   let html = '';
 

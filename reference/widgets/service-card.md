@@ -14,28 +14,27 @@ service-card
 |----------|------|-------------|
 | `widget_type` | string | Always `"service-card"` |
 | `uuid` | string | Unique widget identifier |
-| `config` | object | Widget configuration |
-| `config.icon` | string | Icon class (e.g., `"fa-solid fa-tree"`) |
-| `config.icon_color` | string | Icon color (hex) |
-| `config.icon_background` | string | Icon background color |
-| `config.highlighted` | boolean | Whether the card is highlighted/featured (default: false) |
-| `config.link_url` | string | URL for the call-to-action link |
-| `config.link_type` | string | Link type: `"custom"`, `"page"`, `"entry"`, `"route"` (default: `"custom"`) |
-| `config.link_page_id` | string\|null | Page ID (when link_type is `"page"`) |
-| `config.link_collection_code` | string\|null | Collection code (when link_type is `"entry"`) |
-| `config.link_entry_id` | string\|null | Entry ID (when link_type is `"entry"`) |
-| `config.link_route_uuid` | string\|null | Route UUID (when link_type is `"route"`) |
-| `config.link_target_blank` | boolean | Open link in new tab (default: false) |
-| `config.badge_color` | string | Badge text color |
-| `config.badge_background` | string | Badge background color |
-| `config.text_color` | string | Card text color |
-| `config.background_color` | string | Card background color |
-| `config.show_badge` | boolean | Whether to show the badge |
-| `content` | object | Multilingual content |
-| `content.badge` | object | Multilingual badge text (optional) |
-| `content.title` | object | Multilingual title text |
-| `content.description` | object | Multilingual description text |
-| `content.link_text` | object | Multilingual link text |
+| `widget` | object | Widget data |
+| `widget.icon` | string | Icon class (e.g., `"fa-solid fa-tree"`) |
+| `widget.icon_color` | string | Icon color (hex) |
+| `widget.icon_background` | string | Icon background color |
+| `widget.highlighted` | boolean | Whether the card is highlighted/featured (default: false) |
+| `widget.link_url` | string | URL for the call-to-action link |
+| `widget.link_type` | string | Link type: `"custom"`, `"page"`, `"entry"`, `"route"` (default: `"custom"`) |
+| `widget.link_page_id` | string\|null | Page ID (when link_type is `"page"`) |
+| `widget.link_collection_code` | string\|null | Collection code (when link_type is `"entry"`) |
+| `widget.link_entry_id` | string\|null | Entry ID (when link_type is `"entry"`) |
+| `widget.link_route_uuid` | string\|null | Route UUID (when link_type is `"route"`) |
+| `widget.link_target_blank` | boolean | Open link in new tab (default: false) |
+| `widget.badge_color` | string | Badge text color |
+| `widget.badge_background` | string | Badge background color |
+| `widget.text_color` | string | Card text color |
+| `widget.background_color` | string | Card background color |
+| `widget.show_badge` | boolean | Whether to show the badge |
+| `widget.badge` | object | Multilingual badge text (optional) |
+| `widget.title` | object | Multilingual title text |
+| `widget.description` | object | Multilingual description text |
+| `widget.link_text` | object | Multilingual link text |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response
@@ -44,7 +43,7 @@ service-card
 {
   "widget_type": "service-card",
   "uuid": "service-123",
-  "config": {
+  "widget": {
     "icon": "fa-solid fa-tree",
     "icon_color": "#2e7d32",
     "icon_background": "#e8f5e9",
@@ -60,9 +59,7 @@ service-card
     "badge_background": null,
     "text_color": "",
     "background_color": "",
-    "show_badge": false
-  },
-  "content": {
+    "show_badge": false,
     "badge": {},
     "title": {
       "en": "Tree Cutting",
@@ -87,7 +84,7 @@ service-card
 {
   "widget_type": "service-card",
   "uuid": "service-456",
-  "config": {
+  "widget": {
     "icon": "fa-solid fa-cut",
     "icon_color": "#ffffff",
     "icon_background": "rgba(255, 255, 255, 0.15)",
@@ -103,9 +100,7 @@ service-card
     "badge_background": "#4ade80",
     "text_color": "#ffffff",
     "background_color": "#1a4d3e",
-    "show_badge": true
-  },
-  "content": {
+    "show_badge": true,
     "badge": {
       "en": "MOST POPULAR",
       "pl": "NAJPOPULARNIEJSZA"
@@ -141,18 +136,15 @@ The service-card widget supports displaying multiple cards in a grid. When multi
   "items": [
     {
       "widget_type": "service-card",
-      "config": { "icon": "fa-solid fa-tree", "icon_color": "#2e7d32", "icon_background": "#e8f5e9", "link_url": "/services/tree-cutting", "show_badge": false },
-      "content": { "badge": {}, "title": { "en": "Tree Cutting" }, "description": { "en": "Safe tree removal." }, "link_text": { "en": "Learn more" } }
+      "widget": { "icon": "fa-solid fa-tree", "icon_color": "#2e7d32", "icon_background": "#e8f5e9", "link_url": "/services/tree-cutting", "show_badge": false, "badge": {}, "title": { "en": "Tree Cutting" }, "description": { "en": "Safe tree removal." }, "link_text": { "en": "Learn more" } }
     },
     {
       "widget_type": "service-card",
-      "config": { "icon": "fa-solid fa-cut", "icon_color": "#2e7d32", "icon_background": "#e8f5e9", "link_url": "/services/pruning", "show_badge": false },
-      "content": { "badge": {}, "title": { "en": "Tree Pruning" }, "description": { "en": "Professional crown care." }, "link_text": { "en": "Learn more" } }
+      "widget": { "icon": "fa-solid fa-cut", "icon_color": "#2e7d32", "icon_background": "#e8f5e9", "link_url": "/services/pruning", "show_badge": false, "badge": {}, "title": { "en": "Tree Pruning" }, "description": { "en": "Professional crown care." }, "link_text": { "en": "Learn more" } }
     },
     {
       "widget_type": "service-card",
-      "config": { "icon": "fa-solid fa-leaf", "icon_color": "#2e7d32", "icon_background": "#e8f5e9", "link_url": "/services/planting", "show_badge": false },
-      "content": { "badge": {}, "title": { "en": "Tree Planting" }, "description": { "en": "Expert planting service." }, "link_text": { "en": "Learn more" } }
+      "widget": { "icon": "fa-solid fa-leaf", "icon_color": "#2e7d32", "icon_background": "#e8f5e9", "link_url": "/services/planting", "show_badge": false, "badge": {}, "title": { "en": "Tree Planting" }, "description": { "en": "Expert planting service." }, "link_text": { "en": "Learn more" } }
     }
   ],
   "settings": {}
@@ -165,8 +157,8 @@ Per-item fields (`badge`, `icon`, `title`, `description`, `link_text`, `link_url
 
 ```javascript
 function renderServiceCard(widget, language) {
-  const { icon, icon_color, icon_background, link_url, badge_color, badge_background, text_color, background_color, show_badge } = widget.config;
-  const { badge, title, description, link_text } = widget.content;
+  const { icon, icon_color, icon_background, link_url, badge_color, badge_background, text_color, background_color, show_badge } = widget.widget;
+  const { badge, title, description, link_text } = widget.widget;
 
   const badgeText = badge?.[language] || badge?.en || '';
   const titleText = title?.[language] || title?.en || '';

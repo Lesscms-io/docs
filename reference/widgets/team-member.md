@@ -14,17 +14,16 @@ team-member
 |----------|------|-------------|
 | `widget_type` | string | Always `"team-member"` |
 | `uuid` | string | Unique widget identifier |
-| `config` | object | Widget configuration |
-| `config.image` | string | Photo URL |
-| `config.style` | string | Card style: `"card"`, `"minimal"`, `"overlay"` |
-| `config.accent_color` | string | Accent color for position text and social icons |
-| `config.social_links` | array | Array of social link objects |
-| `config.social_links[].platform` | string | Platform: `"linkedin"`, `"twitter"`, `"facebook"`, `"instagram"`, `"github"`, `"email"` |
-| `config.social_links[].url` | string | Profile URL |
-| `content` | object | Multilingual content |
-| `content.name` | object | Multilingual name |
-| `content.position` | object | Multilingual position/title |
-| `content.bio` | object | Multilingual biography |
+| `widget` | object | Widget data |
+| `widget.image` | string | Photo URL |
+| `widget.style` | string | Card style: `"card"`, `"minimal"`, `"overlay"` |
+| `widget.accent_color` | string | Accent color for position text and social icons |
+| `widget.social_links` | array | Array of social link objects |
+| `widget.social_links[].platform` | string | Platform: `"linkedin"`, `"twitter"`, `"facebook"`, `"instagram"`, `"github"`, `"email"` |
+| `widget.social_links[].url` | string | Profile URL |
+| `widget.name` | object | Multilingual name |
+| `widget.position` | object | Multilingual position/title |
+| `widget.bio` | object | Multilingual biography |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response
@@ -33,16 +32,14 @@ team-member
 {
   "widget_type": "team-member",
   "uuid": "member-123",
-  "config": {
+  "widget": {
     "image": "https://cdn.example.com/photos/john.jpg",
     "style": "card",
     "accent_color": "#50a5f1",
     "social_links": [
       { "platform": "linkedin", "url": "https://linkedin.com/in/john" },
       { "platform": "twitter", "url": "https://x.com/john" }
-    ]
-  },
-  "content": {
+    ],
     "name": { "en": "John Smith", "pl": "Jan Kowalski" },
     "position": { "en": "CEO", "pl": "Dyrektor generalny" },
     "bio": { "en": "Leading the company since 2015.", "pl": "Prowadzi firmę od 2015 roku." }
@@ -65,18 +62,15 @@ The team-member widget supports displaying multiple members in a grid. When mult
   "items": [
     {
       "widget_type": "team-member",
-      "config": { "image": "https://cdn.example.com/john.jpg", "style": "card", "accent_color": "#50a5f1", "social_links": [{ "platform": "linkedin", "url": "https://linkedin.com/in/john" }] },
-      "content": { "name": { "en": "John Smith" }, "position": { "en": "CEO" }, "bio": { "en": "Company leader." } }
+      "widget": { "image": "https://cdn.example.com/john.jpg", "style": "card", "accent_color": "#50a5f1", "social_links": [{ "platform": "linkedin", "url": "https://linkedin.com/in/john" }], "name": { "en": "John Smith" }, "position": { "en": "CEO" }, "bio": { "en": "Company leader." } }
     },
     {
       "widget_type": "team-member",
-      "config": { "image": "https://cdn.example.com/jane.jpg", "style": "card", "accent_color": "#50a5f1", "social_links": [{ "platform": "linkedin", "url": "https://linkedin.com/in/jane" }] },
-      "content": { "name": { "en": "Jane Doe" }, "position": { "en": "CTO" }, "bio": { "en": "Tech lead." } }
+      "widget": { "image": "https://cdn.example.com/jane.jpg", "style": "card", "accent_color": "#50a5f1", "social_links": [{ "platform": "linkedin", "url": "https://linkedin.com/in/jane" }], "name": { "en": "Jane Doe" }, "position": { "en": "CTO" }, "bio": { "en": "Tech lead." } }
     },
     {
       "widget_type": "team-member",
-      "config": { "image": "https://cdn.example.com/bob.jpg", "style": "card", "accent_color": "#50a5f1", "social_links": [{ "platform": "github", "url": "https://github.com/bob" }] },
-      "content": { "name": { "en": "Bob Wilson" }, "position": { "en": "Lead Developer" }, "bio": { "en": "Full-stack expert." } }
+      "widget": { "image": "https://cdn.example.com/bob.jpg", "style": "card", "accent_color": "#50a5f1", "social_links": [{ "platform": "github", "url": "https://github.com/bob" }], "name": { "en": "Bob Wilson" }, "position": { "en": "Lead Developer" }, "bio": { "en": "Full-stack expert." } }
     }
   ],
   "settings": {}
@@ -97,10 +91,10 @@ Per-item fields (`image`, `name`, `position`, `bio`, `social_links`) are unique 
 
 ```javascript
 function renderTeamMember(widget, language) {
-  const { image, style, accent_color, social_links } = widget.config;
-  const name = widget.content?.name?.[language] || widget.content?.name?.en || '';
-  const position = widget.content?.position?.[language] || widget.content?.position?.en || '';
-  const bio = widget.content?.bio?.[language] || widget.content?.bio?.en || '';
+  const { image, style, accent_color, social_links } = widget.widget;
+  const name = widget.widget?.name?.[language] || widget.widget?.name?.en || '';
+  const position = widget.widget?.position?.[language] || widget.widget?.position?.en || '';
+  const bio = widget.widget?.bio?.[language] || widget.widget?.bio?.en || '';
 
   const socialHtml = (social_links || []).map(link => {
     const icons = { linkedin: 'fab fa-linkedin', twitter: 'fab fa-x-twitter', facebook: 'fab fa-facebook', instagram: 'fab fa-instagram', github: 'fab fa-github', email: 'fas fa-envelope' };

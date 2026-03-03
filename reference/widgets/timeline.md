@@ -14,16 +14,14 @@ timeline
 |----------|------|-------------|
 | `widget_type` | string | Always `"timeline"` |
 | `uuid` | string | Unique widget identifier |
-| `content` | object | Widget content |
-| `content.items` | array | List of timeline events |
-| `content.items[].date` | object | Multilingual date label |
-| `content.date` | object | Alias for per-item multilingual date label (inside each item) |
-| `content.items[].title` | object | Multilingual event title |
-| `content.items[].content` | object | Multilingual event description |
-| `config` | object | Widget configuration |
-| `config.layout` | string | Layout: `"left"`, `"right"`, `"alternate"` |
-| `config.line_color` | string\|null | Timeline line color |
-| `config.dot_color` | string\|null | Timeline dot color |
+| `widget` | object | Widget data |
+| `widget.items` | array | List of timeline events |
+| `widget.items[].date` | object | Multilingual date label |
+| `widget.items[].title` | object | Multilingual event title |
+| `widget.items[].content` | object | Multilingual event description |
+| `widget.layout` | string | Layout: `"left"`, `"right"`, `"alternate"` |
+| `widget.line_color` | string\|null | Timeline line color |
+| `widget.dot_color` | string\|null | Timeline dot color |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response
@@ -32,7 +30,7 @@ timeline
 {
   "widget_type": "timeline",
   "uuid": "timeline-123",
-  "content": {
+  "widget": {
     "items": [
       {
         "date": { "en": "January 2024", "pl": "Styczeń 2024" },
@@ -44,9 +42,7 @@ timeline
         "title": { "en": "Product Launch", "pl": "Premiera produktu" },
         "content": { "en": "Our first product went live.", "pl": "Nasz pierwszy produkt został uruchomiony." }
       }
-    ]
-  },
-  "config": {
+    ],
     "layout": "left",
     "line_color": "#e0e0e0",
     "dot_color": "#50a5f1"
@@ -66,8 +62,7 @@ timeline
 
 ```javascript
 function renderTimeline(widget, language) {
-  const { items } = widget.content;
-  const { layout, line_color, dot_color } = widget.config;
+  const { items, layout, line_color, dot_color } = widget.widget;
 
   const timelineItems = items.map((item, index) => {
     const date = item.date?.[language] || item.date?.en || '';

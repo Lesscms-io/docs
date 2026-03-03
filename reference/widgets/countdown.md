@@ -14,12 +14,12 @@ countdown
 |----------|------|-------------|
 | `widget_type` | string | Always `"countdown"` |
 | `uuid` | string | Unique widget identifier |
-| `config` | object | Widget configuration |
-| `config.target_date` | string | Target date/time in ISO 8601 format |
-| `config.show_days` | boolean | Display days component |
-| `config.show_hours` | boolean | Display hours component |
-| `config.show_minutes` | boolean | Display minutes component |
-| `config.show_seconds` | boolean | Display seconds component |
+| `widget` | object | Widget properties |
+| `widget.target_date` | string | Target date/time in ISO 8601 format |
+| `widget.show_days` | boolean | Display days component |
+| `widget.show_hours` | boolean | Display hours component |
+| `widget.show_minutes` | boolean | Display minutes component |
+| `widget.show_seconds` | boolean | Display seconds component |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response
@@ -28,7 +28,7 @@ countdown
 {
   "widget_type": "countdown",
   "uuid": "countdown-123",
-  "config": {
+  "widget": {
     "target_date": "2025-12-31T23:59:59Z",
     "show_days": true,
     "show_hours": true,
@@ -51,7 +51,7 @@ countdown
 
 ```javascript
 function renderCountdown(widget) {
-  const { target_date, show_days, show_hours, show_minutes, show_seconds } = widget.config;
+  const { target_date, show_days, show_hours, show_minutes, show_seconds } = widget.widget;
 
   const countdownId = `countdown-${widget.uuid}`;
 

@@ -14,12 +14,11 @@ progress-bar
 |----------|------|-------------|
 | `widget_type` | string | Always `"progress-bar"` |
 | `uuid` | string | Unique widget identifier |
-| `config` | object | Widget configuration |
-| `config.percentage` | number | Progress percentage (0-100, default: 0) |
-| `config.color` | string | Bar color (hex code) |
-| `config.show_percentage` | boolean | Display percentage text (default: true) |
-| `content` | object | Widget content |
-| `content.title` | string | Progress bar label (localized) |
+| `widget` | object | Widget data |
+| `widget.percentage` | number | Progress percentage (0-100, default: 0) |
+| `widget.color` | string | Bar color (hex code) |
+| `widget.show_percentage` | boolean | Display percentage text (default: true) |
+| `widget.title` | string | Progress bar label (localized) |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response
@@ -28,12 +27,10 @@ progress-bar
 {
   "widget_type": "progress-bar",
   "uuid": "progress-123",
-  "config": {
+  "widget": {
     "percentage": 75,
     "color": "#28a745",
-    "show_percentage": true
-  },
-  "content": {
+    "show_percentage": true,
     "title": "Project Progress"
   },
   "settings": {
@@ -57,18 +54,15 @@ The progress-bar widget supports displaying multiple progress bars in a grid. Wh
   "items": [
     {
       "widget_type": "progress-bar",
-      "config": { "percentage": 95, "color": "#E34F26", "show_percentage": true },
-      "content": { "title": "HTML/CSS" }
+      "widget": { "percentage": 95, "color": "#E34F26", "show_percentage": true, "title": "HTML/CSS" }
     },
     {
       "widget_type": "progress-bar",
-      "config": { "percentage": 85, "color": "#F7DF1E", "show_percentage": true },
-      "content": { "title": "JavaScript" }
+      "widget": { "percentage": 85, "color": "#F7DF1E", "show_percentage": true, "title": "JavaScript" }
     },
     {
       "widget_type": "progress-bar",
-      "config": { "percentage": 80, "color": "#4FC08D", "show_percentage": true },
-      "content": { "title": "Vue.js" }
+      "widget": { "percentage": 80, "color": "#4FC08D", "show_percentage": true, "title": "Vue.js" }
     }
   ],
   "settings": {}
@@ -82,8 +76,7 @@ Per-item fields (`title`, `percentage`) are unique to each item. Shared fields (
 ```javascript
 // Render progress bar widget
 function renderProgressBar(widget, language) {
-  const { percentage, color, show_percentage } = widget.config;
-  const { title } = widget.content;
+  const { percentage, color, show_percentage, title } = widget.widget;
 
   const progressId = `progress-${widget.uuid}`;
 

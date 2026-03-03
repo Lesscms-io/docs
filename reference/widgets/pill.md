@@ -14,14 +14,13 @@ pill
 |----------|------|-------------|
 | `widget_type` | string | Always `"pill"` |
 | `uuid` | string | Unique widget identifier |
-| `config` | object | Widget configuration |
-| `config.variant` | string | `"filled"` or `"outline"` |
-| `config.size` | string | `"sm"`, `"md"`, or `"lg"` |
-| `config.background_color` | string | Background color |
-| `config.text_color` | string | Text color |
-| `config.uppercase` | boolean | Whether text is uppercase (default: true) |
-| `content` | object | Widget content |
-| `content.text` | object | Multilingual pill text |
+| `widget` | object | Widget data |
+| `widget.variant` | string | `"filled"` or `"outline"` |
+| `widget.size` | string | `"sm"`, `"md"`, or `"lg"` |
+| `widget.background_color` | string | Background color |
+| `widget.text_color` | string | Text color |
+| `widget.uppercase` | boolean | Whether text is uppercase (default: true) |
+| `widget.text` | object | Multilingual pill text |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response
@@ -30,14 +29,12 @@ pill
 {
   "widget_type": "pill",
   "uuid": "pill-123",
-  "config": {
+  "widget": {
     "variant": "filled",
     "size": "md",
     "background_color": "#50a5f1",
     "text_color": "#ffffff",
-    "uppercase": true
-  },
-  "content": {
+    "uppercase": true,
     "text": {
       "en": "New",
       "pl": "Nowość"
@@ -61,18 +58,15 @@ The pill widget supports displaying multiple pills in a grid. When multiple item
   "items": [
     {
       "widget_type": "pill",
-      "config": { "variant": "filled", "size": "md", "background_color": "#50a5f1", "text_color": "#fff", "uppercase": true },
-      "content": { "text": { "en": "Design" } }
+      "widget": { "variant": "filled", "size": "md", "background_color": "#50a5f1", "text_color": "#fff", "uppercase": true, "text": { "en": "Design" } }
     },
     {
       "widget_type": "pill",
-      "config": { "variant": "filled", "size": "md", "background_color": "#50a5f1", "text_color": "#fff", "uppercase": true },
-      "content": { "text": { "en": "Development" } }
+      "widget": { "variant": "filled", "size": "md", "background_color": "#50a5f1", "text_color": "#fff", "uppercase": true, "text": { "en": "Development" } }
     },
     {
       "widget_type": "pill",
-      "config": { "variant": "filled", "size": "md", "background_color": "#50a5f1", "text_color": "#fff", "uppercase": true },
-      "content": { "text": { "en": "Marketing" } }
+      "widget": { "variant": "filled", "size": "md", "background_color": "#50a5f1", "text_color": "#fff", "uppercase": true, "text": { "en": "Marketing" } }
     }
   ],
   "settings": {}
@@ -85,8 +79,8 @@ Per-item fields (`text`) are unique to each item. Shared fields (`variant`, `siz
 
 ```javascript
 function renderPill(widget, language) {
-  const { variant, size, background_color, text_color, uppercase } = widget.config;
-  const text = widget.content?.text?.[language] || widget.content?.text?.en || '';
+  const { variant, size, background_color, text_color, uppercase } = widget.widget;
+  const text = widget.widget?.text?.[language] || widget.widget?.text?.en || '';
 
   const style = variant === 'outline'
     ? `border: 1px solid ${background_color}; color: ${background_color}; background: transparent;`

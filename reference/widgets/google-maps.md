@@ -14,20 +14,20 @@ google-maps
 |----------|------|-------------|
 | `widget_type` | string | Always `"google-maps"` |
 | `uuid` | string | Unique widget identifier |
-| `config` | object | Widget configuration |
-| `config.location_source` | string | Location source: `"address"` or `"coordinates"` (default: `"address"`) |
-| `config.address` | object | Multilingual address text `{ "en": "...", "pl": "..." }` |
-| `config.lat` | number\|null | Latitude for coordinate-based location |
-| `config.lng` | number\|null | Longitude for coordinate-based location |
-| `config.zoom` | number | Zoom level (1-21, default: 14) |
-| `config.map_type` | string | Map type: `"roadmap"` or `"satellite"` |
-| `config.show_marker` | boolean | Show map marker at the location (default: true) |
-| `config.street_view_control` | boolean | Show Street View pegman control (default: false) |
-| `config.zoom_control` | boolean | Show zoom +/- buttons (default: true) |
-| `config.fullscreen_control` | boolean | Show fullscreen button (default: true) |
-| `config.map_type_control` | boolean | Show map/satellite toggle (default: false) |
-| `config.scroll_wheel` | boolean | Enable zoom via scroll wheel (default: false) |
-| `config.draggable` | boolean | Allow map panning by dragging (default: true) |
+| `widget` | object | Widget data |
+| `widget.location_source` | string | Location source: `"address"` or `"coordinates"` (default: `"address"`) |
+| `widget.address` | object | Multilingual address text `{ "en": "...", "pl": "..." }` |
+| `widget.lat` | number\|null | Latitude for coordinate-based location |
+| `widget.lng` | number\|null | Longitude for coordinate-based location |
+| `widget.zoom` | number | Zoom level (1-21, default: 14) |
+| `widget.map_type` | string | Map type: `"roadmap"` or `"satellite"` |
+| `widget.show_marker` | boolean | Show map marker at the location (default: true) |
+| `widget.street_view_control` | boolean | Show Street View pegman control (default: false) |
+| `widget.zoom_control` | boolean | Show zoom +/- buttons (default: true) |
+| `widget.fullscreen_control` | boolean | Show fullscreen button (default: true) |
+| `widget.map_type_control` | boolean | Show map/satellite toggle (default: false) |
+| `widget.scroll_wheel` | boolean | Enable zoom via scroll wheel (default: false) |
+| `widget.draggable` | boolean | Allow map panning by dragging (default: true) |
 | `settings` | object | Style settings (optional) |
 
 > **Note**: The API key is intentionally not exposed in the API response for security reasons. The frontend application should provide its own Google Maps API key for rendering.
@@ -38,7 +38,7 @@ google-maps
 {
   "widget_type": "google-maps",
   "uuid": "maps-123",
-  "config": {
+  "widget": {
     "location_source": "address",
     "address": {
       "en": "1600 Amphitheatre Parkway, Mountain View, CA",
@@ -72,7 +72,7 @@ google-maps
 {
   "widget_type": "google-maps",
   "uuid": "maps-456",
-  "config": {
+  "widget": {
     "location_source": "coordinates",
     "address": {},
     "lat": 37.4220,
@@ -111,7 +111,7 @@ google-maps
 
 ```javascript
 function renderGoogleMaps(widget, language) {
-  const { location_source, address, lat, lng, zoom, map_type, show_marker } = widget.config;
+  const { location_source, address, lat, lng, zoom, map_type, show_marker } = widget.widget;
   const height = widget.settings?.minHeight || 400;
 
   let query;

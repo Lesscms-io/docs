@@ -14,16 +14,14 @@ tabs
 |----------|------|-------------|
 | `widget_type` | string | Always `"tabs"` |
 | `uuid` | string | Unique widget identifier |
-| `content` | object | Widget content |
-| `content.items` | array | List of tab items |
-| `content.items[].title` | object | Multilingual tab title |
-| `content.title` | object | Alias for per-item multilingual tab title (inside each item) |
-| `content.items[].content` | object | Multilingual tab content (HTML) |
-| `config` | object | Widget configuration |
-| `config.active_color` | string\|null | Color of active tab |
-| `config.border_color` | string\|null | Border color |
-| `config.style` | string | Tab style: `"underline"`, `"pills"`, `"boxed"` |
-| `config.alignment` | string | Tab alignment: `"left"`, `"center"`, `"right"`, `"stretch"` |
+| `widget` | object | Widget data |
+| `widget.items` | array | List of tab items |
+| `widget.items[].title` | object | Multilingual tab title |
+| `widget.items[].content` | object | Multilingual tab content (HTML) |
+| `widget.active_color` | string\|null | Color of active tab |
+| `widget.border_color` | string\|null | Border color |
+| `widget.style` | string | Tab style: `"underline"`, `"pills"`, `"boxed"` |
+| `widget.alignment` | string | Tab alignment: `"left"`, `"center"`, `"right"`, `"stretch"` |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response
@@ -32,7 +30,7 @@ tabs
 {
   "widget_type": "tabs",
   "uuid": "tabs-123",
-  "content": {
+  "widget": {
     "items": [
       {
         "title": {
@@ -54,9 +52,7 @@ tabs
           "pl": "<p>Prosty i przejrzysty cennik.</p>"
         }
       }
-    ]
-  },
-  "config": {
+    ],
     "active_color": "#50a5f1",
     "border_color": "#e0e0e0",
     "style": "underline",
@@ -77,8 +73,7 @@ tabs
 
 ```javascript
 function renderTabs(widget, language) {
-  const { items } = widget.content;
-  const { style, active_color, alignment } = widget.config;
+  const { items, style, active_color, alignment } = widget.widget;
 
   const tabHeaders = items.map((item, index) => {
     const title = item.title?.[language] || item.title?.en || '';

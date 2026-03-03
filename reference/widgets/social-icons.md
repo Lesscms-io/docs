@@ -14,13 +14,13 @@ social-icons
 |----------|------|-------------|
 | `widget_type` | string | Always `"social-icons"` |
 | `uuid` | string | Unique widget identifier |
-| `config` | object | Widget configuration |
-| `config.items` | array | Array of social media links |
-| `config.items[].platform` | string | Platform identifier |
-| `config.items[].url` | string | Profile/page URL |
-| `config.items[].icon` | string | Optional custom icon class |
-| `config.size` | string | Icon size: `"sm"`, `"md"`, `"lg"` |
-| `config.style` | string | Icon style: `"default"`, `"circle"`, `"square"` |
+| `widget` | object | Widget data |
+| `widget.items` | array | Array of social media links |
+| `widget.items[].platform` | string | Platform identifier |
+| `widget.items[].url` | string | Profile/page URL |
+| `widget.items[].icon` | string | Optional custom icon class |
+| `widget.size` | string | Icon size: `"sm"`, `"md"`, `"lg"` |
+| `widget.style` | string | Icon style: `"default"`, `"circle"`, `"square"` |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response
@@ -29,7 +29,7 @@ social-icons
 {
   "widget_type": "social-icons",
   "uuid": "social-123",
-  "config": {
+  "widget": {
     "items": [
       {
         "platform": "facebook",
@@ -109,7 +109,7 @@ const platformIcons = {
 };
 
 function renderSocialIcons(widget) {
-  const { items, size, style } = widget.config;
+  const { items, size, style } = widget.widget;
 
   if (!items || items.length === 0) return '';
 

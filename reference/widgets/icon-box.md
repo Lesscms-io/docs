@@ -14,18 +14,17 @@ icon-box
 |----------|------|-------------|
 | `widget_type` | string | Always `"icon-box"` |
 | `uuid` | string | Unique widget identifier |
-| `config` | object | Widget configuration |
-| `config.content_source` | string | Content source: `"static"` or `"dynamic"` (default: `"static"`) |
-| `config.icon` | string | Icon class (e.g., `"bx bx-phone"`) |
-| `config.icon_size` | number | Icon size in pixels (default: 48) |
-| `config.icon_color` | string | Icon color (hex, default: `"#50a5f1"`) |
-| `config.icon_background` | string | Icon background color (default: `"transparent"`) |
-| `config.icon_padding` | number | Icon padding in pixels (default: 0) |
-| `config.icon_border_radius` | number | Icon border radius in pixels (default: 0) |
-| `config.icon_position` | string | `"left"`, `"right"`, `"top"`, `"bottom"` (default: `"left"`) |
-| `config.icon_vertical_align` | string | `"top"`, `"center"`, `"bottom"` (default: `"top"`) |
-| `content` | object | Widget content |
-| `content.html` | object | Multilingual HTML content |
+| `widget` | object | Widget data |
+| `widget.content_source` | string | Content source: `"static"` or `"dynamic"` (default: `"static"`) |
+| `widget.icon` | string | Icon class (e.g., `"bx bx-phone"`) |
+| `widget.icon_size` | number | Icon size in pixels (default: 48) |
+| `widget.icon_color` | string | Icon color (hex, default: `"#50a5f1"`) |
+| `widget.icon_background` | string | Icon background color (default: `"transparent"`) |
+| `widget.icon_padding` | number | Icon padding in pixels (default: 0) |
+| `widget.icon_border_radius` | number | Icon border radius in pixels (default: 0) |
+| `widget.icon_position` | string | `"left"`, `"right"`, `"top"`, `"bottom"` (default: `"left"`) |
+| `widget.icon_vertical_align` | string | `"top"`, `"center"`, `"bottom"` (default: `"top"`) |
+| `widget.html` | object | Multilingual HTML content |
 | `settings` | object | Style settings (optional) |
 
 ### Per-Item Fields (Multi-Item)
@@ -34,14 +33,14 @@ When used in multi-item mode, each item has:
 
 | Property | Type | Description |
 |----------|------|-------------|
-| `config.icon` | string | Icon class |
-| `config.content_source` | string | `"static"` or `"dynamic"` |
-| `config.collection_code` | string | Collection code (when dynamic) |
-| `config.field_code` | string | Field code (when dynamic) |
-| `config.entry_id` | string | Entry ID (when dynamic) |
-| `config.entry_source` | string | Entry source: `"static"` or `"url"` |
-| `config.entry_url_segment` | number | URL segment index |
-| `content.html` | object | Multilingual HTML content |
+| `widget.icon` | string | Icon class |
+| `widget.content_source` | string | `"static"` or `"dynamic"` |
+| `widget.collection_code` | string | Collection code (when dynamic) |
+| `widget.field_code` | string | Field code (when dynamic) |
+| `widget.entry_id` | string | Entry ID (when dynamic) |
+| `widget.entry_source` | string | Entry source: `"static"` or `"url"` |
+| `widget.entry_url_segment` | number | URL segment index |
+| `widget.html` | object | Multilingual HTML content |
 
 ## Example Response (Static)
 
@@ -49,7 +48,7 @@ When used in multi-item mode, each item has:
 {
   "widget_type": "icon-box",
   "uuid": "iconbox-123",
-  "config": {
+  "widget": {
     "content_source": "static",
     "icon": "bx bx-rocket",
     "icon_size": 48,
@@ -58,9 +57,7 @@ When used in multi-item mode, each item has:
     "icon_padding": 0,
     "icon_border_radius": 0,
     "icon_position": "left",
-    "icon_vertical_align": "top"
-  },
-  "content": {
+    "icon_vertical_align": "top",
     "html": {
       "en": "<h3>Fast Delivery</h3><p>We deliver your order within 24 hours.</p>",
       "pl": "<h3>Szybka dostawa</h3><p>Dostarczamy zamowienia w ciagu 24 godzin.</p>"
@@ -117,18 +114,15 @@ The icon-box widget supports displaying multiple icon boxes in a grid. When mult
   "items": [
     {
       "widget_type": "icon-box",
-      "config": { "icon": "bx bx-rocket", "icon_size": "48", "icon_color": "#50a5f1", "icon_position": "top" },
-      "content": { "html": { "en": "<h3>Fast</h3><p>Lightning fast delivery.</p>" } }
+      "widget": { "icon": "bx bx-rocket", "icon_size": "48", "icon_color": "#50a5f1", "icon_position": "top", "html": { "en": "<h3>Fast</h3><p>Lightning fast delivery.</p>" } }
     },
     {
       "widget_type": "icon-box",
-      "config": { "icon": "bx bx-shield", "icon_size": "48", "icon_color": "#50a5f1", "icon_position": "top" },
-      "content": { "html": { "en": "<h3>Secure</h3><p>Enterprise-grade security.</p>" } }
+      "widget": { "icon": "bx bx-shield", "icon_size": "48", "icon_color": "#50a5f1", "icon_position": "top", "html": { "en": "<h3>Secure</h3><p>Enterprise-grade security.</p>" } }
     },
     {
       "widget_type": "icon-box",
-      "config": { "icon": "bx bx-support", "icon_size": "48", "icon_color": "#50a5f1", "icon_position": "top" },
-      "content": { "html": { "en": "<h3>Support</h3><p>24/7 customer support.</p>" } }
+      "widget": { "icon": "bx bx-support", "icon_size": "48", "icon_color": "#50a5f1", "icon_position": "top", "html": { "en": "<h3>Support</h3><p>24/7 customer support.</p>" } }
     }
   ],
   "settings": {}
@@ -139,8 +133,8 @@ The icon-box widget supports displaying multiple icon boxes in a grid. When mult
 
 ```javascript
 function renderIconBox(widget, language) {
-  const { icon, icon_size, icon_color, icon_background, icon_border_radius, icon_position, icon_vertical_align } = widget.config;
-  const html = widget.content?.html?.[language] || widget.content?.html?.en || '';
+  const { icon, icon_size, icon_color, icon_background, icon_border_radius, icon_position, icon_vertical_align } = widget.widget;
+  const html = widget.widget?.html?.[language] || widget.widget?.html?.en || '';
 
   const iconStyle = [
     `font-size: ${icon_size}px`,

@@ -14,10 +14,10 @@ divider
 |----------|------|-------------|
 | `widget_type` | string | Always `"divider"` |
 | `uuid` | string | Unique widget identifier |
-| `config` | object | Widget configuration |
-| `config.style` | string | Line style: `"solid"`, `"dashed"`, `"dotted"` |
-| `config.color` | string | Line color (hex code, default: `"#e9ecef"`) |
-| `config.thickness` | number | Line thickness in pixels (default: 1) |
+| `widget` | object | Widget properties |
+| `widget.style` | string | Line style: `"solid"`, `"dashed"`, `"dotted"` |
+| `widget.color` | string | Line color (hex code, default: `"#e9ecef"`) |
+| `widget.thickness` | number | Line thickness in pixels (default: 1) |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response
@@ -26,7 +26,7 @@ divider
 {
   "widget_type": "divider",
   "uuid": "divider-123",
-  "config": {
+  "widget": {
     "style": "solid",
     "color": "#e9ecef",
     "thickness": 1
@@ -62,7 +62,7 @@ divider
 
 ```javascript
 function renderDivider(widget) {
-  const { style, color, thickness } = widget.config;
+  const { style, color, thickness } = widget.widget;
 
   return `<hr style="border: none; border-top: ${thickness}px ${style} ${color}; margin: 0;">`;
 }

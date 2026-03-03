@@ -14,18 +14,17 @@ counter
 |----------|------|-------------|
 | `widget_type` | string | Always `"counter"` |
 | `uuid` | string | Unique widget identifier |
-| `config` | object | Widget configuration |
-| `config.number` | number | Target number to count to (default: 0) |
-| `config.duration` | number | Animation duration in milliseconds (default: 2000) |
-| `config.alignment` | string | Text alignment: `"left"`, `"center"`, `"right"` (default: `"center"`) |
-| `config.number_size` | string | Number font size preset (default: `"xl"`) |
-| `config.number_color` | string\|null | Number text color (hex code or null for default) |
-| `config.title_color` | string\|null | Title text color (hex code or null for default) |
-| `config.prefix_color` | string\|null | Prefix/suffix text color (hex code or null for default) |
-| `content` | object | Widget content |
-| `content.prefix` | string | Text before the number (localized) |
-| `content.suffix` | string | Text after the number (localized) |
-| `content.title` | string | Counter title/label (localized) |
+| `widget` | object | Widget properties |
+| `widget.number` | number | Target number to count to (default: 0) |
+| `widget.duration` | number | Animation duration in milliseconds (default: 2000) |
+| `widget.alignment` | string | Text alignment: `"left"`, `"center"`, `"right"` (default: `"center"`) |
+| `widget.number_size` | string | Number font size preset (default: `"xl"`) |
+| `widget.number_color` | string\|null | Number text color (hex code or null for default) |
+| `widget.title_color` | string\|null | Title text color (hex code or null for default) |
+| `widget.prefix_color` | string\|null | Prefix/suffix text color (hex code or null for default) |
+| `widget.prefix` | string | Text before the number (localized) |
+| `widget.suffix` | string | Text after the number (localized) |
+| `widget.title` | string | Counter title/label (localized) |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response
@@ -34,16 +33,14 @@ counter
 {
   "widget_type": "counter",
   "uuid": "counter-123",
-  "config": {
+  "widget": {
     "number": 5000,
     "duration": 2000,
     "alignment": "center",
     "number_size": "xl",
     "number_color": null,
     "title_color": null,
-    "prefix_color": null
-  },
-  "content": {
+    "prefix_color": null,
     "prefix": "",
     "suffix": "+",
     "title": "Happy Customers"
@@ -60,16 +57,14 @@ counter
 {
   "widget_type": "counter",
   "uuid": "counter-456",
-  "config": {
+  "widget": {
     "number": 1500000,
     "duration": 2500,
     "alignment": "center",
     "number_size": "xl",
     "number_color": "#50a5f1",
     "title_color": null,
-    "prefix_color": "#50a5f1"
-  },
-  "content": {
+    "prefix_color": "#50a5f1",
     "prefix": "$",
     "suffix": "",
     "title": "Revenue Generated"
@@ -82,8 +77,8 @@ counter
 
 ```javascript
 function renderCounter(widget, language) {
-  const { number, duration, alignment, number_size, number_color, title_color, prefix_color } = widget.config;
-  const { prefix, suffix, title } = widget.content;
+  const { number, duration, alignment, number_size, number_color, title_color, prefix_color } = widget.widget;
+  const { prefix, suffix, title } = widget.widget;
 
   const counterId = `counter-${widget.uuid}`;
 
@@ -170,18 +165,15 @@ The counter widget supports displaying multiple counters in a grid. When multipl
   "items": [
     {
       "widget_type": "counter",
-      "config": { "number": 5000, "duration": 2000, "alignment": "center", "number_size": "xl" },
-      "content": { "prefix": "$", "suffix": "+", "title": "Revenue" }
+      "widget": { "number": 5000, "duration": 2000, "alignment": "center", "number_size": "xl", "prefix": "$", "suffix": "+", "title": "Revenue" }
     },
     {
       "widget_type": "counter",
-      "config": { "number": 1200, "duration": 2000, "alignment": "center", "number_size": "xl" },
-      "content": { "prefix": "", "suffix": "+", "title": "Projects" }
+      "widget": { "number": 1200, "duration": 2000, "alignment": "center", "number_size": "xl", "prefix": "", "suffix": "+", "title": "Projects" }
     },
     {
       "widget_type": "counter",
-      "config": { "number": 50, "duration": 2000, "alignment": "center", "number_size": "xl" },
-      "content": { "prefix": "", "suffix": "", "title": "Countries" }
+      "widget": { "number": 50, "duration": 2000, "alignment": "center", "number_size": "xl", "prefix": "", "suffix": "", "title": "Countries" }
     }
   ],
   "settings": {}

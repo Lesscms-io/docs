@@ -14,26 +14,25 @@ hero
 |----------|------|-------------|
 | `widget_type` | string | Always `"hero"` |
 | `uuid` | string | Unique widget identifier |
-| `config` | object | Widget configuration |
-| `config.content_source` | string | Content source: `"static"` or `"dynamic"` (default: `"static"`) |
-| `config.overlay_opacity` | number | Background overlay opacity 0-1 (default: 0.4) |
-| `config.overlay_color` | string | Background overlay color (default: `"#000000"`) |
-| `config.text_align` | string | Text alignment: `"left"`, `"center"`, `"right"` (default: `"center"`) |
-| `config.text_position` | string | Vertical text position: `"top"`, `"center"`, `"bottom"` (default: `"center"`) |
-| `config.text_color` | string | Text color (default: `"#ffffff"`) |
-| `config.button_style` | string | Button style variant (default: `"primary"`) |
-| `config.button_size` | string | Button size: `"sm"`, `"md"`, `"lg"` (default: `"lg"`) |
-| `config.button_border_radius` | string | Button border radius preset: `"none"`, `"sm"`, `"md"`, `"lg"`, `"full"` (default: `"md"`) |
-| `config.button_padding` | string\|null | Custom button padding CSS value (default: `null`) |
-| `config.button_icon` | string\|null | Button icon class (Font Awesome) (default: `null`) |
-| `config.button_icon_position` | string | Button icon position: `"left"`, `"right"` (default: `"left"`) |
-| `config.button_link_type` | string | Button link type: `"custom"`, `"page"`, `"entry"` (default: `"custom"`) |
-| `config.button_target_blank` | boolean | Open button link in new tab (default: `false`) |
-| `config.button_page_id` | string\|null | Page UUID for page link type (default: `null`) |
-| `config.button_entry_id` | string\|null | Entry UUID for entry link type (default: `null`) |
-| `config.button_collection_code` | string\|null | Collection code for entry link type (default: `null`) |
-| `config.button_route_uuid` | string\|null | Route UUID for link URL resolution (default: `null`) |
-| `content` | object | Widget content |
+| `widget` | object | Widget data |
+| `widget.content_source` | string | Content source: `"static"` or `"dynamic"` (default: `"static"`) |
+| `widget.overlay_opacity` | number | Background overlay opacity 0-1 (default: 0.4) |
+| `widget.overlay_color` | string | Background overlay color (default: `"#000000"`) |
+| `widget.text_align` | string | Text alignment: `"left"`, `"center"`, `"right"` (default: `"center"`) |
+| `widget.text_position` | string | Vertical text position: `"top"`, `"center"`, `"bottom"` (default: `"center"`) |
+| `widget.text_color` | string | Text color (default: `"#ffffff"`) |
+| `widget.button_style` | string | Button style variant (default: `"primary"`) |
+| `widget.button_size` | string | Button size: `"sm"`, `"md"`, `"lg"` (default: `"lg"`) |
+| `widget.button_border_radius` | string | Button border radius preset: `"none"`, `"sm"`, `"md"`, `"lg"`, `"full"` (default: `"md"`) |
+| `widget.button_padding` | string\|null | Custom button padding CSS value (default: `null`) |
+| `widget.button_icon` | string\|null | Button icon class (Font Awesome) (default: `null`) |
+| `widget.button_icon_position` | string | Button icon position: `"left"`, `"right"` (default: `"left"`) |
+| `widget.button_link_type` | string | Button link type: `"custom"`, `"page"`, `"entry"` (default: `"custom"`) |
+| `widget.button_target_blank` | boolean | Open button link in new tab (default: `false`) |
+| `widget.button_page_id` | string\|null | Page UUID for page link type (default: `null`) |
+| `widget.button_entry_id` | string\|null | Entry UUID for entry link type (default: `null`) |
+| `widget.button_collection_code` | string\|null | Collection code for entry link type (default: `null`) |
+| `widget.button_route_uuid` | string\|null | Route UUID for link URL resolution (default: `null`) |
 | `settings` | object | Style settings (optional) |
 
 ### Static Mode Content
@@ -42,29 +41,29 @@ When `content_source` is `"static"`:
 
 | Property | Type | Description |
 |----------|------|-------------|
-| `content.title` | object | Multilingual title text `{ "en": "...", "pl": "..." }` |
-| `content.subtitle` | object | Multilingual subtitle text |
-| `content.background_url` | string\|null | Background image URL |
-| `content.button_text` | object | Multilingual CTA button text |
-| `content.button_url` | string | CTA button URL (default: `"#"`) |
+| `widget.title` | object | Multilingual title text `{ "en": "...", "pl": "..." }` |
+| `widget.subtitle` | object | Multilingual subtitle text |
+| `widget.background_url` | string\|null | Background image URL |
+| `widget.button_text` | object | Multilingual CTA button text |
+| `widget.button_url` | string | CTA button URL (default: `"#"`) |
 
-### Dynamic Mode Config
+### Dynamic Mode Fields
 
 When `content_source` is `"dynamic"`:
 
 | Property | Type | Description |
 |----------|------|-------------|
-| `config.collection_code` | string\|null | Collection code |
-| `config.entry_source` | string | Entry source: `"static"` or `"url"` (default: `"static"`) |
-| `config.entry_id` | string\|null | Specific entry ID |
-| `config.entry_url_segment` | number | URL segment index (default: 1) |
-| `config.image_field` | string\|null | Field code for background image |
-| `config.title_field` | string\|null | Field code for title |
-| `config.subtitle_field` | string\|null | Field code for subtitle |
-| `config.show_title` | boolean | Show title (default: true) |
-| `config.show_subtitle` | boolean | Show subtitle (default: false) |
-| `content.button_text` | object | Multilingual CTA button text |
-| `content.button_url` | string | CTA button URL |
+| `widget.collection_code` | string\|null | Collection code |
+| `widget.entry_source` | string | Entry source: `"static"` or `"url"` (default: `"static"`) |
+| `widget.entry_id` | string\|null | Specific entry ID |
+| `widget.entry_url_segment` | number | URL segment index (default: 1) |
+| `widget.image_field` | string\|null | Field code for background image |
+| `widget.title_field` | string\|null | Field code for title |
+| `widget.subtitle_field` | string\|null | Field code for subtitle |
+| `widget.show_title` | boolean | Show title (default: true) |
+| `widget.show_subtitle` | boolean | Show subtitle (default: false) |
+| `widget.button_text` | object | Multilingual CTA button text |
+| `widget.button_url` | string | CTA button URL |
 
 ## Example Response (Static Mode)
 
@@ -72,7 +71,7 @@ When `content_source` is `"dynamic"`:
 {
   "widget_type": "hero",
   "uuid": "hero-123",
-  "config": {
+  "widget": {
     "content_source": "static",
     "overlay_opacity": 0.4,
     "overlay_color": "#000000",
@@ -80,9 +79,7 @@ When `content_source` is `"dynamic"`:
     "text_position": "center",
     "text_color": "#ffffff",
     "button_style": "primary",
-    "button_size": "lg"
-  },
-  "content": {
+    "button_size": "lg",
     "title": {
       "en": "Welcome to Our Website",
       "pl": "Witamy na naszej stronie"
@@ -115,7 +112,7 @@ When `content_source` is `"dynamic"`:
 {
   "widget_type": "hero",
   "uuid": "hero-456",
-  "config": {
+  "widget": {
     "content_source": "dynamic",
     "collection_code": "products",
     "entry_source": "url",
@@ -132,9 +129,7 @@ When `content_source` is `"dynamic"`:
     "text_position": "bottom",
     "text_color": "#ffffff",
     "button_style": "primary",
-    "button_size": "lg"
-  },
-  "content": {
+    "button_size": "lg",
     "button_text": {
       "en": "Learn More",
       "pl": "Dowiedz sie wiecej"
@@ -149,7 +144,7 @@ When `content_source` is `"dynamic"`:
 
 | Value | Description |
 |-------|-------------|
-| `static` | Use static content from `content` object |
+| `static` | Use static content from `widget` object |
 | `dynamic` | Fetch content from collection entry |
 
 ## Entry Source Values (Dynamic Mode)
@@ -179,8 +174,8 @@ When `content_source` is `"dynamic"`:
 
 ```javascript
 function renderHero(widget, language) {
-  const { content_source, overlay_opacity, overlay_color, text_align, text_position, text_color } = widget.config;
-  const { title, subtitle, background_url, button_text, button_url } = widget.content;
+  const { content_source, overlay_opacity, overlay_color, text_align, text_position, text_color } = widget.widget;
+  const { title, subtitle, background_url, button_text, button_url } = widget.widget;
 
   const titleText = title?.[language] || title?.en || '';
   const subtitleText = subtitle?.[language] || subtitle?.en || '';
@@ -235,9 +230,9 @@ async function renderDynamicHero(widget, language, urlSegments, api) {
     collection_code, entry_source, entry_id, entry_url_segment,
     image_field, title_field, subtitle_field,
     show_title, show_subtitle,
-    overlay_opacity, overlay_color, text_align, text_position, text_color
-  } = widget.config;
-  const { button_text, button_url } = widget.content;
+    overlay_opacity, overlay_color, text_align, text_position, text_color,
+    button_text, button_url
+  } = widget.widget;
 
   // Determine entry ID
   let targetEntryId = entry_id;

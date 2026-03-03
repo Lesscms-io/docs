@@ -18,14 +18,13 @@ This widget supports the multi-item pattern. When multiple items exist, the resp
 |----------|------|-------------|
 | `widget_type` | string | Always `"icon-list"` |
 | `uuid` | string | Unique widget identifier |
-| `content` | object | Widget content |
-| `content.text` | string | Item text (localized) |
-| `config` | object | Widget configuration |
-| `config.icon` | string\|null | FontAwesome icon class |
-| `config.icon_color` | string\|null | Icon color |
-| `config.text_size` | string | Text size: `"sm"`, `"md"`, `"lg"` |
-| `config.item_bg_color` | string\|null | Item background color |
-| `config.icon_size` | string | Icon size: `"sm"`, `"md"`, `"lg"` |
+| `widget` | object | Widget data |
+| `widget.text` | string | Item text (localized) |
+| `widget.icon` | string\|null | FontAwesome icon class |
+| `widget.icon_color` | string\|null | Icon color |
+| `widget.text_size` | string | Text size: `"sm"`, `"md"`, `"lg"` |
+| `widget.item_bg_color` | string\|null | Item background color |
+| `widget.icon_size` | string | Icon size: `"sm"`, `"md"`, `"lg"` |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response (Multi-Item)
@@ -40,8 +39,8 @@ This widget supports the multi-item pattern. When multiple items exist, the resp
   "items": [
     {
       "widget_type": "icon-list",
-      "content": { "text": "Free shipping worldwide" },
-      "config": {
+      "widget": {
+        "text": "Free shipping worldwide",
         "icon": "fa-solid fa-truck",
         "icon_color": "#50a5f1",
         "text_size": "md",
@@ -51,8 +50,8 @@ This widget supports the multi-item pattern. When multiple items exist, the resp
     },
     {
       "widget_type": "icon-list",
-      "content": { "text": "30-day money back guarantee" },
-      "config": {
+      "widget": {
+        "text": "30-day money back guarantee",
         "icon": "fa-solid fa-shield-check",
         "icon_color": "#50a5f1",
         "text_size": "md",
@@ -78,8 +77,7 @@ function renderIconList(widget) {
 }
 
 function renderIconListItem(widget) {
-  const { text } = widget.content;
-  const { icon, icon_color, icon_size, item_bg_color } = widget.config;
+  const { text, icon, icon_color, icon_size, item_bg_color } = widget.widget;
 
   const sizeMap = { sm: '16px', md: '24px', lg: '32px' };
 

@@ -14,8 +14,8 @@ spacer
 |----------|------|-------------|
 | `widget_type` | string | Always `"spacer"` |
 | `uuid` | string | Unique widget identifier |
-| `config` | object | Widget configuration |
-| `config.height` | number | Space height in pixels |
+| `widget` | object | Widget properties |
+| `widget.height` | number | Space height in pixels |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response
@@ -24,7 +24,7 @@ spacer
 {
   "widget_type": "spacer",
   "uuid": "spacer-123",
-  "config": {
+  "widget": {
     "height": 50
   },
   "settings": {
@@ -40,7 +40,7 @@ spacer
 
 ```javascript
 function renderSpacer(widget) {
-  const { height } = widget.config;
+  const { height } = widget.widget;
 
   return `<div class="spacer" style="height: ${height}px;"></div>`;
 }

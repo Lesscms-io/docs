@@ -14,26 +14,26 @@ gallery
 |----------|------|-------------|
 | `widget_type` | string | Always `"gallery"` |
 | `uuid` | string | Unique widget identifier |
-| `config` | object | Widget configuration |
-| `config.content_source` | string | Image source: `"static"` or `"dynamic"` (default: `"static"`) |
-| `config.type` | string | Display type: `"grid"`, `"carousel"`, or `"mosaic"` (default: `"grid"`) |
-| `config.columns` | number | Number of grid columns (default: 3) |
-| `config.gap` | number | Gap between images in pixels (default: 8) |
-| `config.aspect` | string | Image aspect ratio: `"square"`, `"landscape"`, `"portrait"`, etc. (default: `"square"`) |
-| `config.mosaic_variant` | string | Mosaic layout variant: `"featured"`, `"alternating"`, `"masonry"`, `"collage"` (default: `"featured"`) |
-| `config.show_arrows` | boolean | Show navigation arrows for carousel (default: true) |
-| `config.show_dots` | boolean | Show dot indicators for carousel (default: true) |
-| `config.carousel_style` | string | Carousel style preset (default: `"default"`) |
-| `config.autoplay` | boolean | Enable carousel autoplay (default: true) |
-| `config.interval` | integer | Carousel autoplay interval in milliseconds (default: 3000) |
-| `config.loop` | boolean | Enable carousel loop (default: true) |
-| `config.enable_lightbox` | boolean | Enable lightbox on click (default: false) |
-| `config.images` | array | Array of image objects (static mode only) |
-| `config.images[].url` | string | Image URL |
-| `config.images[].alt` | string | Image alt text |
-| `config.collection_code` | string\|null | Collection code for dynamic images (dynamic mode only) |
-| `config.field_code` | string\|null | Field code containing images (dynamic mode only) |
-| `config.entry_id` | string\|null | Specific entry ID to pull images from (dynamic mode only) |
+| `widget` | object | Widget data |
+| `widget.content_source` | string | Image source: `"static"` or `"dynamic"` (default: `"static"`) |
+| `widget.type` | string | Display type: `"grid"`, `"carousel"`, or `"mosaic"` (default: `"grid"`) |
+| `widget.columns` | number | Number of grid columns (default: 3) |
+| `widget.gap` | number | Gap between images in pixels (default: 8) |
+| `widget.aspect` | string | Image aspect ratio: `"square"`, `"landscape"`, `"portrait"`, etc. (default: `"square"`) |
+| `widget.mosaic_variant` | string | Mosaic layout variant: `"featured"`, `"alternating"`, `"masonry"`, `"collage"` (default: `"featured"`) |
+| `widget.show_arrows` | boolean | Show navigation arrows for carousel (default: true) |
+| `widget.show_dots` | boolean | Show dot indicators for carousel (default: true) |
+| `widget.carousel_style` | string | Carousel style preset (default: `"default"`) |
+| `widget.autoplay` | boolean | Enable carousel autoplay (default: true) |
+| `widget.interval` | integer | Carousel autoplay interval in milliseconds (default: 3000) |
+| `widget.loop` | boolean | Enable carousel loop (default: true) |
+| `widget.enable_lightbox` | boolean | Enable lightbox on click (default: false) |
+| `widget.images` | array | Array of image objects (static mode only) |
+| `widget.images[].url` | string | Image URL |
+| `widget.images[].alt` | string | Image alt text |
+| `widget.collection_code` | string\|null | Collection code for dynamic images (dynamic mode only) |
+| `widget.field_code` | string\|null | Field code containing images (dynamic mode only) |
+| `widget.entry_id` | string\|null | Specific entry ID to pull images from (dynamic mode only) |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response (Static Images)
@@ -42,7 +42,7 @@ gallery
 {
   "widget_type": "gallery",
   "uuid": "gallery-123",
-  "config": {
+  "widget": {
     "content_source": "static",
     "type": "grid",
     "columns": 4,
@@ -74,7 +74,7 @@ gallery
 {
   "widget_type": "gallery",
   "uuid": "gallery-456",
-  "config": {
+  "widget": {
     "content_source": "dynamic",
     "type": "carousel",
     "columns": 3,
@@ -110,11 +110,11 @@ gallery
 
 ```javascript
 function renderGallery(widget) {
-  const { content_source, type, images, columns, gap, aspect, enable_lightbox, show_arrows, show_dots } = widget.config;
+  const { content_source, type, images, columns, gap, aspect, enable_lightbox, show_arrows, show_dots } = widget.widget;
 
   // Dynamic mode: images must be fetched from collection API separately
   if (content_source === 'dynamic') {
-    const { collection_code, field_code, entry_id } = widget.config;
+    const { collection_code, field_code, entry_id } = widget.widget;
     return `<div class="gallery-dynamic" data-collection="${collection_code}" data-field="${field_code}" data-entry="${entry_id || ''}"></div>`;
   }
 

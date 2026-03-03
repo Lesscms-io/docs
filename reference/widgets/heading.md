@@ -14,14 +14,13 @@ heading
 |----------|------|-------------|
 | `widget_type` | string | Always `"heading"` |
 | `uuid` | string | Unique widget identifier |
-| `config` | object | Widget configuration |
-| `config.content_source` | string | `"static"` or `"dynamic"` |
-| `config.level` | number | Heading level: 1-6 (h1-h6) |
-| `config.collection_code` | string | Collection code (when dynamic) |
-| `config.field_code` | string | Field to display (when dynamic) |
-| `config.entry_id` | string | Specific entry ID (when dynamic + static entry) |
-| `content` | object | Widget content (when static) |
-| `content.html` | object | Multilingual HTML content |
+| `widget` | object | Widget properties |
+| `widget.content_source` | string | `"static"` or `"dynamic"` |
+| `widget.level` | number | Heading level: 1-6 (h1-h6) |
+| `widget.collection_code` | string | Collection code (when dynamic) |
+| `widget.field_code` | string | Field to display (when dynamic) |
+| `widget.entry_id` | string | Specific entry ID (when dynamic + static entry) |
+| `widget.html` | object | Multilingual HTML content (when static) |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response (Static)
@@ -30,11 +29,9 @@ heading
 {
   "widget_type": "heading",
   "uuid": "2dbc3aaa-c75f-4141-b547-e5afb921dbb6",
-  "config": {
+  "widget": {
     "content_source": "static",
-    "level": 2
-  },
-  "content": {
+    "level": 2,
     "html": {
       "en": "<h2>Welcome to Our Website</h2>",
       "pl": "<h2><strong>USŁUGI MARKETINGOWE</strong></h2>"
@@ -60,7 +57,7 @@ heading
 {
   "widget_type": "heading",
   "uuid": "heading-456",
-  "config": {
+  "widget": {
     "content_source": "dynamic",
     "level": 1,
     "collection_code": "blog",
@@ -81,14 +78,14 @@ heading
 
 | Value | Description |
 |-------|-------------|
-| `static` | Use the `content.html` property directly |
+| `static` | Use the `widget.html` property directly |
 | `dynamic` | Fetch content from a collection field |
 
 ## Usage Example
 
 ```javascript
 async function renderHeading(widget, language, entryData, api) {
-  const { content_source, level, collection_code, field_code, entry_id } = widget.config;
+  const { content_source, level, collection_code, field_code, entry_id } = widget.widget;
   let text = '';
 
   if (content_source === 'dynamic') {
@@ -101,7 +98,7 @@ async function renderHeading(widget, language, entryData, api) {
     }
   } else {
     // Static content from widget
-    text = widget.content?.html?.[language] || widget.content?.html?.en || '';
+    text = widget.widget?.html?.[language] || widget.widget?.html?.en || '';
   }
 
   const tag = `h${level || 2}`;

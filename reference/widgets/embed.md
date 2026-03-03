@@ -14,9 +14,9 @@ embed
 |----------|------|-------------|
 | `widget_type` | string | Always `"embed"` |
 | `uuid` | string | Unique widget identifier |
-| `config` | object | Widget configuration |
-| `config.code` | string | HTML/JS embed code |
-| `config.height` | number\|null | Container height in pixels |
+| `widget` | object | Widget properties |
+| `widget.code` | string | HTML/JS embed code |
+| `widget.height` | number\|null | Container height in pixels |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response
@@ -25,7 +25,7 @@ embed
 {
   "widget_type": "embed",
   "uuid": "embed-123",
-  "config": {
+  "widget": {
     "code": "<iframe src=\"https://www.youtube.com/embed/dQw4w9WgXcQ\" frameborder=\"0\" allowfullscreen style=\"width:100%;height:100%\"></iframe>",
     "height": 400
   }
@@ -36,7 +36,7 @@ embed
 
 ```javascript
 function renderEmbed(widget) {
-  const { code, height } = widget.config;
+  const { code, height } = widget.widget;
 
   if (!code) return '';
 

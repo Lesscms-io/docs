@@ -14,8 +14,8 @@ block-content
 |----------|------|-------------|
 | `widget_type` | string | Always `"block-content"` |
 | `uuid` | string | Unique widget identifier |
-| `config` | object | Widget configuration |
-| `config.block_code` | string | Code of the block to render |
+| `widget` | object | Widget properties |
+| `widget.block_code` | string | Code of the block to render |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response
@@ -24,7 +24,7 @@ block-content
 {
   "widget_type": "block-content",
   "uuid": "block-123",
-  "config": {
+  "widget": {
     "block_code": "footer-cta"
   },
   "settings": {
@@ -40,7 +40,7 @@ block-content
 
 The block-content widget references a block by its code. To render it:
 
-1. Get the `block_code` from the widget config
+1. Get the `block_code` from the widget properties
 2. Fetch the block content from the Blocks API:
 
 ```
@@ -55,7 +55,7 @@ See [Blocks API](../blocks.md) for the full block response structure.
 
 ```javascript
 async function renderBlockContent(widget, language, api) {
-  const { block_code } = widget.config;
+  const { block_code } = widget.widget;
 
   if (!block_code) return '';
 

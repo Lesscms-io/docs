@@ -14,21 +14,21 @@ collection-single
 |----------|------|-------------|
 | `widget_type` | string | Always `"collection-single"` |
 | `uuid` | string | Unique widget identifier |
-| `config` | object | Widget configuration |
-| `config.collection_code` | string\|null | Collection code |
-| `config.route_uuid` | string\|null | UUID of the route used for entry links |
-| `config.entry_source` | string | Entry source: `"static"` (specific entry) or `"url"` (from URL segment) (default: `"static"`) |
-| `config.entry_id` | string\|null | Specific entry ID (used when entry_source is `"static"`) |
-| `config.entry_url_segment` | number | URL segment index to resolve entry from (default: 1, used when entry_source is `"url"`) |
-| `config.entry_template` | string | Entry template identifier for rendering (default: `"default:standard"`) |
-| `config.title_field` | string\|null | Field code for title |
-| `config.content_field` | string\|null | Field code for content |
-| `config.image_field` | string\|null | Field code for image |
-| `config.show_title` | boolean | Display title (default: true) |
-| `config.show_content` | boolean | Display content (default: true) |
-| `config.show_image` | boolean | Display image (default: true) |
-| `config.use_custom_layout` | boolean | Use custom layout configuration (default: false) |
-| `config.layout_config` | object\|null | Custom layout configuration object |
+| `widget` | object | Widget data |
+| `widget.collection_code` | string\|null | Collection code |
+| `widget.route_uuid` | string\|null | UUID of the route used for entry links |
+| `widget.entry_source` | string | Entry source: `"static"` (specific entry) or `"url"` (from URL segment) (default: `"static"`) |
+| `widget.entry_id` | string\|null | Specific entry ID (used when entry_source is `"static"`) |
+| `widget.entry_url_segment` | number | URL segment index to resolve entry from (default: 1, used when entry_source is `"url"`) |
+| `widget.entry_template` | string | Entry template identifier for rendering (default: `"default:standard"`) |
+| `widget.title_field` | string\|null | Field code for title |
+| `widget.content_field` | string\|null | Field code for content |
+| `widget.image_field` | string\|null | Field code for image |
+| `widget.show_title` | boolean | Display title (default: true) |
+| `widget.show_content` | boolean | Display content (default: true) |
+| `widget.show_image` | boolean | Display image (default: true) |
+| `widget.use_custom_layout` | boolean | Use custom layout configuration (default: false) |
+| `widget.layout_config` | object\|null | Custom layout configuration object |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response
@@ -37,7 +37,7 @@ collection-single
 {
   "widget_type": "collection-single",
   "uuid": "single-123",
-  "config": {
+  "widget": {
     "collection_code": "team",
     "route_uuid": null,
     "entry_source": "static",
@@ -70,9 +70,12 @@ function renderCollectionSingle(widget, language) {
   const {
     entry_template, show_title, show_content, show_image,
     title_field, content_field, image_field
-  } = widget.config;
+  } = widget.widget;
 
-  const entry = widget.data?.entry;
+  // Note: entry data is NOT included in the API response.
+  // You must fetch the entry separately using the collection API.
+  // Use entry_source/entry_id/entry_url_segment to determine which entry to fetch.
+  const entry = null; // Fetch from /api/:project_code/collections/:collection_code/:entry_id
   if (!entry) return '<p>Entry not found.</p>';
 
   const title = title_field ? (entry.data[title_field]?.[language] || '') : '';

@@ -14,15 +14,15 @@ openstreetmap
 |----------|------|-------------|
 | `widget_type` | string | Always `"openstreetmap"` |
 | `uuid` | string | Unique widget identifier |
-| `config` | object | Widget configuration |
-| `config.lat` | number | Latitude coordinate (e.g., `52.2297`) |
-| `config.lng` | number | Longitude coordinate (e.g., `21.0122`) |
-| `config.zoom` | number | Zoom level (1-18, default: 14) |
-| `config.tile_style` | string | Map tile style: `"standard"`, `"light"`, `"dark"` |
-| `config.show_marker` | boolean | Show pin marker at coordinates |
-| `config.scroll_wheel_zoom` | boolean | Enable zoom via scroll wheel |
-| `config.zoom_control` | boolean | Show zoom +/- buttons |
-| `config.draggable` | boolean | Allow map panning by dragging |
+| `widget` | object | Widget data |
+| `widget.lat` | number | Latitude coordinate (e.g., `52.2297`) |
+| `widget.lng` | number | Longitude coordinate (e.g., `21.0122`) |
+| `widget.zoom` | number | Zoom level (1-18, default: 14) |
+| `widget.tile_style` | string | Map tile style: `"standard"`, `"light"`, `"dark"` |
+| `widget.show_marker` | boolean | Show pin marker at coordinates |
+| `widget.scroll_wheel_zoom` | boolean | Enable zoom via scroll wheel |
+| `widget.zoom_control` | boolean | Show zoom +/- buttons |
+| `widget.draggable` | boolean | Allow map panning by dragging |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response
@@ -31,7 +31,7 @@ openstreetmap
 {
   "widget_type": "openstreetmap",
   "uuid": "osm-123",
-  "config": {
+  "widget": {
     "lat": 52.2297,
     "lng": 21.0122,
     "zoom": 14,
@@ -80,7 +80,7 @@ function renderOpenStreetMap(widget) {
     scroll_wheel_zoom,
     zoom_control,
     draggable
-  } = widget.config;
+  } = widget.widget;
 
   const height = widget.settings?.minHeight || 400;
 

@@ -14,13 +14,12 @@ blockquote
 |----------|------|-------------|
 | `widget_type` | string | Always `"blockquote"` |
 | `uuid` | string | Unique widget identifier |
-| `content` | object | Widget content |
-| `content.quote` | object | Multilingual quote text |
-| `content.author` | object | Multilingual author name |
-| `content.source` | object | Multilingual source/publication |
-| `config` | object | Widget configuration |
-| `config.style` | string | Quote style: `"simple"`, `"bordered"`, `"filled"` |
-| `config.accent_color` | string\|null | Accent color for border/icon |
+| `widget` | object | Widget properties |
+| `widget.quote` | object | Multilingual quote text |
+| `widget.author` | object | Multilingual author name |
+| `widget.source` | object | Multilingual source/publication |
+| `widget.style` | string | Quote style: `"simple"`, `"bordered"`, `"filled"` |
+| `widget.accent_color` | string\|null | Accent color for border/icon |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response
@@ -29,10 +28,10 @@ blockquote
 {
   "widget_type": "blockquote",
   "uuid": "blockquote-123",
-  "content": {
+  "widget": {
     "quote": {
       "en": "The only way to do great work is to love what you do.",
-      "pl": "Jedynym sposobem na wykonanie świetnej pracy jest kochanie tego, co się robi."
+      "pl": "Jedynym sposobem na wykonanie swietnej pracy jest kochanie tego, co sie robi."
     },
     "author": {
       "en": "Steve Jobs",
@@ -40,10 +39,8 @@ blockquote
     },
     "source": {
       "en": "Stanford Commencement Speech, 2005",
-      "pl": "Przemówienie na Stanford, 2005"
-    }
-  },
-  "config": {
+      "pl": "Przemowienie na Stanford, 2005"
+    },
     "style": "bordered",
     "accent_color": "#50a5f1"
   }
@@ -62,8 +59,7 @@ blockquote
 
 ```javascript
 function renderBlockquote(widget, language) {
-  const { quote, author, source } = widget.content;
-  const { style, accent_color } = widget.config;
+  const { quote, author, source, style, accent_color } = widget.widget;
 
   const quoteText = quote?.[language] || quote?.en || '';
   const authorText = author?.[language] || author?.en || '';
@@ -78,7 +74,7 @@ function renderBlockquote(widget, language) {
       ${authorText || sourceText ? `
         <figcaption>
           ${authorText ? `<strong>${authorText}</strong>` : ''}
-          ${sourceText ? `<cite>— ${sourceText}</cite>` : ''}
+          ${sourceText ? `<cite>-- ${sourceText}</cite>` : ''}
         </figcaption>
       ` : ''}
     </figure>

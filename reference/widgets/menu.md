@@ -14,36 +14,36 @@ menu
 |----------|------|-------------|
 | `widget_type` | string | Always `"menu"` |
 | `uuid` | string | Unique widget identifier |
-| `config` | object | Widget configuration |
-| `config.menu_code` | string | Code of the menu to display |
-| `config.label_field` | string\|null | Field code to use as label for menu items |
-| `config.logo_light` | string\|null | Light logo image URL |
-| `config.logo_dark` | string\|null | Dark logo image URL |
-| `config.logo_height` | number | Logo height in pixels |
-| `config.logo_position` | string | Logo position: `"left"`, `"center"`, `"right"` (default: `"left"`) |
-| `config.layout` | string | Menu layout: `"horizontal"`, `"vertical"`, `"centered"` (default: `"horizontal"`) |
-| `config.hamburger_breakpoint` | string | When to show hamburger: `"never"`, `"mobile"`, `"tablet"` (default: `"never"`) |
-| `config.items_alignment` | string | Menu items alignment: `"left"`, `"center"`, `"right"` (default: `"left"`) |
-| `config.items_gap` | string | Gap between menu items: `"sm"`, `"md"`, `"lg"` (default: `"md"`) |
-| `config.items_indent` | number | Left indent for menu items in pixels (default: 0) |
-| `config.link_color` | string | Menu link color (hex) |
-| `config.link_hover_color` | string | Menu link hover color (hex) |
-| `config.link_hover_bg` | string\|null | Menu link hover background color (hex) |
-| `config.cta_text` | string | CTA button text |
-| `config.cta_position` | string | CTA position: `"left"`, `"right"`, `"below"` (default: `"right"`) |
-| `config.cta_link_type` | string | CTA link type: `"custom"`, `"page"`, `"entry"` |
-| `config.cta_url` | string | CTA URL (when link type is custom) |
-| `config.cta_page_id` | string | CTA page ID (when link type is page) |
-| `config.cta_collection_code` | string | CTA collection code (when link type is entry) |
-| `config.cta_entry_id` | string | CTA entry ID (when link type is entry) |
-| `config.cta_route_uuid` | string | CTA route UUID |
-| `config.cta_target_blank` | boolean | Open CTA in new tab |
-| `config.cta_style` | string | CTA button style (Bootstrap variants) |
-| `config.cta_size` | string | CTA button size: `"sm"`, `"md"`, `"lg"` |
-| `config.cta_border_radius` | string | CTA button border radius: `"sm"`, `"md"`, `"lg"` (default: `"md"`) |
-| `config.cta_padding` | string\|null | Custom CTA button padding CSS value |
-| `config.cta_icon` | string\|null | CTA button icon class (e.g., `"bx bx-right-arrow-alt"`) |
-| `config.cta_icon_position` | string | CTA icon position: `"left"`, `"right"` (default: `"left"`) |
+| `widget` | object | Widget data |
+| `widget.menu_code` | string | Code of the menu to display |
+| `widget.label_field` | string\|null | Field code to use as label for menu items |
+| `widget.logo_light` | string\|null | Light logo image URL |
+| `widget.logo_dark` | string\|null | Dark logo image URL |
+| `widget.logo_height` | number | Logo height in pixels |
+| `widget.logo_position` | string | Logo position: `"left"`, `"center"`, `"right"` (default: `"left"`) |
+| `widget.layout` | string | Menu layout: `"horizontal"`, `"vertical"`, `"centered"` (default: `"horizontal"`) |
+| `widget.hamburger_breakpoint` | string | When to show hamburger: `"never"`, `"mobile"`, `"tablet"` (default: `"never"`) |
+| `widget.items_alignment` | string | Menu items alignment: `"left"`, `"center"`, `"right"` (default: `"left"`) |
+| `widget.items_gap` | string | Gap between menu items: `"sm"`, `"md"`, `"lg"` (default: `"md"`) |
+| `widget.items_indent` | number | Left indent for menu items in pixels (default: 0) |
+| `widget.link_color` | string | Menu link color (hex) |
+| `widget.link_hover_color` | string | Menu link hover color (hex) |
+| `widget.link_hover_bg` | string\|null | Menu link hover background color (hex) |
+| `widget.cta_text` | string | CTA button text |
+| `widget.cta_position` | string | CTA position: `"left"`, `"right"`, `"below"` (default: `"right"`) |
+| `widget.cta_link_type` | string | CTA link type: `"custom"`, `"page"`, `"entry"` |
+| `widget.cta_url` | string | CTA URL (when link type is custom) |
+| `widget.cta_page_id` | string | CTA page ID (when link type is page) |
+| `widget.cta_collection_code` | string | CTA collection code (when link type is entry) |
+| `widget.cta_entry_id` | string | CTA entry ID (when link type is entry) |
+| `widget.cta_route_uuid` | string | CTA route UUID |
+| `widget.cta_target_blank` | boolean | Open CTA in new tab |
+| `widget.cta_style` | string | CTA button style (Bootstrap variants) |
+| `widget.cta_size` | string | CTA button size: `"sm"`, `"md"`, `"lg"` |
+| `widget.cta_border_radius` | string | CTA button border radius: `"sm"`, `"md"`, `"lg"` (default: `"md"`) |
+| `widget.cta_padding` | string\|null | Custom CTA button padding CSS value |
+| `widget.cta_icon` | string\|null | CTA button icon class (e.g., `"bx bx-right-arrow-alt"`) |
+| `widget.cta_icon_position` | string | CTA icon position: `"left"`, `"right"` (default: `"left"`) |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response
@@ -52,7 +52,7 @@ menu
 {
   "widget_type": "menu",
   "uuid": "menu-123",
-  "config": {
+  "widget": {
     "menu_code": "main-nav",
     "label_field": null,
     "logo_light": "https://cdn.example.com/logo.png",
@@ -193,7 +193,7 @@ async function renderMenu(widget, language, api) {
     menu_code, layout, logo_light, logo_height, logo_position,
     hamburger_breakpoint, items_gap, link_color, link_hover_color,
     cta_text, cta_url, cta_style, cta_size
-  } = widget.config;
+  } = widget.widget;
 
   const menu = await api.getMenu(menu_code);
   if (!menu?.items) return '';

@@ -14,15 +14,14 @@ image
 |----------|------|-------------|
 | `widget_type` | string | Always `"image"` |
 | `uuid` | string | Unique widget identifier |
-| `config` | object | Widget configuration |
-| `config.image_source` | string | `"static"` or `"dynamic"` |
-| `config.image_style` | string | Image style preset: `"none"`, `"rounded"`, `"rounded-lg"`, `"circle"`, `"shadow-sm"`, `"shadow-lg"`, `"rounded-shadow"`, `"border"`, `"border-rounded"` |
-| `config.collection_code` | string | Collection code (when dynamic) |
-| `config.field_code` | string | Field code (when dynamic) |
-| `config.entry_id` | string | Entry ID (when dynamic) |
-| `content` | object | Widget content (when static) |
-| `content.url` | string | Image URL |
-| `content.alt` | object | Multilingual alt text |
+| `widget` | object | Widget properties |
+| `widget.image_source` | string | `"static"` or `"dynamic"` |
+| `widget.image_style` | string | Image style preset: `"none"`, `"rounded"`, `"rounded-lg"`, `"circle"`, `"shadow-sm"`, `"shadow-lg"`, `"rounded-shadow"`, `"border"`, `"border-rounded"` |
+| `widget.collection_code` | string | Collection code (when dynamic) |
+| `widget.field_code` | string | Field code (when dynamic) |
+| `widget.entry_id` | string | Entry ID (when dynamic) |
+| `widget.url` | string | Image URL (when static) |
+| `widget.alt` | object | Multilingual alt text (when static) |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response (Static)
@@ -31,11 +30,9 @@ image
 {
   "widget_type": "image",
   "uuid": "img-123",
-  "config": {
+  "widget": {
     "image_source": "static",
-    "image_style": "rounded-shadow"
-  },
-  "content": {
+    "image_style": "rounded-shadow",
     "url": "https://cdn.example.com/images/hero.jpg",
     "alt": {
       "en": "Company headquarters",
@@ -58,7 +55,7 @@ image
 {
   "widget_type": "image",
   "uuid": "img-456",
-  "config": {
+  "widget": {
     "image_source": "dynamic",
     "image_style": "none",
     "collection_code": "products",
@@ -78,7 +75,7 @@ image
 
 | Value | Description |
 |-------|-------------|
-| `static` | Use `content.url` and `content.alt` directly |
+| `static` | Use `widget.url` and `widget.alt` directly |
 | `dynamic` | Fetch image from collection field |
 
 ## Image Style Presets
@@ -99,7 +96,7 @@ image
 
 ```javascript
 async function renderImage(widget, language, entryData, api) {
-  const { image_source, image_style, collection_code, field_code, entry_id } = widget.config;
+  const { image_source, image_style, collection_code, field_code, entry_id } = widget.widget;
   let url = '';
   let alt = '';
 
@@ -112,8 +109,8 @@ async function renderImage(widget, language, entryData, api) {
       url = entry.data[field_code] || '';
     }
   } else {
-    url = widget.content?.url || '';
-    alt = widget.content?.alt?.[language] || widget.content?.alt?.en || '';
+    url = widget.widget?.url || '';
+    alt = widget.widget?.alt?.[language] || widget.widget?.alt?.en || '';
   }
 
   // Apply image style preset

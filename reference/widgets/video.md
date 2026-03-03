@@ -14,13 +14,13 @@ video
 |----------|------|-------------|
 | `widget_type` | string | Always `"video"` |
 | `uuid` | string | Unique widget identifier |
-| `config` | object | Widget configuration |
-| `config.url` | string | Original video URL |
-| `config.embed_url` | string | Generated embed URL (YouTube/Vimeo) |
-| `config.source` | string | Video source: `"youtube"`, `"vimeo"`, `"url"` |
-| `config.autoplay` | boolean | Auto-start video on load |
-| `config.loop` | boolean | Loop video playback |
-| `config.muted` | boolean | Start video muted |
+| `widget` | object | Widget properties |
+| `widget.url` | string | Original video URL |
+| `widget.embed_url` | string | Generated embed URL (YouTube/Vimeo) |
+| `widget.source` | string | Video source: `"youtube"`, `"vimeo"`, `"url"` |
+| `widget.autoplay` | boolean | Auto-start video on load |
+| `widget.loop` | boolean | Loop video playback |
+| `widget.muted` | boolean | Start video muted |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response (YouTube)
@@ -29,7 +29,7 @@ video
 {
   "widget_type": "video",
   "uuid": "video-123",
-  "config": {
+  "widget": {
     "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
     "embed_url": "https://www.youtube.com/embed/dQw4w9WgXcQ",
     "source": "youtube",
@@ -52,7 +52,7 @@ video
 {
   "widget_type": "video",
   "uuid": "video-456",
-  "config": {
+  "widget": {
     "url": "https://vimeo.com/123456789",
     "embed_url": "https://player.vimeo.com/video/123456789",
     "source": "vimeo",
@@ -76,7 +76,7 @@ video
 
 ```javascript
 function renderVideo(widget) {
-  const { embed_url, source, autoplay, loop, muted } = widget.config;
+  const { embed_url, source, autoplay, loop, muted } = widget.widget;
 
   if (source === 'youtube' || source === 'vimeo') {
     const params = new URLSearchParams();
@@ -100,7 +100,7 @@ function renderVideo(widget) {
   } else {
     return `
       <video
-        src="${widget.config.url}"
+        src="${widget.widget.url}"
         ${autoplay ? 'autoplay' : ''}
         ${loop ? 'loop' : ''}
         ${muted ? 'muted' : ''}

@@ -14,19 +14,19 @@ breadcrumbs
 |----------|------|-------------|
 | `widget_type` | string | Always `"breadcrumbs"` |
 | `uuid` | string | Unique widget identifier |
-| `config` | object | Widget configuration |
-| `config.separator` | string | Separator character: `"/"`, `">"`, `">>"`, `"-"`, `"\|"` (default: `"/"`) |
-| `config.show_home` | boolean | Show home link as first item (default: true) |
-| `config.home_label` | object | Multilingual home label `{ "en": "Home", "pl": "Strona glowna" }` |
-| `config.color` | string | Link color (hex) |
-| `config.active_color` | string | Active (current page) color (hex) |
-| `config.show_dynamic_last` | boolean | Show dynamic last breadcrumb from URL (default: false) |
-| `config.dynamic_last_collection_code` | string | Collection code for the dynamic last breadcrumb item (default: `""`) |
-| `config.dynamic_last_field_code` | string | Field code to use as label for the dynamic last breadcrumb (default: `""`) |
-| `config.dynamic_last_entry_source` | string | Source for resolving the dynamic entry: `"url"` (default: `"url"`) |
-| `config.dynamic_last_entry_id` | string | Static entry ID for the dynamic last breadcrumb (default: `""`) |
-| `config.dynamic_last_url_segment` | number | URL segment index to use for dynamic entry lookup (default: 1) |
-| `config.items` | array | Static breadcrumb items (optional, injected from page context at render time) |
+| `widget` | object | Widget properties |
+| `widget.separator` | string | Separator character: `"/"`, `">"`, `">>"`, `"-"`, `"\|"` (default: `"/"`) |
+| `widget.show_home` | boolean | Show home link as first item (default: true) |
+| `widget.home_label` | object | Multilingual home label `{ "en": "Home", "pl": "Strona glowna" }` |
+| `widget.color` | string | Link color (hex) |
+| `widget.active_color` | string | Active (current page) color (hex) |
+| `widget.show_dynamic_last` | boolean | Show dynamic last breadcrumb from URL (default: false) |
+| `widget.dynamic_last_collection_code` | string | Collection code for the dynamic last breadcrumb item (default: `""`) |
+| `widget.dynamic_last_field_code` | string | Field code to use as label for the dynamic last breadcrumb (default: `""`) |
+| `widget.dynamic_last_entry_source` | string | Source for resolving the dynamic entry: `"url"` (default: `"url"`) |
+| `widget.dynamic_last_entry_id` | string | Static entry ID for the dynamic last breadcrumb (default: `""`) |
+| `widget.dynamic_last_url_segment` | number | URL segment index to use for dynamic entry lookup (default: 1) |
+| `widget.items` | array | Static breadcrumb items (optional, injected from page context at render time) |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response
@@ -35,7 +35,7 @@ breadcrumbs
 {
   "widget_type": "breadcrumbs",
   "uuid": "breadcrumbs-123",
-  "config": {
+  "widget": {
     "separator": "/",
     "show_home": true,
     "home_label": {
@@ -74,7 +74,7 @@ breadcrumbs
 
 ```javascript
 function renderBreadcrumbs(widget, language, currentPage, pages) {
-  const { separator, show_home, home_label, color, active_color, show_dynamic_last } = widget.config;
+  const { separator, show_home, home_label, color, active_color, show_dynamic_last } = widget.widget;
 
   const homeText = home_label?.[language] || home_label?.en || 'Home';
   const sep = ` <span class="breadcrumb-separator" style="color: ${color};">${separator}</span> `;

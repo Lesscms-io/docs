@@ -14,17 +14,17 @@ pdf-viewer
 |----------|------|-------------|
 | `widget_type` | string | Always `"pdf-viewer"` |
 | `uuid` | string | Unique widget identifier |
-| `config` | object | Widget configuration |
-| `config.file` | string\|null | URL of the PDF file |
-| `config.height` | number | Viewer height in pixels (default: 600) |
-| `config.height_mode` | string | Height mode: `"fixed"`, `"auto"` (default: `"fixed"`) |
-| `config.page_mode` | string | Page mode: `"single"`, `"double"` |
-| `config.show_controls` | boolean | Show navigation controls |
-| `config.show_thumbnails` | boolean | Show page thumbnails |
-| `config.show_outline` | boolean | Show document outline |
-| `config.show_fullscreen` | boolean | Allow fullscreen mode |
-| `config.show_download` | boolean | Allow PDF download |
-| `config.background_color` | string | Viewer background color |
+| `widget` | object | Widget data |
+| `widget.file` | string\|null | URL of the PDF file |
+| `widget.height` | number | Viewer height in pixels (default: 600) |
+| `widget.height_mode` | string | Height mode: `"fixed"`, `"auto"` (default: `"fixed"`) |
+| `widget.page_mode` | string | Page mode: `"single"`, `"double"` |
+| `widget.show_controls` | boolean | Show navigation controls |
+| `widget.show_thumbnails` | boolean | Show page thumbnails |
+| `widget.show_outline` | boolean | Show document outline |
+| `widget.show_fullscreen` | boolean | Allow fullscreen mode |
+| `widget.show_download` | boolean | Allow PDF download |
+| `widget.background_color` | string | Viewer background color |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response
@@ -33,7 +33,7 @@ pdf-viewer
 {
   "widget_type": "pdf-viewer",
   "uuid": "pdf-viewer-123",
-  "config": {
+  "widget": {
     "file": "https://cdn.example.com/documents/catalog.pdf",
     "height": 700,
     "page_mode": "double",
@@ -58,7 +58,7 @@ pdf-viewer
 
 ```javascript
 function renderPdfViewer(widget) {
-  const { file, height, page_mode, show_controls, show_download, background_color } = widget.config;
+  const { file, height, page_mode, show_controls, show_download, background_color } = widget.widget;
 
   if (!file) {
     return '<div class="pdf-placeholder">No PDF file selected</div>';

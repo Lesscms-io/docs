@@ -14,24 +14,23 @@ testimonial
 |----------|------|-------------|
 | `widget_type` | string | Always `"testimonial"` |
 | `uuid` | string | Unique widget identifier |
-| `config` | object | Widget configuration |
-| `config.rating` | number | Star rating (1-5, optional) |
-| `config.image` | object | Author avatar image (optional) |
-| `config.content_source` | string | Content source mode: `"static"`, `"dynamic"` (default: `"static"`) |
-| `config.collection_code` | string\|null | Collection code for dynamic mode (default: `null`) |
-| `config.field_code` | string\|null | Field code for dynamic content (default: `null`) |
-| `config.entry_id` | string\|null | Entry UUID for dynamic mode (default: `null`) |
-| `config.entry_source` | string\|null | Entry source mode: `"static"`, `"url"` (default: `null`) |
-| `config.entry_url_segment` | integer\|null | URL segment index for URL-based entry in dynamic mode (default: `null`) |
-| `config.quote_field` | string\|null | Field code for quote text in dynamic mode (default: `null`) |
-| `config.author_field` | string\|null | Field code for author name in dynamic mode (default: `null`) |
-| `config.position_field` | string\|null | Field code for author position in dynamic mode (default: `null`) |
-| `config.image_field` | string\|null | Field code for avatar image in dynamic mode (default: `null`) |
-| `config.rating_field` | string\|null | Field code for rating value in dynamic mode (default: `null`) |
-| `content` | object | Widget content |
-| `content.quote` | string | Testimonial text (localized) |
-| `content.author` | string | Author name (localized) |
-| `content.position` | string | Author position/title (localized) |
+| `widget` | object | Widget data |
+| `widget.rating` | number | Star rating (1-5, optional) |
+| `widget.image` | object | Author avatar image (optional) |
+| `widget.content_source` | string | Content source mode: `"static"`, `"dynamic"` (default: `"static"`) |
+| `widget.collection_code` | string\|null | Collection code for dynamic mode (default: `null`) |
+| `widget.field_code` | string\|null | Field code for dynamic content (default: `null`) |
+| `widget.entry_id` | string\|null | Entry UUID for dynamic mode (default: `null`) |
+| `widget.entry_source` | string\|null | Entry source mode: `"static"`, `"url"` (default: `null`) |
+| `widget.entry_url_segment` | integer\|null | URL segment index for URL-based entry in dynamic mode (default: `null`) |
+| `widget.quote_field` | string\|null | Field code for quote text in dynamic mode (default: `null`) |
+| `widget.author_field` | string\|null | Field code for author name in dynamic mode (default: `null`) |
+| `widget.position_field` | string\|null | Field code for author position in dynamic mode (default: `null`) |
+| `widget.image_field` | string\|null | Field code for avatar image in dynamic mode (default: `null`) |
+| `widget.rating_field` | string\|null | Field code for rating value in dynamic mode (default: `null`) |
+| `widget.quote` | string | Testimonial text (localized) |
+| `widget.author` | string | Author name (localized) |
+| `widget.position` | string | Author position/title (localized) |
 | `settings` | object | Style settings (optional) |
 
 ### Image Object Structure
@@ -47,14 +46,12 @@ testimonial
 {
   "widget_type": "testimonial",
   "uuid": "testimonial-123",
-  "config": {
+  "widget": {
     "rating": 5,
     "image": {
       "url": "https://cdn.example.com/avatars/john.jpg",
       "alt": { "en": "John Smith" }
-    }
-  },
-  "content": {
+    },
     "quote": "Working with this team has been an absolute pleasure. They delivered our project on time and exceeded all our expectations.",
     "author": "John Smith",
     "position": "CEO, Tech Company"
@@ -74,11 +71,9 @@ testimonial
 {
   "widget_type": "testimonial",
   "uuid": "testimonial-456",
-  "config": {
+  "widget": {
     "rating": 4,
-    "image": null
-  },
-  "content": {
+    "image": null,
     "quote": "Excellent service and great results. Would highly recommend!",
     "author": "Jane Doe",
     "position": "Marketing Director"
@@ -92,8 +87,7 @@ testimonial
 ```javascript
 // Render testimonial widget
 function renderTestimonial(widget, language) {
-  const { rating, image } = widget.config;
-  const { quote, author, position } = widget.content;
+  const { rating, image, quote, author, position } = widget.widget;
   const settings = widget.settings || {};
 
   const imageUrl = image?.url || '';

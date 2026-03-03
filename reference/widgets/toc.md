@@ -14,18 +14,17 @@ toc
 |----------|------|-------------|
 | `widget_type` | string | Always `"toc"` |
 | `uuid` | string | Unique widget identifier |
-| `content` | object | Multilingual content |
-| `content.toc_title` | object | Multilingual title `{ "en": "Table of Contents", "pl": "Spis treści" }` |
-| `content.items` | array | List of ToC items |
-| `content.items[].label` | object | Multilingual item label `{ "en": "Introduction", "pl": "Wprowadzenie" }` |
-| `content.items[].anchor` | string | Target element ID (without `#`) |
-| `config` | object | Widget configuration |
-| `config.field_code` | string\|null | Field code to auto-generate TOC from (e.g., richtext field) |
-| `config.heading_level` | string | Heading level to extract from source field (default: `"h2"`) |
-| `config.source_widget_uuid` | string\|null | UUID of the source widget to extract headings from |
-| `config.text_color` | string\|null | Text color for TOC items (hex) |
-| `config.highlight_color` | string\|null | Color for active item highlight (hex, default: `"#50a5f1"`) |
-| `config.show_border` | boolean | Show left border on active item (default: `false`) |
+| `widget` | object | Widget data |
+| `widget.toc_title` | object | Multilingual title `{ "en": "Table of Contents", "pl": "Spis tre\u015bci" }` |
+| `widget.items` | array | List of ToC items |
+| `widget.items[].label` | object | Multilingual item label `{ "en": "Introduction", "pl": "Wprowadzenie" }` |
+| `widget.items[].anchor` | string | Target element ID (without `#`) |
+| `widget.field_code` | string\|null | Field code to auto-generate TOC from (e.g., richtext field) |
+| `widget.heading_level` | string | Heading level to extract from source field (default: `"h2"`) |
+| `widget.source_widget_uuid` | string\|null | UUID of the source widget to extract headings from |
+| `widget.text_color` | string\|null | Text color for TOC items (hex) |
+| `widget.highlight_color` | string\|null | Color for active item highlight (hex, default: `"#50a5f1"`) |
+| `widget.show_border` | boolean | Show left border on active item (default: `false`) |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response
@@ -34,10 +33,10 @@ toc
 {
   "widget_type": "toc",
   "uuid": "toc-123",
-  "content": {
+  "widget": {
     "toc_title": {
       "en": "Table of Contents",
-      "pl": "Spis treści"
+      "pl": "Spis tre\u015bci"
     },
     "items": [
       {
@@ -52,9 +51,7 @@ toc
         "label": { "en": "Contact", "pl": "Kontakt" },
         "anchor": "contact"
       }
-    ]
-  },
-  "config": {
+    ],
     "field_code": null,
     "heading_level": "h2",
     "source_widget_uuid": null,
@@ -75,8 +72,8 @@ toc
 
 ```javascript
 function renderToc(widget, language) {
-  const { toc_title, items } = widget.content;
-  const { highlight_color, show_border } = widget.config;
+  const { toc_title, items } = widget.widget;
+  const { highlight_color, show_border } = widget.widget;
 
   const title = toc_title?.[language] || toc_title?.en || '';
 
