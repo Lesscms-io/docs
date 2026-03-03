@@ -231,59 +231,68 @@ Nadpisywanie per breakpoint: `settings.responsive.tablet.paddingTop = 20`
 
 ### 11. LISTA WIDGETÓW
 
-#### BASIC (10)
+#### BUTTONS (3)
 
-**button** — `text`, `url`, `style` (primary/secondary/outline), `size` (sm/md/lg), `target_blank`, `border_radius` (sm/md/lg), `icon` (Font Awesome, np. `fa-solid fa-arrow-right`), `icon_position` (left/right)
+**button** — `text`, `url`, `style` (primary/secondary/outline), `size` (sm/md/lg), `target_blank`
 
-**divider** — `style` (solid/dashed/dotted), `color`, `width` (1px/2px/3px)
+**link** — `text`, `url`, `icon` (Font Awesome), `icon_position` (right/left/none), `animation` (none/slide/fade/underline), `color`, `target_blank`
 
-**spacer** — `height` (px)
-
-**link** — `text`, `url`, `icon`, `icon_position` (left/right/none), `animation` (none/slide/fade/underline), `color`, `target_blank`
-
-**service-card** — `badge`, `icon`, `title`, `description`, `link`, `icon_color`, `background_color`, `badge_color`, `highlighted`, `icon_background`, `badge_background`, `highlight_color`, `link_text`, `link_url`
-
-**feature-list** — `items` [{text, included}], included/excluded_icon, included/excluded_color, `columns` (1-3)
-
-**table** — `headers`, `rows`, `header_bg_color`, `header_text_color` (light/dark), `striped`, `bordered`
-
-**team-member** — `image`, `name`, `position`, `bio`, `social_links` [{platform, url}], `accent_color`, `style` (card/minimal/overlay)
-
-**icon-box** — `icon`, `content` (richtext), `icon_position` (left/right/top/bottom), `icon_size` (24/32/48/64px), `icon_color`, `background_color`
-
-**cta-box** — `title`, `subtitle`, `button_text`, `button_url`, `background_color`, `button_color`, `text_color` (light/dark), `alignment`
+**pill** — Tag/etykieta. `text`, `variant` (filled/outline), `size` (sm/md/lg), `background_color`, `text_color`, `uppercase`
 
 #### TEXT (3)
 
 **text** — `content` (richtext HTML). Obsługuje inline: `font-size` (dowolna jednostka: px, rem, em, vw, clamp()), `font-weight` (100-900), `color` z opacity (rgba), `background-color` (highlight) z opacity, `font-family`, `line-height`, `text-align`
 
-**heading** — `content`, `content_source` (static/dynamic). Obsługuje inline: `font-size` (dowolna jednostka: px, rem, em, vw, clamp()), `font-weight` (100-900), `color` z opacity (rgba), `font-family`, `line-height`, `text-align`
+**heading** — `content_source` (static/dynamic). Obsługuje inline: `font-size` (dowolna jednostka: px, rem, em, vw, clamp()), `font-weight` (100-900), `color` z opacity (rgba), `font-family`, `line-height`, `text-align`
 
 **blockquote** — `quote`, `author`, `source`, `style` (simple/bordered/filled), `accent_color`
 
 #### MEDIA (5)
 
-**image** — `image`, `image_source` (static/dynamic)
+**image** — `image_source` (static/dynamic), `image`, `image_style` (none/rounded/rounded-lg/circle/shadow-sm/shadow-lg/rounded-shadow/border/border-rounded)
 
 **gallery** — `images` (lista), `columns` (2-5), `enable_lightbox` (fullscreen po kliknięciu)
 
 **video** — `source` (youtube/vimeo/url), `url`, `autoplay`, `loop`, `muted`
 
-**pdf-viewer** — `file`, `height`, `page_mode` (double/single), show_controls/thumbnails/outline/fullscreen/download, `background_color`
+**pdf-viewer** — `file`, `height`, `page_mode` (double/single), `show_controls`, `show_thumbnails`, `show_outline`, `show_fullscreen`, `show_download`, `background_color`
 
-**google-maps** — `api_key`, `address`, `zoom`, `map_type` (roadmap/satellite)
+**google-maps** — `api_key`, `address`, `zoom`, `map_type` (roadmap/satellite), `street_view_control`, `zoom_control`, `fullscreen_control`, `map_type_control`, `scroll_wheel`, `draggable`
 
-#### LAYOUT (3)
+#### CARDS (7)
 
-**hero** — `content_source` (static/dynamic), `title`, `subtitle`, `background_image`, `button_text`, `button_url`, `overlay`, `text_position`, `text_color`. Dynamiczny content source: pobranie tytułu/podtytułu/obrazka z kolekcji
+**service-card** — `badge`, `icon`, `title`, `description`, `link_text`, `link_url`, `icon_color`, `icon_background`, `badge_color`, `badge_background`, `text_color`, `background_color`
+
+**icon-box** — `icon`, `content` (richtext), `icon_position` (left/right/top/bottom), `icon_vertical_align` (top/center/bottom), `icon_size` (24/32/48/64px), `icon_color`, `icon_background`, `icon_border_radius`
+
+**numbered-box** — Karta z numerem/krokiem. `content` (richtext), `number_position` (left/right/top/bottom), `number_vertical_align` (top/center/bottom), `number_size` (px), `number_color`, `number_font_weight` (400/600/700/900), `number_background`, `number_padding`, `number_border_radius`
+
+**cta-box** — `title`, `subtitle`, `button_text`, `button_url`, `background_color`, `button_color`, `text_color`, `alignment` (left/center/right), `padding_y`, `padding_x`, `border_radius`, `title_font_size`, `subtitle_font_size`
+
+**feature-list** — `items` [{text, included}], `icon_included`, `icon_excluded`, `color_included`, `color_excluded`, `columns` (1-3)
+
+**icon-list** — Lista z ikonami. `text`, `icon`, `icon_color`, `text_size` (sm/md/lg), `item_bg_color`, `icon_size` (sm/md/lg)
+
+**team-member** — `image`, `name`, `position`, `bio`, `social_links` [{platform, url}], `accent_color`, `style` (card/minimal/overlay)
+
+#### LAYOUT (5)
+
+**divider** — `style` (solid/dashed/dotted), `color`, `width` (1/2/3px)
+
+**spacer** — `height` (px)
+
+**hero** — Widget hero z tłem, tytułem i przyciskiem. Obsługuje treść statyczną i dynamiczną z kolekcji.
+- **Statyczny:** `title`, `subtitle`, `background` (obraz), `button_text`, `button_link`
+- **Dynamiczny:** `collection_code`, `entry_source` (static/url), `entry_id`, `entry_url_segment`, `image_field`, `title_field`, `subtitle_field`
+- **Wyświetlanie:** `overlay_opacity` (0-1), `overlay_color`, `text_align` (left/center/right), `text_position` (top/center/bottom), `text_color`, `show_title`, `show_subtitle`
 
 **grid** — `columns`, `gap`, `stack_on_mobile`
 
-**block-content** — Reużywalny blok treści. `block_code` — kod bloku zdefiniowanego w LessCMS. Bloki to fragmenty treści (np. stopka, CTA, banner) zarządzane centralnie i wstawiane na wiele stron jednocześnie. Zmiana bloku aktualizuje go wszędzie.
+**block-content** — Reużywalny blok treści. `block_code` — kod bloku zdefiniowanego w LessCMS. Bloki to fragmenty treści (np. stopka, CTA, banner) zarządzane centralnie i wstawiane na wiele stron jednocześnie.
 
-#### INTERACTIVE (11)
+#### INTERACTIVE (12)
 
-**countdown** — `target_date`, show_days/hours/minutes/seconds
+**countdown** — `target_date`, `show_days`, `show_hours`, `show_minutes`, `show_seconds`
 
 **counter** — `number`, `prefix`, `suffix`, `title`, `duration`
 
@@ -291,15 +300,17 @@ Nadpisywanie per breakpoint: `settings.responsive.tablet.paddingTop = 20`
 
 **testimonial** — `quote`, `author`, `position`, `image`, `rating`
 
-**accordion** — `items` [{title, content}], `icon_color`, `border_color`, `allow_multiple`, `first_open`
+**accordion** — `items` [{title, content(richtext)}], `icon_color`, `border_color`, `allow_multiple`, `first_open`
 
-**tabs** — `items` [{title, content}], `active_color`, `border_color`, `style` (underline/pills/boxed), `alignment`
+**tabs** — `items` [{title, content(richtext)}], `active_color`, `border_color`, `style` (underline/pills/boxed), `alignment` (left/center/right/stretch)
 
 **timeline** — `items` [{date, title, content}], `layout` (left/right/alternate), `line_color`, `dot_color`
 
-**pricing-table** — `title`, `subtitle`, `price`, `period`, `features`, `button_text`, `button_url`, `highlighted`, `badge`, kolory
+**pricing-table** — `title`, `subtitle`, `price`, `period`, `features` [{text, included}], `button_text`, `button_url`, `highlighted`, `badge`, `highlight_color`, `button_color`
 
-**alert** — `title`, `content`, `type` (info/success/warning/danger), `dismissible`
+**alert** — `show_title`, `title`, `content`, `type` (info/success/warning/danger), `dismissible`
+
+**table** — `headers` [{text}], `rows`, `header_bg`, `header_text` (light/dark), `striped`, `bordered`
 
 **embed** — `code` (HTML), `height`
 
@@ -307,10 +318,16 @@ Nadpisywanie per breakpoint: `settings.responsive.tablet.paddingTop = 20`
 - `form_code` — kod formularza zdefiniowanego w LessCMS
 - `submit_text` — tekst przycisku (wielojęzyczny, nadpisuje ustawienia formularza)
 - **Layout:** `label_position` (top/side), `columns` (1/2)
-- **Stylowanie przycisku:** `button_style` (primary/secondary/outline + kolory Bootstrap), `button_size` (sm/md/lg), `button_border_radius`, `button_padding`, `button_icon` (Font Awesome), `button_icon_position` (left/right), `button_align` (left/center/right)
+- **Stylowanie przycisku:** `button_style`, `button_size` (sm/md/lg), `button_border_radius`, `button_padding`, `button_icon` (Font Awesome), `button_icon_position` (left/right), `button_align` (left/center/right)
 - **Stylowanie inputów:** `input_size`, `input_border_radius`, `input_padding`, `input_background_color`, `input_text_color`, `input_border_color`, `input_border_width`, `input_border_style` (solid/dashed/dotted), `input_focus_border_color`, `input_placeholder_color`
 - **Formularz w LessCMS zawiera:** pola (text, email, textarea, select, checkbox + label, placeholder, required, opcje), zgody/konsenty (HTML, wymagane/opcjonalne), ustawienia (email_to, powiadomienia, success_message, captcha Turnstile)
 - **Antyspam:** honeypot, walidacja timestamp, rate limiting (5/min/IP), opcjonalny Cloudflare Turnstile
+
+#### INTEGRATIONS (2)
+
+**openstreetmap** — Mapa OpenStreetMap (bez klucza API). `lat`, `lng`, `zoom`, `tile_style` (standard/light/dark), `show_marker`, `scroll_wheel_zoom`, `zoom_control`, `draggable`
+
+**social-icons** — `items` [{platform(facebook/twitter/instagram/linkedin/youtube/tiktok/pinterest/github), url}], `size` (sm/md/lg), `style` (default/circle/square)
 
 #### NAVIGATION (3)
 
@@ -318,29 +335,35 @@ Nadpisywanie per breakpoint: `settings.responsive.tablet.paddingTop = 20`
 - `menu_code` — kod menu (zdefiniowane w LessCMS)
 - `layout` — `horizontal`, `vertical`, `centered`
 - `hamburger_breakpoint` — `never`, `mobile`, `tablet` — wbudowany hamburger menu
-- **Logo:** `logo_light` (obraz, jasne tło), `logo_dark` (obraz, ciemne tło), `logo_height` (px, domyślnie 40), `logo_position` (`left`/`center`/`right`)
-- **Kolory:** `link_color` (kolor linków, domyślnie `var:text`), `link_hover_color` (kolor po najechaniu, domyślnie `var:info`), `link_hover_bg` (tło linku po najechaniu)
-- **Wyrównanie:** `items_alignment` (`left`/`center`/`right`) — wyrównanie pozycji menu
-- **CTA:** `cta_text`, `cta_url`, `cta_position` (`left`/`right`/`below`), `cta_style` (pełna paleta Bootstrap: primary/secondary/success/danger/warning/info/light/dark + outline-*), `cta_size` (sm/md/lg), `cta_border_radius` (sm/md/lg), `cta_icon` (Font Awesome), `cta_icon_position` (left/right)
+- **Logo:** `logo_light` (obraz, jasne tło), `logo_dark` (obraz, ciemne tło), `logo_height` (px), `logo_position` (`left`/`center`/`right`)
+- **Kolory:** `link_color`, `link_hover_color`
+- **CTA:** `cta_text`, `cta_url`, `cta_position` (`left`/`right`/`below`), `cta_link_type` (custom/page/entry), `cta_style` (pełna paleta Bootstrap: primary/secondary/success/danger/warning/info/light/dark + outline-*), `cta_size` (sm/md/lg), `cta_target_blank`
 - **Odstęp:** `items_gap` (`sm`=4px / `md`=8px / `lg`=16px)
 
-**social-icons** — `items` [{platform, url}], `size` (sm/md/lg), `style` (default/circle/square)
+**breadcrumbs** — `separator` (/ / > / >> / - / |), `show_home`, `home_label`, `color`, `active_color`, `show_dynamic_last` (ostatni element dynamicznie z URL)
 
-**breadcrumbs** — `separator` (>/→/|/·), `show_home`, `home_label`, `color`, `active_color`, `show_dynamic_last` (ostatni element dynamicznie z URL)
+**toc** — Spis treści (Table of Contents). `field_code` (pole richtext do analizy), `heading_level` (domyślnie h2), `toc_title`, `text_color`, `highlight_color`, `show_border`
 
 #### COLLECTION (6)
 
-**collection-grid** — `collection`, `layout` (grid/list/cards), `columns`, `posts_count`, `order_by`, `order_direction`, title/excerpt/image/date_field, show_title/excerpt/image/date, `text_limit`
+**collection-grid** — Siatka/lista wpisów z kolekcji.
+- **Źródło:** `collection_code`, `posts_count`, `order_by` (created_at/title/random), `order_dir` (desc/asc), `exclude_current_entry`
+- **Layout:** `layout` (grid/list/cards), `columns` (1-4), `gap` (0/8/16/24/32/48px), `content_gap` (0/4/8/12/16/24px)
+- **Pola:** `title_field`, `excerpt_field`, `image_field`, `date_field`, `tags_field`
+- **Widoczność:** `show_title`, `show_excerpt`, `show_image`, `show_date`, `show_read_more`, `show_tags`
+- **Limity:** `title_limit`, `excerpt_limit`, `read_more_text`
+- **Styl kafelka:** `card_background_color`, `card_text_color`, `card_border_radius`, `card_padding`
+- **Kolejność pól:** `field_order` (ukryty, drag & drop w panelu)
 
-**collection-carousel** — `collection`, `posts_count`, `slides_per_view` (1-4), `autoplay`, `autoplay_delay`, `show_arrows`, `show_dots`, title/excerpt/image_field
+**collection-carousel** — `collection_code`, `posts_count`, `slides_per_view` (1-4), `autoplay`, `autoplay_interval`, `show_arrows`, `show_dots`, `exclude_current_entry`, `title_field`, `excerpt_field`, `image_field`, `show_title`, `show_excerpt`
 
-**collection-single** — `collection`, `entry`, `layout` (standard/card/full), title/content/image_field, show_title/content/image
+**collection-single** — `collection_code`, `entry_id`, `layout` (standard/card/full), `title_field`, `content_field`, `image_field`, `show_title`, `show_content`, `show_image`
 
-**value-list** — `collection`, `field`, `display_style` (list/inline/tags/buttons), `show_count`, `link`
+**value-list** — `collection_code`, `value_field`, `display_style` (list/inline/tags/buttons), `show_count`, `link_enabled`, `link_url_pattern`
 
-**data-field** — `value_source` (static/dynamic), `collection`, `entry`, `field`, `entry_source` (static/URL), `display_type` (p/h1-h6/span/image/gallery)
+**data-field** — Wyświetla pojedyncze pole z kolekcji. `value_source` (static/dynamic), `static_value`, `collection_code`, `entry_source` (static/url), `entry_id`, `entry_url_segment`, `field_code`, `display_as` (p/h1-h6/span/image/gallery)
 
-**collection-grouped** — `collection`, `group_by_field`, `style` (sections/accordion/tabs), `item_layout` (list/cards/compact), `posts_count`, pola jak collection-grid
+**collection-grouped** — Wpisy pogrupowane po polu. `collection_code`, `group_by_field`, `style` (sections/accordion/tabs), `item_layout` (list/cards/compact), `posts_count`, `exclude_current_entry`, `title_field`, `description_field`, `price_field`, `image_field`, `show_title`, `show_description`, `show_price`, `show_image`, `show_uncategorized`
 
 ---
 
