@@ -24,14 +24,14 @@ menu
 | `widget.layout` | string | Menu layout: `"horizontal"`, `"vertical"`, `"centered"` (default: `"horizontal"`) |
 | `widget.hamburger_breakpoint` | string | When to show hamburger: `"never"`, `"mobile"`, `"tablet"` (default: `"never"`) |
 | `widget.items_alignment` | string | Menu items alignment: `"left"`, `"center"`, `"right"` (default: `"left"`) |
-| `widget.items_gap` | string | Gap between menu items: `"sm"`, `"md"`, `"lg"` (default: `"md"`) |
+| `widget.items_gap` | number | Gap between menu items in pixels (default: `12`) |
 | `widget.items_indent` | number | Left indent for menu items in pixels (default: 0) |
 | `widget.link_color` | string | Menu link color (hex) |
 | `widget.link_hover_color` | string | Menu link hover color (hex) |
 | `widget.link_hover_bg` | string\|null | Menu link hover background color (hex) |
 | `widget.link_hover_animation` | string | Hover animation effect: `"none"`, `"underline"`, `"overline"`, `"highlight"`, `"scale"`, `"bracket"` (default: `"none"`) |
 | `widget.link_hover_animation_color` | string\|null | Color for the animation element (falls back to `link_hover_color`) |
-| `widget.items_padding` | string\|null | Custom CSS padding for each menu item link (e.g., `"8px 16px"`) |
+| `widget.items_padding` | number\|null | Padding for each menu item link in pixels |
 | `widget.cta_text` | string | CTA button text |
 | `widget.cta_position` | string | CTA position: `"left"`, `"right"`, `"below"` (default: `"right"`) |
 | `widget.cta_link_type` | string | CTA link type: `"custom"`, `"page"`, `"entry"` |
@@ -65,14 +65,14 @@ menu
     "layout": "horizontal",
     "hamburger_breakpoint": "mobile",
     "items_alignment": "left",
-    "items_gap": "md",
+    "items_gap": 12,
     "items_indent": 0,
     "link_color": "#333333",
     "link_hover_color": "#50a5f1",
     "link_hover_bg": null,
     "link_hover_animation": "underline",
     "link_hover_animation_color": "#50a5f1",
-    "items_padding": "8px 16px",
+    "items_padding": 10,
     "cta_text": "Get Started",
     "cta_position": "right",
     "cta_link_type": "custom",
