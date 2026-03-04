@@ -37,6 +37,14 @@ value-list
 | `widget.link_url_pattern` | string\|null | URL pattern with `{value}` placeholder |
 | `settings` | object | Style settings (optional) |
 
+### Server-Side Enrichment Fields
+
+When the API can resolve the collection data server-side, the following field is conditionally included in the response. When absent, fetch entries client-side via the Collection API.
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `widget.entries` | array | Pre-fetched collection entries for value extraction |
+
 ## Example Response
 
 ```json
@@ -123,8 +131,9 @@ async function renderValueList(widget, language, api) {
     show_count, link_enabled, link_url_pattern
   } = widget.widget;
 
-  // Fetch all entries and extract unique values
-  const entries = await api.getCollectionEntries(collection_code);
+  // Entries may be pre-fetched by the API (server-side enrichment).
+  // If widget.entries exists, use it directly. Otherwise, fetch client-side.
+  const entries = widget.widget.entries || await api.getCollectionEntries(collection_code);
 
   // Count values
   const valueCounts = {};

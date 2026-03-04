@@ -44,6 +44,14 @@ data-field
 | `widget.icon_gap` | string | Gap between icon and content (default: `"12"`) |
 | `settings` | object | Style settings (optional) |
 
+### Server-Side Enrichment Fields
+
+When `entry_source` is `"static"` and the API can resolve the entry server-side, the following field is conditionally included. When absent (e.g., `entry_source` is `"url"`), fetch and extract the value client-side.
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `widget.value` | any | Pre-extracted field value from the entry (multilingual object or scalar) |
+
 ### Dynamic Mode Additional Fields
 
 When `value_source` is `"dynamic"`:
@@ -207,22 +215,33 @@ async function renderDataField(widget, language, urlSegments, api) {
     const staticValue = widget.widget.static_value || {};
     content = staticValue[language] || staticValue.en || '';
   } else {
-    // Dynamic mode - fetch from collection
-    const { collection_code, field_code, entry_source, entry_id, entry_url_segment } = widget.widget;
+    // Dynamic mode - value may be pre-fetched by the API (server-side enrichment).
+    // If widget.value exists, use it directly. Otherwise, fetch client-side.
+    if (widget.widget.value !== undefined && widget.widget.value !== null) {
+      const fieldValue = widget.widget.value;
+      if (typeof fieldValue === 'object' && !Array.isArray(fieldValue)) {
+        content = fieldValue[language] || fieldValue.en || '';
+      } else {
+        content = fieldValue || '';
+      }
+    } else {
+      // Fallback: fetch from collection API
+      const { collection_code, field_code, entry_source, entry_id, entry_url_segment } = widget.widget;
 
-    let targetEntryId = entry_id;
-    if (entry_source === 'url' && entry_url_segment) {
-      targetEntryId = urlSegments[entry_url_segment - 1];
-    }
+      let targetEntryId = entry_id;
+      if (entry_source === 'url' && entry_url_segment) {
+        targetEntryId = urlSegments[entry_url_segment - 1];
+      }
 
-    if (targetEntryId && collection_code && field_code) {
-      const entry = await api.getEntry(collection_code, targetEntryId);
-      if (entry) {
-        const fieldValue = entry.data[field_code];
-        if (typeof fieldValue === 'object' && !Array.isArray(fieldValue)) {
-          content = fieldValue[language] || fieldValue.en || '';
-        } else {
-          content = fieldValue || '';
+      if (targetEntryId && collection_code && field_code) {
+        const entry = await api.getEntry(collection_code, targetEntryId);
+        if (entry) {
+          const fieldValue = entry.data[field_code];
+          if (typeof fieldValue === 'object' && !Array.isArray(fieldValue)) {
+            content = fieldValue[language] || fieldValue.en || '';
+          } else {
+            content = fieldValue || '';
+          }
         }
       }
     }

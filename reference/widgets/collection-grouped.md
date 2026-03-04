@@ -35,6 +35,15 @@ collection-grouped
 | `widget.layout_config` | object\|null | Custom layout configuration object |
 | `settings` | object | Style settings (optional) |
 
+### Server-Side Enrichment Fields
+
+When the API can resolve the collection data server-side, the following fields are conditionally included in the response. When absent, fetch entries client-side via the Collection API.
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `widget.entries` | array | Pre-fetched collection entries (included when `collection_code` is set) |
+| `widget.entries_meta` | object | Pagination metadata (`total`, `page`, `per_page`) |
+
 ## Example Response
 
 ```json
@@ -96,9 +105,10 @@ function renderCollectionGrouped(widget, language) {
     show_title, show_description, show_price, show_image, show_uncategorized
   } = widget.widget;
 
-  // Note: groups and ungrouped are NOT included in the API response.
-  // You must fetch collection entries separately and group them client-side.
-  const groups = {}; // Group entries by group_by_field value
+  // Entries may be pre-fetched by the API (server-side enrichment).
+  // If widget.entries exists, group them client-side. Otherwise, fetch from Collection API first.
+  const allEntries = widget.widget.entries || []; // Fallback: fetch from /api/:project_code/collections/:collection_code
+  const groups = {}; // Group allEntries by group_by_field value
   const ungrouped = []; // Entries without a group value
 
   let html = '';

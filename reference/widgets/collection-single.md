@@ -31,6 +31,14 @@ collection-single
 | `widget.layout_config` | object\|null | Custom layout configuration object |
 | `settings` | object | Style settings (optional) |
 
+### Server-Side Enrichment Fields
+
+When `entry_source` is `"static"` and the API can resolve the entry server-side, the following field is conditionally included. When absent (e.g., `entry_source` is `"url"`), fetch the entry client-side via the Collection API.
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `widget.entry` | object | Pre-fetched entry data (included when `entry_source` is `"static"` and `entry_id` is set) |
+
 ## Example Response
 
 ```json
@@ -72,10 +80,9 @@ function renderCollectionSingle(widget, language) {
     title_field, content_field, image_field
   } = widget.widget;
 
-  // Note: entry data is NOT included in the API response.
-  // You must fetch the entry separately using the collection API.
-  // Use entry_source/entry_id/entry_url_segment to determine which entry to fetch.
-  const entry = null; // Fetch from /api/:project_code/collections/:collection_code/:entry_id
+  // Entry may be pre-fetched by the API (server-side enrichment) when entry_source is "static".
+  // If widget.entry exists, use it directly. Otherwise, fetch client-side.
+  const entry = widget.widget.entry || null; // Fallback: fetch from /api/:project_code/collections/:collection_code/:entry_id
   if (!entry) return '<p>Entry not found.</p>';
 
   const title = title_field ? (entry.data[title_field]?.[language] || '') : '';

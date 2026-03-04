@@ -29,6 +29,9 @@ menu
 | `widget.link_color` | string | Menu link color (hex) |
 | `widget.link_hover_color` | string | Menu link hover color (hex) |
 | `widget.link_hover_bg` | string\|null | Menu link hover background color (hex) |
+| `widget.link_hover_animation` | string | Hover animation effect: `"none"`, `"underline"`, `"overline"`, `"highlight"`, `"scale"`, `"bracket"` (default: `"none"`) |
+| `widget.link_hover_animation_color` | string\|null | Color for the animation element (falls back to `link_hover_color`) |
+| `widget.items_padding` | string\|null | Custom CSS padding for each menu item link (e.g., `"8px 16px"`) |
 | `widget.cta_text` | string | CTA button text |
 | `widget.cta_position` | string | CTA position: `"left"`, `"right"`, `"below"` (default: `"right"`) |
 | `widget.cta_link_type` | string | CTA link type: `"custom"`, `"page"`, `"entry"` |
@@ -67,6 +70,9 @@ menu
     "link_color": "#333333",
     "link_hover_color": "#50a5f1",
     "link_hover_bg": null,
+    "link_hover_animation": "underline",
+    "link_hover_animation_color": "#50a5f1",
+    "items_padding": "8px 16px",
     "cta_text": "Get Started",
     "cta_position": "right",
     "cta_link_type": "custom",
@@ -158,6 +164,17 @@ GET /api/{project}/menus/{menu_code}
 | `never` | Always show full menu |
 | `mobile` | Show hamburger on mobile devices |
 | `tablet` | Show hamburger on tablet and smaller |
+
+## Hover Animation Values
+
+| Value | Description |
+|-------|-------------|
+| `none` | No animation (default) |
+| `underline` | Line grows from left to right under the link |
+| `overline` | Line grows from left to right above the link |
+| `highlight` | Background color fades in on hover |
+| `scale` | Slight scale up on hover |
+| `bracket` | Left/right bracket borders appear on hover |
 
 ## Items Gap Values
 

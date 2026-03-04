@@ -59,6 +59,15 @@ collection-grid
 | `widget.layout_config` | object\|null | Custom layout configuration object |
 | `settings` | object | Style settings (optional) |
 
+### Server-Side Enrichment Fields
+
+When the API can resolve the collection data server-side, the following fields are conditionally included in the response. When absent, fetch entries client-side via the Collection API.
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `widget.entries` | array | Pre-fetched collection entries (included when `collection_code` is set) |
+| `widget.entries_meta` | object | Pagination metadata (`total`, `page`, `per_page`) |
+
 ## Example Response
 
 ```json
@@ -141,9 +150,9 @@ function renderCollectionGrid(widget, language) {
     read_more_text, gap
   } = widget.widget;
 
-  // Note: entries are NOT included in the API response.
-  // You must fetch collection entries separately using the collection API.
-  const entries = []; // Fetch from /api/:project_code/collections/:collection_code
+  // Entries may be pre-fetched by the API (server-side enrichment).
+  // If widget.entries exists, use it directly. Otherwise, fetch client-side.
+  const entries = widget.widget.entries || []; // Fallback: fetch from /api/:project_code/collections/:collection_code
   const readMoreLabel = read_more_text?.[language] || 'Read More';
 
   if (entries.length === 0) return '<p>No entries found.</p>';

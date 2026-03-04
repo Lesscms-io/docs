@@ -31,6 +31,15 @@ collection-carousel
 | `widget.route_uuid` | string\|null | Route UUID for entry URL resolution |
 | `settings` | object | Style settings (optional) |
 
+### Server-Side Enrichment Fields
+
+When the API can resolve the collection data server-side, the following fields are conditionally included in the response. When absent, fetch entries client-side via the Collection API.
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `widget.entries` | array | Pre-fetched collection entries (included when `collection_code` is set) |
+| `widget.entries_meta` | object | Pagination metadata (`total`, `page`, `per_page`) |
+
 ## Example Response
 
 ```json
@@ -74,10 +83,9 @@ function renderCollectionCarousel(widget, language) {
     title_field, excerpt_field, image_field
   } = widget.widget;
 
-  // Note: entries are NOT included in the API response.
-  // You must fetch collection entries separately using the collection API.
-  // This example assumes entries are fetched and passed in.
-  const entries = []; // Fetch from /api/:project_code/collections/:collection_code
+  // Entries may be pre-fetched by the API (server-side enrichment).
+  // If widget.entries exists, use it directly. Otherwise, fetch client-side.
+  const entries = widget.widget.entries || []; // Fallback: fetch from /api/:project_code/collections/:collection_code
 
   if (entries.length === 0) return '';
 
