@@ -22,7 +22,7 @@ collection-grid
 | `widget.columns_mobile` | number\|null | Number of columns on mobile breakpoint |
 | `widget.gap` | number | Grid gap in pixels (default: 16) |
 | `widget.posts_count` | number | Maximum entries to display (default: 6) |
-| `widget.card_style` | string | Card display style (default: `"default"`) |
+| `widget.card_style` | string | Card display style: `"default"`, `"shadow"`, `"bordered"`, `"overlay"`, `"minimal"` (default: `"default"`) |
 | `widget.entry_template` | string\|null | Entry template identifier for custom rendering |
 | `widget.order_by` | string | Order field: `"created_at"`, `"title"`, `"random"` (default: `"created_at"`) |
 | `widget.order_dir` | string | Order direction: `"asc"`, `"desc"` (default: `"desc"`) |
