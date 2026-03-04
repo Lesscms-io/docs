@@ -33,6 +33,10 @@ value-list
 | `widget.tag_text_color` | string\|null | Text color for tag items (hex) |
 | `widget.more_bg_color` | string\|null | Background color for "show more" button (hex) |
 | `widget.more_text_color` | string\|null | Text color for "show more" button (hex) |
+| `widget.tag_padding` | string\|null | Custom padding for tag items (e.g. `"6px 16px"`) |
+| `widget.tag_font_size` | string\|null | Custom font size for tag items (e.g. `"14px"`) |
+| `widget.tag_border_radius` | string\|null | Custom border radius for tag items (e.g. `"1rem"`) |
+| `widget.items_gap` | string\|null | Gap between items (e.g. `"8px"`, `"12px 16px"`) |
 | `widget.link_enabled` | boolean | Make values clickable (default: `false`) |
 | `widget.link_url_pattern` | string\|null | URL pattern with `{value}` placeholder |
 | `settings` | object | Style settings (optional) |
@@ -70,6 +74,10 @@ When the API can resolve the collection data server-side, the following field is
     "tag_text_color": "#333333",
     "more_bg_color": null,
     "more_text_color": null,
+    "tag_padding": "6px 16px",
+    "tag_font_size": "14px",
+    "tag_border_radius": "1rem",
+    "items_gap": "8px",
     "link_enabled": true,
     "link_url_pattern": "/blog/category/{value}"
   },
@@ -105,6 +113,10 @@ When the API can resolve the collection data server-side, the following field is
     "tag_text_color": null,
     "more_bg_color": null,
     "more_text_color": null,
+    "tag_padding": null,
+    "tag_font_size": null,
+    "tag_border_radius": null,
+    "items_gap": null,
     "link_enabled": false,
     "link_url_pattern": null
   },
