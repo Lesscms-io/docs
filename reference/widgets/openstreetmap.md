@@ -1,6 +1,6 @@
 # OpenStreetMap Widget
 
-An embedded OpenStreetMap widget with customizable coordinates, zoom, and map style. No API key required.
+An embedded OpenStreetMap widget with customizable coordinates, zoom, map style, and GeoJSON overlay support. No API key required.
 
 ## Widget Type
 
@@ -23,9 +23,21 @@ openstreetmap
 | `widget.scroll_wheel_zoom` | boolean | Enable zoom via scroll wheel |
 | `widget.zoom_control` | boolean | Show zoom +/- buttons |
 | `widget.draggable` | boolean | Allow map panning by dragging |
+| `widget.geojson_source` | string | GeoJSON data source: `"static"` (file URL) or `"dynamic"` (collection field) |
+| `widget.geojson_file` | string | URL to a `.geojson` file (when `geojson_source` is `"static"`) |
+| `widget.collection_code` | string | Collection code for dynamic GeoJSON source |
+| `widget.entry_source` | string | How to resolve the entry: `"static"` (by ID) or `"url"` (from URL segment) |
+| `widget.entry_id` | string | Entry ID (when `entry_source` is `"static"`) |
+| `widget.entry_url_segment` | number | URL segment index for entry resolution (when `entry_source` is `"url"`) |
+| `widget.geojson_field_code` | string | Field code containing GeoJSON data in the collection entry |
+| `widget.geojson_fill_color` | string | Fill color for GeoJSON polygons (e.g., `"#3388ff"`) |
+| `widget.geojson_stroke_color` | string | Stroke/border color for GeoJSON features (e.g., `"#3388ff"`) |
+| `widget.geojson_fill_opacity` | string | Fill opacity for GeoJSON polygons (e.g., `"0.2"`) |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response
+
+### Basic (marker only)
 
 ```json
 {
@@ -39,14 +51,84 @@ openstreetmap
     "show_marker": true,
     "scroll_wheel_zoom": false,
     "zoom_control": true,
-    "draggable": true
+    "draggable": true,
+    "geojson_source": "static",
+    "geojson_file": "",
+    "collection_code": "",
+    "entry_source": "static",
+    "entry_id": "",
+    "entry_url_segment": 1,
+    "geojson_field_code": "",
+    "geojson_fill_color": "",
+    "geojson_stroke_color": "",
+    "geojson_fill_opacity": ""
   },
   "settings": {
-    "minHeight": 400,
-    "responsive": {
-      "tablet": {},
-      "mobile": {}
-    }
+    "minHeight": 400
+  }
+}
+```
+
+### With GeoJSON file (static)
+
+```json
+{
+  "widget_type": "openstreetmap",
+  "uuid": "osm-456",
+  "widget": {
+    "lat": 52.2297,
+    "lng": 21.0122,
+    "zoom": 10,
+    "tile_style": "light",
+    "show_marker": false,
+    "scroll_wheel_zoom": true,
+    "zoom_control": true,
+    "draggable": true,
+    "geojson_source": "static",
+    "geojson_file": "https://example.com/files/districts.geojson",
+    "collection_code": "",
+    "entry_source": "static",
+    "entry_id": "",
+    "entry_url_segment": 1,
+    "geojson_field_code": "",
+    "geojson_fill_color": "#ff6600",
+    "geojson_stroke_color": "#cc3300",
+    "geojson_fill_opacity": "0.3"
+  },
+  "settings": {
+    "minHeight": 500
+  }
+}
+```
+
+### With dynamic GeoJSON (from collection)
+
+```json
+{
+  "widget_type": "openstreetmap",
+  "uuid": "osm-789",
+  "widget": {
+    "lat": 52.2297,
+    "lng": 21.0122,
+    "zoom": 12,
+    "tile_style": "standard",
+    "show_marker": true,
+    "scroll_wheel_zoom": false,
+    "zoom_control": true,
+    "draggable": true,
+    "geojson_source": "dynamic",
+    "geojson_file": "",
+    "collection_code": "regions",
+    "entry_source": "url",
+    "entry_id": "",
+    "entry_url_segment": 2,
+    "geojson_field_code": "boundary_data",
+    "geojson_fill_color": "#3388ff",
+    "geojson_stroke_color": "#3388ff",
+    "geojson_fill_opacity": "0.2"
+  },
+  "settings": {
+    "minHeight": 400
   }
 }
 ```
@@ -69,6 +151,27 @@ openstreetmap
 | 15-17 | Street view |
 | 18 | Building view |
 
+## GeoJSON Support
+
+The widget supports rendering GeoJSON data (polygons, lines, points) as map overlays. GeoJSON data can come from two sources:
+
+### Static Source
+
+Upload a `.geojson` file to the file manager and select it. The file URL is stored in `geojson_file`. When the map loads, it fetches the file and renders the features.
+
+### Dynamic Source
+
+Bind the widget to a collection field that contains GeoJSON data. The entry can be resolved:
+- **Static**: By a specific `entry_id`
+- **URL**: From a URL path segment (e.g., segment 2 from `/regions/mazowieckie/` → `mazowieckie`)
+
+### Rendering Behavior
+
+- GeoJSON features are rendered with customizable fill color, stroke color, and opacity
+- When GeoJSON data is loaded, the map automatically adjusts its viewport (`fitBounds`) to show all features
+- Point features are rendered as circle markers
+- If no GeoJSON data is configured, the map works as before (marker only)
+
 ## Usage Example
 
 ```javascript
@@ -79,7 +182,12 @@ function renderOpenStreetMap(widget) {
     show_marker,
     scroll_wheel_zoom,
     zoom_control,
-    draggable
+    draggable,
+    geojson_source,
+    geojson_file,
+    geojson_fill_color,
+    geojson_stroke_color,
+    geojson_fill_opacity
   } = widget.widget;
 
   const height = widget.settings?.minHeight || 400;
@@ -92,26 +200,39 @@ function renderOpenStreetMap(widget) {
 
   const mapId = `map-${widget.uuid}`;
 
-  return `
-    <div id="${mapId}" style="width: 100%; height: ${height}px;"></div>
-    <script>
-      (function() {
-        const map = L.map('${mapId}', {
-          center: [${lat || 52.2297}, ${lng || 21.0122}],
-          zoom: ${zoom || 14},
-          scrollWheelZoom: ${!!scroll_wheel_zoom},
-          zoomControl: ${zoom_control !== false},
-          dragging: ${draggable !== false}
-        });
+  // Initialize map
+  const map = L.map(mapId, {
+    center: [lat || 52.2297, lng || 21.0122],
+    zoom: zoom || 14,
+    scrollWheelZoom: !!scroll_wheel_zoom,
+    zoomControl: zoom_control !== false,
+    dragging: draggable !== false
+  });
 
-        L.tileLayer('${tileUrls[tile_style] || tileUrls.standard}', {
-          attribution: '&copy; OpenStreetMap contributors'
+  L.tileLayer(tileUrls[tile_style] || tileUrls.standard, {
+    attribution: '&copy; OpenStreetMap contributors'
+  }).addTo(map);
+
+  if (show_marker) {
+    L.marker([lat, lng]).addTo(map);
+  }
+
+  // Load GeoJSON if configured
+  if (geojson_source === 'static' && geojson_file) {
+    fetch(geojson_file)
+      .then(r => r.json())
+      .then(data => {
+        const layer = L.geoJSON(data, {
+          style: {
+            fillColor: geojson_fill_color || '#3388ff',
+            color: geojson_stroke_color || '#3388ff',
+            fillOpacity: parseFloat(geojson_fill_opacity) || 0.2,
+            weight: 2
+          }
         }).addTo(map);
-
-        ${show_marker ? `L.marker([${lat}, ${lng}]).addTo(map);` : ''}
-      })();
-    </script>
-  `;
+        map.fitBounds(layer.getBounds());
+      });
+  }
 }
 ```
 
