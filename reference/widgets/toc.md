@@ -25,6 +25,10 @@ toc
 | `widget.text_color` | string\|null | Text color for TOC items (hex) |
 | `widget.highlight_color` | string\|null | Color for active item highlight (hex, default: `"#50a5f1"`) |
 | `widget.show_border` | boolean | Show left border on active item (default: `false`) |
+| `widget.title_font_size` | string\|null | Font size for TOC title (e.g., `"18px"`) |
+| `widget.title_color` | string\|null | Color for TOC title (hex or color variable) |
+| `widget.items_gap` | number\|null | Gap between TOC items in pixels (default: `8`) |
+| `widget.font_size` | string\|null | Font size for TOC items (e.g., `"14px"`) |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response
@@ -57,7 +61,11 @@ toc
     "source_widget_uuid": null,
     "text_color": null,
     "highlight_color": "#50a5f1",
-    "show_border": true
+    "show_border": true,
+    "title_font_size": "18px",
+    "title_color": null,
+    "items_gap": 8,
+    "font_size": null
   },
   "settings": {
     "responsive": {
