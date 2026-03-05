@@ -24,6 +24,10 @@ icon-box
 | `widget.icon_border_radius` | number | Icon border radius in pixels (default: 0) |
 | `widget.icon_position` | string | `"left"`, `"right"`, `"top"`, `"bottom"` (default: `"left"`) |
 | `widget.icon_vertical_align` | string | `"top"`, `"center"`, `"bottom"` (default: `"top"`) |
+| `widget.card_background` | string | Card background color (hex or `"var:..."`, default: `""`) |
+| `widget.card_padding` | string | Card padding CSS value (e.g. `"20px"`, `"16px 24px"`, default: `""`) |
+| `widget.card_border_radius` | number | Card border radius in pixels (default: 0) |
+| `widget.card_border_color` | string | Card border color (hex or `"var:..."`, default: `""`) |
 | `widget.html` | object | Multilingual HTML content |
 | `settings` | object | Style settings (optional) |
 
@@ -58,6 +62,10 @@ When used in multi-item mode, each item has:
     "icon_border_radius": 0,
     "icon_position": "left",
     "icon_vertical_align": "top",
+    "card_background": "",
+    "card_padding": "",
+    "card_border_radius": 0,
+    "card_border_color": "",
     "html": {
       "en": "<h3>Fast Delivery</h3><p>We deliver your order within 24 hours.</p>",
       "pl": "<h3>Szybka dostawa</h3><p>Dostarczamy zamowienia w ciagu 24 godzin.</p>"
@@ -88,6 +96,10 @@ When used in multi-item mode, each item has:
     "icon_border_radius": 0,
     "icon_position": "left",
     "icon_vertical_align": "top",
+    "card_background": "",
+    "card_padding": "",
+    "card_border_radius": 0,
+    "card_border_color": "",
     "collection_code": "services",
     "field_code": "description",
     "entry_id": "entry-123",

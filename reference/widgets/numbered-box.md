@@ -23,6 +23,10 @@ numbered-box
 | `widget.number_background` | string | Number background color (hex or `"transparent"`) |
 | `widget.number_padding` | number | Number padding in pixels (default: 0) |
 | `widget.number_border_radius` | number | Number border radius in pixels (default: 0) |
+| `widget.card_background` | string | Card background color (hex or `"var:..."`, default: `""`) |
+| `widget.card_padding` | string | Card padding CSS value (e.g. `"20px"`, `"16px 24px"`, default: `""`) |
+| `widget.card_border_radius` | number | Card border radius in pixels (default: 0) |
+| `widget.card_border_color` | string | Card border color (hex or `"var:..."`, default: `""`) |
 | `widget.html` | object | Multilingual HTML content |
 | `settings` | object | Style settings (optional) |
 
@@ -51,6 +55,10 @@ Numbers are auto-generated from the item's position in the array (index 0 → "0
     "number_background": "transparent",
     "number_padding": 0,
     "number_border_radius": 0,
+    "card_background": "",
+    "card_padding": "",
+    "card_border_radius": 0,
+    "card_border_color": "",
     "html": {
       "en": "<h3>Discovery</h3><p>We learn about your business needs and goals.</p>",
       "pl": "<h3>Odkrywanie</h3><p>Poznajemy potrzeby i cele Twojego biznesu.</p>"
