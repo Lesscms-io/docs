@@ -18,7 +18,9 @@ value-list
 | `widget.collection_code` | string\|null | Collection code |
 | `widget.value_field` | string\|null | Field code to extract values from |
 | `widget.group_field` | string\|null | Field code to group values by |
-| `widget.display_style` | string | Display style: `"list"`, `"inline"`, `"tags"`, `"buttons"` (default: `"list"`) |
+| `widget.subtitle_field` | string\|null | Field code for card subtitle (used with `"cards"` style) |
+| `widget.icon_field` | string\|null | Field code for card icon class (used with `"cards"` style) |
+| `widget.display_style` | string | Display style: `"list"`, `"inline"`, `"tags"`, `"buttons"`, `"cards"` (default: `"list"`) |
 | `widget.columns` | number | Number of columns for layout (default: `1`) |
 | `widget.show_count` | boolean | Show count of entries per value (default: `false`) |
 | `widget.filter_field` | string\|null | Field code to filter entries by |
@@ -39,6 +41,8 @@ value-list
 | `widget.items_gap` | string\|null | Gap between items (e.g. `"8px"`, `"12px 16px"`) |
 | `widget.link_enabled` | boolean | Make values clickable (default: `false`) |
 | `widget.link_url_pattern` | string\|null | URL pattern with `{value}` placeholder |
+| `widget.card_icon_bg_color` | string\|null | Background color for card icon (used with `"cards"` style) |
+| `widget.card_icon_color` | string\|null | Icon color for card icon (used with `"cards"` style) |
 | `settings` | object | Style settings (optional) |
 
 ### Server-Side Enrichment Fields
@@ -132,6 +136,7 @@ When the API can resolve the collection data server-side, the following field is
 | `inline` | Comma-separated inline list |
 | `tags` | Tag/chip style |
 | `buttons` | Button style |
+| `cards` | Card style with icon, title, subtitle and arrow |
 
 ## Usage Example
 
