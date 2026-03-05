@@ -28,6 +28,7 @@ When `form_code` is set, the widget references a system form. The frontend fetch
 | `widget.button_align` | string | Button alignment: `"left"`, `"center"`, `"right"` |
 | `widget.label_position` | string | Label position: `"top"`, `"side"` |
 | `widget.columns` | string | Form columns: `"1"`, `"2"` |
+| `widget.field_gap` | string | Gap between fields in px (e.g. `"20"`) |
 | `widget.input_size` | string | Input size: `"sm"`, `"md"`, `"lg"` |
 | `widget.input_border_radius` | string | Input border radius: `"none"`, `"sm"`, `"md"`, `"lg"`, `"pill"` |
 | `widget.input_padding` | string | Input padding in px |
@@ -82,6 +83,7 @@ When `form_code` is not set, the widget uses inline field definitions. This is t
     "button_align": "left",
     "label_position": "top",
     "columns": "1",
+    "field_gap": "",
     "input_size": "md",
     "input_border_radius": "md",
     "input_padding": "",
