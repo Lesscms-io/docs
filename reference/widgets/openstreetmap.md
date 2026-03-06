@@ -33,6 +33,9 @@ openstreetmap
 | `widget.geojson_fill_color` | string | Fill color for GeoJSON polygons (e.g., `"#3388ff"`) |
 | `widget.geojson_stroke_color` | string | Stroke/border color for GeoJSON features (e.g., `"#3388ff"`) |
 | `widget.geojson_fill_opacity` | string | Fill opacity for GeoJSON polygons (e.g., `"0.2"`) |
+| `widget.collection_layers_enabled` | boolean | Enable loading GeoJSON from all entries in a collection |
+| `widget.collection_layers_collection` | string | Collection code to load GeoJSON entries from |
+| `widget.collection_layers_field` | string | Field code containing GeoJSON data in each collection entry |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response
@@ -133,6 +136,41 @@ openstreetmap
 }
 ```
 
+### With collection GeoJSON layers
+
+```json
+{
+  "widget_type": "openstreetmap",
+  "uuid": "osm-layers",
+  "widget": {
+    "lat": 52.2297,
+    "lng": 21.0122,
+    "zoom": 10,
+    "tile_style": "light",
+    "show_marker": false,
+    "scroll_wheel_zoom": true,
+    "zoom_control": true,
+    "draggable": true,
+    "geojson_source": "static",
+    "geojson_file": "",
+    "collection_code": "",
+    "entry_source": "static",
+    "entry_id": "",
+    "entry_url_segment": 1,
+    "geojson_field_code": "",
+    "geojson_fill_color": "#3388ff",
+    "geojson_stroke_color": "#3388ff",
+    "geojson_fill_opacity": "0.2",
+    "collection_layers_enabled": true,
+    "collection_layers_collection": "regions",
+    "collection_layers_field": "geojson_file"
+  },
+  "settings": {
+    "minHeight": 500
+  }
+}
+```
+
 ## Tile Styles
 
 | Value | Description |
@@ -171,6 +209,17 @@ Bind the widget to a collection field that contains GeoJSON data. The entry can 
 - When GeoJSON data is loaded, the map automatically adjusts its viewport (`fitBounds`) to show all features
 - Point features are rendered as circle markers
 - If no GeoJSON data is configured, the map works as before (marker only)
+
+## Collection GeoJSON Layers
+
+When `collection_layers_enabled` is `true`, the widget loads all entries from the specified collection and renders each entry's GeoJSON field as a separate map layer.
+
+- **`collection_layers_collection`**: The collection code to fetch entries from
+- **`collection_layers_field`**: The field code in each entry that contains GeoJSON data (can be a file URL or inline GeoJSON)
+
+Each GeoJSON area is clickable and navigates to the entry's URL (as returned by `entry.metadata.url`). Hovering over an area highlights it with increased opacity. The map automatically fits its viewport to include all collection layers.
+
+This feature works alongside the single GeoJSON source — you can have both a static/dynamic GeoJSON layer and collection layers on the same map.
 
 ## Usage Example
 
