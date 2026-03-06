@@ -41,6 +41,7 @@ value-list
 | `widget.items_gap` | string\|null | Gap between items (e.g. `"8px"`, `"12px 16px"`) |
 | `widget.link_enabled` | boolean | Make values clickable (default: `false`) |
 | `widget.link_url_pattern` | string\|null | URL pattern with `{value}` placeholder |
+| `widget.card_icon` | string\|null | Static FontAwesome icon class for all cards, used when `icon_field` is not set (e.g., `"fa-solid fa-star"`) |
 | `widget.card_icon_bg_color` | string\|null | Background color for card icon (used with `"cards"` style) |
 | `widget.card_icon_color` | string\|null | Icon color for card icon (used with `"cards"` style) |
 | `settings` | object | Style settings (optional) |

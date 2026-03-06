@@ -36,6 +36,7 @@ openstreetmap
 | `widget.collection_layers_enabled` | boolean | Enable loading GeoJSON from all entries in a collection |
 | `widget.collection_layers_collection` | string | Collection code to load GeoJSON entries from |
 | `widget.collection_layers_field` | string | Field code containing GeoJSON data in each collection entry |
+| `widget.collection_layers_limit` | number | Maximum number of entries to load for collection layers (default: 50) |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response
