@@ -64,7 +64,7 @@ When `value_source` is `"dynamic"`:
 | `widget.entry_source` | string | Entry source: `"static"` or `"url"` (default: `"static"`) |
 | `widget.entry_id` | string\|null | Specific entry ID (when `entry_source` is `"static"`) |
 | `widget.entry_url_segment` | number | URL segment index (when `entry_source` is `"url"`, default: 1) |
-| `widget.entry_url` | string\|null | Resolved entry URL (from collection routing, when `entry_source` is `"static"` and entry is found) |
+| `widget.entry_url` | string\|null | Resolved entry URL based on collection route configuration (routes > entry_url_pattern > fallback). Included when `entry_source` is `"static"` and the entry is found server-side. |
 
 ### Static Mode Additional Fields
 
