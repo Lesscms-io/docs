@@ -30,6 +30,7 @@ data-field
 | `widget.date_format` | string | Date format: `"full"`, `"short"`, `"relative"`, `"custom"` (default: `"full"`) |
 | `widget.show_time` | boolean | Show time for datetime fields (default: true) |
 | `widget.custom_date_format` | string\|null | Custom date format string |
+| `widget.link_to_entry` | boolean | Wrap value as a link to the entry page (default: `false`) |
 | `widget.link_text` | object | Multilingual link button text |
 | `widget.button_style` | string | Button style: `"primary"`, `"secondary"`, `"outline"` (default: `"primary"`) |
 | `widget.button_size` | string | Button size: `"sm"`, `"md"`, `"lg"` (default: `"md"`) |
