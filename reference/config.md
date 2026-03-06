@@ -102,7 +102,9 @@ curl -H "x-api-key: YOUR_API_KEY" \
       { "code": "info", "label": "Info", "value": "#50a5f1" },
       { "code": "light", "label": "Light", "value": "#f8f9fa" },
       { "code": "dark", "label": "Dark", "value": "#343a40" }
-    ]
+    ],
+    "languages": ["pl", "en"],
+    "default_language": "pl"
   }
 }
 ```
@@ -124,6 +126,8 @@ curl -H "x-api-key: YOUR_API_KEY" \
 | `collection_route_schema` | string | URL pattern for collection entries (e.g., `/c/{collection_code}/{slug}`) |
 | `homepage_uuid` | string\|null | UUID of the page set as homepage (`null` if not set) |
 | `color_variables` | array | Color variables for theming — see [Color Variables](#color-variables) |
+| `languages` | array | Languages enabled for this project (e.g., `["pl", "en"]`) |
+| `default_language` | string | Default language code (e.g., `"pl"`) |
 
 ### Response Headers
 
