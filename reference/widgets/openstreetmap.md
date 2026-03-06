@@ -37,6 +37,10 @@ openstreetmap
 | `widget.collection_layers_collection` | string | Collection code to load GeoJSON entries from |
 | `widget.collection_layers_field` | string | Field code containing GeoJSON data in each collection entry |
 | `widget.collection_layers_limit` | number | Maximum number of entries to load for collection layers (default: 50) |
+| `widget.collection_layers_filter_field` | string | Field code to filter collection layer entries by |
+| `widget.collection_layers_filter_value` | string | Value to match for filtering (used when `collection_layers_filter_value_source` is `"static"`) |
+| `widget.collection_layers_filter_value_source` | string | Filter value source: `"static"` or `"url"` (default: `"static"`) |
+| `widget.collection_layers_filter_url_segment` | number | URL path segment number to extract filter value from (default: `1`) |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response
@@ -164,7 +168,12 @@ openstreetmap
     "geojson_fill_opacity": "0.2",
     "collection_layers_enabled": true,
     "collection_layers_collection": "regions",
-    "collection_layers_field": "geojson_file"
+    "collection_layers_field": "geojson_file",
+    "collection_layers_limit": 50,
+    "collection_layers_filter_field": "category",
+    "collection_layers_filter_value": "",
+    "collection_layers_filter_value_source": "url",
+    "collection_layers_filter_url_segment": 2
   },
   "settings": {
     "minHeight": 500
@@ -217,6 +226,10 @@ When `collection_layers_enabled` is `true`, the widget loads all entries from th
 
 - **`collection_layers_collection`**: The collection code to fetch entries from
 - **`collection_layers_field`**: The field code in each entry that contains GeoJSON data (can be a file URL or inline GeoJSON)
+- **`collection_layers_filter_field`**: Optional field code to filter which entries are loaded
+- **`collection_layers_filter_value`**: Static value to match against the filter field
+- **`collection_layers_filter_value_source`**: Set to `"url"` to read the filter value from a URL path segment instead of using a static value
+- **`collection_layers_filter_url_segment`**: Which URL path segment to use (1-based) when `filter_value_source` is `"url"`
 
 Each GeoJSON area is clickable and navigates to the entry's URL (as returned by `entry.metadata.url`). Hovering over an area highlights it with increased opacity. The map automatically fits its viewport to include all collection layers.
 

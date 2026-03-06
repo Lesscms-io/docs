@@ -24,7 +24,9 @@ value-list
 | `widget.columns` | number | Number of columns for layout (default: `1`) |
 | `widget.show_count` | boolean | Show count of entries per value (default: `false`) |
 | `widget.filter_field` | string\|null | Field code to filter entries by |
-| `widget.filter_value` | string\|null | Value to match for filtering |
+| `widget.filter_value` | string\|null | Value to match for filtering (used when `filter_value_source` is `"static"`) |
+| `widget.filter_value_source` | string | Filter value source: `"static"` or `"url"` (default: `"static"`) |
+| `widget.filter_url_segment` | number | URL path segment number to extract filter value from (default: `1`, used when `filter_value_source` is `"url"`) |
 | `widget.sort_field` | string\|null | Field code to sort values by |
 | `widget.sort_dir` | string | Sort direction: `"asc"` or `"desc"` (default: `"asc"`) |
 | `widget.visible_limit` | number | Maximum number of values to display initially (default: `0` = unlimited) |
