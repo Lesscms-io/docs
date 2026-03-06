@@ -40,7 +40,8 @@ value-list
 | `widget.tag_border_radius` | string\|null | Custom border radius for tag items (e.g. `"1rem"`) |
 | `widget.items_gap` | string\|null | Gap between items (e.g. `"8px"`, `"12px 16px"`) |
 | `widget.link_enabled` | boolean | Make values clickable (default: `false`) |
-| `widget.link_url_pattern` | string\|null | URL pattern with `{value}` placeholder |
+| `widget.link_to_entry` | boolean | Link each value to its source entry page using collection routing (default: `false`) |
+| `widget.link_url_pattern` | string\|null | URL pattern with `{value}` placeholder (used when `link_to_entry` is `false`) |
 | `widget.card_icon` | string\|null | Static FontAwesome icon class for all cards, used when `icon_field` is not set (e.g., `"fa-solid fa-star"`) |
 | `widget.card_icon_bg_color` | string\|null | Background color for card icon (used with `"cards"` style) |
 | `widget.card_icon_color` | string\|null | Icon color for card icon (used with `"cards"` style) |
