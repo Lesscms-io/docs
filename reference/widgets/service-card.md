@@ -31,6 +31,10 @@ service-card
 | `widget.text_color` | string | Card text color |
 | `widget.background_color` | string | Card background color |
 | `widget.show_badge` | boolean | Whether to show the badge |
+| `widget.border_radius` | number | Card border radius in pixels (default: 16) |
+| `widget.hover_background_color` | string\|null | Background color on hover |
+| `widget.hover_text_color` | string\|null | Text color on hover |
+| `widget.transition_duration` | number | Hover transition duration in ms (default: 200) |
 | `widget.badge` | object | Multilingual badge text (optional) |
 | `widget.title` | object | Multilingual title text |
 | `widget.description` | object | Multilingual description text |
@@ -60,6 +64,10 @@ service-card
     "text_color": "",
     "background_color": "",
     "show_badge": false,
+    "border_radius": 16,
+    "hover_background_color": null,
+    "hover_text_color": null,
+    "transition_duration": 200,
     "badge": {},
     "title": {
       "en": "Tree Cutting",
@@ -101,6 +109,10 @@ service-card
     "text_color": "#ffffff",
     "background_color": "#1a4d3e",
     "show_badge": true,
+    "border_radius": 16,
+    "hover_background_color": null,
+    "hover_text_color": null,
+    "transition_duration": 200,
     "badge": {
       "en": "MOST POPULAR",
       "pl": "NAJPOPULARNIEJSZA"
@@ -151,13 +163,13 @@ The service-card widget supports displaying multiple cards in a grid. When multi
 }
 ```
 
-Per-item fields (`badge`, `icon`, `title`, `description`, `link_text`, `link_url`, `icon_color`, `icon_background`, `badge_color`, `badge_background`, `text_color`, `background_color`, `show_badge`) are unique to each item.
+Per-item fields (`badge`, `icon`, `title`, `description`, `link_text`, `link_url`, `icon_color`, `icon_background`, `badge_color`, `badge_background`, `text_color`, `background_color`, `show_badge`, `border_radius`, `hover_background_color`, `hover_text_color`, `transition_duration`) are unique to each item.
 
 ## Usage Example
 
 ```javascript
 function renderServiceCard(widget, language) {
-  const { icon, icon_color, icon_background, link_url, badge_color, badge_background, text_color, background_color, show_badge } = widget.widget;
+  const { icon, icon_color, icon_background, link_url, badge_color, badge_background, text_color, background_color, show_badge, border_radius, hover_background_color, hover_text_color, transition_duration } = widget.widget;
   const { badge, title, description, link_text } = widget.widget;
 
   const badgeText = badge?.[language] || badge?.en || '';
@@ -165,9 +177,12 @@ function renderServiceCard(widget, language) {
   const descText = description?.[language] || description?.en || '';
   const linkTextValue = link_text?.[language] || link_text?.en || '';
 
+  const dur = transition_duration || 200;
   const cardStyle = [
     text_color ? `color: ${text_color}` : '',
-    background_color ? `background: ${background_color}` : ''
+    background_color ? `background: ${background_color}` : '',
+    border_radius != null ? `border-radius: ${border_radius}px` : '',
+    `transition: background-color ${dur}ms ease, color ${dur}ms ease`
   ].filter(Boolean).join('; ');
 
   let badgeHtml = '';
@@ -200,9 +215,17 @@ function renderServiceCard(widget, language) {
   flex-direction: column;
   padding: 2rem;
   background: #fff;
-  border-radius: 1rem;
+  /* border_radius from API, default 16px */
+  border-radius: 16px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   position: relative;
+  /* transition_duration from API, default 200ms */
+  transition: background-color 200ms ease, color 200ms ease;
+}
+
+/* Apply hover_background_color and hover_text_color when set */
+.service-card:hover {
+  /* Use values from hover_background_color / hover_text_color */
 }
 
 .service-card__badge {
