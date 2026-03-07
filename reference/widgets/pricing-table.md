@@ -31,6 +31,8 @@ pricing-table
 | `widget.button_entry_id` | string\|null | Entry UUID for entry link type (default: `null`) |
 | `widget.button_collection_code` | string\|null | Collection code for entry link type (default: `null`) |
 | `widget.button_route_uuid` | string\|null | Route UUID for link URL resolution (default: `null`) |
+| `widget.hover_highlight_color` | string\|null | Highlight color on hover |
+| `widget.transition_duration` | number | Hover transition duration in ms (default: 200) |
 | `widget.features` | array | Feature list items |
 | `widget.features[].text` | object | Multilingual feature text |
 | `widget.features[].included` | boolean | Whether feature is included |
@@ -65,6 +67,8 @@ pricing-table
     "button_entry_id": null,
     "button_collection_code": null,
     "button_route_uuid": null,
+    "hover_highlight_color": null,
+    "transition_duration": 200,
     "features": [
       { "text": { "en": "10 Projects" }, "included": true },
       { "text": { "en": "Priority Support" }, "included": true },

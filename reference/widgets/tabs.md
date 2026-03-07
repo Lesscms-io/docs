@@ -22,6 +22,9 @@ tabs
 | `widget.border_color` | string\|null | Border color |
 | `widget.style` | string | Tab style: `"underline"`, `"pills"`, `"boxed"` |
 | `widget.alignment` | string | Tab alignment: `"left"`, `"center"`, `"right"`, `"stretch"` |
+| `widget.hover_active_color` | string\|null | Active tab color on hover |
+| `widget.hover_border_color` | string\|null | Border color on hover |
+| `widget.transition_duration` | number | Hover transition duration in ms (default: 200) |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response
@@ -56,7 +59,10 @@ tabs
     "active_color": "#50a5f1",
     "border_color": "#e0e0e0",
     "style": "underline",
-    "alignment": "left"
+    "alignment": "left",
+    "hover_active_color": null,
+    "hover_border_color": null,
+    "transition_duration": 200
   }
 }
 ```

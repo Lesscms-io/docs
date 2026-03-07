@@ -21,6 +21,9 @@ pill
 | `widget.text_color` | string | Text color |
 | `widget.uppercase` | boolean | Whether text is uppercase (default: true) |
 | `widget.text` | object | Multilingual pill text |
+| `widget.hover_background_color` | string\|null | Background color on hover |
+| `widget.hover_text_color` | string\|null | Text color on hover |
+| `widget.transition_duration` | number | Hover transition duration in ms (default: 200) |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response
@@ -38,7 +41,10 @@ pill
     "text": {
       "en": "New",
       "pl": "Nowość"
-    }
+    },
+    "hover_background_color": null,
+    "hover_text_color": null,
+    "transition_duration": 200
   },
   "settings": {}
 }

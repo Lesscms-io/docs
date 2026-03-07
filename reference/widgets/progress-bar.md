@@ -19,6 +19,8 @@ progress-bar
 | `widget.color` | string | Bar color (hex code) |
 | `widget.show_percentage` | boolean | Display percentage text (default: true) |
 | `widget.title` | string | Progress bar label (localized) |
+| `widget.hover_color` | string\|null | Bar color on hover |
+| `widget.transition_duration` | number | Hover transition duration in ms (default: 200) |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response
@@ -31,7 +33,9 @@ progress-bar
     "percentage": 75,
     "color": "#28a745",
     "show_percentage": true,
-    "title": "Project Progress"
+    "title": "Project Progress",
+    "hover_color": null,
+    "transition_duration": 200
   },
   "settings": {
     "marginTop": 16,

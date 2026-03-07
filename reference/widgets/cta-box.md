@@ -40,6 +40,9 @@ cta-box
 | `widget.border_radius` | number | Border radius in pixels |
 | `widget.title_font_size` | number | Title font size in pixels |
 | `widget.subtitle_font_size` | number | Subtitle font size in pixels |
+| `widget.hover_background_color` | string\|null | Background color on hover |
+| `widget.hover_text_color` | string\|null | Text color on hover |
+| `widget.transition_duration` | number | Hover transition duration in ms (default: 200) |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response
@@ -82,7 +85,10 @@ cta-box
     "padding_x": 24,
     "border_radius": 8,
     "title_font_size": 28,
-    "subtitle_font_size": 16
+    "subtitle_font_size": 16,
+    "hover_background_color": null,
+    "hover_text_color": null,
+    "transition_duration": 200
   }
 }
 ```

@@ -25,6 +25,9 @@ This widget supports the multi-item pattern. When multiple items exist, the resp
 | `widget.text_size` | string | Text size: `"sm"`, `"md"`, `"lg"` |
 | `widget.item_bg_color` | string\|null | Item background color |
 | `widget.icon_size` | string | Icon size: `"sm"`, `"md"`, `"lg"` |
+| `widget.hover_icon_color` | string\|null | Icon color on hover |
+| `widget.hover_item_bg_color` | string\|null | Item background color on hover |
+| `widget.transition_duration` | number | Hover transition duration in ms (default: 200) |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response (Multi-Item)
@@ -45,7 +48,10 @@ This widget supports the multi-item pattern. When multiple items exist, the resp
         "icon_color": "#50a5f1",
         "text_size": "md",
         "item_bg_color": null,
-        "icon_size": "md"
+        "icon_size": "md",
+        "hover_icon_color": null,
+        "hover_item_bg_color": null,
+        "transition_duration": 200
       }
     },
     {
@@ -56,7 +62,10 @@ This widget supports the multi-item pattern. When multiple items exist, the resp
         "icon_color": "#50a5f1",
         "text_size": "md",
         "item_bg_color": null,
-        "icon_size": "md"
+        "icon_size": "md",
+        "hover_icon_color": null,
+        "hover_item_bg_color": null,
+        "transition_duration": 200
       }
     }
   ]

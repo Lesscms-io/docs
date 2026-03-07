@@ -27,6 +27,9 @@ numbered-box
 | `widget.card_padding` | string | Card padding CSS value (e.g. `"20px"`, `"16px 24px"`, default: `""`) |
 | `widget.card_border_radius` | number | Card border radius in pixels (default: 0) |
 | `widget.card_border_color` | string | Card border color (hex or `"var:..."`, default: `""`) |
+| `widget.hover_card_background` | string\|null | Card background color on hover |
+| `widget.hover_card_border_color` | string\|null | Card border color on hover |
+| `widget.transition_duration` | number | Hover transition duration in ms (default: 200) |
 | `widget.html` | object | Multilingual HTML content |
 | `settings` | object | Style settings (optional) |
 
@@ -59,6 +62,9 @@ Numbers are auto-generated from the item's position in the array (index 0 → "0
     "card_padding": "",
     "card_border_radius": 0,
     "card_border_color": "",
+    "hover_card_background": null,
+    "hover_card_border_color": null,
+    "transition_duration": 200,
     "html": {
       "en": "<h3>Discovery</h3><p>We learn about your business needs and goals.</p>",
       "pl": "<h3>Odkrywanie</h3><p>Poznajemy potrzeby i cele Twojego biznesu.</p>"

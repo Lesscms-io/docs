@@ -33,6 +33,9 @@ hero
 | `widget.button_entry_id` | string\|null | Entry UUID for entry link type (default: `null`) |
 | `widget.button_collection_code` | string\|null | Collection code for entry link type (default: `null`) |
 | `widget.button_route_uuid` | string\|null | Route UUID for link URL resolution (default: `null`) |
+| `widget.hover_overlay_color` | string\|null | Overlay color on hover |
+| `widget.hover_text_color` | string\|null | Text color on hover |
+| `widget.transition_duration` | number | Hover transition duration in ms (default: 200) |
 | `settings` | object | Style settings (optional) |
 
 ### Static Mode Content
@@ -90,6 +93,9 @@ When `content_source` is `"dynamic"`:
     "button_entry_id": null,
     "button_collection_code": null,
     "button_route_uuid": null,
+    "hover_overlay_color": null,
+    "hover_text_color": null,
+    "transition_duration": 200,
     "title": {
       "en": "Welcome to Our Website",
       "pl": "Witamy na naszej stronie"

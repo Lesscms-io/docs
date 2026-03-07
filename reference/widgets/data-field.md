@@ -103,6 +103,8 @@ When `value_source` is `"static"`:
     "date_format": "full",
     "show_time": true,
     "custom_date_format": null,
+    "link_to_entry": false,
+    "entry_url": null,
     "link_text": {},
     "button_style": "primary",
     "button_size": "md",

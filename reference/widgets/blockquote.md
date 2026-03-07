@@ -20,6 +20,8 @@ blockquote
 | `widget.source` | object | Multilingual source/publication |
 | `widget.style` | string | Quote style: `"simple"`, `"bordered"`, `"filled"` |
 | `widget.accent_color` | string\|null | Accent color for border/icon |
+| `widget.hover_accent_color` | string\|null | Accent color on hover |
+| `widget.transition_duration` | number | Hover transition duration in ms (default: 200) |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response
@@ -42,7 +44,9 @@ blockquote
       "pl": "Przemowienie na Stanford, 2005"
     },
     "style": "bordered",
-    "accent_color": "#50a5f1"
+    "accent_color": "#50a5f1",
+    "hover_accent_color": null,
+    "transition_duration": 200
   }
 }
 ```

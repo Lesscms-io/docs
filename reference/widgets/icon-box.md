@@ -28,6 +28,9 @@ icon-box
 | `widget.card_padding` | string | Card padding CSS value (e.g. `"20px"`, `"16px 24px"`, default: `""`) |
 | `widget.card_border_radius` | number | Card border radius in pixels (default: 0) |
 | `widget.card_border_color` | string | Card border color (hex or `"var:..."`, default: `""`) |
+| `widget.hover_card_background` | string\|null | Card background color on hover |
+| `widget.hover_card_border_color` | string\|null | Card border color on hover |
+| `widget.transition_duration` | number | Hover transition duration in ms (default: 200) |
 | `widget.html` | object | Multilingual HTML content |
 | `settings` | object | Style settings (optional) |
 
@@ -66,6 +69,9 @@ When used in multi-item mode, each item has:
     "card_padding": "",
     "card_border_radius": 0,
     "card_border_color": "",
+    "hover_card_background": null,
+    "hover_card_border_color": null,
+    "transition_duration": 200,
     "html": {
       "en": "<h3>Fast Delivery</h3><p>We deliver your order within 24 hours.</p>",
       "pl": "<h3>Szybka dostawa</h3><p>Dostarczamy zamowienia w ciagu 24 godzin.</p>"
@@ -100,6 +106,9 @@ When used in multi-item mode, each item has:
     "card_padding": "",
     "card_border_radius": 0,
     "card_border_color": "",
+    "hover_card_background": null,
+    "hover_card_border_color": null,
+    "transition_duration": 200,
     "collection_code": "services",
     "field_code": "description",
     "entry_id": "entry-123",
