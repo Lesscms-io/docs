@@ -34,6 +34,9 @@ service-card
 | `widget.border_radius` | number | Card border radius in pixels (default: 16) |
 | `widget.hover_background_color` | string\|null | Background color on hover |
 | `widget.hover_text_color` | string\|null | Text color on hover |
+| `widget.hover_lift` | number | Hover lift in pixels — translateY offset (default: `0`) |
+| `widget.hover_scale` | number | Hover scale factor (default: `1`) |
+| `widget.hover_shadow` | string | Hover shadow preset: `"none"`, `"sm"`, `"md"`, `"lg"` (default: `"none"`) |
 | `widget.transition_duration` | number | Hover transition duration in ms (default: 200) |
 | `widget.badge` | object | Multilingual badge text (optional) |
 | `widget.title` | object | Multilingual title text |
@@ -67,6 +70,9 @@ service-card
     "border_radius": 16,
     "hover_background_color": null,
     "hover_text_color": null,
+    "hover_lift": 0,
+    "hover_scale": 1,
+    "hover_shadow": "none",
     "transition_duration": 200,
     "badge": {},
     "title": {
@@ -112,6 +118,9 @@ service-card
     "border_radius": 16,
     "hover_background_color": null,
     "hover_text_color": null,
+    "hover_lift": 0,
+    "hover_scale": 1,
+    "hover_shadow": "none",
     "transition_duration": 200,
     "badge": {
       "en": "MOST POPULAR",

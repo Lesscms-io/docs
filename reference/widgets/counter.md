@@ -25,6 +25,9 @@ counter
 | `widget.hover_number_color` | string\|null | Number text color on hover |
 | `widget.hover_title_color` | string\|null | Title text color on hover |
 | `widget.hover_prefix_color` | string\|null | Prefix/suffix text color on hover |
+| `widget.hover_lift` | number | Hover lift in pixels — translateY offset (default: `0`) |
+| `widget.hover_scale` | number | Hover scale factor (default: `1`) |
+| `widget.hover_shadow` | string | Hover shadow preset: `"none"`, `"sm"`, `"md"`, `"lg"` (default: `"none"`) |
 | `widget.transition_duration` | number | Hover transition duration in ms (default: 200) |
 | `widget.prefix` | string | Text before the number (localized) |
 | `widget.suffix` | string | Text after the number (localized) |
@@ -48,6 +51,9 @@ counter
     "hover_number_color": null,
     "hover_title_color": null,
     "hover_prefix_color": null,
+    "hover_lift": 0,
+    "hover_scale": 1,
+    "hover_shadow": "none",
     "transition_duration": 200,
     "prefix": "",
     "suffix": "+",
@@ -76,6 +82,9 @@ counter
     "hover_number_color": null,
     "hover_title_color": null,
     "hover_prefix_color": null,
+    "hover_lift": 0,
+    "hover_scale": 1,
+    "hover_shadow": "none",
     "transition_duration": 200,
     "prefix": "$",
     "suffix": "",

@@ -32,6 +32,9 @@ pricing-table
 | `widget.button_collection_code` | string\|null | Collection code for entry link type (default: `null`) |
 | `widget.button_route_uuid` | string\|null | Route UUID for link URL resolution (default: `null`) |
 | `widget.hover_highlight_color` | string\|null | Highlight color on hover |
+| `widget.hover_lift` | number | Hover lift in pixels — translateY offset (default: `0`) |
+| `widget.hover_scale` | number | Hover scale factor (default: `1`) |
+| `widget.hover_shadow` | string | Hover shadow preset: `"none"`, `"sm"`, `"md"`, `"lg"` (default: `"none"`) |
 | `widget.transition_duration` | number | Hover transition duration in ms (default: 200) |
 | `widget.features` | array | Feature list items |
 | `widget.features[].text` | object | Multilingual feature text |
@@ -68,6 +71,9 @@ pricing-table
     "button_collection_code": null,
     "button_route_uuid": null,
     "hover_highlight_color": null,
+    "hover_lift": 0,
+    "hover_scale": 1,
+    "hover_shadow": "none",
     "transition_duration": 200,
     "features": [
       { "text": { "en": "10 Projects" }, "included": true },

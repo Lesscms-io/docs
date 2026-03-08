@@ -20,6 +20,9 @@ progress-bar
 | `widget.show_percentage` | boolean | Display percentage text (default: true) |
 | `widget.title` | string | Progress bar label (localized) |
 | `widget.hover_color` | string\|null | Bar color on hover |
+| `widget.hover_lift` | number | Hover lift in pixels — translateY offset (default: `0`) |
+| `widget.hover_scale` | number | Hover scale factor (default: `1`) |
+| `widget.hover_shadow` | string | Hover shadow preset: `"none"`, `"sm"`, `"md"`, `"lg"` (default: `"none"`) |
 | `widget.transition_duration` | number | Hover transition duration in ms (default: 200) |
 | `settings` | object | Style settings (optional) |
 
@@ -35,6 +38,9 @@ progress-bar
     "show_percentage": true,
     "title": "Project Progress",
     "hover_color": null,
+    "hover_lift": 0,
+    "hover_scale": 1,
+    "hover_shadow": "none",
     "transition_duration": 200
   },
   "settings": {

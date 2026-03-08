@@ -29,6 +29,9 @@ numbered-box
 | `widget.card_border_color` | string | Card border color (hex or `"var:..."`, default: `""`) |
 | `widget.hover_card_background` | string\|null | Card background color on hover |
 | `widget.hover_card_border_color` | string\|null | Card border color on hover |
+| `widget.hover_lift` | number | Hover lift in pixels — translateY offset (default: `0`) |
+| `widget.hover_scale` | number | Hover scale factor (default: `1`) |
+| `widget.hover_shadow` | string | Hover shadow preset: `"none"`, `"sm"`, `"md"`, `"lg"` (default: `"none"`) |
 | `widget.transition_duration` | number | Hover transition duration in ms (default: 200) |
 | `widget.html` | object | Multilingual HTML content |
 | `settings` | object | Style settings (optional) |
@@ -64,6 +67,9 @@ Numbers are auto-generated from the item's position in the array (index 0 → "0
     "card_border_color": "",
     "hover_card_background": null,
     "hover_card_border_color": null,
+    "hover_lift": 0,
+    "hover_scale": 1,
+    "hover_shadow": "none",
     "transition_duration": 200,
     "html": {
       "en": "<h3>Discovery</h3><p>We learn about your business needs and goals.</p>",

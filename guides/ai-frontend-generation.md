@@ -518,6 +518,58 @@ function generateHoverCss(widgetId, hover) {
 }
 ```
 
+### Content-Level Hover Effects
+
+Card-type widgets (service-card, cta-box, pill, icon-box, numbered-box, hero, counter, progress-bar, tabs, timeline, blockquote, pricing-table, icon-list) support content-level hover effects stored in the `widget` object:
+
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| `hover_background_color` | string/null | `null` | Background color on hover |
+| `hover_text_color` | string/null | `null` | Text color on hover |
+| `hover_lift` | number | `0` | Lift effect in pixels (translateY offset) |
+| `hover_scale` | number | `1` | Scale factor on hover (e.g. `1.05`) |
+| `hover_shadow` | string | `"none"` | Shadow preset: `"none"`, `"sm"`, `"md"`, `"lg"` |
+| `transition_duration` | number | `200` | Transition duration in milliseconds |
+
+Shadow preset values:
+- `sm`: `0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06)`
+- `md`: `0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05)`
+- `lg`: `0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04)`
+
+```javascript
+// Render content-level hover via CSS custom properties
+function applyContentHover(element, widget) {
+  const d = widget.widget
+  const dur = `${d.transition_duration ?? 200}ms`
+
+  element.style.transition = `background-color ${dur} ease, color ${dur} ease, transform ${dur} ease, box-shadow ${dur} ease`
+
+  if (d.hover_background_color) element.style.setProperty('--hover-bg', d.hover_background_color)
+  if (d.hover_text_color) element.style.setProperty('--hover-color', d.hover_text_color)
+  if (d.hover_lift) element.style.setProperty('--hover-lift', `-${d.hover_lift}px`)
+  if (d.hover_scale && d.hover_scale !== 1) element.style.setProperty('--hover-scale', d.hover_scale)
+
+  const shadowMap = {
+    sm: '0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06)',
+    md: '0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05)',
+    lg: '0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04)'
+  }
+  if (d.hover_shadow && shadowMap[d.hover_shadow]) {
+    element.style.setProperty('--hover-shadow', shadowMap[d.hover_shadow])
+  }
+
+  // Add CSS rule:
+  // .widget:hover {
+  //   background-color: var(--hover-bg);
+  //   color: var(--hover-color);
+  //   transform: translateY(var(--hover-lift, 0)) scale(var(--hover-scale, 1));
+  //   box-shadow: var(--hover-shadow, none);
+  // }
+}
+```
+
+**Note:** Content-level hover (widget colors/transforms) is separate from wrapper-level hover (settings.hover). Both can be active simultaneously.
+
 ### Link Settings
 
 Sections, columns, and widgets can be made clickable:

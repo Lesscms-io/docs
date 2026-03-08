@@ -30,6 +30,9 @@ icon-box
 | `widget.card_border_color` | string | Card border color (hex or `"var:..."`, default: `""`) |
 | `widget.hover_card_background` | string\|null | Card background color on hover |
 | `widget.hover_card_border_color` | string\|null | Card border color on hover |
+| `widget.hover_lift` | number | Hover lift in pixels — translateY offset (default: `0`) |
+| `widget.hover_scale` | number | Hover scale factor (default: `1`) |
+| `widget.hover_shadow` | string | Hover shadow preset: `"none"`, `"sm"`, `"md"`, `"lg"` (default: `"none"`) |
 | `widget.transition_duration` | number | Hover transition duration in ms (default: 200) |
 | `widget.html` | object | Multilingual HTML content |
 | `settings` | object | Style settings (optional) |
@@ -71,6 +74,9 @@ When used in multi-item mode, each item has:
     "card_border_color": "",
     "hover_card_background": null,
     "hover_card_border_color": null,
+    "hover_lift": 0,
+    "hover_scale": 1,
+    "hover_shadow": "none",
     "transition_duration": 200,
     "html": {
       "en": "<h3>Fast Delivery</h3><p>We deliver your order within 24 hours.</p>",
@@ -108,6 +114,9 @@ When used in multi-item mode, each item has:
     "card_border_color": "",
     "hover_card_background": null,
     "hover_card_border_color": null,
+    "hover_lift": 0,
+    "hover_scale": 1,
+    "hover_shadow": "none",
     "transition_duration": 200,
     "collection_code": "services",
     "field_code": "description",
