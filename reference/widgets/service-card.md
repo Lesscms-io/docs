@@ -27,6 +27,8 @@ service-card
 | `widget.link_entry_id` | string\|null | Entry ID (when link_type is `"entry"`) |
 | `widget.link_route_uuid` | string\|null | Route UUID (when link_type is `"route"`) |
 | `widget.link_target_blank` | boolean | Open link in new tab (default: false) |
+| `widget.link_color` | string\|null | Link text color |
+| `widget.show_link` | boolean | Whether to show the link (default: true) |
 | `widget.badge_color` | string | Badge text color |
 | `widget.badge_background` | string | Badge background color |
 | `widget.text_color` | string | Card text color |
@@ -35,6 +37,8 @@ service-card
 | `widget.border_radius` | number | Card border radius in pixels (default: 16) |
 | `widget.hover_background_color` | string\|null | Background color on hover |
 | `widget.hover_text_color` | string\|null | Text color on hover |
+| `widget.hover_icon_color` | string\|null | Icon color on hover |
+| `widget.hover_icon_background` | string\|null | Icon background color on hover |
 | `widget.hover_lift` | number | Hover lift in pixels — translateY offset (default: `0`) |
 | `widget.hover_scale` | number | Hover scale factor (default: `1`) |
 | `widget.hover_shadow` | string | Hover shadow preset: `"none"`, `"sm"`, `"md"`, `"lg"` (default: `"none"`) |
@@ -64,17 +68,21 @@ service-card
     "link_entry_id": null,
     "link_route_uuid": null,
     "link_target_blank": false,
+    "link_color": "var:primary",
+    "show_link": true,
     "badge_color": null,
     "badge_background": null,
-    "text_color": "",
-    "background_color": "",
+    "text_color": "var:dark",
+    "background_color": "var:light",
     "show_badge": false,
     "border_radius": 16,
     "hover_background_color": null,
     "hover_text_color": null,
-    "hover_lift": 0,
+    "hover_icon_color": null,
+    "hover_icon_background": null,
+    "hover_lift": 4,
     "hover_scale": 1,
-    "hover_shadow": "none",
+    "hover_shadow": "sm",
     "transition_duration": 200,
     "badge": {},
     "title": {
@@ -175,7 +183,7 @@ The service-card widget supports displaying multiple cards in a grid. When multi
 }
 ```
 
-Per-item fields (`badge`, `icon`, `icon_size`, `title`, `description`, `link_text`, `link_url`, `icon_color`, `icon_background`, `badge_color`, `badge_background`, `text_color`, `background_color`, `show_badge`, `border_radius`, `hover_background_color`, `hover_text_color`, `transition_duration`) are unique to each item.
+Per-item fields (`badge`, `icon`, `icon_size`, `title`, `description`, `link_text`, `link_url`, `link_color`, `show_link`, `icon_color`, `icon_background`, `badge_color`, `badge_background`, `text_color`, `background_color`, `show_badge`, `border_radius`, `hover_background_color`, `hover_text_color`, `hover_icon_color`, `hover_icon_background`, `transition_duration`) are unique to each item.
 
 ## Usage Example
 
