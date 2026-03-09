@@ -16,6 +16,7 @@ service-card
 | `uuid` | string | Unique widget identifier |
 | `widget` | object | Widget data |
 | `widget.icon` | string | Icon class (e.g., `"fa-solid fa-tree"`) |
+| `widget.icon_size` | number | Icon container size in pixels (default: 48) |
 | `widget.icon_color` | string | Icon color (hex) |
 | `widget.icon_background` | string | Icon background color |
 | `widget.highlighted` | boolean | Whether the card is highlighted/featured (default: false) |
@@ -52,6 +53,7 @@ service-card
   "uuid": "service-123",
   "widget": {
     "icon": "fa-solid fa-tree",
+    "icon_size": 48,
     "icon_color": "#2e7d32",
     "icon_background": "#e8f5e9",
     "highlighted": false,
@@ -100,6 +102,7 @@ service-card
   "uuid": "service-456",
   "widget": {
     "icon": "fa-solid fa-cut",
+    "icon_size": 48,
     "icon_color": "#ffffff",
     "icon_background": "rgba(255, 255, 255, 0.15)",
     "highlighted": true,
@@ -172,7 +175,7 @@ The service-card widget supports displaying multiple cards in a grid. When multi
 }
 ```
 
-Per-item fields (`badge`, `icon`, `title`, `description`, `link_text`, `link_url`, `icon_color`, `icon_background`, `badge_color`, `badge_background`, `text_color`, `background_color`, `show_badge`, `border_radius`, `hover_background_color`, `hover_text_color`, `transition_duration`) are unique to each item.
+Per-item fields (`badge`, `icon`, `icon_size`, `title`, `description`, `link_text`, `link_url`, `icon_color`, `icon_background`, `badge_color`, `badge_background`, `text_color`, `background_color`, `show_badge`, `border_radius`, `hover_background_color`, `hover_text_color`, `transition_duration`) are unique to each item.
 
 ## Usage Example
 

@@ -52,6 +52,7 @@
     * [Tabs](reference/widgets/tabs.md)
     * [Timeline](reference/widgets/timeline.md)
     * [Form](reference/widgets/form.md)
+    * [Cookie Consent](reference/widgets/cookie-consent.md)
   * [Cards](reference/widgets/?id=cards)
     * [CTA Box](reference/widgets/cta-box.md)
     * [Feature List](reference/widgets/feature-list.md)

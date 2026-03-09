@@ -10,7 +10,7 @@ Widgets are the building blocks of page content in LessCMS. Each widget has spec
 | **Text** | Text, Heading, Blockquote |
 | **Media** | Image, Gallery, Video, PDF Viewer |
 | **Layout** | Grid |
-| **Interactive** | Hero, Countdown, Counter, Progress Bar, Testimonial, Alert, Accordion, Tabs, Timeline |
+| **Interactive** | Hero, Countdown, Counter, Progress Bar, Testimonial, Alert, Accordion, Tabs, Timeline, Cookie Consent |
 | **Cards** | CTA Box, Feature List, Icon List |
 | **Navigation** | Menu |
 | **Integrations** | Google Maps, Social Icons, Embed, Table |
@@ -263,6 +263,7 @@ Settings can have responsive overrides for tablet (768-1199px) and mobile (0-767
 - [Accordion](reference/widgets/accordion.md)
 - [Tabs](reference/widgets/tabs.md)
 - [Timeline](reference/widgets/timeline.md)
+- [Cookie Consent](reference/widgets/cookie-consent.md)
 
 ### Cards Widgets
 - [CTA Box](reference/widgets/cta-box.md)
