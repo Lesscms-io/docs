@@ -19,6 +19,7 @@ counter
 | `widget.duration` | number | Animation duration in milliseconds (default: 2000) |
 | `widget.alignment` | string | Text alignment: `"left"`, `"center"`, `"right"` (default: `"center"`) |
 | `widget.number_size` | string | Number font size preset (default: `"xl"`) |
+| `widget.background_color` | string\|null | Background color (hex code, `var:` variable, or null) |
 | `widget.number_color` | string\|null | Number text color (hex code or null for default) |
 | `widget.title_color` | string\|null | Title text color (hex code or null for default) |
 | `widget.prefix_color` | string\|null | Prefix/suffix text color (hex code or null for default) |
