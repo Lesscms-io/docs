@@ -28,8 +28,18 @@ icon-box
 | `widget.card_padding` | string | Card padding CSS value (e.g. `"20px"`, `"16px 24px"`, default: `""`) |
 | `widget.card_border_radius` | number | Card border radius in pixels (default: 0) |
 | `widget.card_border_color` | string | Card border color (hex or `"var:..."`, default: `""`) |
+| `widget.title_color` | string\|null | Title heading color (hex or `"var:..."`) |
+| `widget.text_color` | string\|null | Text paragraph color (hex or `"var:..."`) |
+| `widget.title_font_size` | string\|null | Title font size (e.g. `"24px"`, `"1.5rem"`) |
+| `widget.title_font_weight` | string\|null | Title font weight (e.g. `"400"`, `"700"`) |
+| `widget.text_font_size` | string\|null | Text font size (e.g. `"16px"`, `"1rem"`) |
+| `widget.text_font_weight` | string\|null | Text font weight (e.g. `"400"`, `"700"`) |
 | `widget.hover_card_background` | string\|null | Card background color on hover |
 | `widget.hover_card_border_color` | string\|null | Card border color on hover |
+| `widget.hover_icon_color` | string\|null | Icon color on hover |
+| `widget.hover_icon_background` | string\|null | Icon background color on hover |
+| `widget.hover_title_color` | string\|null | Title heading color on hover |
+| `widget.hover_text_color` | string\|null | Text paragraph color on hover |
 | `widget.hover_lift` | number | Hover lift in pixels — translateY offset (default: `0`) |
 | `widget.hover_scale` | number | Hover scale factor (default: `1`) |
 | `widget.hover_shadow` | string | Hover shadow preset: `"none"`, `"sm"`, `"md"`, `"lg"` (default: `"none"`) |
@@ -72,8 +82,18 @@ When used in multi-item mode, each item has:
     "card_padding": "",
     "card_border_radius": 0,
     "card_border_color": "",
+    "title_color": null,
+    "text_color": null,
+    "title_font_size": null,
+    "title_font_weight": null,
+    "text_font_size": null,
+    "text_font_weight": null,
     "hover_card_background": null,
     "hover_card_border_color": null,
+    "hover_icon_color": null,
+    "hover_icon_background": null,
+    "hover_title_color": null,
+    "hover_text_color": null,
     "hover_lift": 0,
     "hover_scale": 1,
     "hover_shadow": "none",
@@ -112,8 +132,18 @@ When used in multi-item mode, each item has:
     "card_padding": "",
     "card_border_radius": 0,
     "card_border_color": "",
+    "title_color": null,
+    "text_color": null,
+    "title_font_size": null,
+    "title_font_weight": null,
+    "text_font_size": null,
+    "text_font_weight": null,
     "hover_card_background": null,
     "hover_card_border_color": null,
+    "hover_icon_color": null,
+    "hover_icon_background": null,
+    "hover_title_color": null,
+    "hover_text_color": null,
     "hover_lift": 0,
     "hover_scale": 1,
     "hover_shadow": "none",
