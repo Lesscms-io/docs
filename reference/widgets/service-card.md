@@ -16,7 +16,8 @@ service-card
 | `uuid` | string | Unique widget identifier |
 | `widget` | object | Widget data |
 | `widget.icon` | string | Icon class (e.g., `"fa-solid fa-tree"`) |
-| `widget.icon_size` | number | Icon container size in pixels (default: 48) |
+| `widget.icon_size` | number | Icon size in pixels (default: 48) |
+| `widget.icon_padding` | number | Icon padding in pixels (default: 0) |
 | `widget.icon_color` | string | Icon color (hex) |
 | `widget.icon_background` | string | Icon background color |
 | `widget.highlighted` | boolean | Whether the card is highlighted/featured (default: false) |
@@ -39,6 +40,9 @@ service-card
 | `widget.hover_text_color` | string\|null | Text color on hover |
 | `widget.hover_icon_color` | string\|null | Icon color on hover |
 | `widget.hover_icon_background` | string\|null | Icon background color on hover |
+| `widget.hover_link_color` | string\|null | Link text color on hover |
+| `widget.hover_badge_color` | string\|null | Badge text color on hover |
+| `widget.hover_badge_background` | string\|null | Badge background color on hover |
 | `widget.hover_lift` | number | Hover lift in pixels — translateY offset (default: `0`) |
 | `widget.hover_scale` | number | Hover scale factor (default: `1`) |
 | `widget.hover_shadow` | string | Hover shadow preset: `"none"`, `"sm"`, `"md"`, `"lg"` (default: `"none"`) |
@@ -58,6 +62,7 @@ service-card
   "widget": {
     "icon": "fa-solid fa-tree",
     "icon_size": 48,
+    "icon_padding": 0,
     "icon_color": "#2e7d32",
     "icon_background": "#e8f5e9",
     "highlighted": false,
@@ -80,6 +85,9 @@ service-card
     "hover_text_color": null,
     "hover_icon_color": null,
     "hover_icon_background": null,
+    "hover_link_color": null,
+    "hover_badge_color": null,
+    "hover_badge_background": null,
     "hover_lift": 4,
     "hover_scale": 1,
     "hover_shadow": "sm",
@@ -111,6 +119,7 @@ service-card
   "widget": {
     "icon": "fa-solid fa-cut",
     "icon_size": 48,
+    "icon_padding": 0,
     "icon_color": "#ffffff",
     "icon_background": "rgba(255, 255, 255, 0.15)",
     "highlighted": true,
