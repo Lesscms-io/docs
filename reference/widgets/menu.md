@@ -47,6 +47,9 @@ menu
 | `widget.cta_padding` | string\|null | Custom CTA button padding CSS value |
 | `widget.cta_icon` | string\|null | CTA button icon class (e.g., `"bx bx-right-arrow-alt"`) |
 | `widget.cta_icon_position` | string | CTA icon position: `"left"`, `"right"` (default: `"left"`) |
+| `widget.dropdown_bg` | string\|null | Dropdown submenu background color |
+| `widget.dropdown_border_radius` | string | Dropdown border radius: `"none"`, `"sm"`, `"md"`, `"lg"` (default: `"md"`) |
+| `widget.dropdown_shadow` | string | Dropdown box shadow: `"none"`, `"sm"`, `"md"`, `"lg"` (default: `"lg"`) |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response
@@ -87,7 +90,10 @@ menu
     "cta_border_radius": "md",
     "cta_padding": null,
     "cta_icon": null,
-    "cta_icon_position": "left"
+    "cta_icon_position": "left",
+    "dropdown_bg": null,
+    "dropdown_border_radius": "md",
+    "dropdown_shadow": "lg"
   },
   "settings": {
     "paddingTop": 16,
@@ -183,6 +189,14 @@ GET /api/{project}/menus/{menu_code}
 | `sm` | Small gap between items |
 | `md` | Medium gap between items |
 | `lg` | Large gap between items |
+
+## Dropdown Settings
+
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| `dropdown_bg` | string\|null | `null` | Background color (falls back to white) |
+| `dropdown_border_radius` | string | `"md"` | Border radius: `"none"` (0), `"sm"` (4px), `"md"` (8px), `"lg"` (12px) |
+| `dropdown_shadow` | string | `"lg"` | Box shadow: `"none"`, `"sm"`, `"md"`, `"lg"` |
 
 ## CTA Button Styles
 

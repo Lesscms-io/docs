@@ -20,7 +20,9 @@ social-icons
 | `widget.items[].url` | string | Profile/page URL |
 | `widget.items[].icon` | string | Optional custom icon class |
 | `widget.size` | string | Icon size: `"sm"`, `"md"`, `"lg"` |
-| `widget.style` | string | Icon style: `"default"`, `"circle"`, `"square"` |
+| `widget.style` | string | Icon style: `"default"`, `"colored"`, `"outlined"`, `"circle"`, `"square"` |
+| `widget.color_mode` | string | Color mode: `"brand"` (platform colors) or `"custom"` (single custom color) |
+| `widget.icon_color` | string\|null | Custom color value when `color_mode` is `"custom"` (e.g. `"#6c757d"`, `"var:text"`) |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response
@@ -53,7 +55,9 @@ social-icons
       }
     ],
     "size": "md",
-    "style": "circle"
+    "style": "circle",
+    "color_mode": "brand",
+    "icon_color": null
   },
   "settings": {
     "horizontalAlign": "center",
@@ -91,8 +95,17 @@ social-icons
 | Value | Description |
 |-------|-------------|
 | `default` | Plain icons, no background |
-| `circle` | Icons in circular containers |
-| `square` | Icons in square containers |
+| `colored` | Filled circular containers with platform/custom color |
+| `outlined` | Circular border with platform/custom color, no fill |
+| `circle` | Filled circular containers (alias for colored) |
+| `square` | Filled square containers with rounded corners |
+
+## Color Mode Values
+
+| Value | Description |
+|-------|-------------|
+| `brand` | Each icon uses its platform brand color (default) |
+| `custom` | All icons use the single color from `icon_color` |
 
 ## Usage Example
 

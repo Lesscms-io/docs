@@ -192,6 +192,13 @@ Sections are the top-level containers. Each section has:
       "target_blank": false
     },
 
+    // Sticky
+    "sticky": false,
+    "stickyTop": 0,
+    "stickyZIndex": 100,
+    "scrolledBg": "#ffffff",
+    "scrolledShadow": "md",
+
     // Advanced
     "cssId": "",
     "cssClass": ""
@@ -211,6 +218,11 @@ Sections are the top-level containers. Each section has:
 | `columnGap` | number | `0` | Gap between columns in pixels |
 | `stackOnTablet` | boolean | `false` | Stack columns vertically on tablet |
 | `stackOnMobile` | boolean | `true` | Stack columns vertically on mobile |
+| `sticky` | boolean | `false` | Section sticks to top on scroll |
+| `stickyTop` | number | `0` | Distance from top when sticky (pixels) |
+| `stickyZIndex` | number | `100` | Z-index when sticky |
+| `scrolledBg` | string | `""` | Background color after scrolling (only when sticky) |
+| `scrolledShadow` | string | `"none"` | Box shadow after scrolling: `"none"`, `"sm"`, `"md"`, `"lg"` (only when sticky) |
 | `cssId` | string | `""` | HTML ID attribute for anchor links (e.g., "contact" allows linking via #contact) |
 | `cssClass` | string | `""` | Custom CSS class(es) for styling |
 
