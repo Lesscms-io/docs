@@ -22,7 +22,7 @@ pricing-table
 | `widget.badge` | object | Badge element group |
 | `widget.badge.badge` | object | Multilingual badge text (e.g., "Most Popular") |
 | `widget.button` | object | Button element group |
-| `widget.button.text` | object | Multilingual CTA button text |
+| `widget.button.content` | object | Multilingual CTA button text |
 | `widget.button.style` | string | Button style name (Bootstrap variant) (default: `"primary"`) |
 | `widget.button.size` | string | Button size: `"sm"`, `"md"`, `"lg"` (default: `"md"`) |
 | `widget.button.border_radius` | string | Button border radius preset: `"none"`, `"sm"`, `"md"`, `"lg"`, `"full"` (default: `"md"`) |
@@ -35,7 +35,7 @@ pricing-table
 | `widget.config.highlight_color` | string | Border/accent color when highlighted (default: `"var:primary"`) |
 | `widget.config.highlight_color:hover` | string\|null | Highlight color on hover (default: `null`) |
 | `widget.features` | array | Feature list items |
-| `widget.features[].text` | object | Multilingual feature text |
+| `widget.features[].content` | object | Multilingual feature text |
 | `widget.features[].included` | boolean | Whether feature is included |
 | `settings` | object | [Shared widget settings](shared-settings.md) |
 
@@ -56,7 +56,7 @@ pricing-table
       "badge": { "en": "Most Popular", "pl": "Najpopularniejszy" }
     },
     "button": {
-      "text": { "en": "Get Started", "pl": "Rozpocznij" },
+      "content": { "en": "Get Started", "pl": "Rozpocznij" },
       "style": "primary",
       "size": "md",
       "border_radius": "md",
@@ -71,10 +71,10 @@ pricing-table
       "highlight_color:hover": null
     },
     "features": [
-      { "text": { "en": "10 Projects" }, "included": true },
-      { "text": { "en": "Priority Support" }, "included": true },
-      { "text": { "en": "Custom Domain" }, "included": true },
-      { "text": { "en": "API Access" }, "included": false }
+      { "content": { "en": "10 Projects" }, "included": true },
+      { "content": { "en": "Priority Support" }, "included": true },
+      { "content": { "en": "Custom Domain" }, "included": true },
+      { "content": { "en": "API Access" }, "included": false }
     ]
   },
   "settings": {}
@@ -90,12 +90,12 @@ function renderPricingTable(widget, language) {
   const subtitle = heading.subtitle?.[language] || heading.subtitle?.en || '';
   const price = heading.price?.[language] || heading.price?.en || '';
   const period = heading.period?.[language] || heading.period?.en || '';
-  const buttonText = button.text?.[language] || button.text?.en || '';
+  const buttonText = button.content?.[language] || button.content?.en || '';
   const badgeText = badge.badge?.[language] || badge.badge?.en || '';
   const buttonUrl = widget.widget.button_url || '#';
 
   const featuresHtml = (features || []).map(f => {
-    const text = f.text?.[language] || f.text?.en || '';
+    const text = f.content?.[language] || f.content?.en || '';
     const icon = f.included !== false ? 'fa-check' : 'fa-times';
     const cls = f.included !== false ? '' : ' feature--excluded';
     return `<li class="feature${cls}"><i class="fas ${icon}"></i> ${text}</li>`;

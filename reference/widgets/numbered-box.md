@@ -27,14 +27,14 @@ numbered-box
 | `widget.number.position` | string | Number position: `"left"`, `"right"`, `"top"`, `"bottom"` (default: `"left"`) |
 | `widget.number.vertical_align` | string | Number vertical alignment: `"top"`, `"center"`, `"bottom"` (default: `"top"`) |
 | `widget.heading` | object | Heading element group |
-| `widget.heading.text` | object | Multilingual heading text |
+| `widget.heading.content` | object | Multilingual heading text |
 | `widget.heading.color` | string\|null | Heading text color |
 | `widget.heading.color:hover` | string\|null | Heading text color on hover |
 | `widget.heading.tag` | string | HTML heading tag (default: `"h3"`) |
-| `widget.content` | object | Content element group |
-| `widget.content.text` | object | Multilingual HTML content |
-| `widget.content.color` | string\|null | Content text color |
-| `widget.content.color:hover` | string\|null | Content text color on hover |
+| `widget.text` | object | Text element group |
+| `widget.text.content` | object | Multilingual HTML content |
+| `widget.text.color` | string\|null | Content text color |
+| `widget.text.color:hover` | string\|null | Content text color on hover |
 | `settings` | object | Style settings (shared widget container styles) |
 
 ## Example Response
@@ -57,13 +57,13 @@ numbered-box
       "vertical_align": "top"
     },
     "heading": {
-      "text": { "en": "Discovery", "pl": "Odkrywanie" },
+      "content": { "en": "Discovery", "pl": "Odkrywanie" },
       "color": null,
       "color:hover": null,
       "tag": "h3"
     },
-    "content": {
-      "text": { "en": "<p>We learn about your business needs and goals.</p>", "pl": "<p>Poznajemy potrzeby i cele Twojego biznesu.</p>" },
+    "text": {
+      "content": { "en": "<p>We learn about your business needs and goals.</p>", "pl": "<p>Poznajemy potrzeby i cele Twojego biznesu.</p>" },
       "color": null,
       "color:hover": null
     }
@@ -95,7 +95,7 @@ Used when `number.position` is `"left"` or `"right"`:
 
 ```javascript
 function renderNumberedBox(widget, language, itemIndex = 0) {
-  const { number, heading, content } = widget.widget;
+  const { number, heading, text } = widget.widget;
   const displayNumber = String(itemIndex + 1).padStart(2, '0');
 
   const numberStyle = [
@@ -111,8 +111,8 @@ function renderNumberedBox(widget, language, itemIndex = 0) {
   const alignItems = number.vertical_align === 'top' ? 'flex-start' : number.vertical_align === 'bottom' ? 'flex-end' : 'center';
 
   const titleTag = heading.tag || 'h3';
-  const titleText = heading.text?.[language] || heading.text?.en || '';
-  const bodyHtml = content.text?.[language] || content.text?.en || '';
+  const titleText = heading.content?.[language] || heading.content?.en || '';
+  const bodyHtml = text.content?.[language] || text.content?.en || '';
 
   return `
     <div class="numbered-box" style="display: flex; flex-direction: ${flexDir}; align-items: ${alignItems}; gap: 16px;">

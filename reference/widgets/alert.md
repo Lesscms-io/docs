@@ -16,11 +16,12 @@ alert
 | `uuid` | string | Unique widget identifier |
 | `widget.icon` | object | Icon element |
 | `widget.icon.icon` | string\|null | Custom icon class (Font Awesome) |
-| `widget.content` | object | Content element |
-| `widget.content.title` | object | Multilingual alert title |
-| `widget.content.text` | object | Multilingual alert message text |
-| `widget.content.color` | string\|null | Text color |
-| `widget.content.color:hover` | string\|null | Text color on hover |
+| `widget.title` | object | Title element |
+| `widget.title.content` | object | Multilingual alert title |
+| `widget.text` | object | Text element |
+| `widget.text.content` | object | Multilingual alert message text |
+| `widget.text.color` | string\|null | Text color |
+| `widget.text.color:hover` | string\|null | Text color on hover |
 | `widget.config` | object | Configuration element |
 | `widget.config.type` | string | Alert type: `"info"`, `"success"`, `"warning"`, `"danger"` |
 | `widget.config.show_title` | boolean | Show the alert title (default: true) |
@@ -46,12 +47,14 @@ alert
     "icon": {
       "icon": "fa-solid fa-circle-info"
     },
-    "content": {
-      "title": {
+    "title": {
+      "content": {
         "en": "Important Notice",
         "pl": "Wazna informacja"
-      },
-      "text": {
+      }
+    },
+    "text": {
+      "content": {
         "en": "Our office will be closed on December 25th for the holiday.",
         "pl": "Nasze biuro bedzie zamkniete 25 grudnia z powodu swieta."
       },
@@ -79,10 +82,10 @@ alert
 
 ```javascript
 function renderAlert(widget, language) {
-  const { icon, content, config } = widget.widget;
+  const { icon, title, text, config } = widget.widget;
 
-  const titleText = content.title?.[language] || content.title?.en || '';
-  const messageText = content.text?.[language] || content.text?.en || '';
+  const titleText = title.content?.[language] || title.content?.en || '';
+  const messageText = text.content?.[language] || text.content?.en || '';
   const alertType = config.type || 'info';
   const showTitle = config.show_title !== false;
   const dismissible = config.dismissible || false;

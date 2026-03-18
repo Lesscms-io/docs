@@ -15,7 +15,7 @@ button
 | `widget_type` | string | Always `"button"` |
 | `uuid` | string | Unique widget identifier |
 | `widget.text` | object | Text element group |
-| `widget.text.text` | object | Multilingual button label |
+| `widget.text.content` | object | Multilingual button label |
 | `widget.config` | object | Config element group |
 | `widget.config.style` | string | Button style preset: `"primary"`, `"secondary"`, `"outline"`, etc. |
 | `widget.config.size` | string | Button size: `"sm"`, `"md"`, `"lg"` |
@@ -41,7 +41,7 @@ button
   "uuid": "btn-123",
   "widget": {
     "text": {
-      "text": {
+      "content": {
         "en": "Learn More",
         "pl": "Dowiedz sie wiecej"
       }
@@ -97,7 +97,7 @@ button
 ```javascript
 function renderButton(widget, language) {
   const { text, config, link } = widget.widget;
-  const label = text.text?.[language] || text.text?.en || '';
+  const label = text.content?.[language] || text.content?.en || '';
   const url = link.url || '#';
   const target = link.target_blank ? ' target="_blank" rel="noopener"' : '';
   const iconHtml = config.icon ? `<i class="${config.icon}"></i> ` : '';

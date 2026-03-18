@@ -25,11 +25,11 @@ icon-box
 | `widget.icon.background:hover` | string\|null | Icon background on hover |
 | `widget.icon.position` | string | Icon position: `left`, `right`, `top`, `bottom` |
 | `widget.icon.vertical_align` | string | Vertical alignment: `top`, `center`, `bottom` |
-| `widget.content` | object | Content element |
-| `widget.content.text` | object | Multilingual text content (HTML) |
-| `widget.content.color` | string\|null | Text color |
-| `widget.content.color:hover` | string\|null | Text color on hover |
-| `widget.content.tag` | string | HTML tag for content (p, div, span) |
+| `widget.text` | object | Text element |
+| `widget.text.content` | object | Multilingual text content (HTML) |
+| `widget.text.color` | string\|null | Text color |
+| `widget.text.color:hover` | string\|null | Text color on hover |
+| `widget.text.tag` | string | HTML tag for content (p, div, span) |
 | `settings` | object | [Shared widget settings](shared-settings.md) |
 
 ## Wrappable
@@ -55,8 +55,8 @@ Yes — can be wrapped in a multi-column grid layout.
       "position": "top",
       "vertical_align": "top"
     },
-    "content": {
-      "text": {
+    "text": {
+      "content": {
         "en": "<p>Description of the icon box element.</p>",
         "pl": "<p>Opis elementu z ikoną.</p>"
       },
@@ -83,9 +83,9 @@ Yes — can be wrapped in a multi-column grid layout.
 
 ```javascript
 function renderIconBox(widget, language) {
-  const { icon, content } = widget.widget;
-  const tag = content.tag || 'p';
-  const text = content.text?.[language] || content.text?.en || '';
+  const { icon, text } = widget.widget;
+  const tag = text.tag || 'p';
+  const content = text.content?.[language] || text.content?.en || '';
   const isHorizontal = icon.position === 'left' || icon.position === 'right';
   const flexDir = icon.position === 'right' ? 'row-reverse'
     : icon.position === 'bottom' ? 'column-reverse'
@@ -103,8 +103,8 @@ function renderIconBox(widget, language) {
         background: ${icon.background || 'transparent'};">
         <i class="${icon.icon}"></i>
       </div>
-      <div class="icon-box__content" style="color: ${content.color || 'inherit'}">
-        <${tag}>${text}</${tag}>
+      <div class="icon-box__content" style="color: ${text.color || 'inherit'}">
+        <${tag}>${content}</${tag}>
       </div>
     </div>
   `;

@@ -15,13 +15,13 @@ cta-box
 | `widget_type` | string | Always `"cta-box"` |
 | `uuid` | string | Unique widget identifier |
 | `widget.heading` | object | Heading element |
-| `widget.heading.text` | object | Multilingual heading text |
+| `widget.heading.content` | object | Multilingual heading text |
 | `widget.heading.color` | string\|null | Heading text color |
 | `widget.heading.color:hover` | string\|null | Heading text color on hover |
 | `widget.subtitle` | object | Subtitle element |
-| `widget.subtitle.text` | object | Multilingual subtitle text |
+| `widget.subtitle.content` | object | Multilingual subtitle text |
 | `widget.button` | object | Button element |
-| `widget.button.text` | object | Multilingual button label |
+| `widget.button.content` | object | Multilingual button label |
 | `widget.button.style` | string | Button style name (e.g. `"white"`, `"primary"`, `"outline-primary"`) |
 | `widget.button.size` | string | Button size: `"sm"`, `"md"`, `"lg"` (default: `"md"`) |
 | `widget.button.border_radius` | string | Button border radius: `"none"`, `"sm"`, `"md"`, `"lg"`, `"pill"` (default: `"md"`) |
@@ -45,7 +45,7 @@ Yes — can be wrapped in a multi-column grid layout.
   "uuid": "cta-box-123",
   "widget": {
     "heading": {
-      "text": {
+      "content": {
         "en": "Ready to get started?",
         "pl": "Zacznij już teraz"
       },
@@ -53,13 +53,13 @@ Yes — can be wrapped in a multi-column grid layout.
       "color:hover": null
     },
     "subtitle": {
-      "text": {
+      "content": {
         "en": "Join thousands of satisfied customers today.",
         "pl": "Dołącz do nas i odkryj nowe możliwości"
       }
     },
     "button": {
-      "text": {
+      "content": {
         "en": "Start Free Trial",
         "pl": "Sprawdź"
       },
@@ -96,9 +96,9 @@ Yes — can be wrapped in a multi-column grid layout.
 function renderCtaBox(widget, language) {
   const { heading, subtitle, button, config } = widget.widget;
 
-  const titleText = heading.text?.[language] || heading.text?.en || '';
-  const subtitleText = subtitle.text?.[language] || subtitle.text?.en || '';
-  const btnText = button.text?.[language] || button.text?.en || '';
+  const titleText = heading.content?.[language] || heading.content?.en || '';
+  const subtitleText = subtitle.content?.[language] || subtitle.content?.en || '';
+  const btnText = button.content?.[language] || button.content?.en || '';
   const alignment = config.alignment || 'center';
 
   return `

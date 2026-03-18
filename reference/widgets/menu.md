@@ -36,7 +36,7 @@ menu
 | `widget.config.items_padding` | number | Padding for each menu item link in pixels (default: `0`) |
 | `widget.config.items_indent` | number | Left indent for menu items in pixels (default: `0`) |
 | `widget.cta` | object | Call-to-action button |
-| `widget.cta.text` | string | CTA button text |
+| `widget.cta.content` | string | CTA button text |
 | `widget.cta.position` | string | CTA position: `"left"`, `"right"`, `"below"` (default: `"right"`) |
 | `widget.cta.link_type` | string | CTA link type: `"custom"`, `"page"`, `"entry"` |
 | `widget.cta.url` | string\|null | CTA URL (when link type is custom, or server-resolved) |
@@ -88,7 +88,7 @@ menu
       "items_indent": 0
     },
     "cta": {
-      "text": "Get Started",
+      "content": "Get Started",
       "position": "right",
       "link_type": "custom",
       "url": "/signup",
@@ -240,8 +240,8 @@ async function renderMenu(widget, language, api) {
     </div>
   ` : '';
 
-  const ctaHtml = cta.text ? `
-    <a href="${cta.url}" class="btn btn-${cta.style} btn-${cta.size}">${cta.text}</a>
+  const ctaHtml = cta.content ? `
+    <a href="${cta.url}" class="btn btn-${cta.style} btn-${cta.size}">${cta.content}</a>
   ` : '';
 
   return `

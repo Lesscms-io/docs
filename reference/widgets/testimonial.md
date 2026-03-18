@@ -16,15 +16,15 @@ testimonial
 | `uuid` | string | Unique widget identifier |
 | `widget` | object | Widget data (element groups) |
 | `widget.quote` | object | Quote element group |
-| `widget.quote.text` | object | Multilingual quote text |
+| `widget.quote.content` | object | Multilingual quote text |
 | `widget.quote.color` | string\|null | Quote text color |
 | `widget.quote.color:hover` | string\|null | Quote text color on hover |
 | `widget.author` | object | Author element group |
-| `widget.author.text` | object | Multilingual author name |
+| `widget.author.content` | object | Multilingual author name |
 | `widget.author.color` | string\|null | Author text color |
 | `widget.author.color:hover` | string\|null | Author text color on hover |
 | `widget.position` | object | Position element group |
-| `widget.position.text` | object | Multilingual position/title text |
+| `widget.position.content` | object | Multilingual position/title text |
 | `widget.position.color` | string\|null | Position text color |
 | `widget.position.color:hover` | string\|null | Position text color on hover |
 | `widget.avatar` | object | Avatar element group |
@@ -45,17 +45,17 @@ testimonial
   "uuid": "testimonial-123",
   "widget": {
     "quote": {
-      "text": { "pl": "Fantastyczna wspolpraca!", "en": "Working with this team has been an absolute pleasure." },
+      "content": { "pl": "Fantastyczna wspolpraca!", "en": "Working with this team has been an absolute pleasure." },
       "color": "var:dark",
       "color:hover": null
     },
     "author": {
-      "text": { "pl": "Jan Kowalski", "en": "John Smith" },
+      "content": { "pl": "Jan Kowalski", "en": "John Smith" },
       "color": "var:dark",
       "color:hover": null
     },
     "position": {
-      "text": { "pl": "Dyrektor, Firma Tech", "en": "CEO, Tech Company" },
+      "content": { "pl": "Dyrektor, Firma Tech", "en": "CEO, Tech Company" },
       "color": "var:muted",
       "color:hover": null
     },
@@ -85,9 +85,9 @@ Testimonial widgets support wrapping — multiple testimonials can be grouped in
 function renderTestimonial(widget, language) {
   const { quote, author, position, avatar, rating, config } = widget.widget;
 
-  const quoteText = quote.text?.[language] || quote.text?.pl || '';
-  const authorText = author.text?.[language] || author.text?.pl || '';
-  const positionText = position.text?.[language] || position.text?.pl || '';
+  const quoteText = quote.content?.[language] || quote.content?.pl || '';
+  const authorText = author.content?.[language] || author.content?.pl || '';
+  const positionText = position.content?.[language] || position.content?.pl || '';
   const alignment = config.alignment || 'center';
 
   // Generate stars

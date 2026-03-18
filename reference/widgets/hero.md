@@ -18,7 +18,7 @@ hero
 | `widget.heading.title` | object | Multilingual title text `{ "en": "...", "pl": "..." }` |
 | `widget.heading.subtitle` | object | Multilingual subtitle text |
 | `widget.button` | object | Button element group |
-| `widget.button.text` | object | Multilingual CTA button text |
+| `widget.button.content` | object | Multilingual CTA button text |
 | `widget.button.url` | string | CTA button URL (default: `"#"`) |
 | `widget.button.style` | string | Button style variant (default: `"primary"`) |
 | `widget.button.size` | string | Button size: `"sm"`, `"md"`, `"lg"` (default: `"md"`) |
@@ -74,7 +74,7 @@ hero
       }
     },
     "button": {
-      "text": {
+      "content": {
         "en": "Get Started",
         "pl": "Rozpocznij"
       },
@@ -170,7 +170,7 @@ function renderHero(widget, language) {
 
   const title = heading.title?.[language] || heading.title?.en || '';
   const subtitle = heading.subtitle?.[language] || heading.subtitle?.en || '';
-  const buttonText = button.text?.[language] || button.text?.en || '';
+  const buttonText = button.content?.[language] || button.content?.en || '';
   const backgroundUrl = config.background;
 
   const alignItems = config.text_position === 'top' ? 'flex-start'

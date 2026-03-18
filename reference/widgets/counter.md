@@ -25,7 +25,7 @@ counter
 | `widget.number.color:hover` | string\|null | Number text color on hover |
 | `widget.number.prefix_color` | string\|null | Prefix/suffix text color (hex, `var:` variable, or null) |
 | `widget.title` | object | Title element group |
-| `widget.title.text` | string | Counter title/label (multilingual) |
+| `widget.title.content` | string | Counter title/label (multilingual) |
 | `widget.title.color` | string\|null | Title text color (hex, `var:` variable, or null) |
 | `widget.title.color:hover` | string\|null | Title text color on hover |
 | `widget.config` | object | Configuration group |
@@ -50,7 +50,7 @@ counter
       "prefix_color": null
     },
     "title": {
-      "text": "Happy Customers",
+      "content": "Happy Customers",
       "color": null,
       "color:hover": null
     },
@@ -80,7 +80,7 @@ counter
       "prefix_color": "#50a5f1"
     },
     "title": {
-      "text": "Revenue Generated",
+      "content": "Revenue Generated",
       "color": null,
       "color:hover": null
     },
@@ -117,9 +117,9 @@ function renderCounter(widget, language) {
           ${number.prefix_color ? `style="color: ${number.prefix_color}"` : ''}
         >${number.suffix || ''}</span>
       </div>
-      ${title.text ? `<div class="counter-title"
+      ${title.content ? `<div class="counter-title"
         ${title.color ? `style="color: ${title.color}"` : ''}
-      >${title.text}</div>` : ''}
+      >${title.content}</div>` : ''}
     </div>
   `;
 }
