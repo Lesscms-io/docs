@@ -1,6 +1,6 @@
 # Timeline Widget
 
-A chronological timeline with date, title and content for each event.
+A chronological timeline with date, title and content for each event. Uses nested element-group structure.
 
 ## Widget Type
 
@@ -14,29 +14,38 @@ timeline
 |----------|------|-------------|
 | `widget_type` | string | Always `"timeline"` |
 | `uuid` | string | Unique widget identifier |
-| `widget` | object | Widget data |
+| `widget.line` | object | Timeline line styling |
+| `widget.line.color` | string\|null | Timeline line color |
+| `widget.line.color:hover` | string\|null | Timeline line color on hover |
+| `widget.dot` | object | Timeline dot styling |
+| `widget.dot.color` | string\|null | Timeline dot color |
+| `widget.dot.color:hover` | string\|null | Timeline dot color on hover |
+| `widget.config` | object | Behavior configuration |
+| `widget.config.layout` | string | Layout: `"left"`, `"right"`, `"alternate"` |
 | `widget.items` | array | List of timeline events |
 | `widget.items[].date` | object | Multilingual date label |
 | `widget.items[].title` | object | Multilingual event title |
 | `widget.items[].content` | object | Multilingual event description |
-| `widget.layout` | string | Layout: `"left"`, `"right"`, `"alternate"` |
-| `widget.line_color` | string\|null | Timeline line color |
-| `widget.dot_color` | string\|null | Timeline dot color |
-| `widget.hover_line_color` | string\|null | Timeline line color on hover |
-| `widget.hover_dot_color` | string\|null | Timeline dot color on hover |
-| `widget.hover_lift` | number | Hover lift in pixels — translateY offset (default: `0`) |
-| `widget.hover_scale` | number | Hover scale factor (default: `1`) |
-| `widget.hover_shadow` | string | Hover shadow preset: `"none"`, `"sm"`, `"md"`, `"lg"` (default: `"none"`) |
-| `widget.transition_duration` | number | Hover transition duration in ms (default: 200) |
-| `settings` | object | Style settings (optional) |
+| `settings` | object | [Shared widget settings](shared-settings.md) |
 
 ## Example Response
 
 ```json
 {
   "widget_type": "timeline",
-  "uuid": "timeline-123",
+  "uuid": "timeline-001",
   "widget": {
+    "line": {
+      "color": "var:border",
+      "color:hover": null
+    },
+    "dot": {
+      "color": "var:primary",
+      "color:hover": null
+    },
+    "config": {
+      "layout": "left"
+    },
     "items": [
       {
         "date": { "en": "January 2024", "pl": "Styczeń 2024" },
@@ -48,16 +57,15 @@ timeline
         "title": { "en": "Product Launch", "pl": "Premiera produktu" },
         "content": { "en": "Our first product went live.", "pl": "Nasz pierwszy produkt został uruchomiony." }
       }
-    ],
-    "layout": "left",
-    "line_color": "#e0e0e0",
-    "dot_color": "#50a5f1",
-    "hover_line_color": null,
-    "hover_dot_color": null,
-    "hover_lift": 0,
-    "hover_scale": 1,
-    "hover_shadow": "none",
-    "transition_duration": 200
+    ]
+  },
+  "settings": {
+    "padding_top": 12,
+    "padding_bottom": 12,
+    "responsive": {
+      "tablet": {},
+      "mobile": {}
+    }
   }
 }
 ```
@@ -74,17 +82,17 @@ timeline
 
 ```javascript
 function renderTimeline(widget, language) {
-  const { items, layout, line_color, dot_color } = widget.widget;
+  const { line, dot, config, items } = widget.widget;
 
   const timelineItems = items.map((item, index) => {
     const date = item.date?.[language] || item.date?.en || '';
     const title = item.title?.[language] || item.title?.en || '';
     const content = item.content?.[language] || item.content?.en || '';
-    const side = layout === 'alternate' ? (index % 2 === 0 ? 'left' : 'right') : layout;
+    const side = config.layout === 'alternate' ? (index % 2 === 0 ? 'left' : 'right') : config.layout;
 
     return `
       <div class="timeline-item timeline-item--${side}">
-        <div class="timeline-dot" style="background: ${dot_color || '#50a5f1'}"></div>
+        <div class="timeline-dot" style="background: ${dot.color || '#50a5f1'}"></div>
         <div class="timeline-card">
           ${date ? `<span class="timeline-date">${date}</span>` : ''}
           ${title ? `<h4>${title}</h4>` : ''}
@@ -95,8 +103,8 @@ function renderTimeline(widget, language) {
   }).join('');
 
   return `
-    <div class="timeline timeline--${layout}">
-      <div class="timeline-line" style="background: ${line_color || '#e0e0e0'}"></div>
+    <div class="timeline timeline--${config.layout}">
+      <div class="timeline-line" style="background: ${line.color || '#e0e0e0'}"></div>
       ${timelineItems}
     </div>
   `;

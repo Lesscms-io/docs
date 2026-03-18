@@ -17,14 +17,13 @@ pdf-viewer
 | `widget` | object | Widget data |
 | `widget.file` | string\|null | URL of the PDF file |
 | `widget.height` | number | Viewer height in pixels (default: 600) |
-| `widget.height_mode` | string | Height mode: `"fixed"`, `"auto"` (default: `"fixed"`) |
-| `widget.page_mode` | string | Page mode: `"single"`, `"double"` |
-| `widget.show_controls` | boolean | Show navigation controls |
-| `widget.show_thumbnails` | boolean | Show page thumbnails |
-| `widget.show_outline` | boolean | Show document outline |
-| `widget.show_fullscreen` | boolean | Allow fullscreen mode |
-| `widget.show_download` | boolean | Allow PDF download |
-| `widget.background_color` | string | Viewer background color |
+| `widget.page_mode` | string | Page mode: `"single"`, `"double"` (default: `"double"`) |
+| `widget.show_controls` | boolean | Show navigation controls (default: true) |
+| `widget.show_thumbnails` | boolean | Show page thumbnails (default: true) |
+| `widget.show_outline` | boolean | Show document outline (default: true) |
+| `widget.show_fullscreen` | boolean | Allow fullscreen mode (default: true) |
+| `widget.show_download` | boolean | Allow PDF download (default: true) |
+| `widget.background_color` | string | Viewer background color (default: `"#1a1a1a"`) |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response
@@ -35,7 +34,6 @@ pdf-viewer
   "uuid": "pdf-viewer-123",
   "widget": {
     "file": "https://cdn.example.com/documents/catalog.pdf",
-    "height_mode": "fixed",
     "height": 700,
     "page_mode": "double",
     "show_controls": true,
@@ -44,6 +42,12 @@ pdf-viewer
     "show_fullscreen": true,
     "show_download": true,
     "background_color": "#1a1a1a"
+  },
+  "settings": {
+    "responsive": {
+      "tablet": {},
+      "mobile": {}
+    }
   }
 }
 ```

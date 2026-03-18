@@ -14,8 +14,7 @@ text
 |----------|------|-------------|
 | `widget_type` | string | Always `"text"` |
 | `uuid` | string | Unique widget identifier |
-| `widget` | object | Widget properties |
-| `widget.html` | object | Multilingual HTML content |
+| `widget` | object | Widget properties (inline-edited content, no configurable fields) |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response
@@ -24,12 +23,7 @@ text
 {
   "widget_type": "text",
   "uuid": "7e9d4859-a01a-4c76-af3d-4f73209a446b",
-  "widget": {
-    "html": {
-      "en": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>",
-      "pl": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>"
-    }
-  },
+  "widget": {},
   "settings": {
     "paddingRight": 0,
     "horizontalAlign": "center",

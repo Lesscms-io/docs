@@ -12,97 +12,80 @@ icon-list
 
 This widget supports the multi-item pattern. When multiple items exist, the response includes `multi_item: true` with an `items` array.
 
-## Response Structure (Single Item)
+## Response Structure
 
 | Property | Type | Description |
 |----------|------|-------------|
 | `widget_type` | string | Always `"icon-list"` |
 | `uuid` | string | Unique widget identifier |
 | `widget` | object | Widget data |
-| `widget.text` | string | Item text (localized) |
-| `widget.icon` | string\|null | FontAwesome icon class |
-| `widget.icon_color` | string\|null | Icon color |
-| `widget.text_size` | string | Text size: `"sm"`, `"md"`, `"lg"` |
-| `widget.item_bg_color` | string\|null | Item background color |
-| `widget.icon_size` | string | Icon size: `"sm"`, `"md"`, `"lg"` |
-| `widget.hover_icon_color` | string\|null | Icon color on hover |
-| `widget.hover_item_bg_color` | string\|null | Item background color on hover |
-| `widget.hover_lift` | number | Hover lift in pixels — translateY offset (default: `0`) |
-| `widget.hover_scale` | number | Hover scale factor (default: `1`) |
-| `widget.hover_shadow` | string | Hover shadow preset: `"none"`, `"sm"`, `"md"`, `"lg"` (default: `"none"`) |
-| `widget.transition_duration` | number | Hover transition duration in ms (default: 200) |
-| `settings` | object | Style settings (optional) |
+| `widget.icon` | object | Icon element group |
+| `widget.icon.icon` | string | FontAwesome icon class (default: `"fa-solid fa-check"`) |
+| `widget.icon.size` | string | Icon size: `"sm"`, `"md"`, `"lg"` (default: `"md"`) |
+| `widget.icon.color` | string\|null | Icon color |
+| `widget.icon.color:hover` | string\|null | Icon color on hover |
+| `widget.text` | object | Text element group |
+| `widget.text.text` | object | Multilingual item text |
+| `widget.text.size` | string | Text size: `"sm"`, `"md"`, `"lg"` (default: `"md"`) |
+| `widget.item_style` | object | Item styling group |
+| `widget.item_style.background` | string\|null | Item background color |
+| `widget.item_style.background:hover` | string\|null | Item background color on hover |
+| `settings` | object | Style settings (padding, background, border, hover transforms) |
 
-## Example Response (Multi-Item)
+## Example Response
 
 ```json
 {
   "widget_type": "icon-list",
   "uuid": "icon-list-123",
-  "multi_item": true,
-  "multi_columns": 1,
-  "multi_gap": 16,
-  "items": [
-    {
-      "widget_type": "icon-list",
-      "widget": {
-        "text": "Free shipping worldwide",
-        "icon": "fa-solid fa-truck",
-        "icon_color": "#50a5f1",
-        "text_size": "md",
-        "item_bg_color": null,
-        "icon_size": "md",
-        "hover_icon_color": null,
-        "hover_item_bg_color": null,
-        "hover_lift": 0,
-        "hover_scale": 1,
-        "hover_shadow": "none",
-        "transition_duration": 200
-      }
+  "widget": {
+    "icon": {
+      "icon": "fa-solid fa-check",
+      "size": "md",
+      "color": "var:primary",
+      "color:hover": null
     },
-    {
-      "widget_type": "icon-list",
-      "widget": {
-        "text": "30-day money back guarantee",
-        "icon": "fa-solid fa-shield-check",
-        "icon_color": "#50a5f1",
-        "text_size": "md",
-        "item_bg_color": null,
-        "icon_size": "md",
-        "hover_icon_color": null,
-        "hover_item_bg_color": null,
-        "hover_lift": 0,
-        "hover_scale": 1,
-        "hover_shadow": "none",
-        "transition_duration": 200
-      }
+    "text": {
+      "text": {
+        "en": "Free shipping worldwide",
+        "pl": "Darmowa dostawa na caly swiat"
+      },
+      "size": "md"
+    },
+    "item_style": {
+      "background": null,
+      "background:hover": null
     }
-  ]
+  },
+  "settings": {
+    "padding_top": 12,
+    "padding_bottom": 12,
+    "padding_left": 0,
+    "padding_right": 0
+  }
 }
 ```
 
 ## Usage Example
 
 ```javascript
-function renderIconList(widget) {
-  if (widget.multi_item) {
-    const cols = widget.multi_columns || 1;
-    const gap = widget.multi_gap || 16;
-    const items = widget.items.map(item => renderIconListItem(item)).join('');
-    return `<div style="display: grid; grid-template-columns: repeat(${cols}, 1fr); gap: ${gap}px">${items}</div>`;
-  }
-  return renderIconListItem(widget);
-}
-
-function renderIconListItem(widget) {
-  const { text, icon, icon_color, icon_size, item_bg_color } = widget.widget;
+function renderIconList(widget, language) {
+  const { icon, text, item_style } = widget.widget;
 
   const sizeMap = { sm: '16px', md: '24px', lg: '32px' };
+  const textSizeMap = { sm: '0.875rem', md: '1rem', lg: '1.125rem' };
+
+  const iconClass = icon?.icon || 'fa-solid fa-circle';
+  const iconColor = icon?.color || 'inherit';
+  const iconSize = sizeMap[icon?.size || 'md'] || '24px';
+  const textSize = textSizeMap[text?.size || 'md'] || '1rem';
+  const itemText = text?.text?.[language] || text?.text?.en || '';
+  const bgColor = item_style?.background;
 
   return `
-    <div class="icon-list-item" style="${item_bg_color ? `background:${item_bg_color}; padding:10px 14px; border-radius:6px;` : ''}">
-      <i class="${icon || 'fa-solid fa-circle'}" style="color: ${icon_color || 'inherit'}; font-size: ${sizeMap[icon_size] || '24px'}"></i>
-      <span>${text}</span>
+    <div class="icon-list-item" style="${bgColor ? `background:${bgColor}; padding:10px 14px; border-radius:6px;` : ''}">
+      <i class="${iconClass}" style="color: ${iconColor}; font-size: ${iconSize}"></i>
+      <span style="font-size: ${textSize}">${itemText}</span>
     </div>
   `;
 }

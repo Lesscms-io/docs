@@ -21,12 +21,6 @@ breadcrumbs
 | `widget.color` | string | Link color (hex) |
 | `widget.active_color` | string | Active (current page) color (hex) |
 | `widget.show_dynamic_last` | boolean | Show dynamic last breadcrumb from URL (default: false) |
-| `widget.dynamic_last_collection_code` | string | Collection code for the dynamic last breadcrumb item (default: `""`) |
-| `widget.dynamic_last_field_code` | string | Field code to use as label for the dynamic last breadcrumb (default: `""`) |
-| `widget.dynamic_last_entry_source` | string | Source for resolving the dynamic entry: `"url"` (default: `"url"`) |
-| `widget.dynamic_last_entry_id` | string | Static entry ID for the dynamic last breadcrumb (default: `""`) |
-| `widget.dynamic_last_url_segment` | number | URL segment index to use for dynamic entry lookup (default: 1) |
-| `widget.items` | array | Static breadcrumb items (optional, injected from page context at render time) |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response
@@ -44,17 +38,7 @@ breadcrumbs
     },
     "color": "#6c757d",
     "active_color": "#212529",
-    "show_dynamic_last": false,
-    "dynamic_last_collection_code": "",
-    "dynamic_last_field_code": "",
-    "dynamic_last_entry_source": "url",
-    "dynamic_last_entry_id": "",
-    "dynamic_last_url_segment": 1,
-    "items": [
-      { "label": "Home", "url": "/" },
-      { "label": "Blog", "url": "/blog" },
-      { "label": "My Article", "url": null }
-    ]
+    "show_dynamic_last": false
   },
   "settings": {
     "responsive": {

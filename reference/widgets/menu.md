@@ -1,6 +1,6 @@
 # Menu Widget
 
-A navigation menu widget that displays a menu defined in LessCMS with logo, CTA button, and responsive hamburger support.
+A navigation menu widget that displays a menu defined in LessCMS with logo, CTA button, and responsive hamburger support. Uses nested element-group structure.
 
 ## Widget Type
 
@@ -14,43 +14,47 @@ menu
 |----------|------|-------------|
 | `widget_type` | string | Always `"menu"` |
 | `uuid` | string | Unique widget identifier |
-| `widget` | object | Widget data |
-| `widget.menu_code` | string | Code of the menu to display |
-| `widget.label_field` | string\|null | Field code to use as label for menu items |
-| `widget.logo_light` | string\|null | Light logo image URL |
-| `widget.logo_dark` | string\|null | Dark logo image URL |
-| `widget.logo_height` | number | Logo height in pixels |
-| `widget.logo_position` | string | Logo position: `"left"`, `"center"`, `"right"` (default: `"left"`) |
-| `widget.layout` | string | Menu layout: `"horizontal"`, `"vertical"`, `"centered"` (default: `"horizontal"`) |
-| `widget.hamburger_breakpoint` | string | When to show hamburger: `"never"`, `"mobile"`, `"tablet"` (default: `"never"`) |
-| `widget.items_alignment` | string | Menu items alignment: `"left"`, `"center"`, `"right"` (default: `"left"`) |
-| `widget.items_gap` | number | Gap between menu items in pixels (default: `12`) |
-| `widget.items_indent` | number | Left indent for menu items in pixels (default: 0) |
-| `widget.link_color` | string | Menu link color (hex) |
-| `widget.link_hover_color` | string | Menu link hover color (hex) |
-| `widget.link_hover_bg` | string\|null | Menu link hover background color (hex) |
-| `widget.link_hover_animation` | string | Hover animation effect: `"none"`, `"underline"`, `"overline"`, `"highlight"`, `"scale"`, `"bracket"` (default: `"none"`) |
-| `widget.link_hover_animation_color` | string\|null | Color for the animation element (falls back to `link_hover_color`) |
-| `widget.items_padding` | number\|null | Padding for each menu item link in pixels |
-| `widget.cta_text` | string | CTA button text |
-| `widget.cta_position` | string | CTA position: `"left"`, `"right"`, `"below"` (default: `"right"`) |
-| `widget.cta_link_type` | string | CTA link type: `"custom"`, `"page"`, `"entry"` |
-| `widget.cta_url` | string | CTA URL (when link type is custom) |
-| `widget.cta_page_id` | string | CTA page ID (when link type is page) |
-| `widget.cta_collection_code` | string | CTA collection code (when link type is entry) |
-| `widget.cta_entry_id` | string | CTA entry ID (when link type is entry) |
-| `widget.cta_route_uuid` | string | CTA route UUID |
-| `widget.cta_target_blank` | boolean | Open CTA in new tab |
-| `widget.cta_style` | string | CTA button style (Bootstrap variants) |
-| `widget.cta_size` | string | CTA button size: `"sm"`, `"md"`, `"lg"` |
-| `widget.cta_border_radius` | string | CTA button border radius: `"sm"`, `"md"`, `"lg"` (default: `"md"`) |
-| `widget.cta_padding` | string\|null | Custom CTA button padding CSS value |
-| `widget.cta_icon` | string\|null | CTA button icon class (e.g., `"bx bx-right-arrow-alt"`) |
-| `widget.cta_icon_position` | string | CTA icon position: `"left"`, `"right"` (default: `"left"`) |
-| `widget.dropdown_bg` | string\|null | Dropdown submenu background color |
-| `widget.dropdown_border_radius` | string | Dropdown border radius: `"none"`, `"sm"`, `"md"`, `"lg"` (default: `"md"`) |
-| `widget.dropdown_shadow` | string | Dropdown box shadow: `"none"`, `"sm"`, `"md"`, `"lg"` (default: `"lg"`) |
-| `settings` | object | Style settings (optional) |
+| `widget.link` | object | Menu link styling |
+| `widget.link.color` | string\|null | Menu link text color |
+| `widget.link.color:hover` | string\|null | Menu link text color on hover |
+| `widget.link.background` | string\|null | Menu link background color |
+| `widget.link.background:hover` | string\|null | Menu link background color on hover |
+| `widget.link.hover_animation` | string | Hover animation effect: `"none"`, `"underline"`, `"overline"`, `"highlight"`, `"scale"`, `"bracket"` (default: `"none"`) |
+| `widget.link.hover_animation_color` | string\|null | Color for the animation element (falls back to `link.color:hover`) |
+| `widget.logo` | object | Logo settings |
+| `widget.logo.light` | string\|null | Light logo image URL |
+| `widget.logo.dark` | string\|null | Dark logo image URL |
+| `widget.logo.height` | number | Logo height in pixels (default: `40`) |
+| `widget.logo.position` | string | Logo position: `"left"`, `"center"`, `"right"` (default: `"left"`) |
+| `widget.config` | object | Menu configuration |
+| `widget.config.menu_code` | string | Code of the menu to display |
+| `widget.config.label_field` | string\|null | Field code to use as label for menu items |
+| `widget.config.layout` | string | Menu layout: `"horizontal"`, `"vertical"`, `"centered"` (default: `"horizontal"`) |
+| `widget.config.hamburger_breakpoint` | string | When to show hamburger: `"never"`, `"mobile"`, `"tablet"` (default: `"never"`) |
+| `widget.config.items_alignment` | string | Menu items alignment: `"left"`, `"center"`, `"right"` (default: `"left"`) |
+| `widget.config.items_gap` | number | Gap between menu items in pixels (default: `12`) |
+| `widget.config.items_padding` | number | Padding for each menu item link in pixels (default: `0`) |
+| `widget.config.items_indent` | number | Left indent for menu items in pixels (default: `0`) |
+| `widget.cta` | object | Call-to-action button |
+| `widget.cta.text` | string | CTA button text |
+| `widget.cta.position` | string | CTA position: `"left"`, `"right"`, `"below"` (default: `"right"`) |
+| `widget.cta.link_type` | string | CTA link type: `"custom"`, `"page"`, `"entry"` |
+| `widget.cta.url` | string\|null | CTA URL (when link type is custom, or server-resolved) |
+| `widget.cta.page_id` | string\|null | CTA page ID (when link type is page) |
+| `widget.cta.collection_code` | string\|null | CTA collection code (when link type is entry) |
+| `widget.cta.entry_id` | string\|null | CTA entry ID (when link type is entry) |
+| `widget.cta.route_uuid` | string\|null | CTA route UUID |
+| `widget.cta.target_blank` | boolean | Open CTA in new tab (default: `false`) |
+| `widget.cta.style` | string | CTA button style (Bootstrap variants, default: `"info"`) |
+| `widget.cta.size` | string | CTA button size: `"sm"`, `"md"`, `"lg"` (default: `"md"`) |
+| `widget.cta.border_radius` | string | CTA button border radius: `"sm"`, `"md"`, `"lg"`, `"pill"` (default: `"md"`) |
+| `widget.cta.icon` | string\|null | CTA button icon class (e.g., `"bx bx-right-arrow-alt"`) |
+| `widget.cta.icon_position` | string | CTA icon position: `"left"`, `"right"` (default: `"left"`) |
+| `widget.dropdown` | object | Dropdown submenu styling |
+| `widget.dropdown.background` | string\|null | Dropdown submenu background color |
+| `widget.dropdown.border_radius` | string | Dropdown border radius: `"none"`, `"sm"`, `"md"`, `"lg"` (default: `"md"`) |
+| `widget.dropdown.shadow` | string | Dropdown box shadow: `"none"`, `"sm"`, `"md"`, `"lg"` (default: `"lg"`) |
+| `settings` | object | [Shared widget settings](shared-settings.md) |
 
 ## Example Response
 
@@ -59,45 +63,55 @@ menu
   "widget_type": "menu",
   "uuid": "menu-123",
   "widget": {
-    "menu_code": "main-nav",
-    "label_field": null,
-    "logo_light": "https://cdn.example.com/logo.png",
-    "logo_dark": "https://cdn.example.com/logo-dark.png",
-    "logo_height": 40,
-    "logo_position": "left",
-    "layout": "horizontal",
-    "hamburger_breakpoint": "mobile",
-    "items_alignment": "left",
-    "items_gap": 12,
-    "items_indent": 0,
-    "link_color": "#333333",
-    "link_hover_color": "#50a5f1",
-    "link_hover_bg": null,
-    "link_hover_animation": "underline",
-    "link_hover_animation_color": "#50a5f1",
-    "items_padding": 10,
-    "cta_text": "Get Started",
-    "cta_position": "right",
-    "cta_link_type": "custom",
-    "cta_url": "/signup",
-    "cta_page_id": "",
-    "cta_collection_code": "",
-    "cta_entry_id": "",
-    "cta_route_uuid": "",
-    "cta_target_blank": false,
-    "cta_style": "primary",
-    "cta_size": "md",
-    "cta_border_radius": "md",
-    "cta_padding": null,
-    "cta_icon": null,
-    "cta_icon_position": "left",
-    "dropdown_bg": null,
-    "dropdown_border_radius": "md",
-    "dropdown_shadow": "lg"
+    "link": {
+      "color": "var:text",
+      "color:hover": null,
+      "background": null,
+      "background:hover": null,
+      "hover_animation": "underline",
+      "hover_animation_color": null
+    },
+    "logo": {
+      "light": "https://cdn.example.com/logo.png",
+      "dark": "https://cdn.example.com/logo-dark.png",
+      "height": 40,
+      "position": "left"
+    },
+    "config": {
+      "menu_code": "main-nav",
+      "label_field": null,
+      "layout": "horizontal",
+      "hamburger_breakpoint": "mobile",
+      "items_alignment": "left",
+      "items_gap": 12,
+      "items_padding": 0,
+      "items_indent": 0
+    },
+    "cta": {
+      "text": "Get Started",
+      "position": "right",
+      "link_type": "custom",
+      "url": "/signup",
+      "page_id": null,
+      "collection_code": null,
+      "entry_id": null,
+      "route_uuid": null,
+      "target_blank": false,
+      "style": "info",
+      "size": "md",
+      "border_radius": "md",
+      "icon": null,
+      "icon_position": "left"
+    },
+    "dropdown": {
+      "background": null,
+      "border_radius": "md",
+      "shadow": "lg"
+    }
   },
   "settings": {
-    "paddingTop": 16,
-    "paddingBottom": 16,
+    "padding_top": 16,
+    "padding_bottom": 16,
     "responsive": {
       "tablet": {},
       "mobile": {}
@@ -182,21 +196,13 @@ GET /api/{project}/menus/{menu_code}
 | `scale` | Slight scale up on hover |
 | `bracket` | Left/right bracket borders appear on hover |
 
-## Items Gap Values
-
-| Value | Description |
-|-------|-------------|
-| `sm` | Small gap between items |
-| `md` | Medium gap between items |
-| `lg` | Large gap between items |
-
 ## Dropdown Settings
 
 | Property | Type | Default | Description |
 |----------|------|---------|-------------|
-| `dropdown_bg` | string\|null | `null` | Background color (falls back to white) |
-| `dropdown_border_radius` | string | `"md"` | Border radius: `"none"` (0), `"sm"` (4px), `"md"` (8px), `"lg"` (12px) |
-| `dropdown_shadow` | string | `"lg"` | Box shadow: `"none"`, `"sm"`, `"md"`, `"lg"` |
+| `dropdown.background` | string\|null | `null` | Background color (falls back to white) |
+| `dropdown.border_radius` | string | `"md"` | Border radius: `"none"` (0), `"sm"` (4px), `"md"` (8px), `"lg"` (12px) |
+| `dropdown.shadow` | string | `"lg"` | Box shadow: `"none"`, `"sm"`, `"md"`, `"lg"` |
 
 ## CTA Button Styles
 
@@ -221,31 +227,27 @@ GET /api/{project}/menus/{menu_code}
 
 ```javascript
 async function renderMenu(widget, language, api) {
-  const {
-    menu_code, layout, logo_light, logo_height, logo_position,
-    hamburger_breakpoint, items_gap, link_color, link_hover_color,
-    cta_text, cta_url, cta_style, cta_size
-  } = widget.widget;
+  const { link, logo, config, cta, dropdown } = widget.widget;
 
-  const menu = await api.getMenu(menu_code);
+  const menu = await api.getMenu(config.menu_code);
   if (!menu?.items) return '';
 
   const items = renderMenuItems(menu.items, language);
 
-  const logoHtml = logo_light ? `
+  const logoHtml = logo.light ? `
     <div class="menu-logo">
-      <img src="${logo_light}" alt="Logo" style="height: ${logo_height || 40}px;">
+      <img src="${logo.light}" alt="Logo" style="height: ${logo.height || 40}px;">
     </div>
   ` : '';
 
-  const ctaHtml = cta_text ? `
-    <a href="${cta_url}" class="btn btn-${cta_style} btn-${cta_size}">${cta_text}</a>
+  const ctaHtml = cta.text ? `
+    <a href="${cta.url}" class="btn btn-${cta.style} btn-${cta.size}">${cta.text}</a>
   ` : '';
 
   return `
-    <nav class="menu-widget menu-${layout}">
+    <nav class="menu-widget menu-${config.layout}">
       ${logoHtml}
-      <ul class="menu-list" style="gap: var(--items-gap-${items_gap});">${items}</ul>
+      <ul class="menu-list" style="gap: ${config.items_gap}px;">${items}</ul>
       ${ctaHtml}
     </nav>
   `;

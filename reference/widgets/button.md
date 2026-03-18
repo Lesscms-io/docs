@@ -1,6 +1,6 @@
 # Button Widget
 
-A button widget with multilingual text and configurable link target.
+A button widget with multilingual text, configurable style, and link target. Uses nested element-group structure.
 
 ## Widget Type
 
@@ -14,56 +14,60 @@ button
 |----------|------|-------------|
 | `widget_type` | string | Always `"button"` |
 | `uuid` | string | Unique widget identifier |
-| `widget` | object | Widget properties |
-| `widget.link_type` | string | `"custom"`, `"page"`, or `"entry"` |
-| `widget.style` | string | Button style: `"primary"`, `"secondary"`, `"outline"` |
-| `widget.size` | string | Button size: `"sm"`, `"md"`, `"lg"` |
-| `widget.target_blank` | boolean | Open in new tab |
-| `widget.border_radius` | string | Button border radius preset (`"none"`, `"sm"`, `"md"`, `"lg"`, `"full"`) |
-| `widget.padding` | string\|null | Custom button padding CSS value |
-| `widget.icon` | string | Icon class (e.g., `"fa-solid fa-arrow-right"`) |
-| `widget.icon_position` | string | Icon position relative to text |
-| `widget.text` | object | Multilingual button text |
-| `widget.url` | string | Resolved URL |
-| `widget.page_uuid` | string\|null | Page UUID (for `page` links) |
-| `widget.page_code` | string\|null | Page code (for `page` links) |
-| `widget.route_uuid` | string\|null | Route UUID for URL resolution (for `page` and `entry` links) |
-| `widget.entry_uuid` | string\|null | Entry UUID (for `entry` links) |
-| `widget.collection_code` | string\|null | Collection code (for `entry` links) |
-| `widget.entry_code` | string\|null | Entry code (for `entry` links) |
-| `widget.hover_lift` | number | Hover lift in pixels — translateY offset (default: `0`) |
-| `widget.hover_scale` | number | Hover scale factor (default: `1`) |
-| `widget.hover_shadow` | string | Hover shadow preset: `"none"`, `"sm"`, `"md"`, `"lg"` (default: `"none"`) |
-| `widget.transition_duration` | number | Hover transition duration in ms (default: `200`) |
-| `settings` | object | Style settings (optional) |
+| `widget.text` | object | Text element group |
+| `widget.text.text` | object | Multilingual button label |
+| `widget.config` | object | Config element group |
+| `widget.config.style` | string | Button style preset: `"primary"`, `"secondary"`, `"outline"`, etc. |
+| `widget.config.size` | string | Button size: `"sm"`, `"md"`, `"lg"` |
+| `widget.config.border_radius` | string | Border radius preset: `"none"`, `"sm"`, `"md"`, `"lg"`, `"pill"` |
+| `widget.config.padding` | string\|null | Custom padding CSS value |
+| `widget.config.icon` | string\|null | Icon class (e.g. `"fa-solid fa-arrow-right"`) or SVG string prefixed with `"svg:"` |
+| `widget.config.icon_position` | string | Icon position: `"left"` or `"right"` |
+| `widget.link` | object | Link element group |
+| `widget.link.url` | string | Resolved URL (or custom URL) |
+| `widget.link.link_type` | string | `"custom"`, `"page"`, or `"entry"` |
+| `widget.link.page_id` | string\|null | Page UUID (for `page` links) |
+| `widget.link.collection_code` | string\|null | Collection code (for `entry` links) |
+| `widget.link.entry_id` | string\|null | Entry UUID (for `entry` links) |
+| `widget.link.route_uuid` | string\|null | Route UUID for URL resolution |
+| `widget.link.target_blank` | boolean | Open link in new tab |
+| `settings` | object | [Shared widget settings](shared-settings.md) |
 
-## Example Response (Custom URL)
+## Example Response
 
 ```json
 {
   "widget_type": "button",
   "uuid": "btn-123",
   "widget": {
-    "link_type": "custom",
-    "style": "primary",
-    "size": "md",
-    "target_blank": false,
-    "border_radius": "md",
-    "padding": null,
-    "icon": null,
-    "icon_position": "left",
     "text": {
-      "en": "Learn More",
-      "pl": "Dowiedz sie wiecej"
+      "text": {
+        "en": "Learn More",
+        "pl": "Dowiedz sie wiecej"
+      }
     },
-    "url": "https://example.com/contact",
-    "hover_lift": 0,
-    "hover_scale": 1,
-    "hover_shadow": "none",
-    "transition_duration": 200
+    "config": {
+      "style": "primary",
+      "size": "md",
+      "border_radius": "md",
+      "padding": null,
+      "icon": null,
+      "icon_position": "left"
+    },
+    "link": {
+      "url": "https://example.com/contact",
+      "link_type": "custom",
+      "page_id": null,
+      "collection_code": null,
+      "entry_id": null,
+      "route_uuid": null,
+      "target_blank": false
+    }
   },
   "settings": {
-    "horizontalAlign": "center",
+    "padding_top": 8,
+    "padding_bottom": 8,
+    "horizontal_align": "center",
     "responsive": {
       "tablet": {},
       "mobile": {}
@@ -72,66 +76,13 @@ button
 }
 ```
 
-## Example Response (Page Link)
-
-```json
-{
-  "widget_type": "button",
-  "uuid": "btn-456",
-  "widget": {
-    "link_type": "page",
-    "style": "secondary",
-    "size": "lg",
-    "target_blank": false,
-    "icon": "fa-solid fa-envelope",
-    "icon_position": "left",
-    "text": {
-      "en": "Contact Us",
-      "pl": "Kontakt"
-    },
-    "page_uuid": "abc-123",
-    "page_code": "contact",
-    "route_uuid": "route-789",
-    "url": "/contact"
-  },
-  "settings": {}
-}
-```
-
-## Example Response (Entry Link)
-
-```json
-{
-  "widget_type": "button",
-  "uuid": "btn-789",
-  "widget": {
-    "link_type": "entry",
-    "style": "primary",
-    "size": "md",
-    "target_blank": false,
-    "icon": null,
-    "icon_position": "left",
-    "text": {
-      "en": "Read Article",
-      "pl": "Czytaj artykul"
-    },
-    "entry_uuid": "entry-abc-123",
-    "collection_code": "blog",
-    "entry_code": "how-to-get-started",
-    "route_uuid": "route-456",
-    "url": "/blog/how-to-get-started"
-  },
-  "settings": {}
-}
-```
-
 ## Link Types
 
 | Value | Description |
 |-------|-------------|
-| `custom` | Custom URL (use `widget.url`) |
-| `page` | Link to a page (use `widget.url` or `widget.page_code`) |
-| `entry` | Link to a collection entry (use `widget.url` or `widget.entry_code`) |
+| `custom` | Custom URL (use `widget.link.url`) |
+| `page` | Link to a page (server-resolved URL in `widget.link.url`) |
+| `entry` | Link to a collection entry (server-resolved URL in `widget.link.url`) |
 
 ## Button Styles
 
@@ -141,54 +92,20 @@ button
 | `secondary` | Secondary action button |
 | `outline` | Outlined button |
 
-## Multi-Item Support
-
-The button widget supports displaying multiple buttons in a grid. When multiple items are configured, the API returns a multi-item structure with `multi_item: true`, `multi_columns`, and `items[]` array. Each item has the same structure as a single button widget (without `uuid` and `settings`).
-
-```json
-{
-  "widget_type": "button",
-  "uuid": "btn-multi",
-  "multi_item": true,
-  "multi_columns": 2,
-  "multi_gap": 16,
-  "items": [
-    {
-      "widget_type": "button",
-      "widget": { "link_type": "custom", "style": "primary", "size": "md", "target_blank": false, "icon": null, "icon_position": "left", "text": { "en": "Learn More" }, "url": "/about" }
-    },
-    {
-      "widget_type": "button",
-      "widget": { "link_type": "custom", "style": "outline", "size": "md", "target_blank": false, "icon": null, "icon_position": "left", "text": { "en": "Contact" }, "url": "/contact" }
-    }
-  ],
-  "settings": {}
-}
-```
-
 ## Usage Example
 
 ```javascript
 function renderButton(widget, language) {
-  const { style, size, target_blank, icon, icon_position } = widget.widget;
-  const text = widget.widget?.text?.[language] || widget.widget?.text?.en || '';
-  const url = widget.widget?.url || '#';
-  const target = target_blank ? ' target="_blank" rel="noopener"' : '';
-  const iconHtml = icon ? `<i class="${icon}"></i> ` : '';
+  const { text, config, link } = widget.widget;
+  const label = text.text?.[language] || text.text?.en || '';
+  const url = link.url || '#';
+  const target = link.target_blank ? ' target="_blank" rel="noopener"' : '';
+  const iconHtml = config.icon ? `<i class="${config.icon}"></i> ` : '';
 
-  const content = icon_position === 'right'
-    ? `${text} ${iconHtml}`
-    : `${iconHtml}${text}`;
+  const content = config.icon_position === 'right'
+    ? `${label} ${iconHtml}`
+    : `${iconHtml}${label}`;
 
-  return `<a href="${url}" class="btn btn-${style} btn-${size}"${target}>${content}</a>`;
-}
-
-function renderButtonWidget(widget, language) {
-  if (widget.multi_item) {
-    return `<div style="display: grid; grid-template-columns: repeat(${widget.multi_columns}, 1fr); gap: ${widget.multi_gap}px;">
-      ${widget.items.map(item => renderButton(item, language)).join('')}
-    </div>`;
-  }
-  return renderButton(widget, language);
+  return `<a href="${url}" class="btn btn-${config.style} btn-${config.size}"${target}>${content}</a>`;
 }
 ```

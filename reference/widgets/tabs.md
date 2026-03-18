@@ -1,6 +1,6 @@
 # Tabs Widget
 
-Tabbed content interface with configurable styles.
+Tabbed content interface with configurable styles. Uses nested element-group structure.
 
 ## Widget Type
 
@@ -14,21 +14,18 @@ tabs
 |----------|------|-------------|
 | `widget_type` | string | Always `"tabs"` |
 | `uuid` | string | Unique widget identifier |
-| `widget` | object | Widget data |
+| `widget.tab` | object | Tab styling |
+| `widget.tab.color` | string\|null | Active tab text/border color |
+| `widget.tab.color:hover` | string\|null | Active tab color on hover |
+| `widget.tab.border` | string\|null | Tab list border color |
+| `widget.tab.border:hover` | string\|null | Tab list border color on hover |
+| `widget.tab.style` | string | Tab style: `"underline"`, `"pills"`, `"boxed"` |
+| `widget.config` | object | Behavior configuration |
+| `widget.config.alignment` | string | Tab alignment: `"left"`, `"center"`, `"right"`, `"stretch"` |
 | `widget.items` | array | List of tab items |
 | `widget.items[].title` | object | Multilingual tab title |
 | `widget.items[].content` | object | Multilingual tab content (HTML) |
-| `widget.active_color` | string\|null | Color of active tab |
-| `widget.border_color` | string\|null | Border color |
-| `widget.style` | string | Tab style: `"underline"`, `"pills"`, `"boxed"` |
-| `widget.alignment` | string | Tab alignment: `"left"`, `"center"`, `"right"`, `"stretch"` |
-| `widget.hover_active_color` | string\|null | Active tab color on hover |
-| `widget.hover_border_color` | string\|null | Border color on hover |
-| `widget.hover_lift` | number | Hover lift in pixels — translateY offset (default: `0`) |
-| `widget.hover_scale` | number | Hover scale factor (default: `1`) |
-| `widget.hover_shadow` | string | Hover shadow preset: `"none"`, `"sm"`, `"md"`, `"lg"` (default: `"none"`) |
-| `widget.transition_duration` | number | Hover transition duration in ms (default: 200) |
-| `settings` | object | Style settings (optional) |
+| `settings` | object | [Shared widget settings](shared-settings.md) |
 
 ## Example Response
 
@@ -37,6 +34,16 @@ tabs
   "widget_type": "tabs",
   "uuid": "tabs-123",
   "widget": {
+    "tab": {
+      "color": "var:primary",
+      "color:hover": null,
+      "border": "var:border",
+      "border:hover": null,
+      "style": "underline"
+    },
+    "config": {
+      "alignment": "left"
+    },
     "items": [
       {
         "title": {
@@ -58,17 +65,17 @@ tabs
           "pl": "<p>Prosty i przejrzysty cennik.</p>"
         }
       }
-    ],
-    "active_color": "#50a5f1",
-    "border_color": "#e0e0e0",
-    "style": "underline",
-    "alignment": "left",
-    "hover_active_color": null,
-    "hover_border_color": null,
-    "hover_lift": 0,
-    "hover_scale": 1,
-    "hover_shadow": "none",
-    "transition_duration": 200
+    ]
+  },
+  "settings": {
+    "padding_top": 12,
+    "padding_bottom": 12,
+    "padding_left": 0,
+    "padding_right": 0,
+    "responsive": {
+      "tablet": {},
+      "mobile": {}
+    }
   }
 }
 ```
@@ -85,13 +92,13 @@ tabs
 
 ```javascript
 function renderTabs(widget, language) {
-  const { items, style, active_color, alignment } = widget.widget;
+  const { tab, config, items } = widget.widget;
 
   const tabHeaders = items.map((item, index) => {
     const title = item.title?.[language] || item.title?.en || '';
     return `<button class="tab-btn ${index === 0 ? 'active' : ''}"
               data-tab="${index}"
-              style="${index === 0 && active_color ? `color: ${active_color}; border-color: ${active_color}` : ''}">
+              style="${index === 0 && tab.color ? `color: ${tab.color}; border-color: ${tab.color}` : ''}">
               ${title}
             </button>`;
   }).join('');
@@ -104,8 +111,8 @@ function renderTabs(widget, language) {
   }).join('');
 
   return `
-    <div class="tabs tabs--${style}" style="text-align: ${alignment}">
-      <div class="tab-list">${tabHeaders}</div>
+    <div class="tabs tabs--${tab.style}" style="text-align: ${config.alignment}">
+      <div class="tab-list" style="${tab.border ? `border-color: ${tab.border}` : ''}">${tabHeaders}</div>
       <div class="tab-content">${tabPanels}</div>
     </div>
   `;

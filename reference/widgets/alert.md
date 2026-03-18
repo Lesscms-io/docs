@@ -1,6 +1,6 @@
 # Alert Widget
 
-A notification/alert box with title, content, and customizable type.
+A notification/alert box with title, content, and customizable type. Uses nested element-group structure.
 
 ## Widget Type
 
@@ -14,78 +14,18 @@ alert
 |----------|------|-------------|
 | `widget_type` | string | Always `"alert"` |
 | `uuid` | string | Unique widget identifier |
-| `widget` | object | Widget properties |
-| `widget.title` | object | Multilingual alert title |
-| `widget.message` | object | Multilingual alert message text |
-| `widget.type` | string | Alert type: `"info"`, `"success"`, `"warning"`, `"danger"`, `"custom"` |
-| `widget.dismissible` | boolean | Allow user to dismiss/close the alert |
-| `widget.show_title` | boolean | Show the alert title (default: true) |
-| `widget.icon` | string\|null | Custom icon class (Font Awesome), used when type is `"custom"` |
-| `widget.background_color` | string\|null | Custom background color, used when type is `"custom"` |
-| `widget.border_color` | string\|null | Custom border color, used when type is `"custom"` |
-| `widget.text_color` | string\|null | Custom text color, used when type is `"custom"` |
-| `settings` | object | Style settings (optional) |
-
-## Example Response (Preset Type)
-
-```json
-{
-  "widget_type": "alert",
-  "uuid": "alert-123",
-  "widget": {
-    "title": {
-      "en": "Important Notice",
-      "pl": "Wazna informacja"
-    },
-    "message": {
-      "en": "Our office will be closed on December 25th for the holiday.",
-      "pl": "Nasze biuro bedzie zamkniete 25 grudnia z powodu swieta."
-    },
-    "type": "info",
-    "dismissible": true,
-    "show_title": true,
-    "icon": null,
-    "background_color": null,
-    "border_color": null,
-    "text_color": null
-  },
-  "settings": {
-    "marginTop": 16,
-    "marginBottom": 16,
-    "responsive": {
-      "tablet": {},
-      "mobile": {}
-    }
-  }
-}
-```
-
-## Example Response (Custom Type)
-
-```json
-{
-  "widget_type": "alert",
-  "uuid": "alert-456",
-  "widget": {
-    "title": {
-      "en": "Maintenance Scheduled",
-      "pl": "Planowana przerwa techniczna"
-    },
-    "message": {
-      "en": "System maintenance is scheduled for Saturday 2:00 AM - 4:00 AM.",
-      "pl": "Przerwa techniczna zaplanowana na sobote 2:00 - 4:00."
-    },
-    "type": "custom",
-    "dismissible": false,
-    "show_title": true,
-    "icon": "fa-solid fa-wrench",
-    "background_color": "#fff3cd",
-    "border_color": "#ffc107",
-    "text_color": "#856404"
-  },
-  "settings": {}
-}
-```
+| `widget.icon` | object | Icon element |
+| `widget.icon.icon` | string\|null | Custom icon class (Font Awesome) |
+| `widget.content` | object | Content element |
+| `widget.content.title` | object | Multilingual alert title |
+| `widget.content.text` | object | Multilingual alert message text |
+| `widget.content.color` | string\|null | Text color |
+| `widget.content.color:hover` | string\|null | Text color on hover |
+| `widget.config` | object | Configuration element |
+| `widget.config.type` | string | Alert type: `"info"`, `"success"`, `"warning"`, `"danger"` |
+| `widget.config.show_title` | boolean | Show the alert title (default: true) |
+| `widget.config.dismissible` | boolean | Allow user to dismiss/close the alert (default: false) |
+| `settings` | object | [Shared widget settings](shared-settings.md) |
 
 ## Alert Type Values
 
@@ -96,20 +36,71 @@ alert
 | `warning` | Warning/caution | Yellow/Orange |
 | `danger` | Error/critical | Red |
 
+## Example Response
+
+```json
+{
+  "widget_type": "alert",
+  "uuid": "alert-123",
+  "widget": {
+    "icon": {
+      "icon": "fa-solid fa-circle-info"
+    },
+    "content": {
+      "title": {
+        "en": "Important Notice",
+        "pl": "Wazna informacja"
+      },
+      "text": {
+        "en": "Our office will be closed on December 25th for the holiday.",
+        "pl": "Nasze biuro bedzie zamkniete 25 grudnia z powodu swieta."
+      },
+      "color": null,
+      "color:hover": null
+    },
+    "config": {
+      "type": "info",
+      "show_title": true,
+      "dismissible": false
+    }
+  },
+  "settings": {
+    "padding_top": 12,
+    "padding_bottom": 12,
+    "responsive": {
+      "tablet": {},
+      "mobile": {}
+    }
+  }
+}
+```
+
 ## Usage Example
 
 ```javascript
 function renderAlert(widget, language) {
-  const { title, message, type, dismissible } = widget.widget;
+  const { icon, content, config } = widget.widget;
 
-  const titleText = title?.[language] || title?.en || '';
-  const messageText = message?.[language] || message?.en || '';
-  const alertType = type || 'info';
+  const titleText = content.title?.[language] || content.title?.en || '';
+  const messageText = content.text?.[language] || content.text?.en || '';
+  const alertType = config.type || 'info';
+  const showTitle = config.show_title !== false;
+  const dismissible = config.dismissible || false;
+
+  const iconClass = icon.icon || {
+    info: 'fa-solid fa-circle-info',
+    success: 'fa-solid fa-circle-check',
+    warning: 'fa-solid fa-triangle-exclamation',
+    danger: 'fa-solid fa-circle-xmark'
+  }[alertType] || 'fa-solid fa-circle-info';
 
   return `
     <div class="alert alert-${alertType}" role="alert">
+      <div class="alert-icon">
+        <i class="${iconClass}"></i>
+      </div>
       <div class="alert-body">
-        ${titleText ? `<strong class="alert-title">${titleText}</strong>` : ''}
+        ${showTitle && titleText ? `<strong class="alert-title">${titleText}</strong>` : ''}
         ${messageText ? `<p class="alert-message">${messageText}</p>` : ''}
       </div>
       ${dismissible ? `

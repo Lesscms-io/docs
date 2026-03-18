@@ -1,6 +1,6 @@
 # Data Field Widget
 
-Display a single field value with support for both static content and dynamic collection data.
+Display a single field value from a collection entry with support for icons, labels, and various display formats. Uses nested element-group structure.
 
 ## Widget Type
 
@@ -14,154 +14,140 @@ data-field
 |----------|------|-------------|
 | `widget_type` | string | Always `"data-field"` |
 | `uuid` | string | Unique widget identifier |
-| `widget` | object | Widget data |
-| `widget.value_source` | string | Value source: `"static"` or `"dynamic"` (default: `"dynamic"`) |
-| `widget.display_as` | string | HTML element: `"p"`, `"h1"`-`"h6"`, `"span"`, `"image"`, `"gallery"` (default: `"p"`) |
-| `widget.label` | object | Multilingual label text `{ "en": "...", "pl": "..." }` |
-| `widget.label_position` | string | Label position: `"hidden"`, `"above"`, `"inline"` (default: `"hidden"`) |
-| `widget.label_background` | string\|null | Label background color |
-| `widget.label_color` | string\|null | Label text color |
-| `widget.label_padding` | number | Label padding in px (default: 0) |
-| `widget.label_font_size` | string\|null | Label font size (e.g., `"14px"`) |
-| `widget.label_font_weight` | string\|null | Label font weight (e.g., `"bold"`) |
-| `widget.value_background` | string\|null | Value background color |
-| `widget.value_color` | string\|null | Value text color |
-| `widget.value_padding` | number | Value padding in px (default: 0) |
-| `widget.date_format` | string | Date format: `"full"`, `"short"`, `"relative"`, `"custom"` (default: `"full"`) |
-| `widget.show_time` | boolean | Show time for datetime fields (default: true) |
-| `widget.custom_date_format` | string\|null | Custom date format string |
-| `widget.link_to_entry` | boolean | Wrap value as a link to the entry page (default: `false`) |
-| `widget.link_text` | object | Multilingual link button text |
-| `widget.button_style` | string | Button style: `"primary"`, `"secondary"`, `"outline"` (default: `"primary"`) |
-| `widget.button_size` | string | Button size: `"sm"`, `"md"`, `"lg"` (default: `"md"`) |
-| `widget.show_icon` | boolean | Show icon (default: false) |
-| `widget.icon` | string\|null | Icon class (e.g., `"bx bx-link"`) |
-| `widget.icon_position` | string | Icon position: `"left"`, `"right"` (default: `"left"`) |
-| `widget.icon_size` | string | Icon size in px (default: `"24"`) |
-| `widget.icon_color` | string | Icon color (default: `"#50a5f1"`) |
-| `widget.icon_background` | string | Icon background (default: `"transparent"`) |
-| `widget.icon_padding` | string | Icon padding (default: `"0"`) |
-| `widget.icon_border_radius` | string | Icon border radius (default: `"0"`) |
-| `widget.icon_gap` | string | Gap between icon and content (default: `"12"`) |
-| `settings` | object | Style settings (optional) |
+| `widget.icon` | object | Icon element group |
+| `widget.icon.show` | boolean | Whether to show icon (default: `false`) |
+| `widget.icon.icon` | string\|null | Icon class (e.g. `"fa-solid fa-star"`) |
+| `widget.icon.position` | string | Icon position: `"left"`, `"right"` (default: `"left"`) |
+| `widget.icon.size` | number | Icon size in px (default: `24`) |
+| `widget.icon.color` | string\|null | Icon color |
+| `widget.icon.color:hover` | string\|null | Icon color on hover |
+| `widget.icon.background` | string\|null | Icon background color |
+| `widget.icon.background:hover` | string\|null | Icon background on hover |
+| `widget.icon.padding` | number | Icon padding in px (default: `0`) |
+| `widget.icon.border_radius` | number | Icon border radius in px (default: `0`) |
+| `widget.icon.gap` | number | Gap between icon and content in px (default: `12`) |
+| `widget.label` | object | Label element group |
+| `widget.label.position` | string | Label position: `"hidden"`, `"above"`, `"inline"` (default: `"hidden"`) |
+| `widget.label.text` | object | Multilingual label text `{ "en": "...", "pl": "..." }` |
+| `widget.label.background` | string\|null | Label background color |
+| `widget.label.background:hover` | string\|null | Label background on hover |
+| `widget.label.color` | string\|null | Label text color |
+| `widget.label.color:hover` | string\|null | Label text color on hover |
+| `widget.label.padding` | number | Label padding in px (default: `0`) |
+| `widget.label.font_size` | string\|null | Label font size (e.g. `"14px"`) |
+| `widget.label.font_weight` | string\|null | Label font weight (e.g. `"600"`) |
+| `widget.text` | object | Text/value styling element group |
+| `widget.text.color` | string\|null | Value text color |
+| `widget.text.color:hover` | string\|null | Value text color on hover |
+| `widget.text.background` | string\|null | Value background color |
+| `widget.text.background:hover` | string\|null | Value background on hover |
+| `widget.text.padding` | number | Value padding in px (default: `0`) |
+| `widget.text.font_size` | string\|null | Value font size |
+| `widget.text.font_weight` | string\|null | Value font weight |
+| `widget.config` | object | Configuration element group |
+| `widget.config.collection_code` | string | Collection code |
+| `widget.config.field_code` | string | Field code to display |
+| `widget.config.entry_source` | string | Entry source: `"static"` or `"url"` (default: `"static"`) |
+| `widget.config.entry_id` | string | Specific entry ID (when `entry_source` is `"static"`) |
+| `widget.config.entry_url_segment` | number | URL segment index for `"url"` entry source (default: `1`) |
+| `widget.config.display_as` | string | HTML tag: `"p"`, `"h1"`-`"h6"`, `"span"`, `"image"`, `"gallery"` (default: `"p"`) |
+| `widget.config.value_source` | string | Value source: `"static"` or `"dynamic"` (default: `"dynamic"`) |
+| `widget.config.field_type` | string\|null | Field type (e.g. `"text"`, `"date"`, `"image"`) |
+| `widget.config.link_to_entry` | boolean | Wrap value as link to entry page (default: `false`) |
+| `widget.config.date_format` | string | Date format: `"full"`, `"short"`, `"relative"`, `"custom"` (default: `"full"`) |
+| `widget.config.custom_date_format` | string\|null | Custom date format string (e.g. `"DD.MM.YYYY HH:mm"`) |
+| `widget.config.show_time` | boolean | Show time for datetime fields (default: `true`) |
+| `widget.config.preview_entry_id` | string | Preview entry ID for editor |
+| `widget.config.button_style` | string | Button style: `"primary"`, `"secondary"`, `"outline"` (default: `"primary"`) |
+| `widget.config.button_size` | string | Button size: `"sm"`, `"md"`, `"lg"` (default: `"md"`) |
+| `widget.config.image_width` | string\|null | Image width (e.g. `"200px"`, `"100%"`) |
+| `widget.config.image_height` | string\|null | Image height (e.g. `"150px"`) |
+| `widget.config.image_object_fit` | string | Image object-fit: `"contain"`, `"cover"`, `"fill"` (default: `"contain"`) |
+| `widget.config.image_border_radius` | number | Image border radius in px (default: `0`) |
+| `settings` | object | [Shared widget settings](shared-settings.md) |
 
 ### Server-Side Enrichment Fields
 
-When `entry_source` is `"static"` and the API can resolve the entry server-side, the following field is conditionally included. When absent (e.g., `entry_source` is `"url"`), fetch and extract the value client-side.
+When `config.entry_source` is `"static"` and the API can resolve the entry, these fields are added to `config`:
 
 | Property | Type | Description |
 |----------|------|-------------|
-| `widget.value` | any | Pre-extracted field value from the entry (multilingual object or scalar) |
+| `config.value` | any | Pre-extracted field value from the entry (multilingual object or scalar) |
+| `config.entry_url` | string\|null | Resolved entry URL based on collection route configuration |
 
-### Dynamic Mode Additional Fields
-
-When `value_source` is `"dynamic"`:
-
-| Property | Type | Description |
-|----------|------|-------------|
-| `widget.collection_code` | string\|null | Collection code |
-| `widget.field_code` | string\|null | Field code to display |
-| `widget.field_type` | string | Field type (default: `"text"`) |
-| `widget.entry_source` | string | Entry source: `"static"` or `"url"` (default: `"static"`) |
-| `widget.entry_id` | string\|null | Specific entry ID (when `entry_source` is `"static"`) |
-| `widget.entry_url_segment` | number | URL segment index (when `entry_source` is `"url"`, default: 1) |
-| `widget.entry_url` | string\|null | Resolved entry URL based on collection route configuration (routes > entry_url_pattern > fallback). Included when `entry_source` is `"static"` and the entry is found server-side. |
-
-### Static Mode Additional Fields
-
-When `value_source` is `"static"`:
-
-| Property | Type | Description |
-|----------|------|-------------|
-| `widget.static_value` | object | Multilingual static value `{ "en": "...", "pl": "..." }` |
-
-## Example Response (Dynamic Mode)
+## Example Response
 
 ```json
 {
   "widget_type": "data-field",
-  "uuid": "field-123",
+  "uuid": "df-001",
   "widget": {
-    "value_source": "dynamic",
-    "display_as": "h2",
-    "collection_code": "team",
-    "field_code": "name",
-    "field_type": "text",
-    "entry_source": "url",
-    "entry_id": null,
-    "entry_url_segment": 2,
-    "label": { "en": "Name", "pl": "Imie" },
-    "label_position": "above",
-    "label_background": null,
-    "label_color": "#666666",
-    "label_padding": 0,
-    "label_font_size": "12px",
-    "label_font_weight": "600",
-    "value_background": null,
-    "value_color": "#333333",
-    "value_padding": 0,
-    "date_format": "full",
-    "show_time": true,
-    "custom_date_format": null,
-    "link_to_entry": false,
-    "entry_url": null,
-    "link_text": {},
-    "button_style": "primary",
-    "button_size": "md",
-    "show_icon": false,
-    "icon": null,
-    "icon_position": "left",
-    "icon_size": "24",
-    "icon_color": "#50a5f1",
-    "icon_background": "transparent",
-    "icon_padding": "0",
-    "icon_border_radius": "0",
-    "icon_gap": "12"
-  },
-  "settings": {}
-}
-```
-
-## Example Response (Static Mode)
-
-```json
-{
-  "widget_type": "data-field",
-  "uuid": "field-456",
-  "widget": {
-    "value_source": "static",
-    "display_as": "p",
-    "label": { "en": "Note", "pl": "Uwaga" },
-    "label_position": "inline",
-    "label_background": null,
-    "label_color": null,
-    "label_padding": 0,
-    "label_font_size": null,
-    "label_font_weight": null,
-    "value_background": null,
-    "value_color": null,
-    "value_padding": 0,
-    "date_format": "full",
-    "show_time": true,
-    "custom_date_format": null,
-    "link_text": {},
-    "button_style": "primary",
-    "button_size": "md",
-    "show_icon": true,
-    "icon": "bx bx-info-circle",
-    "icon_position": "left",
-    "icon_size": "20",
-    "icon_color": "#50a5f1",
-    "icon_background": "transparent",
-    "icon_padding": "0",
-    "icon_border_radius": "0",
-    "icon_gap": "8",
-    "static_value": {
-      "en": "This is a static value",
-      "pl": "To jest statyczna wartość"
+    "icon": {
+      "show": false,
+      "icon": "fa-solid fa-star",
+      "position": "left",
+      "size": 24,
+      "color": "#50a5f1",
+      "color:hover": null,
+      "background": "transparent",
+      "background:hover": null,
+      "padding": 0,
+      "border_radius": 0,
+      "gap": 12
+    },
+    "label": {
+      "position": "above",
+      "text": { "en": "Full Name", "pl": "Imie i nazwisko" },
+      "background": "#f8d775",
+      "background:hover": null,
+      "color": "#000000",
+      "color:hover": null,
+      "padding": 8,
+      "font_size": "14px",
+      "font_weight": "600"
+    },
+    "text": {
+      "color": null,
+      "color:hover": null,
+      "background": null,
+      "background:hover": null,
+      "padding": 0,
+      "font_size": null,
+      "font_weight": null
+    },
+    "config": {
+      "collection_code": "team",
+      "field_code": "name",
+      "entry_source": "url",
+      "entry_id": "",
+      "entry_url_segment": 2,
+      "display_as": "h2",
+      "value_source": "dynamic",
+      "field_type": "text",
+      "link_to_entry": false,
+      "date_format": "full",
+      "custom_date_format": null,
+      "show_time": true,
+      "preview_entry_id": "",
+      "button_style": "primary",
+      "button_size": "md",
+      "image_width": null,
+      "image_height": null,
+      "image_object_fit": "contain",
+      "image_border_radius": 0
     }
   },
-  "settings": {}
+  "settings": {
+    "padding_top": 0,
+    "padding_right": 0,
+    "padding_bottom": 0,
+    "padding_left": 0,
+    "border_radius": 0,
+    "responsive": {
+      "tablet": {},
+      "mobile": {}
+    }
+  }
 }
 ```
 
@@ -169,7 +155,7 @@ When `value_source` is `"static"`:
 
 | Value | Description |
 |-------|-------------|
-| `static` | Use static multilingual value from `widget.static_value` |
+| `static` | Use static multilingual value from widget |
 | `dynamic` | Fetch value from collection entry |
 
 ## Entry Source (Dynamic Mode)
@@ -209,61 +195,62 @@ When `value_source` is `"static"`:
 ## Usage Example
 
 ```javascript
-async function renderDataField(widget, language, urlSegments, api) {
-  const { value_source, display_as, show_icon, icon, icon_position } = widget.widget;
+function renderDataField(widget, language) {
+  const { icon, label, text, config } = widget.widget;
 
-  let content = '';
-
-  if (value_source === 'static') {
-    // Static mode - get value directly
-    const staticValue = widget.widget.static_value || {};
-    content = staticValue[language] || staticValue.en || '';
-  } else {
-    // Dynamic mode - value may be pre-fetched by the API (server-side enrichment).
-    // If widget.value exists, use it directly. Otherwise, fetch client-side.
-    if (widget.widget.value !== undefined && widget.widget.value !== null) {
-      const fieldValue = widget.widget.value;
-      if (typeof fieldValue === 'object' && !Array.isArray(fieldValue)) {
-        content = fieldValue[language] || fieldValue.en || '';
-      } else {
-        content = fieldValue || '';
-      }
-    } else {
-      // Fallback: fetch from collection API
-      const { collection_code, field_code, entry_source, entry_id, entry_url_segment } = widget.widget;
-
-      let targetEntryId = entry_id;
-      if (entry_source === 'url' && entry_url_segment) {
-        targetEntryId = urlSegments[entry_url_segment - 1];
-      }
-
-      if (targetEntryId && collection_code && field_code) {
-        const entry = await api.getEntry(collection_code, targetEntryId);
-        if (entry) {
-          const fieldValue = entry.data[field_code];
-          if (typeof fieldValue === 'object' && !Array.isArray(fieldValue)) {
-            content = fieldValue[language] || fieldValue.en || '';
-          } else {
-            content = fieldValue || '';
-          }
-        }
-      }
+  // Build label HTML
+  let labelHtml = '';
+  if (label.position !== 'hidden' && label.text) {
+    const labelText = label.text[language] || label.text.en || '';
+    if (labelText) {
+      labelHtml = `<span class="data-field__label" style="
+        color: ${label.color || 'inherit'};
+        background: ${label.background || 'transparent'};
+        padding: ${label.padding}px;
+        font-size: ${label.font_size || 'inherit'};
+        font-weight: ${label.font_weight || 'inherit'};
+      ">${labelText}</span>`;
     }
   }
 
   // Build icon HTML
-  const iconHtml = show_icon && icon
-    ? `<i class="${icon}" style="font-size: ${widget.widget.icon_size}px; color: ${widget.widget.icon_color}"></i>`
-    : '';
+  let iconHtml = '';
+  if (icon.show && icon.icon) {
+    iconHtml = `<i class="${icon.icon}" style="
+      font-size: ${icon.size}px;
+      color: ${icon.color || 'inherit'};
+      background: ${icon.background || 'transparent'};
+      padding: ${icon.padding}px;
+      border-radius: ${icon.border_radius}px;
+    "></i>`;
+  }
 
-  // Render based on display_as
-  const tag = display_as || 'p';
+  // Get value (from enriched data or fetch client-side)
+  let content = '';
+  if (config.value !== undefined) {
+    const val = config.value;
+    content = typeof val === 'object' && !Array.isArray(val)
+      ? (val[language] || val.en || '')
+      : String(val || '');
+  }
+
+  const tag = config.display_as || 'p';
 
   return `
-    <div class="data-field">
-      ${icon_position === 'left' ? iconHtml : ''}
-      <${tag} class="data-field-value">${content}</${tag}>
-      ${icon_position === 'right' ? iconHtml : ''}
+    <div class="data-field" style="
+      color: ${text.color || 'inherit'};
+      background: ${text.background || 'transparent'};
+      padding: ${text.padding}px;
+      font-size: ${text.font_size || 'inherit'};
+      font-weight: ${text.font_weight || 'inherit'};
+    ">
+      ${label.position === 'above' ? labelHtml : ''}
+      <div style="display: flex; align-items: center; gap: ${icon.gap}px;">
+        ${icon.position === 'left' ? iconHtml : ''}
+        ${label.position === 'inline' ? labelHtml : ''}
+        <${tag}>${content}</${tag}>
+        ${icon.position === 'right' ? iconHtml : ''}
+      </div>
     </div>
   `;
 }
@@ -276,3 +263,4 @@ async function renderDataField(widget, language, urlSegments, api) {
 - **URL-based entries**: Display data based on URL segments
 - **Formatted dates**: Show dates with custom formatting
 - **Labeled values**: Key-value style displays with labels
+- **Image fields**: Display images with custom sizing and fit

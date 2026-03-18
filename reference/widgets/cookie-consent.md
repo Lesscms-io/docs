@@ -22,7 +22,7 @@ cookie-consent
 | `widget.policy_url` | string\|null | URL to privacy policy page |
 | `widget.policy_link_text` | object | Multilingual privacy policy link text |
 | `widget.position` | string | Banner position: `"bottom"`, `"top"`, `"bottom-left"`, `"bottom-right"` |
-| `widget.style` | string | Banner style: `"bar"`, `"box"`, `"minimal"` |
+| `widget.cookie_style` | string | Banner style: `"bar"`, `"box"`, `"minimal"` |
 | `widget.days_to_expire` | number | Days until consent expires (default: 365) |
 | `widget.background_color` | string\|null | Custom background color |
 | `widget.text_color` | string\|null | Custom text color |
@@ -56,7 +56,7 @@ cookie-consent
       "pl": "Polityka prywatności"
     },
     "position": "bottom",
-    "style": "bar",
+    "cookie_style": "bar",
     "days_to_expire": 365,
     "background_color": "#1a1a2e",
     "text_color": "#e0e0e0",

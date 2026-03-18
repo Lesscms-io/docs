@@ -1,6 +1,6 @@
 # Gallery Widget
 
-A multi-image gallery widget supporting grid and carousel display modes, with static or dynamic (collection-based) image sources and optional lightbox.
+An image gallery widget with grid layout and optional lightbox.
 
 ## Widget Type
 
@@ -15,53 +15,26 @@ gallery
 | `widget_type` | string | Always `"gallery"` |
 | `uuid` | string | Unique widget identifier |
 | `widget` | object | Widget data |
-| `widget.content_source` | string | Image source: `"static"` or `"dynamic"` (default: `"static"`) |
-| `widget.type` | string | Display type: `"grid"`, `"carousel"`, or `"mosaic"` (default: `"grid"`) |
-| `widget.columns` | number | Number of grid columns (default: 3) |
-| `widget.gap` | number | Gap between images in pixels (default: 8) |
-| `widget.aspect` | string | Image aspect ratio: `"square"`, `"landscape"`, `"portrait"`, etc. (default: `"square"`) |
-| `widget.mosaic_variant` | string | Mosaic layout variant: `"featured"`, `"alternating"`, `"masonry"`, `"collage"` (default: `"featured"`) |
-| `widget.show_arrows` | boolean | Show navigation arrows for carousel (default: true) |
-| `widget.show_dots` | boolean | Show dot indicators for carousel (default: true) |
-| `widget.carousel_style` | string | Carousel style preset (default: `"default"`) |
-| `widget.autoplay` | boolean | Enable carousel autoplay (default: true) |
-| `widget.interval` | integer | Carousel autoplay interval in milliseconds (default: 3000) |
-| `widget.loop` | boolean | Enable carousel loop (default: true) |
+| `widget.images` | array | Array of image objects (each with `url` and `alt` properties) |
+| `widget.columns` | number\|string | Number of grid columns (default: 3) |
 | `widget.enable_lightbox` | boolean | Enable lightbox on click (default: false) |
-| `widget.images` | array | Array of image objects (static mode only) |
-| `widget.images[].url` | string | Image URL |
-| `widget.images[].alt` | string | Image alt text |
-| `widget.collection_code` | string\|null | Collection code for dynamic images (dynamic mode only) |
-| `widget.field_code` | string\|null | Field code containing images (dynamic mode only) |
-| `widget.entry_id` | string\|null | Specific entry ID to pull images from (dynamic mode only) |
 | `settings` | object | Style settings (optional) |
 
-## Example Response (Static Images)
+## Example Response
 
 ```json
 {
   "widget_type": "gallery",
   "uuid": "gallery-123",
   "widget": {
-    "content_source": "static",
-    "type": "grid",
-    "columns": 4,
-    "gap": 8,
-    "aspect": "square",
-    "show_arrows": true,
-    "show_dots": true,
-    "carousel_style": "default",
-    "mosaic_variant": null,
-    "autoplay": false,
-    "interval": 3000,
-    "loop": true,
-    "enable_lightbox": true,
     "images": [
       { "url": "https://cdn.example.com/img1.jpg", "alt": "Image 1" },
       { "url": "https://cdn.example.com/img2.jpg", "alt": "Image 2" },
       { "url": "https://cdn.example.com/img3.jpg", "alt": "Image 3" },
       { "url": "https://cdn.example.com/img4.jpg", "alt": "Image 4" }
-    ]
+    ],
+    "columns": 4,
+    "enable_lightbox": true
   },
   "settings": {
     "responsive": {
@@ -72,86 +45,30 @@ gallery
 }
 ```
 
-## Example Response (Dynamic Images from Collection)
-
-```json
-{
-  "widget_type": "gallery",
-  "uuid": "gallery-456",
-  "widget": {
-    "content_source": "dynamic",
-    "type": "carousel",
-    "columns": 3,
-    "gap": 8,
-    "aspect": "landscape",
-    "show_arrows": true,
-    "show_dots": true,
-    "carousel_style": "default",
-    "mosaic_variant": null,
-    "autoplay": false,
-    "interval": 3000,
-    "loop": true,
-    "enable_lightbox": false,
-    "collection_code": "portfolio",
-    "field_code": "gallery_images",
-    "entry_id": null
-  }
-}
-```
-
-## Display Types
-
-| Value | Description |
-|-------|-------------|
-| `"grid"` | Grid layout with configurable columns |
-| `"carousel"` | Carousel/slider with arrows and dots |
-
-## Aspect Ratios
-
-| Value | Description |
-|-------|-------------|
-| `"square"` | 1:1 aspect ratio |
-| `"landscape"` | Landscape aspect ratio |
-| `"portrait"` | Portrait aspect ratio |
-
 ## Usage Example
 
 ```javascript
 function renderGallery(widget) {
-  const { content_source, type, images, columns, gap, aspect, enable_lightbox, show_arrows, show_dots } = widget.widget;
-
-  // Dynamic mode: images must be fetched from collection API separately
-  if (content_source === 'dynamic') {
-    const { collection_code, field_code, entry_id } = widget.widget;
-    return `<div class="gallery-dynamic" data-collection="${collection_code}" data-field="${field_code}" data-entry="${entry_id || ''}"></div>`;
-  }
+  const { images, columns, enable_lightbox } = widget.widget;
 
   if (!images || images.length === 0) return '';
 
-  const imageItems = images.map(img => `
-    <div class="gallery-item" style="aspect-ratio: ${aspect === 'square' ? '1/1' : aspect === 'landscape' ? '16/9' : '9/16'};">
+  const imageItems = images.map((img, index) => `
+    <div class="gallery-item" style="aspect-ratio: 1/1;">
       <img
         src="${img.url}"
         alt="${img.alt || ''}"
         loading="lazy"
-        ${enable_lightbox ? `style="cursor: pointer;" onclick="openLightbox('${img.url}')"` : ''}
+        ${enable_lightbox ? `style="cursor: pointer;" onclick="openLightbox(${index})"` : ''}
       >
     </div>
   `).join('');
 
-  if (type === 'carousel') {
-    return `
-      <div class="gallery-carousel" data-arrows="${show_arrows}" data-dots="${show_dots}">
-        ${imageItems}
-      </div>
-    `;
-  }
-
   return `
     <div class="gallery-grid" style="
       display: grid;
-      grid-template-columns: repeat(${columns}, 1fr);
-      gap: ${gap}px;
+      grid-template-columns: repeat(${columns || 3}, 1fr);
+      gap: 8px;
     ">
       ${imageItems}
     </div>

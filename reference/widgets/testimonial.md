@@ -1,6 +1,6 @@
 # Testimonial Widget
 
-A customer testimonial or review card with quote, author info, and optional rating.
+A customer testimonial or review card with quote, author info, avatar and optional rating. Uses element-group governance — each visual element is a nested object.
 
 ## Widget Type
 
@@ -14,31 +14,28 @@ testimonial
 |----------|------|-------------|
 | `widget_type` | string | Always `"testimonial"` |
 | `uuid` | string | Unique widget identifier |
-| `widget` | object | Widget data |
-| `widget.rating` | number | Star rating (1-5, optional) |
-| `widget.image` | object | Author avatar image (optional) |
-| `widget.content_source` | string | Content source mode: `"static"`, `"dynamic"` (default: `"static"`) |
-| `widget.collection_code` | string\|null | Collection code for dynamic mode (default: `null`) |
-| `widget.field_code` | string\|null | Field code for dynamic content (default: `null`) |
-| `widget.entry_id` | string\|null | Entry UUID for dynamic mode (default: `null`) |
-| `widget.entry_source` | string\|null | Entry source mode: `"static"`, `"url"` (default: `null`) |
-| `widget.entry_url_segment` | integer\|null | URL segment index for URL-based entry in dynamic mode (default: `null`) |
-| `widget.quote_field` | string\|null | Field code for quote text in dynamic mode (default: `null`) |
-| `widget.author_field` | string\|null | Field code for author name in dynamic mode (default: `null`) |
-| `widget.position_field` | string\|null | Field code for author position in dynamic mode (default: `null`) |
-| `widget.image_field` | string\|null | Field code for avatar image in dynamic mode (default: `null`) |
-| `widget.rating_field` | string\|null | Field code for rating value in dynamic mode (default: `null`) |
-| `widget.quote` | string | Testimonial text (localized) |
-| `widget.author` | string | Author name (localized) |
-| `widget.position` | string | Author position/title (localized) |
-| `settings` | object | Style settings (optional) |
-
-### Image Object Structure
-
-| Property | Type | Description |
-|----------|------|-------------|
-| `url` | string | Avatar image URL |
-| `alt` | object | Alt text (multilingual) |
+| `widget` | object | Widget data (element groups) |
+| `widget.quote` | object | Quote element group |
+| `widget.quote.text` | object | Multilingual quote text |
+| `widget.quote.color` | string\|null | Quote text color |
+| `widget.quote.color:hover` | string\|null | Quote text color on hover |
+| `widget.author` | object | Author element group |
+| `widget.author.text` | object | Multilingual author name |
+| `widget.author.color` | string\|null | Author text color |
+| `widget.author.color:hover` | string\|null | Author text color on hover |
+| `widget.position` | object | Position element group |
+| `widget.position.text` | object | Multilingual position/title text |
+| `widget.position.color` | string\|null | Position text color |
+| `widget.position.color:hover` | string\|null | Position text color on hover |
+| `widget.avatar` | object | Avatar element group |
+| `widget.avatar.image` | string\|null | Avatar image URL |
+| `widget.rating` | object | Rating element group |
+| `widget.rating.value` | number | Star rating value 1-5 (default: 5) |
+| `widget.rating.color` | string\|null | Star rating color |
+| `widget.rating.color:hover` | string\|null | Star rating color on hover |
+| `widget.config` | object | Configuration element group |
+| `widget.config.alignment` | string | Text alignment: `"left"`, `"center"`, `"right"` (default: `"center"`) |
+| `settings` | object | Layout settings (margin, width, height) |
 
 ## Example Response
 
@@ -47,187 +44,74 @@ testimonial
   "widget_type": "testimonial",
   "uuid": "testimonial-123",
   "widget": {
-    "content_source": "static",
-    "rating": 5,
-    "image": {
-      "url": "https://cdn.example.com/avatars/john.jpg",
-      "alt": { "en": "John Smith" }
+    "quote": {
+      "text": { "pl": "Fantastyczna wspolpraca!", "en": "Working with this team has been an absolute pleasure." },
+      "color": "var:dark",
+      "color:hover": null
     },
-    "quote": "Working with this team has been an absolute pleasure. They delivered our project on time and exceeded all our expectations.",
-    "author": "John Smith",
-    "position": "CEO, Tech Company"
-  },
-  "settings": {
-    "paddingTop": 32,
-    "paddingBottom": 32,
-    "backgroundColor": "#F8F9FA",
-    "borderRadius": 12
-  }
-}
-```
-
-## Example Response (Dynamic Mode)
-
-```json
-{
-  "widget_type": "testimonial",
-  "uuid": "test-789",
-  "widget": {
-    "content_source": "dynamic",
-    "collection_code": "testimonials",
-    "field_code": null,
-    "entry_id": null,
-    "entry_source": "url_segment",
-    "entry_url_segment": "slug",
-    "quote_field": "quote",
-    "author_field": "author",
-    "position_field": "position",
-    "image_field": "avatar",
-    "rating_field": "rating",
-    "rating": null,
-    "image": null
+    "author": {
+      "text": { "pl": "Jan Kowalski", "en": "John Smith" },
+      "color": "var:dark",
+      "color:hover": null
+    },
+    "position": {
+      "text": { "pl": "Dyrektor, Firma Tech", "en": "CEO, Tech Company" },
+      "color": "var:muted",
+      "color:hover": null
+    },
+    "avatar": {
+      "image": "https://cdn.example.com/avatars/john.jpg"
+    },
+    "rating": {
+      "value": 5,
+      "color": null,
+      "color:hover": null
+    },
+    "config": {
+      "alignment": "center"
+    }
   },
   "settings": {}
 }
 ```
 
-## Example Response (Without Image)
+## Wrapper Support
 
-```json
-{
-  "widget_type": "testimonial",
-  "uuid": "testimonial-456",
-  "widget": {
-    "rating": 4,
-    "image": null,
-    "quote": "Excellent service and great results. Would highly recommend!",
-    "author": "Jane Doe",
-    "position": "Marketing Director"
-  },
-  "settings": {}
-}
-```
+Testimonial widgets support wrapping — multiple testimonials can be grouped in a grid via the wrapper mechanism. The wrapper is a separate node in the page structure, not part of the widget itself.
 
 ## Usage Example
 
 ```javascript
-// Render testimonial widget
 function renderTestimonial(widget, language) {
-  const { rating, image, quote, author, position } = widget.widget;
-  const settings = widget.settings || {};
+  const { quote, author, position, avatar, rating, config } = widget.widget;
 
-  const imageUrl = image?.url || '';
-  const imageAlt = image?.alt?.[language] || image?.alt?.en || author;
+  const quoteText = quote.text?.[language] || quote.text?.pl || '';
+  const authorText = author.text?.[language] || author.text?.pl || '';
+  const positionText = position.text?.[language] || position.text?.pl || '';
+  const alignment = config.alignment || 'center';
 
   // Generate stars
   let starsHtml = '';
-  if (rating) {
+  if (rating.value > 0) {
+    const starColor = resolveColor(rating.color);
     for (let i = 1; i <= 5; i++) {
-      if (i <= rating) {
-        starsHtml += '<i class="fa-solid fa-star"></i>';
-      } else {
-        starsHtml += '<i class="fa-regular fa-star"></i>';
-      }
+      const cls = i <= rating.value ? 'fa-solid fa-star' : 'fa-regular fa-star';
+      starsHtml += `<i class="${cls}" style="color: ${starColor || '#ffc107'}"></i>`;
     }
   }
 
   return `
-    <div class="testimonial-widget">
+    <div class="testimonial-widget" style="text-align: ${alignment}">
       ${starsHtml ? `<div class="testimonial-rating">${starsHtml}</div>` : ''}
-      <blockquote class="testimonial-quote">
-        "${quote}"
+      <blockquote class="testimonial-quote" style="color: ${resolveColor(quote.color) || 'inherit'}">
+        "${quoteText}"
       </blockquote>
       <div class="testimonial-author">
-        ${imageUrl ? `
-          <img src="${imageUrl}" alt="${imageAlt}" class="testimonial-avatar">
-        ` : ''}
+        ${avatar.image ? `<img src="${avatar.image}" alt="${authorText}" class="testimonial-avatar">` : ''}
         <div class="testimonial-author-info">
-          <strong class="testimonial-name">${author}</strong>
-          ${position ? `<span class="testimonial-position">${position}</span>` : ''}
+          <strong style="color: ${resolveColor(author.color) || 'inherit'}">${authorText}</strong>
+          ${positionText ? `<span style="color: ${resolveColor(position.color) || 'inherit'}">${positionText}</span>` : ''}
         </div>
-      </div>
-    </div>
-  `;
-}
-```
-
-## CSS Example
-
-```css
-.testimonial-widget {
-  text-align: center;
-  padding: 32px;
-  background: #F8F9FA;
-  border-radius: 12px;
-}
-
-.testimonial-rating {
-  margin-bottom: 16px;
-  color: #FFD700;
-  font-size: 18px;
-}
-
-.testimonial-rating i {
-  margin: 0 2px;
-}
-
-.testimonial-quote {
-  font-size: 18px;
-  font-style: italic;
-  color: #333;
-  line-height: 1.6;
-  margin: 0 0 24px;
-  padding: 0;
-  border: none;
-}
-
-.testimonial-author {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-}
-
-.testimonial-avatar {
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-.testimonial-author-info {
-  text-align: left;
-}
-
-.testimonial-name {
-  display: block;
-  font-size: 16px;
-  color: #333;
-}
-
-.testimonial-position {
-  display: block;
-  font-size: 14px;
-  color: #666;
-}
-```
-
-## Testimonial Carousel
-
-For multiple testimonials, consider using a carousel:
-
-```javascript
-function renderTestimonialCarousel(testimonials, language) {
-  const slides = testimonials
-    .map(widget => renderTestimonial(widget, language))
-    .join('');
-
-  return `
-    <div class="testimonial-carousel">
-      <div class="carousel-track">${slides}</div>
-      <div class="carousel-controls">
-        <button class="prev">←</button>
-        <button class="next">→</button>
       </div>
     </div>
   `;

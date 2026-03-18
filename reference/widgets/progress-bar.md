@@ -15,15 +15,13 @@ progress-bar
 | `widget_type` | string | Always `"progress-bar"` |
 | `uuid` | string | Unique widget identifier |
 | `widget` | object | Widget data |
-| `widget.percentage` | number | Progress percentage (0-100, default: 0) |
-| `widget.color` | string | Bar color (hex code) |
-| `widget.show_percentage` | boolean | Display percentage text (default: true) |
-| `widget.title` | string | Progress bar label (localized) |
-| `widget.hover_color` | string\|null | Bar color on hover |
-| `widget.hover_lift` | number | Hover lift in pixels — translateY offset (default: `0`) |
-| `widget.hover_scale` | number | Hover scale factor (default: `1`) |
-| `widget.hover_shadow` | string | Hover shadow preset: `"none"`, `"sm"`, `"md"`, `"lg"` (default: `"none"`) |
-| `widget.transition_duration` | number | Hover transition duration in ms (default: 200) |
+| `widget.bar` | object | Bar element group |
+| `widget.bar.color` | string\|null | Bar color (`var:` variable or hex, default: `"var:primary"`) |
+| `widget.bar.color:hover` | string\|null | Bar color on hover |
+| `widget.bar.percentage` | number | Progress percentage 0-100 (default: 0) |
+| `widget.bar.show_percentage` | boolean | Display percentage text (default: true) |
+| `widget.title` | object | Title element group |
+| `widget.title.text` | string\|object | Progress bar label (localized) |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response
@@ -33,15 +31,15 @@ progress-bar
   "widget_type": "progress-bar",
   "uuid": "progress-123",
   "widget": {
-    "percentage": 75,
-    "color": "#28a745",
-    "show_percentage": true,
-    "title": "Project Progress",
-    "hover_color": null,
-    "hover_lift": 0,
-    "hover_scale": 1,
-    "hover_shadow": "none",
-    "transition_duration": 200
+    "bar": {
+      "color": "var:primary",
+      "color:hover": null,
+      "percentage": 75,
+      "show_percentage": true
+    },
+    "title": {
+      "text": {"en": "Project Progress", "pl": "Postep projektu"}
+    }
   },
   "settings": {
     "marginTop": 16,
@@ -50,58 +48,31 @@ progress-bar
 }
 ```
 
-## Multi-Item Support
-
-The progress-bar widget supports displaying multiple progress bars in a grid. When multiple items are configured, the API returns a multi-item structure:
-
-```json
-{
-  "widget_type": "progress-bar",
-  "uuid": "progress-multi",
-  "multi_item": true,
-  "multi_columns": 1,
-  "multi_gap": 16,
-  "items": [
-    {
-      "widget_type": "progress-bar",
-      "widget": { "percentage": 95, "color": "#E34F26", "show_percentage": true, "title": "HTML/CSS" }
-    },
-    {
-      "widget_type": "progress-bar",
-      "widget": { "percentage": 85, "color": "#F7DF1E", "show_percentage": true, "title": "JavaScript" }
-    },
-    {
-      "widget_type": "progress-bar",
-      "widget": { "percentage": 80, "color": "#4FC08D", "show_percentage": true, "title": "Vue.js" }
-    }
-  ],
-  "settings": {}
-}
-```
-
-Per-item fields (`title`, `percentage`) are unique to each item. Shared fields (`color`, `show_percentage`) are the same across all items.
-
 ## Usage Example
 
 ```javascript
 // Render progress bar widget
 function renderProgressBar(widget, language) {
-  const { percentage, color, show_percentage, title } = widget.widget;
+  const { bar, title } = widget.widget;
+  const percentage = bar.percentage || 0;
+  const color = bar.color || 'var:primary';
+  const showPercentage = bar.show_percentage !== false;
+  const titleText = typeof title.text === 'object' ? title.text[language] : title.text;
 
   const progressId = `progress-${widget.uuid}`;
 
   return `
     <div id="${progressId}" class="progress-widget" data-percentage="${percentage}">
-      ${title || show_percentage ? `
+      ${titleText || showPercentage ? `
         <div class="progress-header">
-          ${title ? `<span class="progress-title">${title}</span>` : ''}
-          ${show_percentage ? `<span class="progress-percentage">0%</span>` : ''}
+          ${titleText ? `<span class="progress-title">${titleText}</span>` : ''}
+          ${showPercentage ? `<span class="progress-percentage">0%</span>` : ''}
         </div>
       ` : ''}
       <div class="progress-track">
         <div class="progress-bar" style="
           width: 0%;
-          background-color: ${color || '#007BFF'};
+          background-color: ${color};
         "></div>
       </div>
     </div>

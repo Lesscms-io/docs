@@ -15,19 +15,15 @@ pill
 | `widget_type` | string | Always `"pill"` |
 | `uuid` | string | Unique widget identifier |
 | `widget` | object | Widget data |
-| `widget.variant` | string | `"filled"` or `"outline"` |
-| `widget.size` | string | `"sm"`, `"md"`, or `"lg"` |
-| `widget.background_color` | string | Background color |
-| `widget.text_color` | string | Text color |
-| `widget.uppercase` | boolean | Whether text is uppercase (default: true) |
-| `widget.text` | object | Multilingual pill text |
-| `widget.hover_background_color` | string\|null | Background color on hover |
-| `widget.hover_text_color` | string\|null | Text color on hover |
-| `widget.hover_lift` | number | Hover lift in pixels — translateY offset (default: `0`) |
-| `widget.hover_scale` | number | Hover scale factor (default: `1`) |
-| `widget.hover_shadow` | string | Hover shadow preset: `"none"`, `"sm"`, `"md"`, `"lg"` (default: `"none"`) |
-| `widget.transition_duration` | number | Hover transition duration in ms (default: 200) |
-| `settings` | object | Style settings (optional) |
+| `widget.text` | object | Text element-group |
+| `widget.text.text` | object | Multilingual pill text |
+| `widget.text.color` | string\|null | Text color (color variable or hex, default: `"var:white"`) |
+| `widget.text.color:hover` | string\|null | Text color on hover |
+| `widget.config` | object | Config element-group |
+| `widget.config.variant` | string | `"filled"` or `"outline"` (default: `"filled"`) |
+| `widget.config.size` | string | `"sm"`, `"md"`, or `"lg"` (default: `"md"`) |
+| `widget.config.uppercase` | boolean | Whether text is uppercase (default: `true`) |
+| `settings` | object | [Shared style settings](shared-settings.md) |
 
 ## Example Response
 
@@ -36,68 +32,67 @@ pill
   "widget_type": "pill",
   "uuid": "pill-123",
   "widget": {
-    "variant": "filled",
-    "size": "md",
-    "background_color": "#50a5f1",
-    "text_color": "#ffffff",
-    "uppercase": true,
     "text": {
-      "en": "New",
-      "pl": "Nowość"
+      "text": {
+        "en": "New",
+        "pl": "Nowo\u015b\u0107"
+      },
+      "color": "var:white",
+      "color:hover": null
     },
-    "hover_background_color": null,
-    "hover_text_color": null,
-    "hover_lift": 0,
-    "hover_scale": 1,
-    "hover_shadow": "none",
-    "transition_duration": 200
-  },
-  "settings": {}
-}
-```
-
-## Multi-Item Support
-
-The pill widget supports displaying multiple pills in a grid. When multiple items are configured, the API returns a multi-item structure:
-
-```json
-{
-  "widget_type": "pill",
-  "uuid": "pill-multi",
-  "multi_item": true,
-  "multi_columns": 3,
-  "multi_gap": 16,
-  "items": [
-    {
-      "widget_type": "pill",
-      "widget": { "variant": "filled", "size": "md", "background_color": "#50a5f1", "text_color": "#fff", "uppercase": true, "text": { "en": "Design" } }
-    },
-    {
-      "widget_type": "pill",
-      "widget": { "variant": "filled", "size": "md", "background_color": "#50a5f1", "text_color": "#fff", "uppercase": true, "text": { "en": "Development" } }
-    },
-    {
-      "widget_type": "pill",
-      "widget": { "variant": "filled", "size": "md", "background_color": "#50a5f1", "text_color": "#fff", "uppercase": true, "text": { "en": "Marketing" } }
+    "config": {
+      "variant": "filled",
+      "size": "md",
+      "uppercase": true
     }
-  ],
-  "settings": {}
+  },
+  "settings": {
+    "background_color": "var:primary",
+    "padding_top": 8,
+    "padding_bottom": 8,
+    "padding_left": 0,
+    "padding_right": 0,
+    "transition_duration": 200,
+    "responsive": {
+      "tablet": {},
+      "mobile": {}
+    }
+  }
 }
 ```
 
-Per-item fields (`text`) are unique to each item. Shared fields (`variant`, `size`, `background_color`, `text_color`, `uppercase`) are the same across all items.
+## Variant Values
+
+| Value | Description |
+|-------|-------------|
+| `filled` | Solid background with text color |
+| `outline` | Transparent background with border |
+
+## Size Values
+
+| Value | Description |
+|-------|-------------|
+| `sm` | Small pill |
+| `md` | Medium pill (default) |
+| `lg` | Large pill |
 
 ## Usage Example
 
 ```javascript
 function renderPill(widget, language) {
-  const { variant, size, background_color, text_color, uppercase } = widget.widget;
-  const text = widget.widget?.text?.[language] || widget.widget?.text?.en || '';
+  const { text, config } = widget.widget;
+  const label = text?.text?.[language] || text?.text?.en || '';
+  const variant = config?.variant || 'filled';
+  const size = config?.size || 'md';
+  const uppercase = config?.uppercase !== false;
+
+  const color = text?.color || '#fff';
+  const bgColor = widget.settings?.background_color || '#50a5f1';
 
   const style = variant === 'outline'
-    ? `border: 1px solid ${background_color}; color: ${background_color}; background: transparent;`
-    : `background: ${background_color || '#50a5f1'}; color: ${text_color || '#fff'};`;
+    ? `border: 1px solid ${bgColor}; color: ${bgColor}; background: transparent;`
+    : `background: ${bgColor}; color: ${color};`;
 
-  return `<span class="pill pill--${size}" style="${style}${uppercase ? ' text-transform: uppercase;' : ''}">${text}</span>`;
+  return `<span class="pill pill--${size}" style="${style}${uppercase ? ' text-transform: uppercase;' : ''}">${label}</span>`;
 }
 ```

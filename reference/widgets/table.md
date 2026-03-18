@@ -15,13 +15,12 @@ table
 | `widget_type` | string | Always `"table"` |
 | `uuid` | string | Unique widget identifier |
 | `widget` | object | Widget data |
-| `widget.headers` | array | Table headers |
-| `widget.headers[].text` | object | Multilingual header text |
-| `widget.rows` | array | Table rows (array of arrays) |
+| `widget.headers` | array | Table headers (each with multilingual `text` object) |
+| `widget.rows` | array | Table rows (array of arrays with multilingual cell values) |
 | `widget.header_bg` | string\|null | Header background color |
-| `widget.header_text` | string | Header text color: `"light"`, `"dark"` |
-| `widget.striped` | boolean | Alternating row colors |
-| `widget.bordered` | boolean | Show cell borders |
+| `widget.header_text` | string | Header text color: `"light"`, `"dark"` (default: `"light"`) |
+| `widget.striped` | boolean | Alternating row colors (default: false) |
+| `widget.bordered` | boolean | Show cell borders (default: false) |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response
@@ -41,17 +40,18 @@ table
         { "en": "Projects", "pl": "Projekty" },
         { "en": "1", "pl": "1" },
         { "en": "Unlimited", "pl": "Bez limitu" }
-      ],
-      [
-        { "en": "Storage", "pl": "Pamięć" },
-        { "en": "500 MB", "pl": "500 MB" },
-        { "en": "50 GB", "pl": "50 GB" }
       ]
     ],
     "header_bg": "#343a40",
     "header_text": "light",
     "striped": true,
     "bordered": false
+  },
+  "settings": {
+    "responsive": {
+      "tablet": {},
+      "mobile": {}
+    }
   }
 }
 ```
@@ -67,7 +67,7 @@ function renderTable(widget, language) {
     return `<th>${text}</th>`;
   }).join('');
 
-  const bodyRows = rows.map((row, index) => {
+  const bodyRows = rows.map(row => {
     const cells = row.map(cell => {
       const text = typeof cell === 'object' ? (cell?.[language] || cell?.en || '') : cell;
       return `<td>${text}</td>`;

@@ -1,6 +1,6 @@
 # Feature List Widget
 
-A list of features with included/excluded status indicators.
+A list of features with included/excluded status indicators. Uses nested element-group structure.
 
 ## Widget Type
 
@@ -14,16 +14,26 @@ feature-list
 |----------|------|-------------|
 | `widget_type` | string | Always `"feature-list"` |
 | `uuid` | string | Unique widget identifier |
-| `widget` | object | Widget data |
-| `widget.items` | array | List of feature items |
-| `widget.items[].text` | object | Multilingual feature text `{ "en": "...", "pl": "..." }` |
-| `widget.items[].included` | boolean | Whether feature is included (default: true) |
-| `widget.icon_included` | string | Icon class for included items |
-| `widget.icon_excluded` | string | Icon class for excluded items |
-| `widget.color_included` | string\|null | Color for included icon |
-| `widget.color_excluded` | string\|null | Color for excluded icon |
-| `widget.columns` | number | Number of columns (1-3) |
-| `settings` | object | Style settings (optional) |
+| `widget.included` | object | Included icon styling |
+| `widget.included.icon` | string | Icon class for included items (e.g. `fa-solid fa-check`) |
+| `widget.included.color` | string\|null | Color for included icon |
+| `widget.included.color:hover` | string\|null | Included icon color on hover |
+| `widget.excluded` | object | Excluded icon styling |
+| `widget.excluded.icon` | string | Icon class for excluded items (e.g. `fa-solid fa-times`) |
+| `widget.excluded.color` | string\|null | Color for excluded icon |
+| `widget.excluded.color:hover` | string\|null | Excluded icon color on hover |
+| `widget.config` | object | Layout configuration |
+| `widget.config.columns` | number | Number of columns (1-3) |
+| `settings` | object | [Shared widget settings](shared-settings.md) |
+
+### Items Array
+
+Each widget contains an `items` array with feature entries:
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `text` | object | Multilingual feature text `{ "en": "...", "pl": "..." }` |
+| `included` | boolean | Whether feature is included (default: true) |
 
 ## Example Response
 
@@ -32,6 +42,19 @@ feature-list
   "widget_type": "feature-list",
   "uuid": "feature-list-123",
   "widget": {
+    "included": {
+      "icon": "fa-solid fa-check",
+      "color": "var:success",
+      "color:hover": null
+    },
+    "excluded": {
+      "icon": "fa-solid fa-times",
+      "color": "var:danger",
+      "color:hover": null
+    },
+    "config": {
+      "columns": 1
+    },
     "items": [
       {
         "text": { "en": "Unlimited projects", "pl": "Nieograniczone projekty" },
@@ -45,12 +68,7 @@ feature-list
         "text": { "en": "Priority support", "pl": "Priorytetowe wsparcie" },
         "included": false
       }
-    ],
-    "icon_included": "fa-solid fa-check",
-    "icon_excluded": "fa-solid fa-xmark",
-    "color_included": "#28a745",
-    "color_excluded": "#dc3545",
-    "columns": 1
+    ]
   }
 }
 ```
@@ -59,12 +77,12 @@ feature-list
 
 ```javascript
 function renderFeatureList(widget, language) {
-  const { items, icon_included, icon_excluded, color_included, color_excluded, columns } = widget.widget;
+  const { items, included, excluded, config } = widget.widget;
 
   const listItems = items.map(item => {
     const text = item.text?.[language] || item.text?.en || '';
-    const icon = item.included ? icon_included : icon_excluded;
-    const color = item.included ? (color_included || '#28a745') : (color_excluded || '#dc3545');
+    const icon = item.included ? included.icon : excluded.icon;
+    const color = item.included ? (included.color || '#28a745') : (excluded.color || '#dc3545');
 
     return `
       <li style="opacity: ${item.included ? 1 : 0.6}">
@@ -75,7 +93,7 @@ function renderFeatureList(widget, language) {
   }).join('');
 
   return `
-    <ul class="feature-list" style="column-count: ${columns || 1}; list-style: none; padding: 0;">
+    <ul class="feature-list" style="column-count: ${config.columns || 1}; list-style: none; padding: 0;">
       ${listItems}
     </ul>
   `;

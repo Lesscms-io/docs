@@ -15,25 +15,22 @@ counter
 | `widget_type` | string | Always `"counter"` |
 | `uuid` | string | Unique widget identifier |
 | `widget` | object | Widget properties |
-| `widget.number` | number | Target number to count to (default: 0) |
-| `widget.duration` | number | Animation duration in milliseconds (default: 2000) |
-| `widget.alignment` | string | Text alignment: `"left"`, `"center"`, `"right"` (default: `"center"`) |
-| `widget.number_size` | string | Number font size preset (default: `"xl"`) |
-| `widget.background_color` | string\|null | Background color (hex code, `var:` variable, or null) |
-| `widget.number_color` | string\|null | Number text color (hex code or null for default) |
-| `widget.title_color` | string\|null | Title text color (hex code or null for default) |
-| `widget.prefix_color` | string\|null | Prefix/suffix text color (hex code or null for default) |
-| `widget.hover_number_color` | string\|null | Number text color on hover |
-| `widget.hover_title_color` | string\|null | Title text color on hover |
-| `widget.hover_prefix_color` | string\|null | Prefix/suffix text color on hover |
-| `widget.hover_lift` | number | Hover lift in pixels — translateY offset (default: `0`) |
-| `widget.hover_scale` | number | Hover scale factor (default: `1`) |
-| `widget.hover_shadow` | string | Hover shadow preset: `"none"`, `"sm"`, `"md"`, `"lg"` (default: `"none"`) |
-| `widget.transition_duration` | number | Hover transition duration in ms (default: 200) |
-| `widget.prefix` | string | Text before the number (localized) |
-| `widget.suffix` | string | Text after the number (localized) |
-| `widget.title` | string | Counter title/label (localized) |
-| `settings` | object | Style settings (optional) |
+| `widget.number` | object | Number element group |
+| `widget.number.number` | number | Target number to count to (default: 0) |
+| `widget.number.duration` | number | Animation duration in milliseconds (default: 2000) |
+| `widget.number.size` | string | Number font size preset: `"md"`, `"lg"`, `"xl"`, `"2xl"` (default: `"xl"`) |
+| `widget.number.prefix` | string | Text before the number (multilingual) |
+| `widget.number.suffix` | string | Text after the number (multilingual) |
+| `widget.number.color` | string\|null | Number text color (hex, `var:` variable, or null) |
+| `widget.number.color:hover` | string\|null | Number text color on hover |
+| `widget.number.prefix_color` | string\|null | Prefix/suffix text color (hex, `var:` variable, or null) |
+| `widget.title` | object | Title element group |
+| `widget.title.text` | string | Counter title/label (multilingual) |
+| `widget.title.color` | string\|null | Title text color (hex, `var:` variable, or null) |
+| `widget.title.color:hover` | string\|null | Title text color on hover |
+| `widget.config` | object | Configuration group |
+| `widget.config.alignment` | string | Text alignment: `"left"`, `"center"`, `"right"` (default: `"center"`) |
+| `settings` | object | Style settings (see [shared settings](shared-settings.md)) |
 
 ## Example Response
 
@@ -42,28 +39,26 @@ counter
   "widget_type": "counter",
   "uuid": "counter-123",
   "widget": {
-    "number": 5000,
-    "duration": 2000,
-    "alignment": "center",
-    "number_size": "xl",
-    "background_color": null,
-    "number_color": null,
-    "title_color": null,
-    "prefix_color": null,
-    "hover_number_color": null,
-    "hover_title_color": null,
-    "hover_prefix_color": null,
-    "hover_lift": 0,
-    "hover_scale": 1,
-    "hover_shadow": "none",
-    "transition_duration": 200,
-    "prefix": "",
-    "suffix": "+",
-    "title": "Happy Customers"
+    "number": {
+      "number": 5000,
+      "duration": 2000,
+      "size": "xl",
+      "prefix": "",
+      "suffix": "+",
+      "color": null,
+      "color:hover": null,
+      "prefix_color": null
+    },
+    "title": {
+      "text": "Happy Customers",
+      "color": null,
+      "color:hover": null
+    },
+    "config": {
+      "alignment": "center"
+    }
   },
-  "settings": {
-    "textAlign": "center"
-  }
+  "settings": {}
 }
 ```
 
@@ -74,24 +69,24 @@ counter
   "widget_type": "counter",
   "uuid": "counter-456",
   "widget": {
-    "number": 1500000,
-    "duration": 2500,
-    "alignment": "center",
-    "number_size": "xl",
-    "background_color": null,
-    "number_color": "#50a5f1",
-    "title_color": null,
-    "prefix_color": "#50a5f1",
-    "hover_number_color": null,
-    "hover_title_color": null,
-    "hover_prefix_color": null,
-    "hover_lift": 0,
-    "hover_scale": 1,
-    "hover_shadow": "none",
-    "transition_duration": 200,
-    "prefix": "$",
-    "suffix": "",
-    "title": "Revenue Generated"
+    "number": {
+      "number": 1500000,
+      "duration": 2500,
+      "size": "xl",
+      "prefix": "$",
+      "suffix": "",
+      "color": "#50a5f1",
+      "color:hover": null,
+      "prefix_color": "#50a5f1"
+    },
+    "title": {
+      "text": "Revenue Generated",
+      "color": null,
+      "color:hover": null
+    },
+    "config": {
+      "alignment": "center"
+    }
   },
   "settings": {}
 }
@@ -101,22 +96,30 @@ counter
 
 ```javascript
 function renderCounter(widget, language) {
-  const { number, duration, alignment, number_size, number_color, title_color, prefix_color } = widget.widget;
-  const { prefix, suffix, title } = widget.widget;
+  const { number, title, config } = widget.widget;
 
   const counterId = `counter-${widget.uuid}`;
 
   return `
     <div id="${counterId}" class="counter-widget"
-      data-target="${number}"
-      data-duration="${duration || 2000}"
+      style="text-align: ${config.alignment || 'center'}"
+      data-target="${number.number}"
+      data-duration="${number.duration || 2000}"
     >
-      <div class="counter-value">
-        <span class="prefix">${prefix || ''}</span>
+      <div class="counter-value"
+        ${number.color ? `style="color: ${number.color}"` : ''}
+      >
+        <span class="prefix"
+          ${number.prefix_color ? `style="color: ${number.prefix_color}"` : ''}
+        >${number.prefix || ''}</span>
         <span class="number">0</span>
-        <span class="suffix">${suffix || ''}</span>
+        <span class="suffix"
+          ${number.prefix_color ? `style="color: ${number.prefix_color}"` : ''}
+        >${number.suffix || ''}</span>
       </div>
-      ${title ? `<div class="counter-title">${title}</div>` : ''}
+      ${title.text ? `<div class="counter-title"
+        ${title.color ? `style="color: ${title.color}"` : ''}
+      >${title.text}</div>` : ''}
     </div>
   `;
 }
@@ -164,59 +167,6 @@ function initCounters() {
 }
 
 initCounters();
-```
-
-## Multi-Item Support
-
-The counter widget supports displaying multiple counters in a grid. When multiple items are configured, the API returns a multi-item structure:
-
-| Property | Type | Description |
-|----------|------|-------------|
-| `multi_item` | boolean | `true` when widget has multiple items |
-| `multi_columns` | number | Number of grid columns (1-4) |
-| `multi_gap` | number | Gap between items in pixels (default: 16) |
-| `items` | array | Array of individual counter widgets |
-
-### Multi-Item Example Response
-
-```json
-{
-  "widget_type": "counter",
-  "uuid": "counter-789",
-  "multi_item": true,
-  "multi_columns": 3,
-  "multi_gap": 16,
-  "items": [
-    {
-      "widget_type": "counter",
-      "widget": { "number": 5000, "duration": 2000, "alignment": "center", "number_size": "xl", "prefix": "$", "suffix": "+", "title": "Revenue" }
-    },
-    {
-      "widget_type": "counter",
-      "widget": { "number": 1200, "duration": 2000, "alignment": "center", "number_size": "xl", "prefix": "", "suffix": "+", "title": "Projects" }
-    },
-    {
-      "widget_type": "counter",
-      "widget": { "number": 50, "duration": 2000, "alignment": "center", "number_size": "xl", "prefix": "", "suffix": "", "title": "Countries" }
-    }
-  ],
-  "settings": {}
-}
-```
-
-### Rendering Multi-Item
-
-```javascript
-function renderCounterWidget(widget) {
-  if (widget.multi_item) {
-    return `
-      <div style="display: grid; grid-template-columns: repeat(${widget.multi_columns}, 1fr); gap: ${widget.multi_gap}px;">
-        ${widget.items.map(item => renderCounter(item)).join('')}
-      </div>
-    `;
-  }
-  return renderCounter(widget);
-}
 ```
 
 ## CSS Example

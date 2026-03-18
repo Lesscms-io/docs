@@ -14,29 +14,16 @@ heading
 |----------|------|-------------|
 | `widget_type` | string | Always `"heading"` |
 | `uuid` | string | Unique widget identifier |
-| `widget` | object | Widget properties |
-| `widget.content_source` | string | `"static"` or `"dynamic"` |
-| `widget.level` | number | Heading level: 1-6 (h1-h6) |
-| `widget.collection_code` | string | Collection code (when dynamic) |
-| `widget.field_code` | string | Field to display (when dynamic) |
-| `widget.entry_id` | string | Specific entry ID (when dynamic + static entry) |
-| `widget.html` | object | Multilingual HTML content (when static) |
+| `widget` | object | Widget properties (inline-edited content, no configurable fields) |
 | `settings` | object | Style settings (optional) |
 
-## Example Response (Static)
+## Example Response
 
 ```json
 {
   "widget_type": "heading",
   "uuid": "2dbc3aaa-c75f-4141-b547-e5afb921dbb6",
-  "widget": {
-    "content_source": "static",
-    "level": 2,
-    "html": {
-      "en": "<h2>Welcome to Our Website</h2>",
-      "pl": "<h2><strong>USŁUGI MARKETINGOWE</strong></h2>"
-    }
-  },
+  "widget": {},
   "settings": {
     "horizontalAlign": "center",
     "responsive": {
@@ -50,36 +37,6 @@ heading
   }
 }
 ```
-
-## Example Response (Dynamic)
-
-```json
-{
-  "widget_type": "heading",
-  "uuid": "heading-456",
-  "widget": {
-    "content_source": "dynamic",
-    "level": 1,
-    "collection_code": "blog",
-    "field_code": "title",
-    "entry_id": null
-  },
-  "settings": {
-    "horizontalAlign": "left",
-    "responsive": {
-      "tablet": {},
-      "mobile": {}
-    }
-  }
-}
-```
-
-## Content Source
-
-| Value | Description |
-|-------|-------------|
-| `static` | Use the `widget.html` property directly |
-| `dynamic` | Fetch content from a collection field |
 
 ## Usage Example
 

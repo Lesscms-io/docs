@@ -16,13 +16,10 @@ social-icons
 | `uuid` | string | Unique widget identifier |
 | `widget` | object | Widget data |
 | `widget.items` | array | Array of social media links |
-| `widget.items[].platform` | string | Platform identifier |
-| `widget.items[].url` | string | Profile/page URL |
-| `widget.items[].icon` | string | Optional custom icon class |
 | `widget.size` | string | Icon size: `"sm"`, `"md"`, `"lg"` |
-| `widget.style` | string | Icon style: `"default"`, `"colored"`, `"outlined"`, `"circle"`, `"square"` |
+| `widget.icon_style` | string | Icon style: `"default"`, `"colored"`, `"outlined"`, `"circle"`, `"square"` |
 | `widget.color_mode` | string | Color mode: `"brand"` (platform colors) or `"custom"` (single custom color) |
-| `widget.icon_color` | string\|null | Custom color value when `color_mode` is `"custom"` (e.g. `"#6c757d"`, `"var:text"`) |
+| `widget.icon_color` | string\|null | Custom color value when `color_mode` is `"custom"` |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response
@@ -33,34 +30,17 @@ social-icons
   "uuid": "social-123",
   "widget": {
     "items": [
-      {
-        "platform": "facebook",
-        "url": "https://facebook.com/mycompany",
-        "icon": null
-      },
-      {
-        "platform": "twitter",
-        "url": "https://twitter.com/mycompany",
-        "icon": null
-      },
-      {
-        "platform": "instagram",
-        "url": "https://instagram.com/mycompany",
-        "icon": null
-      },
-      {
-        "platform": "linkedin",
-        "url": "https://linkedin.com/company/mycompany",
-        "icon": null
-      }
+      { "platform": "facebook", "url": "https://facebook.com/mycompany", "icon": null },
+      { "platform": "twitter", "url": "https://twitter.com/mycompany", "icon": null },
+      { "platform": "instagram", "url": "https://instagram.com/mycompany", "icon": null },
+      { "platform": "linkedin", "url": "https://linkedin.com/company/mycompany", "icon": null }
     ],
     "size": "md",
-    "style": "circle",
+    "icon_style": "circle",
     "color_mode": "brand",
     "icon_color": null
   },
   "settings": {
-    "horizontalAlign": "center",
     "responsive": {
       "tablet": {},
       "mobile": {}
@@ -110,39 +90,24 @@ social-icons
 ## Usage Example
 
 ```javascript
-const platformIcons = {
-  facebook: 'fab fa-facebook-f',
-  twitter: 'fab fa-x-twitter',
-  instagram: 'fab fa-instagram',
-  linkedin: 'fab fa-linkedin-in',
-  youtube: 'fab fa-youtube',
-  tiktok: 'fab fa-tiktok',
-  pinterest: 'fab fa-pinterest-p',
-  github: 'fab fa-github'
-};
-
 function renderSocialIcons(widget) {
-  const { items, size, style } = widget.widget;
+  const { items, size, icon_style, color_mode, icon_color } = widget.widget;
 
   if (!items || items.length === 0) return '';
 
-  const icons = items.map(item => {
-    const icon = item.icon || platformIcons[item.platform] || 'fas fa-link';
-
-    return `
-      <a href="${item.url}"
-         class="social-icon social-${item.platform} social-style-${style}"
-         target="_blank"
-         rel="noopener noreferrer"
-         aria-label="${item.platform}"
-      >
-        <i class="${icon}"></i>
-      </a>
-    `;
-  }).join('');
+  const icons = items.map(item => `
+    <a href="${item.url}"
+       class="social-icon social-style-${icon_style}"
+       target="_blank"
+       rel="noopener noreferrer"
+       aria-label="${item.platform}"
+    >
+      <i class="${item.icon || platformIcons[item.platform] || 'fas fa-link'}"></i>
+    </a>
+  `).join('');
 
   return `
-    <div class="social-icons-widget social-size-${size} social-style-${style}">
+    <div class="social-icons-widget social-size-${size}">
       ${icons}
     </div>
   `;

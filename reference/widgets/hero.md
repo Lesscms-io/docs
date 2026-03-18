@@ -1,6 +1,6 @@
 # Hero Widget
 
-A full-width hero section with background image, title, subtitle, and optional call-to-action button. Supports both static content and dynamic content from collection entries.
+A full-width hero section with background image, title, subtitle, and optional call-to-action button. Uses nested element-group structure. Supports both static content and dynamic content from collection entries.
 
 ## Widget Type
 
@@ -14,112 +14,116 @@ hero
 |----------|------|-------------|
 | `widget_type` | string | Always `"hero"` |
 | `uuid` | string | Unique widget identifier |
-| `widget` | object | Widget data |
-| `widget.content_source` | string | Content source: `"static"` or `"dynamic"` (default: `"static"`) |
-| `widget.overlay_opacity` | number | Background overlay opacity 0-1 (default: 0.4) |
-| `widget.overlay_color` | string | Background overlay color (default: `"#000000"`) |
-| `widget.text_align` | string | Text alignment: `"left"`, `"center"`, `"right"` (default: `"center"`) |
-| `widget.text_position` | string | Vertical text position: `"top"`, `"center"`, `"bottom"` (default: `"center"`) |
-| `widget.text_color` | string | Text color (default: `"#ffffff"`) |
-| `widget.button_style` | string | Button style variant (default: `"primary"`) |
-| `widget.button_size` | string | Button size: `"sm"`, `"md"`, `"lg"` (default: `"lg"`) |
-| `widget.button_border_radius` | string | Button border radius preset: `"none"`, `"sm"`, `"md"`, `"lg"`, `"full"` (default: `"md"`) |
-| `widget.button_padding` | string\|null | Custom button padding CSS value (default: `null`) |
-| `widget.button_icon` | string\|null | Button icon class (Font Awesome) (default: `null`) |
-| `widget.button_icon_position` | string | Button icon position: `"left"`, `"right"` (default: `"left"`) |
-| `widget.button_link_type` | string | Button link type: `"custom"`, `"page"`, `"entry"` (default: `"custom"`) |
-| `widget.button_target_blank` | boolean | Open button link in new tab (default: `false`) |
-| `widget.button_page_id` | string\|null | Page UUID for page link type (default: `null`) |
-| `widget.button_entry_id` | string\|null | Entry UUID for entry link type (default: `null`) |
-| `widget.button_collection_code` | string\|null | Collection code for entry link type (default: `null`) |
-| `widget.button_route_uuid` | string\|null | Route UUID for link URL resolution (default: `null`) |
-| `widget.hover_overlay_color` | string\|null | Overlay color on hover |
-| `widget.hover_text_color` | string\|null | Text color on hover |
-| `widget.hover_lift` | number | Hover lift in pixels — translateY offset (default: `0`) |
-| `widget.hover_scale` | number | Hover scale factor (default: `1`) |
-| `widget.hover_shadow` | string | Hover shadow preset: `"none"`, `"sm"`, `"md"`, `"lg"` (default: `"none"`) |
-| `widget.transition_duration` | number | Hover transition duration in ms (default: 200) |
-| `settings` | object | Style settings (optional) |
+| `widget.heading` | object | Heading element group |
+| `widget.heading.title` | object | Multilingual title text `{ "en": "...", "pl": "..." }` |
+| `widget.heading.subtitle` | object | Multilingual subtitle text |
+| `widget.button` | object | Button element group |
+| `widget.button.text` | object | Multilingual CTA button text |
+| `widget.button.url` | string | CTA button URL (default: `"#"`) |
+| `widget.button.style` | string | Button style variant (default: `"primary"`) |
+| `widget.button.size` | string | Button size: `"sm"`, `"md"`, `"lg"` (default: `"md"`) |
+| `widget.button.border_radius` | string | Button border radius preset: `"none"`, `"sm"`, `"md"`, `"lg"`, `"full"` (default: `"md"`) |
+| `widget.button.padding` | string | Custom button padding CSS value (default: `""`) |
+| `widget.button.icon` | string | Button icon class (Font Awesome) (default: `""`) |
+| `widget.button.icon_position` | string | Button icon position: `"left"`, `"right"` (default: `"left"`) |
+| `widget.button.color` | string\|null | Custom button color (default: `null`) |
+| `widget.button.link_type` | string | Button link type: `"custom"`, `"page"`, `"entry"` (default: `"custom"`) |
+| `widget.button.page_id` | string\|null | Page UUID for page link type (default: `null`) |
+| `widget.button.entry_id` | string\|null | Entry UUID for entry link type (default: `null`) |
+| `widget.button.collection_code` | string\|null | Collection code for entry link type (default: `null`) |
+| `widget.button.route_uuid` | string\|null | Route UUID for link URL resolution (default: `null`) |
+| `widget.button.target_blank` | boolean | Open button link in new tab (default: `false`) |
+| `widget.config` | object | Configuration element group |
+| `widget.config.content_source` | string | Content source: `"static"` or `"dynamic"` (default: `"static"`) |
+| `widget.config.text_align` | string | Text alignment: `"left"`, `"center"`, `"right"` (default: `"center"`) |
+| `widget.config.text_position` | string | Vertical text position: `"top"`, `"center"`, `"bottom"` (default: `"center"`) |
+| `widget.config.collection_code` | string | Collection code for dynamic mode (default: `""`) |
+| `widget.config.entry_source` | string | Entry source: `"static"` or `"url"` (default: `"static"`) |
+| `widget.config.entry_id` | string | Specific entry ID for dynamic mode (default: `""`) |
+| `widget.config.entry_url_segment` | number | URL segment index for entry (default: `1`) |
+| `widget.config.field_code_title` | string | Field code for dynamic title (default: `""`) |
+| `widget.config.field_code_subtitle` | string | Field code for dynamic subtitle (default: `""`) |
+| `widget.config.field_code_image` | string | Field code for dynamic background image (default: `""`) |
+| `widget.config.show_title` | boolean | Show title (default: `true`) |
+| `widget.config.show_subtitle` | boolean | Show subtitle (default: `false`) |
+| `widget.config.background` | string\|null | Background image URL (default: `null`) |
+| `widget.text` | object | Text styling element group |
+| `widget.text.color` | string | Text color (default: `"#ffffff"`) |
+| `widget.text.color:hover` | string\|null | Text color on hover (default: `null`) |
+| `widget.overlay` | object | Overlay element group |
+| `widget.overlay.color` | string | Overlay color (default: `"#000000"`) |
+| `widget.overlay.opacity` | number | Overlay opacity 0-1 (default: `0.4`) |
+| `widget.overlay.color:hover` | string\|null | Overlay color on hover (default: `null`) |
+| `settings` | object | [Shared widget settings](shared-settings.md) |
 
-### Static Mode Content
-
-When `content_source` is `"static"`:
-
-| Property | Type | Description |
-|----------|------|-------------|
-| `widget.title` | object | Multilingual title text `{ "en": "...", "pl": "..." }` |
-| `widget.subtitle` | object | Multilingual subtitle text |
-| `widget.background_url` | string\|null | Background image URL |
-| `widget.button_text` | object | Multilingual CTA button text |
-| `widget.button_url` | string | CTA button URL (default: `"#"`) |
-
-### Dynamic Mode Fields
-
-When `content_source` is `"dynamic"`:
-
-| Property | Type | Description |
-|----------|------|-------------|
-| `widget.collection_code` | string\|null | Collection code |
-| `widget.entry_source` | string | Entry source: `"static"` or `"url"` (default: `"static"`) |
-| `widget.entry_id` | string\|null | Specific entry ID |
-| `widget.entry_url_segment` | number | URL segment index (default: 1) |
-| `widget.image_field` | string\|null | Field code for background image |
-| `widget.title_field` | string\|null | Field code for title |
-| `widget.subtitle_field` | string\|null | Field code for subtitle |
-| `widget.show_title` | boolean | Show title (default: true) |
-| `widget.show_subtitle` | boolean | Show subtitle (default: false) |
-| `widget.button_text` | object | Multilingual CTA button text |
-| `widget.button_url` | string | CTA button URL |
-
-## Example Response (Static Mode)
+## Example Response
 
 ```json
 {
   "widget_type": "hero",
   "uuid": "hero-123",
   "widget": {
-    "content_source": "static",
-    "overlay_opacity": 0.4,
-    "overlay_color": "#000000",
-    "text_align": "center",
-    "text_position": "center",
-    "text_color": "#ffffff",
-    "button_style": "primary",
-    "button_size": "lg",
-    "button_border_radius": "md",
-    "button_padding": null,
-    "button_icon": null,
-    "button_icon_position": "left",
-    "button_link_type": "custom",
-    "button_target_blank": false,
-    "button_page_id": null,
-    "button_entry_id": null,
-    "button_collection_code": null,
-    "button_route_uuid": null,
-    "hover_overlay_color": null,
-    "hover_text_color": null,
-    "hover_lift": 0,
-    "hover_scale": 1,
-    "hover_shadow": "none",
-    "transition_duration": 200,
-    "title": {
-      "en": "Welcome to Our Website",
-      "pl": "Witamy na naszej stronie"
+    "heading": {
+      "title": {
+        "en": "Welcome to Our Website",
+        "pl": "Witamy na naszej stronie"
+      },
+      "subtitle": {
+        "en": "We build amazing digital experiences.",
+        "pl": "Tworzymy niesamowite cyfrowe doswiadczenia."
+      }
     },
-    "subtitle": {
-      "en": "We build amazing digital experiences.",
-      "pl": "Tworzymy niesamowite cyfrowe doswiadczenia."
+    "button": {
+      "text": {
+        "en": "Get Started",
+        "pl": "Rozpocznij"
+      },
+      "url": "/contact",
+      "style": "primary",
+      "size": "md",
+      "border_radius": "md",
+      "padding": "",
+      "icon": "",
+      "icon_position": "left",
+      "color": null,
+      "link_type": "custom",
+      "page_id": null,
+      "entry_id": null,
+      "collection_code": null,
+      "route_uuid": null,
+      "target_blank": false
     },
-    "background_url": "https://cdn.example.com/hero-bg.jpg",
-    "button_text": {
-      "en": "Get Started",
-      "pl": "Rozpocznij"
+    "config": {
+      "content_source": "static",
+      "text_align": "center",
+      "text_position": "center",
+      "collection_code": "",
+      "entry_source": "static",
+      "entry_id": "",
+      "entry_url_segment": 1,
+      "field_code_title": "",
+      "field_code_subtitle": "",
+      "field_code_image": "",
+      "show_title": true,
+      "show_subtitle": false,
+      "background": "https://cdn.example.com/hero-bg.jpg"
     },
-    "button_url": "/contact"
+    "text": {
+      "color": "#ffffff",
+      "color:hover": null
+    },
+    "overlay": {
+      "color": "#000000",
+      "opacity": 0.4,
+      "color:hover": null
+    }
   },
   "settings": {
-    "minHeight": 600,
-    "horizontalAlign": "center",
+    "padding_top": 40,
+    "padding_right": 20,
+    "padding_bottom": 40,
+    "padding_left": 20,
+    "transition_duration": 200,
     "responsive": {
       "tablet": {},
       "mobile": {}
@@ -128,53 +132,19 @@ When `content_source` is `"dynamic"`:
 }
 ```
 
-## Example Response (Dynamic Mode)
-
-```json
-{
-  "widget_type": "hero",
-  "uuid": "hero-456",
-  "widget": {
-    "content_source": "dynamic",
-    "collection_code": "products",
-    "entry_source": "url",
-    "entry_id": null,
-    "entry_url_segment": 2,
-    "image_field": "featured_image",
-    "title_field": "name",
-    "subtitle_field": "short_description",
-    "show_title": true,
-    "show_subtitle": true,
-    "overlay_opacity": 0.5,
-    "overlay_color": "#1a1a2e",
-    "text_align": "left",
-    "text_position": "bottom",
-    "text_color": "#ffffff",
-    "button_style": "primary",
-    "button_size": "lg",
-    "button_text": {
-      "en": "Learn More",
-      "pl": "Dowiedz sie wiecej"
-    },
-    "button_url": "#details"
-  },
-  "settings": {}
-}
-```
-
 ## Content Source Values
 
 | Value | Description |
 |-------|-------------|
-| `static` | Use static content from `widget` object |
-| `dynamic` | Fetch content from collection entry |
+| `static` | Use static content from `widget.heading` and `widget.config.background` |
+| `dynamic` | Fetch content from collection entry using field mappings |
 
 ## Entry Source Values (Dynamic Mode)
 
 | Value | Description |
 |-------|-------------|
-| `static` | Use specific `entry_id` |
-| `url` | Extract entry ID from URL segment at `entry_url_segment` index |
+| `static` | Use specific `config.entry_id` |
+| `url` | Extract entry ID from URL segment at `config.entry_url_segment` index |
 
 ## Text Align Values
 
@@ -192,103 +162,22 @@ When `content_source` is `"dynamic"`:
 | `center` | Content centered vertically |
 | `bottom` | Content positioned at bottom |
 
-## Usage Example (Static)
+## Usage Example
 
 ```javascript
 function renderHero(widget, language) {
-  const { content_source, overlay_opacity, overlay_color, text_align, text_position, text_color } = widget.widget;
-  const { title, subtitle, background_url, button_text, button_url } = widget.widget;
+  const { heading, button, config, text, overlay } = widget.widget;
 
-  const titleText = title?.[language] || title?.en || '';
-  const subtitleText = subtitle?.[language] || subtitle?.en || '';
-  const buttonText = button_text?.[language] || button_text?.en || '';
+  const title = heading.title?.[language] || heading.title?.en || '';
+  const subtitle = heading.subtitle?.[language] || heading.subtitle?.en || '';
+  const buttonText = button.text?.[language] || button.text?.en || '';
+  const backgroundUrl = config.background;
 
-  const alignItems = text_position === 'top' ? 'flex-start' : text_position === 'bottom' ? 'flex-end' : 'center';
+  const alignItems = config.text_position === 'top' ? 'flex-start'
+    : config.text_position === 'bottom' ? 'flex-end' : 'center';
 
   return `
     <section class="hero" style="
-      position: relative;
-      min-height: 500px;
-      display: flex;
-      align-items: ${alignItems};
-      justify-content: center;
-    ">
-      <div class="hero-bg" style="
-        position: absolute;
-        inset: 0;
-        background-image: url('${background_url || ''}');
-        background-size: cover;
-        background-position: center;
-      "></div>
-      <div class="hero-overlay" style="
-        position: absolute;
-        inset: 0;
-        background-color: ${overlay_color};
-        opacity: ${overlay_opacity};
-      "></div>
-      <div class="hero-content" style="
-        position: relative;
-        z-index: 1;
-        text-align: ${text_align};
-        color: ${text_color};
-        padding: 2rem;
-      ">
-        ${titleText ? `<h1>${titleText}</h1>` : ''}
-        ${subtitleText ? `<p class="hero-subtitle">${subtitleText}</p>` : ''}
-        ${buttonText && button_url ? `
-          <a href="${button_url}" class="btn btn-primary btn-lg">${buttonText}</a>
-        ` : ''}
-      </div>
-    </section>
-  `;
-}
-```
-
-## Usage Example (Dynamic)
-
-```javascript
-async function renderDynamicHero(widget, language, urlSegments, api) {
-  const {
-    collection_code, entry_source, entry_id, entry_url_segment,
-    image_field, title_field, subtitle_field,
-    show_title, show_subtitle,
-    overlay_opacity, overlay_color, text_align, text_position, text_color,
-    button_text, button_url
-  } = widget.widget;
-
-  // Determine entry ID
-  let targetEntryId = entry_id;
-  if (entry_source === 'url' && entry_url_segment) {
-    targetEntryId = urlSegments[entry_url_segment - 1];
-  }
-
-  if (!targetEntryId || !collection_code) {
-    return '<section class="hero hero-empty">No content available</section>';
-  }
-
-  // Fetch entry from collection
-  const entry = await api.getEntry(collection_code, targetEntryId);
-  if (!entry) return '<section class="hero hero-empty">Entry not found</section>';
-
-  // Extract field values
-  const getFieldValue = (fieldCode) => {
-    if (!fieldCode) return null;
-    const value = entry.data[fieldCode];
-    if (typeof value === 'object' && !Array.isArray(value)) {
-      return value[language] || value.en || '';
-    }
-    return value;
-  };
-
-  const backgroundUrl = image_field ? getFieldValue(image_field) : null;
-  const titleText = show_title && title_field ? getFieldValue(title_field) : '';
-  const subtitleText = show_subtitle && subtitle_field ? getFieldValue(subtitle_field) : '';
-  const buttonLabel = button_text?.[language] || button_text?.en || '';
-
-  const alignItems = text_position === 'top' ? 'flex-start' : text_position === 'bottom' ? 'flex-end' : 'center';
-
-  return `
-    <section class="hero hero-dynamic" style="
       position: relative;
       min-height: 500px;
       display: flex;
@@ -305,30 +194,29 @@ async function renderDynamicHero(widget, language, urlSegments, api) {
       <div class="hero-overlay" style="
         position: absolute;
         inset: 0;
-        background-color: ${overlay_color};
-        opacity: ${overlay_opacity};
+        background-color: ${overlay.color};
+        opacity: ${overlay.opacity};
       "></div>
       <div class="hero-content" style="
         position: relative;
         z-index: 1;
-        text-align: ${text_align};
-        color: ${text_color};
+        text-align: ${config.text_align};
+        color: ${text.color};
         padding: 2rem;
       ">
-        ${titleText ? `<h1>${titleText}</h1>` : ''}
-        ${subtitleText ? `<p class="hero-subtitle">${subtitleText}</p>` : ''}
-        ${buttonLabel && button_url ? `
-          <a href="${button_url}" class="btn btn-primary btn-lg">${buttonLabel}</a>
+        ${title ? `<h1>${title}</h1>` : ''}
+        ${subtitle ? `<p class="hero-subtitle">${subtitle}</p>` : ''}
+        ${buttonText && button.url ? `
+          <a href="${button.url}"
+             class="btn btn-${button.style} btn-${button.size}"
+             ${button.target_blank ? 'target="_blank" rel="noopener noreferrer"' : ''}>
+            ${button.icon && button.icon_position === 'left' ? `<i class="${button.icon}"></i> ` : ''}
+            ${buttonText}
+            ${button.icon && button.icon_position === 'right' ? ` <i class="${button.icon}"></i>` : ''}
+          </a>
         ` : ''}
       </div>
     </section>
   `;
 }
 ```
-
-## Use Cases
-
-- **Landing page headers**: Full-width hero with static content
-- **Product detail pages**: Dynamic hero pulling from collection entry
-- **Category pages**: Hero with URL-based entry selection
-- **Marketing pages**: Customizable overlays and text positioning

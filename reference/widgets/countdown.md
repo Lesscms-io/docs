@@ -1,6 +1,6 @@
 # Countdown Widget
 
-A countdown timer that displays remaining time until a target date.
+A countdown timer that displays remaining time until a target date. Uses nested element-group structure.
 
 ## Widget Type
 
@@ -14,13 +14,23 @@ countdown
 |----------|------|-------------|
 | `widget_type` | string | Always `"countdown"` |
 | `uuid` | string | Unique widget identifier |
-| `widget` | object | Widget properties |
-| `widget.target_date` | string | Target date/time in ISO 8601 format |
-| `widget.show_days` | boolean | Display days component |
-| `widget.show_hours` | boolean | Display hours component |
-| `widget.show_minutes` | boolean | Display minutes component |
-| `widget.show_seconds` | boolean | Display seconds component |
-| `settings` | object | Style settings (optional) |
+| `widget.config` | object | Configuration element |
+| `widget.config.target_date` | string | Target date/time in ISO 8601 format |
+| `widget.config.show_days` | boolean | Display days component (default: true) |
+| `widget.config.show_hours` | boolean | Display hours component (default: true) |
+| `widget.config.show_minutes` | boolean | Display minutes component (default: true) |
+| `widget.config.show_seconds` | boolean | Display seconds component (default: true) |
+| `widget.config.separator` | string | Separator character between time units (default: `":"`) |
+| `widget.value` | object | Value (number) styling element |
+| `widget.value.color` | string\|null | Color of the countdown numbers |
+| `widget.value.color:hover` | string\|null | Color of the countdown numbers on hover |
+| `widget.label` | object | Label styling element |
+| `widget.label.color` | string\|null | Color of the unit labels (days, hours, etc.) |
+| `widget.label.color:hover` | string\|null | Color of the unit labels on hover |
+| `widget.item` | object | Item container styling element |
+| `widget.item.background` | string\|null | Background color of each countdown unit box |
+| `widget.item.background:hover` | string\|null | Background color of each countdown unit box on hover |
+| `settings` | object | [Shared widget settings](shared-settings.md) |
 
 ## Example Response
 
@@ -29,11 +39,26 @@ countdown
   "widget_type": "countdown",
   "uuid": "countdown-123",
   "widget": {
-    "target_date": "2025-12-31T23:59:59Z",
-    "show_days": true,
-    "show_hours": true,
-    "show_minutes": true,
-    "show_seconds": true
+    "config": {
+      "target_date": "2025-12-31T23:59:59Z",
+      "show_days": true,
+      "show_hours": true,
+      "show_minutes": true,
+      "show_seconds": true,
+      "separator": ":"
+    },
+    "value": {
+      "color": "var:dark",
+      "color:hover": null
+    },
+    "label": {
+      "color": "var:muted",
+      "color:hover": null
+    },
+    "item": {
+      "background": "var:light",
+      "background:hover": null
+    }
   },
   "settings": {
     "horizontalAlign": "center",
@@ -50,17 +75,31 @@ countdown
 ## Usage Example
 
 ```javascript
-function renderCountdown(widget) {
-  const { target_date, show_days, show_hours, show_minutes, show_seconds } = widget.widget;
+function renderCountdown(widget, language) {
+  const { config, value, label, item } = widget.widget;
 
   const countdownId = `countdown-${widget.uuid}`;
+  const separator = config.separator || ':';
+
+  const valueStyle = value.color ? `color: ${value.color};` : '';
+  const labelStyle = label.color ? `color: ${label.color};` : '';
+  const itemStyle = item.background ? `background-color: ${item.background};` : '';
+
+  const units = [];
+  if (config.show_days !== false) units.push({ class: 'days', label: 'Days' });
+  if (config.show_hours !== false) units.push({ class: 'hours', label: 'Hours' });
+  if (config.show_minutes !== false) units.push({ class: 'minutes', label: 'Minutes' });
+  if (config.show_seconds !== false) units.push({ class: 'seconds', label: 'Seconds' });
 
   return `
-    <div id="${countdownId}" class="countdown-widget" data-target="${target_date}">
-      ${show_days ? '<div class="countdown-item"><span class="days">00</span><label>Days</label></div>' : ''}
-      ${show_hours ? '<div class="countdown-item"><span class="hours">00</span><label>Hours</label></div>' : ''}
-      ${show_minutes ? '<div class="countdown-item"><span class="minutes">00</span><label>Minutes</label></div>' : ''}
-      ${show_seconds ? '<div class="countdown-item"><span class="seconds">00</span><label>Seconds</label></div>' : ''}
+    <div id="${countdownId}" class="countdown-widget" data-target="${config.target_date}">
+      ${units.map((unit, i) => `
+        <div class="countdown-item" style="${itemStyle}">
+          <span class="countdown-value ${unit.class}" style="${valueStyle}">00</span>
+          <span class="countdown-label" style="${labelStyle}">${unit.label}</span>
+        </div>
+        ${i < units.length - 1 ? `<span class="countdown-separator">${separator}</span>` : ''}
+      `).join('')}
     </div>
   `;
 }

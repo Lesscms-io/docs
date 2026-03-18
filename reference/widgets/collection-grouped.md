@@ -16,11 +16,11 @@ collection-grouped
 | `uuid` | string | Unique widget identifier |
 | `widget` | object | Widget data |
 | `widget.collection_code` | string\|null | Collection code |
-| `widget.route_uuid` | string\|null | UUID of the route used for entry links |
 | `widget.group_by_field` | string\|null | Field code to group entries by |
-| `widget.style` | string | Display style: `"sections"`, `"accordion"`, `"tabs"` (default: `"sections"`) |
+| `widget.group_style` | string | Display style: `"sections"`, `"accordion"`, `"tabs"` (default: `"sections"`) |
 | `widget.item_layout` | string | Item layout: `"list"`, `"cards"`, `"compact"` (default: `"list"`) |
 | `widget.posts_count` | number | Maximum entries per group (default: 50) |
+| `widget.exclude_current_entry` | boolean | Exclude current entry from results (default: false) |
 | `widget.title_field` | string\|null | Field code for entry title |
 | `widget.description_field` | string\|null | Field code for description |
 | `widget.price_field` | string\|null | Field code for price |
@@ -30,19 +30,7 @@ collection-grouped
 | `widget.show_price` | boolean | Display price (default: true) |
 | `widget.show_image` | boolean | Display image (default: false) |
 | `widget.show_uncategorized` | boolean | Show entries without group value (default: true) |
-| `widget.exclude_current_entry` | boolean | Exclude current entry from results (default: false) |
-| `widget.use_custom_layout` | boolean | Use custom layout configuration (default: false) |
-| `widget.layout_config` | object\|null | Custom layout configuration object |
 | `settings` | object | Style settings (optional) |
-
-### Server-Side Enrichment Fields
-
-When the API can resolve the collection data server-side, the following fields are conditionally included in the response. When absent, fetch entries client-side via the Collection API.
-
-| Property | Type | Description |
-|----------|------|-------------|
-| `widget.entries` | array | Pre-fetched collection entries (included when `collection_code` is set) |
-| `widget.entries_meta` | object | Pagination metadata (`total`, `page`, `per_page`) |
 
 ## Example Response
 
@@ -52,11 +40,11 @@ When the API can resolve the collection data server-side, the following fields a
   "uuid": "grouped-123",
   "widget": {
     "collection_code": "menu_items",
-    "route_uuid": null,
     "group_by_field": "category",
-    "style": "sections",
+    "group_style": "sections",
     "item_layout": "list",
     "posts_count": 50,
+    "exclude_current_entry": false,
     "title_field": "name",
     "description_field": "description",
     "price_field": "price",
@@ -65,10 +53,7 @@ When the API can resolve the collection data server-side, the following fields a
     "show_description": true,
     "show_price": true,
     "show_image": false,
-    "show_uncategorized": true,
-    "exclude_current_entry": false,
-    "use_custom_layout": false,
-    "layout_config": null
+    "show_uncategorized": true
   },
   "settings": {
     "responsive": {

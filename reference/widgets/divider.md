@@ -15,9 +15,11 @@ divider
 | `widget_type` | string | Always `"divider"` |
 | `uuid` | string | Unique widget identifier |
 | `widget` | object | Widget properties |
-| `widget.style` | string | Line style: `"solid"`, `"dashed"`, `"dotted"` |
-| `widget.color` | string | Line color (hex code, default: `"#e9ecef"`) |
-| `widget.thickness` | number | Line thickness in pixels (default: 1) |
+| `widget.line` | object | Line element-group |
+| `widget.line.line_style` | string | Line style: `"solid"`, `"dashed"`, `"dotted"` |
+| `widget.line.color` | string | Line color (color variable or hex, default: `"var:border"`) |
+| `widget.line.color:hover` | string\|null | Line color on hover |
+| `widget.line.width` | string | Line thickness in pixels: `"1"`, `"2"`, `"3"` |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response
@@ -27,13 +29,19 @@ divider
   "widget_type": "divider",
   "uuid": "divider-123",
   "widget": {
-    "style": "solid",
-    "color": "#e9ecef",
-    "thickness": 1
+    "line": {
+      "line_style": "solid",
+      "color": "var:border",
+      "color:hover": null,
+      "width": "1"
+    }
   },
   "settings": {
-    "marginTop": 20,
-    "marginBottom": 20,
+    "padding_top": 8,
+    "padding_bottom": 8,
+    "padding_left": 0,
+    "padding_right": 0,
+    "transition_duration": 200,
     "responsive": {
       "tablet": {},
       "mobile": {}
@@ -42,7 +50,7 @@ divider
 }
 ```
 
-## Style Values
+## Line Style Values
 
 | Value | Description |
 |-------|-------------|
@@ -50,20 +58,23 @@ divider
 | `dashed` | Dashed line |
 | `dotted` | Dotted line |
 
-## Thickness Values
+## Width Values
 
 | Value | Description |
 |-------|-------------|
-| `1` | 1px line (default) |
-| `2` | 2px line |
-| `3` | 3px line |
+| `"1"` | 1px line (default) |
+| `"2"` | 2px line |
+| `"3"` | 3px line |
 
 ## Usage Example
 
 ```javascript
 function renderDivider(widget) {
-  const { style, color, thickness } = widget.widget;
+  const { line } = widget.widget;
+  const style = line.line_style || 'solid';
+  const color = line.color || '#e9ecef';
+  const width = line.width || '1';
 
-  return `<hr style="border: none; border-top: ${thickness}px ${style} ${color}; margin: 0;">`;
+  return `<hr style="border: none; border-top: ${width}px ${style} ${color}; margin: 0;">`;
 }
 ```

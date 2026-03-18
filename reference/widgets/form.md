@@ -1,6 +1,6 @@
 # Form Widget
 
-A form widget that supports two modes: referencing a system form by code (new mode), or inline field definitions (legacy mode).
+A form widget that references a system form by code. The frontend fetches the form definition (fields, validation, consents) from the Forms API.
 
 ## Widget Type
 
@@ -8,9 +8,7 @@ A form widget that supports two modes: referencing a system form by code (new mo
 form
 ```
 
-## Response Structure (Form Code Mode)
-
-When `form_code` is set, the widget references a system form. The frontend fetches the form definition separately via the Forms API.
+## Response Structure
 
 | Property | Type | Description |
 |----------|------|-------------|
@@ -18,21 +16,22 @@ When `form_code` is set, the widget references a system form. The frontend fetch
 | `uuid` | string | Unique widget identifier |
 | `widget` | object | Widget data |
 | `widget.form_code` | string | Code of the form to render (references Forms API) |
-| `widget.submit_text` | string | Submit button text |
+| `widget.submit_text` | string | Submit button text (multilingual) |
 | `widget.button_style` | string | Submit button CSS style (default: `"info"`) |
-| `widget.button_size` | string | Submit button size (default: `"md"`) |
-| `widget.button_border_radius` | string | Button border radius (default: `"md"`) |
-| `widget.button_padding` | string | Button padding |
-| `widget.button_icon` | string | Button icon class |
+| `widget.button_size` | string | Submit button size: `"sm"`, `"md"`, `"lg"` (default: `"md"`) |
+| `widget.button_border_radius` | string | Button border radius: `"none"`, `"sm"`, `"md"`, `"lg"`, `"pill"` (default: `"md"`) |
+| `widget.button_padding` | string | Button padding in px |
+| `widget.button_icon` | string | Button icon class (e.g., `"fa-solid fa-paper-plane"`) |
 | `widget.button_icon_position` | string | Icon position: `"left"` or `"right"` (default: `"left"`) |
-| `widget.button_align` | string | Button alignment: `"left"`, `"center"`, `"right"` |
-| `widget.label_position` | string | Label position: `"top"`, `"side"` |
-| `widget.columns` | string | Form columns: `"1"`, `"2"` |
-| `widget.field_gap` | string | Gap between fields in px (e.g. `"20"`) |
-| `widget.input_size` | string | Input size: `"sm"`, `"md"`, `"lg"` |
-| `widget.input_border_radius` | string | Input border radius: `"none"`, `"sm"`, `"md"`, `"lg"`, `"pill"` |
+| `widget.button_align` | string | Button alignment: `"left"`, `"center"`, `"right"` (default: `"left"`) |
+| `widget.button_full_width` | boolean | Make submit button full width (default: `false`) |
+| `widget.label_position` | string | Label position: `"top"`, `"side"` (default: `"top"`) |
+| `widget.columns` | string | Form columns: `"1"`, `"2"` (default: `"1"`) |
+| `widget.field_gap` | string | Gap between fields in px |
+| `widget.input_size` | string | Input size: `"sm"`, `"md"`, `"lg"` (default: `"md"`) |
+| `widget.input_border_radius` | string | Input border radius: `"none"`, `"sm"`, `"md"`, `"lg"`, `"pill"` (default: `"md"`) |
 | `widget.input_padding` | string | Input padding in px |
-| `widget.input_background_color` | string | Input background color (hex or `"var:primary"` variable reference) |
+| `widget.input_background_color` | string | Input background color (hex or `"var:name"`) |
 | `widget.input_text_color` | string | Input text color |
 | `widget.input_border_color` | string | Input border color |
 | `widget.input_border_width` | string | Input border width in px |
@@ -41,31 +40,7 @@ When `form_code` is set, the widget references a system form. The frontend fetch
 | `widget.input_placeholder_color` | string | Input placeholder text color |
 | `settings` | object | Style settings (optional) |
 
-## Response Structure (Legacy Inline Fields Mode)
-
-When `form_code` is not set, the widget uses inline field definitions. This is the backward-compatible mode.
-
-| Property | Type | Description |
-|----------|------|-------------|
-| `widget_type` | string | Always `"form"` |
-| `uuid` | string | Unique widget identifier |
-| `widget` | object | Widget data |
-| `widget.form_uuid` | string | Form identifier (same as widget uuid) |
-| `widget.fields` | array | Array of form field definitions |
-| `widget.fields[].code` | string | Field code/name |
-| `widget.fields[].type` | string | Field type: `"text"`, `"email"`, `"textarea"`, `"select"`, etc. |
-| `widget.fields[].label` | string | Field label |
-| `widget.fields[].placeholder` | string | Field placeholder text |
-| `widget.fields[].required` | boolean | Whether the field is required (default: false) |
-| `widget.fields[].options` | array | Options for select/radio fields |
-| `widget.submit_text` | string | Submit button text (default: `"Submit"`) |
-| `widget.success_message` | string | Message shown after successful submission |
-| `widget.error_message` | string | Message shown on submission error |
-| `widget.button_color` | string | Button background color |
-| `widget.email_to` | string | Email address to send submissions to |
-| `settings` | object | Style settings (optional) |
-
-## Example Response (Form Code Mode)
+## Example Response
 
 ```json
 {
@@ -81,6 +56,7 @@ When `form_code` is not set, the widget uses inline field definitions. This is t
     "button_icon": "",
     "button_icon_position": "left",
     "button_align": "left",
+    "button_full_width": false,
     "label_position": "top",
     "columns": "1",
     "field_gap": "",
@@ -104,61 +80,18 @@ When `form_code` is not set, the widget uses inline field definitions. This is t
 }
 ```
 
-## Example Response (Legacy Inline Fields Mode)
-
-```json
-{
-  "widget_type": "form",
-  "uuid": "form-widget-456",
-  "widget": {
-    "form_uuid": "form-widget-456",
-    "fields": [
-      {
-        "code": "name",
-        "type": "text",
-        "label": "Name",
-        "placeholder": "Your name",
-        "required": true,
-        "options": []
-      },
-      {
-        "code": "email",
-        "type": "email",
-        "label": "Email",
-        "placeholder": "your@email.com",
-        "required": true,
-        "options": []
-      },
-      {
-        "code": "message",
-        "type": "textarea",
-        "label": "Message",
-        "placeholder": "Your message...",
-        "required": false,
-        "options": []
-      }
-    ],
-    "submit_text": "Submit",
-    "success_message": "Thank you! Your message has been sent.",
-    "error_message": "Something went wrong. Please try again.",
-    "button_color": "#50a5f1",
-    "email_to": "contact@example.com"
-  }
-}
-```
-
 ## How It Works
 
 The form widget works in two steps:
 
-1. **Page render**: The widget provides the `form_code` and layout settings
-2. **Form fetch**: The frontend fetches form definition (fields, validation) from the Forms API using the `form_code`
+1. **Page render**: The widget provides the `form_code` and layout/styling settings
+2. **Form fetch**: The frontend fetches the form definition from the Forms API using the `form_code`
 
 ```
 GET /v1/:workspace/:project/forms/:form_code
 ```
 
-This returns the form fields, validation rules, success message, and optional `captcha_site_key`. See [Forms API](../forms.md) for details.
+This returns the form fields, validation rules, consents, success message, and optional `captcha_site_key`.
 
 ## Layout Settings
 
@@ -192,50 +125,25 @@ Form submissions go through the Forms API:
 POST /v1/:workspace/:project/forms/:form_uuid/submit
 ```
 
-### Request Body
-
-```json
-{
-  "data": {
-    "name": "John Doe",
-    "email": "john@example.com",
-    "message": "Hello, I have a question."
-  },
-  "_captcha_token": "0.turnstile_token_here..."
-}
-```
-
-See [Forms API](../forms.md) for full submission documentation including Cloudflare Turnstile CAPTCHA.
-
 ## Usage Example
 
 ```javascript
 async function renderFormWidget(widget, language, api) {
   const { form_code, submit_text, button_align, label_position, columns } = widget.widget;
 
-  // Fetch form definition from Forms API
   const { data: form } = await api.getForm(form_code);
   if (!form) return '<p>Form not found</p>';
 
-  const submitLabel = submit_text?.[language] || submit_text?.en || 'Submit';
+  const submitLabel = typeof submit_text === 'object'
+    ? (submit_text[language] || submit_text.en || 'Submit')
+    : (submit_text || 'Submit');
 
   const fields = form.fields.map(field => {
     const label = field.label_translation?.[language] || field.label;
-    const required = field.required ? 'required' : '';
-
-    if (field.type === 'textarea') {
-      return `
-        <div class="form-group">
-          <label>${label}</label>
-          <textarea name="${field.code}" placeholder="${field.placeholder || ''}" ${required}></textarea>
-        </div>
-      `;
-    }
-
     return `
       <div class="form-group">
         <label>${label}</label>
-        <input type="${field.type}" name="${field.code}" placeholder="${field.placeholder || ''}" ${required} />
+        <input type="${field.type}" name="${field.code}" ${field.required ? 'required' : ''} />
       </div>
     `;
   }).join('');

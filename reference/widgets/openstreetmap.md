@@ -38,14 +38,12 @@ openstreetmap
 | `widget.collection_layers_field` | string | Field code containing GeoJSON data in each collection entry |
 | `widget.collection_layers_limit` | number | Maximum number of entries to load for collection layers (default: 50) |
 | `widget.collection_layers_filter_field` | string | Field code to filter collection layer entries by |
-| `widget.collection_layers_filter_value` | string | Value to match for filtering (used when `collection_layers_filter_value_source` is `"static"`) |
+| `widget.collection_layers_filter_value` | string | Value to match for filtering |
 | `widget.collection_layers_filter_value_source` | string | Filter value source: `"static"` or `"url"` (default: `"static"`) |
 | `widget.collection_layers_filter_url_segment` | number | URL path segment number to extract filter value from (default: `1`) |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response
-
-### Basic (marker only)
 
 ```json
 {
@@ -67,116 +65,23 @@ openstreetmap
     "entry_id": "",
     "entry_url_segment": 1,
     "geojson_field_code": "",
-    "geojson_fill_color": "",
-    "geojson_stroke_color": "",
-    "geojson_fill_opacity": ""
-  },
-  "settings": {
-    "minHeight": 400
-  }
-}
-```
-
-### With GeoJSON file (static)
-
-```json
-{
-  "widget_type": "openstreetmap",
-  "uuid": "osm-456",
-  "widget": {
-    "lat": 52.2297,
-    "lng": 21.0122,
-    "zoom": 10,
-    "tile_style": "light",
-    "show_marker": false,
-    "scroll_wheel_zoom": true,
-    "zoom_control": true,
-    "draggable": true,
-    "geojson_source": "static",
-    "geojson_file": "https://example.com/files/districts.geojson",
-    "collection_code": "",
-    "entry_source": "static",
-    "entry_id": "",
-    "entry_url_segment": 1,
-    "geojson_field_code": "",
-    "geojson_fill_color": "#ff6600",
-    "geojson_stroke_color": "#cc3300",
-    "geojson_fill_opacity": "0.3"
-  },
-  "settings": {
-    "minHeight": 500
-  }
-}
-```
-
-### With dynamic GeoJSON (from collection)
-
-```json
-{
-  "widget_type": "openstreetmap",
-  "uuid": "osm-789",
-  "widget": {
-    "lat": 52.2297,
-    "lng": 21.0122,
-    "zoom": 12,
-    "tile_style": "standard",
-    "show_marker": true,
-    "scroll_wheel_zoom": false,
-    "zoom_control": true,
-    "draggable": true,
-    "geojson_source": "dynamic",
-    "geojson_file": "",
-    "collection_code": "regions",
-    "entry_source": "url",
-    "entry_id": "",
-    "entry_url_segment": 2,
-    "geojson_field_code": "boundary_data",
-    "geojson_fill_color": "#3388ff",
-    "geojson_stroke_color": "#3388ff",
-    "geojson_fill_opacity": "0.2"
-  },
-  "settings": {
-    "minHeight": 400
-  }
-}
-```
-
-### With collection GeoJSON layers
-
-```json
-{
-  "widget_type": "openstreetmap",
-  "uuid": "osm-layers",
-  "widget": {
-    "lat": 52.2297,
-    "lng": 21.0122,
-    "zoom": 10,
-    "tile_style": "light",
-    "show_marker": false,
-    "scroll_wheel_zoom": true,
-    "zoom_control": true,
-    "draggable": true,
-    "geojson_source": "static",
-    "geojson_file": "",
-    "collection_code": "",
-    "entry_source": "static",
-    "entry_id": "",
-    "entry_url_segment": 1,
-    "geojson_field_code": "",
     "geojson_fill_color": "#3388ff",
     "geojson_stroke_color": "#3388ff",
     "geojson_fill_opacity": "0.2",
-    "collection_layers_enabled": true,
-    "collection_layers_collection": "regions",
-    "collection_layers_field": "geojson_file",
+    "collection_layers_enabled": false,
+    "collection_layers_collection": "",
+    "collection_layers_field": "",
     "collection_layers_limit": 50,
-    "collection_layers_filter_field": "category",
+    "collection_layers_filter_field": "",
     "collection_layers_filter_value": "",
-    "collection_layers_filter_value_source": "url",
-    "collection_layers_filter_url_segment": 2
+    "collection_layers_filter_value_source": "static",
+    "collection_layers_filter_url_segment": 1
   },
   "settings": {
-    "minHeight": 500
+    "responsive": {
+      "tablet": {},
+      "mobile": {}
+    }
   }
 }
 ```
@@ -201,59 +106,27 @@ openstreetmap
 
 ## GeoJSON Support
 
-The widget supports rendering GeoJSON data (polygons, lines, points) as map overlays. GeoJSON data can come from two sources:
+The widget supports rendering GeoJSON data (polygons, lines, points) as map overlays.
 
 ### Static Source
 
-Upload a `.geojson` file to the file manager and select it. The file URL is stored in `geojson_file`. When the map loads, it fetches the file and renders the features.
+Upload a `.geojson` file and provide its URL in `geojson_file`. The map fetches and renders the features on load.
 
 ### Dynamic Source
 
-Bind the widget to a collection field that contains GeoJSON data. The entry can be resolved:
+Bind the widget to a collection field containing GeoJSON data. The entry can be resolved:
 - **Static**: By a specific `entry_id`
-- **URL**: From a URL path segment (e.g., segment 2 from `/regions/mazowieckie/` → `mazowieckie`)
-
-### Rendering Behavior
-
-- GeoJSON features are rendered with customizable fill color, stroke color, and opacity
-- When GeoJSON data is loaded, the map automatically adjusts its viewport (`fitBounds`) to show all features
-- Point features are rendered as circle markers
-- If no GeoJSON data is configured, the map works as before (marker only)
+- **URL**: From a URL path segment (e.g., segment 2 from `/regions/mazowieckie/` = `mazowieckie`)
 
 ## Collection GeoJSON Layers
 
-When `collection_layers_enabled` is `true`, the widget loads all entries from the specified collection and renders each entry's GeoJSON field as a separate map layer.
-
-- **`collection_layers_collection`**: The collection code to fetch entries from
-- **`collection_layers_field`**: The field code in each entry that contains GeoJSON data (can be a file URL or inline GeoJSON)
-- **`collection_layers_filter_field`**: Optional field code to filter which entries are loaded
-- **`collection_layers_filter_value`**: Static value to match against the filter field
-- **`collection_layers_filter_value_source`**: Set to `"url"` to read the filter value from a URL path segment instead of using a static value
-- **`collection_layers_filter_url_segment`**: Which URL path segment to use (1-based) when `filter_value_source` is `"url"`
-
-Each GeoJSON area is clickable and navigates to the entry's URL (as returned by `entry.metadata.url`). Hovering over an area highlights it with increased opacity. The map automatically fits its viewport to include all collection layers.
-
-This feature works alongside the single GeoJSON source — you can have both a static/dynamic GeoJSON layer and collection layers on the same map.
+When `collection_layers_enabled` is `true`, the widget loads all entries from the specified collection and renders each entry's GeoJSON field as a separate clickable map layer.
 
 ## Usage Example
 
 ```javascript
 function renderOpenStreetMap(widget) {
-  const {
-    lat, lng, zoom,
-    tile_style,
-    show_marker,
-    scroll_wheel_zoom,
-    zoom_control,
-    draggable,
-    geojson_source,
-    geojson_file,
-    geojson_fill_color,
-    geojson_stroke_color,
-    geojson_fill_opacity
-  } = widget.widget;
-
-  const height = widget.settings?.minHeight || 400;
+  const { lat, lng, zoom, tile_style, show_marker, scroll_wheel_zoom, zoom_control, draggable } = widget.widget;
 
   const tileUrls = {
     standard: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -261,10 +134,7 @@ function renderOpenStreetMap(widget) {
     dark: 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
   };
 
-  const mapId = `map-${widget.uuid}`;
-
-  // Initialize map
-  const map = L.map(mapId, {
+  const map = L.map('map', {
     center: [lat || 52.2297, lng || 21.0122],
     zoom: zoom || 14,
     scrollWheelZoom: !!scroll_wheel_zoom,
@@ -279,24 +149,7 @@ function renderOpenStreetMap(widget) {
   if (show_marker) {
     L.marker([lat, lng]).addTo(map);
   }
-
-  // Load GeoJSON if configured
-  if (geojson_source === 'static' && geojson_file) {
-    fetch(geojson_file)
-      .then(r => r.json())
-      .then(data => {
-        const layer = L.geoJSON(data, {
-          style: {
-            fillColor: geojson_fill_color || '#3388ff',
-            color: geojson_stroke_color || '#3388ff',
-            fillOpacity: parseFloat(geojson_fill_opacity) || 0.2,
-            weight: 2
-          }
-        }).addTo(map);
-        map.fitBounds(layer.getBounds());
-      });
-  }
 }
 ```
 
-> **Note**: This widget requires [Leaflet.js](https://leafletjs.com/) library to be loaded on the page. Include `leaflet.css` and `leaflet.js` in your HTML head.
+> **Note**: This widget requires [Leaflet.js](https://leafletjs.com/) library to be loaded on the page.

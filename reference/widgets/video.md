@@ -15,24 +15,24 @@ video
 | `widget_type` | string | Always `"video"` |
 | `uuid` | string | Unique widget identifier |
 | `widget` | object | Widget properties |
-| `widget.url` | string | Original video URL |
-| `widget.embed_url` | string | Generated embed URL (YouTube/Vimeo) |
 | `widget.source` | string | Video source: `"youtube"`, `"vimeo"`, `"url"` |
+| `widget.url` | string | Original video URL |
 | `widget.autoplay` | boolean | Auto-start video on load |
 | `widget.loop` | boolean | Loop video playback |
 | `widget.muted` | boolean | Start video muted |
 | `settings` | object | Style settings (optional) |
 
-## Example Response (YouTube)
+> **Note**: The API response also includes an `embed_url` field with a pre-computed embed URL for YouTube/Vimeo videos.
+
+## Example Response
 
 ```json
 {
   "widget_type": "video",
   "uuid": "video-123",
   "widget": {
-    "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-    "embed_url": "https://www.youtube.com/embed/dQw4w9WgXcQ",
     "source": "youtube",
+    "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
     "autoplay": false,
     "loop": false,
     "muted": false
@@ -43,24 +43,6 @@ video
       "mobile": {}
     }
   }
-}
-```
-
-## Example Response (Vimeo)
-
-```json
-{
-  "widget_type": "video",
-  "uuid": "video-456",
-  "widget": {
-    "url": "https://vimeo.com/123456789",
-    "embed_url": "https://player.vimeo.com/video/123456789",
-    "source": "vimeo",
-    "autoplay": false,
-    "loop": true,
-    "muted": true
-  },
-  "settings": {}
 }
 ```
 
@@ -76,7 +58,8 @@ video
 
 ```javascript
 function renderVideo(widget) {
-  const { embed_url, source, autoplay, loop, muted } = widget.widget;
+  const { source, url, autoplay, loop, muted } = widget.widget;
+  const embedUrl = widget.widget.embed_url;
 
   if (source === 'youtube' || source === 'vimeo') {
     const params = new URLSearchParams();
@@ -84,12 +67,12 @@ function renderVideo(widget) {
     if (loop) params.set('loop', '1');
     if (muted) params.set(source === 'youtube' ? 'mute' : 'muted', '1');
 
-    const separator = embed_url.includes('?') ? '&' : '?';
+    const separator = embedUrl.includes('?') ? '&' : '?';
 
     return `
       <div class="video-wrapper" style="position: relative; padding-bottom: 56.25%;">
         <iframe
-          src="${embed_url}${separator}${params.toString()}"
+          src="${embedUrl}${separator}${params.toString()}"
           style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
           frameborder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -100,7 +83,7 @@ function renderVideo(widget) {
   } else {
     return `
       <video
-        src="${widget.widget.url}"
+        src="${url}"
         ${autoplay ? 'autoplay' : ''}
         ${loop ? 'loop' : ''}
         ${muted ? 'muted' : ''}

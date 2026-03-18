@@ -28,17 +28,7 @@ collection-carousel
 | `widget.show_title` | boolean | Display title (default: true) |
 | `widget.show_excerpt` | boolean | Display excerpt (default: true) |
 | `widget.exclude_current_entry` | boolean | Exclude current entry from carousel results (default: false) |
-| `widget.route_uuid` | string\|null | Route UUID for entry URL resolution |
 | `settings` | object | Style settings (optional) |
-
-### Server-Side Enrichment Fields
-
-When the API can resolve the collection data server-side, the following fields are conditionally included in the response. When absent, fetch entries client-side via the Collection API.
-
-| Property | Type | Description |
-|----------|------|-------------|
-| `widget.entries` | array | Pre-fetched collection entries (included when `collection_code` is set) |
-| `widget.entries_meta` | object | Pagination metadata (`total`, `page`, `per_page`) |
 
 ## Example Response
 
@@ -59,8 +49,7 @@ When the API can resolve the collection data server-side, the following fields a
     "image_field": "author_photo",
     "show_title": true,
     "show_excerpt": true,
-    "exclude_current_entry": false,
-    "route_uuid": null
+    "exclude_current_entry": false
   },
   "settings": {
     "paddingTop": 40,

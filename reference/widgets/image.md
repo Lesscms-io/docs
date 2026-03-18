@@ -1,6 +1,6 @@
 # Image Widget
 
-An image widget with optional dynamic content from collections.
+A single image widget with style presets.
 
 ## Widget Type
 
@@ -15,16 +15,12 @@ image
 | `widget_type` | string | Always `"image"` |
 | `uuid` | string | Unique widget identifier |
 | `widget` | object | Widget properties |
-| `widget.image_source` | string | `"static"` or `"dynamic"` |
-| `widget.image_style` | string | Image style preset: `"none"`, `"rounded"`, `"rounded-lg"`, `"circle"`, `"shadow-sm"`, `"shadow-lg"`, `"rounded-shadow"`, `"border"`, `"border-rounded"` |
-| `widget.collection_code` | string | Collection code (when dynamic) |
-| `widget.field_code` | string | Field code (when dynamic) |
-| `widget.entry_id` | string | Entry ID (when dynamic) |
-| `widget.url` | string | Image URL (when static) |
-| `widget.alt` | object | Multilingual alt text (when static) |
+| `widget.image_source` | string | Content source: `"static"` or `"dynamic"` (default: `"static"`) |
+| `widget.image` | string\|null | Image URL |
+| `widget.image_style` | string | Image style preset (default: `"none"`) |
 | `settings` | object | Style settings (optional) |
 
-## Example Response (Static)
+## Example Response
 
 ```json
 {
@@ -32,35 +28,8 @@ image
   "uuid": "img-123",
   "widget": {
     "image_source": "static",
-    "image_style": "rounded-shadow",
-    "url": "https://cdn.example.com/images/hero.jpg",
-    "alt": {
-      "en": "Company headquarters",
-      "pl": "Siedziba firmy"
-    }
-  },
-  "settings": {
-    "horizontalAlign": "center",
-    "responsive": {
-      "tablet": {},
-      "mobile": {}
-    }
-  }
-}
-```
-
-## Example Response (Dynamic)
-
-```json
-{
-  "widget_type": "image",
-  "uuid": "img-456",
-  "widget": {
-    "image_source": "dynamic",
-    "image_style": "none",
-    "collection_code": "products",
-    "field_code": "main_image",
-    "entry_id": "product-123"
+    "image": "https://cdn.example.com/images/hero.jpg",
+    "image_style": "rounded-shadow"
   },
   "settings": {
     "responsive": {
@@ -70,19 +39,12 @@ image
   }
 }
 ```
-
-## Content Source
-
-| Value | Description |
-|-------|-------------|
-| `static` | Use `widget.url` and `widget.alt` directly |
-| `dynamic` | Fetch image from collection field |
 
 ## Image Style Presets
 
 | Value | Description | CSS |
 |-------|-------------|-----|
-| `none` | No style (default) | — |
+| `none` | No style (default) | -- |
 | `rounded` | Rounded corners | `border-radius: 12px` |
 | `rounded-lg` | Large rounded corners | `border-radius: 24px` |
 | `circle` | Circle / ellipse | `border-radius: 50%` |
@@ -95,25 +57,11 @@ image
 ## Usage Example
 
 ```javascript
-async function renderImage(widget, language, entryData, api) {
-  const { image_source, image_style, collection_code, field_code, entry_id } = widget.widget;
-  let url = '';
-  let alt = '';
+function renderImage(widget) {
+  const { image_source, image, image_style } = widget.widget;
 
-  if (image_source === 'dynamic') {
-    // Fetch from collection or use provided entry data
-    if (entryData) {
-      url = entryData[field_code] || '';
-    } else if (collection_code && entry_id) {
-      const entry = await api.getEntry(collection_code, entry_id);
-      url = entry.data[field_code] || '';
-    }
-  } else {
-    url = widget.widget?.url || '';
-    alt = widget.widget?.alt?.[language] || widget.widget?.alt?.en || '';
-  }
+  if (!image) return '<div class="image-placeholder"><i class="fa-solid fa-image"></i></div>';
 
-  // Apply image style preset
   const styleMap = {
     'none': '',
     'rounded': 'border-radius: 12px',
@@ -127,6 +75,6 @@ async function renderImage(widget, language, entryData, api) {
   };
   const style = styleMap[image_style] || '';
 
-  return `<img src="${url}" alt="${alt}" class="img-fluid" style="${style}" />`;
+  return `<img src="${image}" class="img-fluid" style="${style}" />`;
 }
 ```

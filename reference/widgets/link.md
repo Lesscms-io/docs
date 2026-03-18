@@ -14,14 +14,7 @@ link
 |----------|------|-------------|
 | `widget_type` | string | Always `"link"` |
 | `uuid` | string | Unique widget identifier |
-| `widget` | object | Widget properties |
-| `widget.icon` | string | Icon class (FontAwesome), default `"fa-solid fa-arrow-right"` |
-| `widget.icon_position` | string | `"left"`, `"right"`, or `"none"` |
-| `widget.animation` | string | Hover animation: `"none"`, `"slide"`, `"fade"`, `"underline"` |
-| `widget.color` | string\|null | Custom link color (hex) |
-| `widget.target_blank` | boolean | Open in new tab |
-| `widget.text` | object | Multilingual link text |
-| `widget.url` | string | Link URL |
+| `widget` | object | Widget properties (inline-edited content, no configurable fields) |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response
@@ -30,18 +23,7 @@ link
 {
   "widget_type": "link",
   "uuid": "link-123",
-  "widget": {
-    "icon": "fa-solid fa-arrow-right",
-    "icon_position": "right",
-    "animation": "slide",
-    "color": "#50a5f1",
-    "target_blank": false,
-    "text": {
-      "en": "Learn more",
-      "pl": "Dowiedz sie wiecej"
-    },
-    "url": "https://example.com/about"
-  },
+  "widget": {},
   "settings": {
     "horizontalAlign": "left",
     "responsive": {

@@ -15,13 +15,10 @@ google-maps
 | `widget_type` | string | Always `"google-maps"` |
 | `uuid` | string | Unique widget identifier |
 | `widget` | object | Widget data |
-| `widget.location_source` | string | Location source: `"address"` or `"coordinates"` (default: `"address"`) |
+| `widget.api_key` | string | Google Maps API key (intentionally excluded from API response for security) |
 | `widget.address` | object | Multilingual address text `{ "en": "...", "pl": "..." }` |
-| `widget.lat` | number\|null | Latitude for coordinate-based location |
-| `widget.lng` | number\|null | Longitude for coordinate-based location |
 | `widget.zoom` | number | Zoom level (1-21, default: 14) |
 | `widget.map_type` | string | Map type: `"roadmap"` or `"satellite"` |
-| `widget.show_marker` | boolean | Show map marker at the location (default: true) |
 | `widget.street_view_control` | boolean | Show Street View pegman control (default: false) |
 | `widget.zoom_control` | boolean | Show zoom +/- buttons (default: true) |
 | `widget.fullscreen_control` | boolean | Show fullscreen button (default: true) |
@@ -30,25 +27,21 @@ google-maps
 | `widget.draggable` | boolean | Allow map panning by dragging (default: true) |
 | `settings` | object | Style settings (optional) |
 
-> **Note**: The API key is intentionally not exposed in the API response for security reasons. The frontend application should provide its own Google Maps API key for rendering.
+> **Note**: The `api_key` field is intentionally excluded from the API response for security. The frontend application should provide its own Google Maps API key.
 
-## Example Response (Address Mode)
+## Example Response
 
 ```json
 {
   "widget_type": "google-maps",
   "uuid": "maps-123",
   "widget": {
-    "location_source": "address",
     "address": {
       "en": "1600 Amphitheatre Parkway, Mountain View, CA",
       "pl": "1600 Amphitheatre Parkway, Mountain View, CA"
     },
-    "lat": null,
-    "lng": null,
     "zoom": 14,
     "map_type": "roadmap",
-    "show_marker": true,
     "street_view_control": false,
     "zoom_control": true,
     "fullscreen_control": true,
@@ -57,35 +50,10 @@ google-maps
     "draggable": true
   },
   "settings": {
-    "minHeight": 400,
     "responsive": {
       "tablet": {},
       "mobile": {}
     }
-  }
-}
-```
-
-## Example Response (Coordinates Mode)
-
-```json
-{
-  "widget_type": "google-maps",
-  "uuid": "maps-456",
-  "widget": {
-    "location_source": "coordinates",
-    "address": {},
-    "lat": 37.4220,
-    "lng": -122.0841,
-    "zoom": 16,
-    "map_type": "satellite",
-    "show_marker": true,
-    "street_view_control": true,
-    "zoom_control": true,
-    "fullscreen_control": true,
-    "map_type_control": true,
-    "scroll_wheel": true,
-    "draggable": true
   }
 }
 ```
@@ -111,23 +79,15 @@ google-maps
 
 ```javascript
 function renderGoogleMaps(widget, language) {
-  const { location_source, address, lat, lng, zoom, map_type, show_marker } = widget.widget;
-  const height = widget.settings?.minHeight || 400;
+  const { address, zoom, map_type } = widget.widget;
 
-  let query;
-  if (location_source === 'coordinates' && lat && lng) {
-    query = `${lat},${lng}`;
-  } else {
-    query = address?.[language] || address?.en || '';
-  }
-
+  const query = address?.[language] || address?.en || '';
   if (!query) return '';
 
   const encodedQuery = encodeURIComponent(query);
 
-  // Using embed URL (no API key required for basic embeds)
   return `
-    <div class="google-maps-wrapper" style="width: 100%; height: ${height}px; overflow: hidden;">
+    <div class="google-maps-wrapper" style="width: 100%; height: 400px; overflow: hidden;">
       <iframe
         src="https://www.google.com/maps?q=${encodedQuery}&z=${zoom || 14}&output=embed"
         width="100%"
