@@ -1,6 +1,8 @@
 # Blocks
 
-Reusable content components that can be used across pages. Perfect for headers, footers, sidebars, and other shared content.
+Simple reusable content values — a single piece of data like a phone number, logo URL, email address, or short text. Blocks are perfect for small, shared values that appear across multiple pages (e.g., in headers, footers, or sidebars).
+
+Unlike pages and elements which use the page builder (sections/columns/widgets), blocks store just **one value** per block.
 
 ## Endpoints
 
@@ -34,51 +36,32 @@ curl -H "x-api-key: YOUR_API_KEY" \
   "data": [
     {
       "block_uuid": "550e8400-e29b-41d4-a716-446655440000",
-      "code": "header",
-      "name": "Site Header",
+      "code": "logo-light",
+      "name": "Logo (light)",
       "name_translation": {
-        "en": "Site Header",
-        "pl": "Nagłówek strony"
+        "en": "Logo (light)",
+        "pl": "Logo (jasne)"
       },
-      "description": "Main site header with navigation",
-      "description_translation": {
-        "en": "Main site header with navigation",
-        "pl": "Główny nagłówek strony z nawigacją"
-      },
-      "schema_name": "Header Template",
-      "schema_code": "header-template",
       "sort_order": 1,
       "created_at": "2024-01-15T10:00:00Z",
       "updated_at": "2024-12-15T14:30:00Z",
-      "data": {
-        "logo_url": "https://cdn.example.com/logo.png",
-        "tagline": {
-          "en": "Build amazing websites",
-          "pl": "Twórz niesamowite strony"
-        }
-      },
+      "data": "https://cdn.lesscms.io/projects/abc123/logo-white.png",
       "metadata": {
         "is_public": true
       }
     },
     {
       "block_uuid": "660e8400-e29b-41d4-a716-446655440001",
-      "code": "footer",
-      "name": "Site Footer",
+      "code": "main-phone",
+      "name": "Main Phone Number",
       "name_translation": {
-        "en": "Site Footer",
-        "pl": "Stopka strony"
+        "en": "Main Phone Number",
+        "pl": "Główny numer telefonu"
       },
       "sort_order": 2,
       "created_at": "2024-01-15T10:00:00Z",
       "updated_at": "2024-12-10T09:15:00Z",
-      "data": {
-        "copyright": "© 2024 Company Name",
-        "social_links": [
-          { "platform": "twitter", "url": "https://twitter.com/company" },
-          { "platform": "linkedin", "url": "https://linkedin.com/company" }
-        ]
-      },
+      "data": "+48 33 874 83 15",
       "metadata": {
         "is_public": true
       }
@@ -107,13 +90,13 @@ GET /v1/:workspace_code/:project_code/blocks/:code
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `code` | string | **Required.** Block code (e.g., `header`, `footer`) |
+| `code` | string | **Required.** Block code (e.g., `logo-light`, `main-phone`) |
 
 ### Example Request
 
 ```bash
 curl -H "x-api-key: YOUR_API_KEY" \
-  https://api.lesscms.com/v1/workspace/project/blocks/header
+  https://api.lesscms.com/v1/workspace/project/blocks/main-phone
 ```
 
 ### Example Response
@@ -121,28 +104,12 @@ curl -H "x-api-key: YOUR_API_KEY" \
 ```json
 {
   "data": {
-    "content": {
-      "logo_url": "https://cdn.example.com/logo.png",
-      "tagline": {
-        "en": "Build amazing websites",
-        "pl": "Twórz niesamowite strony"
-      },
-      "nav_items": [
-        {
-          "label": { "en": "Home", "pl": "Strona główna" },
-          "url": "/"
-        },
-        {
-          "label": { "en": "About", "pl": "O nas" },
-          "url": "/about"
-        }
-      ]
-    },
+    "content": "+48 33 874 83 15",
     "metadata": {
-      "code": "header",
-      "block_uuid": "550e8400-e29b-41d4-a716-446655440000",
+      "code": "main-phone",
+      "block_uuid": "660e8400-e29b-41d4-a716-446655440001",
       "created_at": "2024-01-15T10:00:00Z",
-      "updated_at": "2024-12-15T14:30:00Z",
+      "updated_at": "2024-12-10T09:15:00Z",
       "is_public": true
     }
   }
@@ -153,7 +120,18 @@ curl -H "x-api-key: YOUR_API_KEY" \
 
 #### `content`
 
-Contains all block field data as defined in the block schema. Multilingual fields have language-keyed objects.
+The block value — a string (text, URL, phone number, etc.) or a multilingual object:
+
+```json
+// Simple string
+"content": "+48 33 874 83 15"
+
+// Multilingual
+"content": {
+  "en": "Contact us today",
+  "pl": "Skontaktuj się z nami"
+}
+```
 
 #### `metadata`
 
@@ -207,112 +185,19 @@ curl -H "x-api-key: YOUR_API_KEY" \
   https://api.lesscms.com/v1/workspace/project/blocks/preview/abc123xyz789
 ```
 
-### Example Response
-
-```json
-{
-  "data": {
-    "logo_url": "https://cdn.example.com/logo-new.png",
-    "tagline": {
-      "en": "Updated tagline",
-      "pl": "Zaktualizowany slogan"
-    },
-    "metadata": {
-      "is_public": true
-    },
-    "code": "header",
-    "block_uuid": "550e8400-e29b-41d4-a716-446655440000",
-    "created_at": "2024-01-15T10:00:00Z",
-    "updated_at": "2024-12-15T14:30:00Z",
-    "is_draft": true
-  }
-}
-```
-
 **Note:** Draft previews are not cached.
 
 ---
 
 ## Use Cases
 
-### Load Header Block
+### Load Block Values
 
 ```javascript
-async function loadHeader(language = 'en') {
-  const response = await fetch(
-    'https://api.lesscms.com/v1/workspace/project/blocks/header',
-    {
-      headers: { 'x-api-key': API_KEY }
-    }
-  );
-
-  const { data } = await response.json();
-
-  return {
-    logoUrl: data.content.logo_url,
-    tagline: data.content.tagline[language],
-    navItems: data.content.nav_items?.map(item => ({
-      label: item.label[language],
-      url: item.url
-    }))
-  };
-}
-```
-
-### Load Footer Block
-
-```javascript
-async function loadFooter() {
-  const response = await fetch(
-    'https://api.lesscms.com/v1/workspace/project/blocks/footer',
-    {
-      headers: { 'x-api-key': API_KEY }
-    }
-  );
-
-  const { data } = await response.json();
-
-  return {
-    copyright: data.content.copyright,
-    socialLinks: data.content.social_links
-  };
-}
-```
-
-### Cache Blocks Globally
-
-```javascript
-// Blocks rarely change - cache aggressively
-const blockCache = new Map();
-
-async function getBlock(code) {
-  if (blockCache.has(code)) {
-    return blockCache.get(code);
-  }
-
-  const response = await fetch(
-    `https://api.lesscms.com/v1/workspace/project/blocks/${code}`,
-    {
-      headers: { 'x-api-key': API_KEY }
-    }
-  );
-
-  const { data } = await response.json();
-  blockCache.set(code, data);
-
-  return data;
-}
-```
-
-### Load All Blocks at Once
-
-```javascript
-async function loadAllBlocks() {
+async function loadBlocks() {
   const response = await fetch(
     'https://api.lesscms.com/v1/workspace/project/blocks',
-    {
-      headers: { 'x-api-key': API_KEY }
-    }
+    { headers: { 'x-api-key': API_KEY } }
   );
 
   const { data: blocks } = await response.json();
@@ -327,15 +212,24 @@ async function loadAllBlocks() {
 }
 
 // Usage
-const blocks = await loadAllBlocks();
-const headerLogo = blocks.header?.logo_url;
-const footerCopyright = blocks.footer?.copyright;
+const blocks = await loadBlocks();
+const logo = blocks['logo-light'];       // "https://cdn.lesscms.io/.../logo-white.png"
+const phone = blocks['main-phone'];       // "+48 33 874 83 15"
+```
+
+### Use Blocks in Templates
+
+```html
+<header>
+  <img src="${blocks['logo-light']}" alt="Logo" />
+  <a href="tel:${blocks['main-phone']}">${blocks['main-phone']}</a>
+</header>
 ```
 
 ---
 
 ## Related Resources
 
-- [Pages](pages.md)
-- [Elements](elements.md)
-- [Menus](menus.md)
+- [Pages](pages.md) - Website pages with page builder content
+- [Elements](elements.md) - Reusable page builder sections (headers, footers)
+- [Menus](menus.md) - Navigation structures

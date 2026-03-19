@@ -8,8 +8,8 @@ Complete reference documentation for all LessCMS Public API endpoints.
 
 - **[Pages](pages.md)** - Website pages with dynamic content
 - **[Collections](collections.md)** - Structured content entries (blog posts, products, etc.)
-- **[Blocks](blocks.md)** - Reusable content components
-- **[Elements](elements.md)** - Global content elements
+- **[Blocks](blocks.md)** - Simple reusable values (logo URL, phone number, short text)
+- **[Elements](elements.md)** - Reusable page builder sections (headers, footers, shared layouts)
 
 ### Navigation & Structure
 

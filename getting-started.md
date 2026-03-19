@@ -119,7 +119,114 @@ print(data['pages'])
 }
 ```
 
-## Step 3: Filtering Content
+## Step 3: Loading Project Styles
+
+Before rendering content, fetch your project's style configuration. The `/config` endpoint returns all visual settings configured in the CMS dashboard -- colors, fonts, typography, layout, and more. These styles are the foundation that widgets reference.
+
+### Fetch Config
+
+```bash
+curl -H "x-api-key: YOUR_API_KEY" \
+  https://api.lesscms.com/v1/workspace123/project456/config
+```
+
+### Key Fields in the Response
+
+| Field | Description |
+|-------|-------------|
+| `styles` | All visual settings (colors, typography, buttons, inputs, links, layout) |
+| `color_variables` | Array of `{ code, label, value }` objects -- maps color names to resolved hex values |
+| `google_fonts_url` | Ready-to-use URL for a `<link>` tag to load Google Fonts |
+| `fonts` | Array of Google Font family names enabled for the project |
+| `languages` | Array of language codes enabled for the project |
+| `default_language` | Default language code |
+
+### Setting Up Styles in Your App
+
+```javascript
+async function loadConfig() {
+  const response = await fetch(
+    'https://api.lesscms.com/v1/workspace/project/config',
+    { headers: { 'x-api-key': API_KEY } }
+  );
+  const { data } = await response.json();
+
+  // Load Google Fonts
+  if (data.google_fonts_url) {
+    const link = document.createElement('link');
+    link.href = data.google_fonts_url;
+    link.rel = 'stylesheet';
+    document.head.appendChild(link);
+  }
+
+  // Set CSS variables from color_variables
+  data.color_variables.forEach(cv => {
+    document.documentElement.style.setProperty(`--lcms-color-${cv.code}`, cv.value);
+  });
+
+  // Set typography variables
+  const s = data.styles;
+  if (s.font_heading) document.documentElement.style.setProperty('--lcms-font-heading', s.font_heading);
+  if (s.font_body) document.documentElement.style.setProperty('--lcms-font-body', s.font_body);
+  if (s.border_radius) document.documentElement.style.setProperty('--lcms-border-radius', s.border_radius + 'px');
+
+  return data;
+}
+```
+
+### Understanding Color Variables
+
+Widgets in the page builder use `var:colorName` syntax to reference project colors. For example, a button widget might have `background: "var:primary"`. The `color_variables` array maps these names to actual values:
+
+```json
+{
+  "color_variables": [
+    { "code": "primary", "label": "Primary", "value": "#007BFF" },
+    { "code": "secondary", "label": "Secondary", "value": "#6c757d" },
+    { "code": "accent", "label": "Accent", "value": "#FF6B35" },
+    { "code": "success", "label": "Success", "value": "#28a745" },
+    { "code": "danger", "label": "Danger", "value": "#dc3545" },
+    { "code": "warning", "label": "Warning", "value": "#ffc107" },
+    { "code": "info", "label": "Info", "value": "#17a2b8" },
+    { "code": "light", "label": "Light", "value": "#f8f9fa" },
+    { "code": "dark", "label": "Dark", "value": "#343a40" },
+    { "code": "white", "label": "White", "value": "#ffffff" },
+    { "code": "black", "label": "Black", "value": "#000000" },
+    { "code": "text", "label": "Text", "value": "#212529" },
+    { "code": "text-muted", "label": "Text Muted", "value": "#6c757d" },
+    { "code": "link", "label": "Link", "value": "#007BFF" },
+    { "code": "background", "label": "Background", "value": "#ffffff" },
+    { "code": "background-alt", "label": "Background Alt", "value": "#f8f9fa" },
+    { "code": "border", "label": "Border", "value": "#dee2e6" }
+  ]
+}
+```
+
+When rendering a widget with `"color": "var:primary"`, resolve it by looking up `primary` in the `color_variables` array to get `#007BFF`. Custom colors defined in the CMS appear with a `custom-` prefix (e.g., `custom-brand-red`).
+
+### Style Properties Reference
+
+The `styles` object contains all visual settings for the project. Key categories:
+
+**Colors:** `primary_color`, `secondary_color`, `accent_color`, `text_color`, `background_color`, `border_color`, plus status colors (`success_color`, `danger_color`, `warning_color`, `info_color`) and neutral colors (`light_color`, `dark_color`, `white_color`, `black_color`, `muted_color`, `background_alt_color`, `link_color`). A `custom_colors` array holds additional project-specific colors.
+
+**Typography:** `font_heading`, `font_body`, `font_size_base`, `line_height`. Heading sizes and weights are available per level: `h1_font_size`, `h1_font_weight`, `h1_color` through `h6_*`. Paragraph defaults: `p_font_size`, `p_font_weight`, `p_color`.
+
+**Buttons:** `btn_padding`, `btn_border_radius`, `btn_font_size`, `btn_font_weight`.
+
+**Inputs:** `input_background_color`, `input_text_color`, `input_border_color`, `input_focus_border_color`, `input_placeholder_color`.
+
+**Links:** `link_color`, `link_hover_color`, `link_text_decoration`, `link_hover_text_decoration`.
+
+**Layout:** `border_radius`, `container_max_width`.
+
+These styles apply globally. Fonts from `font_heading` and `font_body` are loaded via the `google_fonts_url`. Widgets inherit these defaults and can override them individually.
+
+[Learn more about Config →](reference/config.md)
+
+---
+
+## Step 4: Filtering Content
 
 ### Get a Specific Page
 
@@ -152,7 +259,7 @@ Response with Polish content:
 }
 ```
 
-## Step 4: Working with Collections
+## Step 5: Working with Collections
 
 Collections are perfect for structured content like blog posts, products, or team members.
 
@@ -190,7 +297,7 @@ curl -H "x-api-key: YOUR_API_KEY" \
 
 [Learn more about Collections →](reference/collections.md)
 
-## Step 5: Fetching Menus
+## Step 6: Fetching Menus
 
 Menus provide navigation structures for your site:
 
