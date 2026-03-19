@@ -30,6 +30,9 @@ collection-grouped
 | `widget.show_price` | boolean | Display price (default: true) |
 | `widget.show_image` | boolean | Display image (default: false) |
 | `widget.show_uncategorized` | boolean | Show entries without group value (default: true) |
+| `widget.route_uuid` | string\|null | Route UUID for entry detail pages |
+| `widget.use_custom_layout` | boolean | Use custom entry layout template |
+| `widget.layout_config` | object\|null | Custom layout configuration |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response
@@ -53,7 +56,10 @@ collection-grouped
     "show_description": true,
     "show_price": true,
     "show_image": false,
-    "show_uncategorized": true
+    "show_uncategorized": true,
+    "route_uuid": null,
+    "use_custom_layout": false,
+    "layout_config": null
   },
   "settings": {
     "responsive": {

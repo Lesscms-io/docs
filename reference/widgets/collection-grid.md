@@ -34,7 +34,8 @@ collection-grid
 | `widget.show_image` | boolean | Display image (default: true) |
 | `widget.show_date` | boolean | Display date (default: true) |
 | `widget.show_read_more` | boolean | Display read more link (default: true) |
-| `widget.read_more_text` | object | Multilingual read more text `{ "en": "...", "pl": "..." }` |
+| `widget.read_more` | object | Read more element group |
+| `widget.read_more.html` | object | Multilingual read more text `{ "en": "...", "pl": "..." }` |
 | `widget.tags_field` | string\|null | Field code for tags |
 | `widget.show_tags` | boolean | Display tags (default: false) |
 | `widget.card_background_color` | string\|null | Card background color (hex or `var:*`) |
@@ -42,6 +43,21 @@ collection-grid
 | `widget.card_border_radius` | number\|null | Card border radius in pixels |
 | `widget.card_padding` | number\|null | Card inner padding in pixels |
 | `widget.content_gap` | number | Gap between content elements in pixels (default: 8) |
+| `widget.route_uuid` | string\|null | Route UUID for entry detail pages |
+| `widget.columns_tablet` | number\|null | Number of columns on tablet breakpoint |
+| `widget.columns_mobile` | number\|null | Number of columns on mobile breakpoint |
+| `widget.card_style` | string | Card visual style (e.g. `"default"`, `"bordered"`) |
+| `widget.entry_template` | string\|null | Entry template code for custom layouts |
+| `widget.extra_field` | string\|null | Extra field code to display |
+| `widget.show_pagination` | boolean | Show pagination controls |
+| `widget.show_extra` | boolean | Show extra field |
+| `widget.exclude_url_segment` | string\|null | URL segment to exclude from results |
+| `widget.filter_field` | string\|null | Field code to filter by |
+| `widget.filter_source` | string\|null | Filter value source (`"static"` or `"url"`) |
+| `widget.filter_value` | string\|null | Static filter value |
+| `widget.filter_url_segment` | string\|null | URL segment for dynamic filter value |
+| `widget.use_custom_layout` | boolean | Use custom entry layout template |
+| `widget.layout_config` | object\|null | Custom layout configuration |
 | `widget.field_order` | array\|null | Order of displayed fields (managed via drag & drop in CMS) |
 | `settings` | object | Style settings (optional) |
 
@@ -71,9 +87,11 @@ collection-grid
     "show_image": true,
     "show_date": true,
     "show_read_more": true,
-    "read_more_text": {
-      "en": "Read More",
-      "pl": "Czytaj wiecej"
+    "read_more": {
+      "html": {
+        "en": "Read More",
+        "pl": "Czytaj wiecej"
+      }
     },
     "tags_field": "tags",
     "show_tags": true,
@@ -82,6 +100,21 @@ collection-grid
     "card_border_radius": 8,
     "card_padding": 16,
     "content_gap": 8,
+    "route_uuid": "route-uuid-789",
+    "columns_tablet": 2,
+    "columns_mobile": 1,
+    "card_style": "default",
+    "entry_template": null,
+    "extra_field": null,
+    "show_pagination": false,
+    "show_extra": false,
+    "exclude_url_segment": null,
+    "filter_field": null,
+    "filter_source": null,
+    "filter_value": null,
+    "filter_url_segment": null,
+    "use_custom_layout": false,
+    "layout_config": null,
     "field_order": ["image", "date", "title", "excerpt", "tags", "read_more"]
   },
   "settings": {
@@ -110,13 +143,13 @@ function renderCollectionGrid(widget, language) {
     show_title, show_excerpt, show_image, show_date, show_read_more,
     title_field, excerpt_field, image_field, date_field,
     title_limit, excerpt_limit,
-    read_more_text, gap
+    read_more, gap
   } = widget.widget;
 
   // Entries may be pre-fetched by the API (server-side enrichment).
   // If widget.entries exists, use it directly. Otherwise, fetch client-side.
   const entries = widget.widget.entries || []; // Fallback: fetch from /api/:project_code/collections/:collection_code
-  const readMoreLabel = read_more_text?.[language] || 'Read More';
+  const readMoreLabel = read_more?.html?.[language] || 'Read More';
 
   if (entries.length === 0) return '<p>No entries found.</p>';
 

@@ -20,6 +20,7 @@ video
 | `widget.autoplay` | boolean | Auto-start video on load |
 | `widget.loop` | boolean | Loop video playback |
 | `widget.muted` | boolean | Start video muted |
+| `widget.embed_url` | string | Video embed URL (YouTube, Vimeo, etc.) |
 | `settings` | object | Style settings (optional) |
 
 > **Note**: The API response also includes an `embed_url` field with a pre-computed embed URL for YouTube/Vimeo videos.

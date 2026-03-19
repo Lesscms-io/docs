@@ -27,12 +27,12 @@ numbered-box
 | `widget.number.position` | string | Number position: `"left"`, `"right"`, `"top"`, `"bottom"` (default: `"left"`) |
 | `widget.number.vertical_align` | string | Number vertical alignment: `"top"`, `"center"`, `"bottom"` (default: `"top"`) |
 | `widget.heading` | object | Heading element group |
-| `widget.heading.content` | object | Multilingual heading text |
+| `widget.heading.html` | object | Multilingual heading text |
 | `widget.heading.color` | string\|null | Heading text color |
 | `widget.heading.color:hover` | string\|null | Heading text color on hover |
 | `widget.heading.tag` | string | HTML heading tag (default: `"h3"`) |
 | `widget.text` | object | Text element group |
-| `widget.text.content` | object | Multilingual HTML content |
+| `widget.text.html` | object | Multilingual HTML content |
 | `widget.text.color` | string\|null | Content text color |
 | `widget.text.color:hover` | string\|null | Content text color on hover |
 | `settings` | object | Style settings (shared widget container styles) |
@@ -57,13 +57,13 @@ numbered-box
       "vertical_align": "top"
     },
     "heading": {
-      "content": { "en": "Discovery", "pl": "Odkrywanie" },
+      "html": { "en": "Discovery", "pl": "Odkrywanie" },
       "color": null,
       "color:hover": null,
       "tag": "h3"
     },
     "text": {
-      "content": { "en": "<p>We learn about your business needs and goals.</p>", "pl": "<p>Poznajemy potrzeby i cele Twojego biznesu.</p>" },
+      "html": { "en": "<p>We learn about your business needs and goals.</p>", "pl": "<p>Poznajemy potrzeby i cele Twojego biznesu.</p>" },
       "color": null,
       "color:hover": null
     }
@@ -111,8 +111,8 @@ function renderNumberedBox(widget, language, itemIndex = 0) {
   const alignItems = number.vertical_align === 'top' ? 'flex-start' : number.vertical_align === 'bottom' ? 'flex-end' : 'center';
 
   const titleTag = heading.tag || 'h3';
-  const titleText = heading.content?.[language] || heading.content?.en || '';
-  const bodyHtml = text.content?.[language] || text.content?.en || '';
+  const titleText = heading.html?.[language] || heading.html?.en || '';
+  const bodyHtml = text.html?.[language] || text.html?.en || '';
 
   return `
     <div class="numbered-box" style="display: flex; flex-direction: ${flexDir}; align-items: ${alignItems}; gap: 16px;">

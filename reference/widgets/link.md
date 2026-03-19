@@ -14,7 +14,18 @@ link
 |----------|------|-------------|
 | `widget_type` | string | Always `"link"` |
 | `uuid` | string | Unique widget identifier |
-| `widget` | object | Widget properties (inline-edited content, no configurable fields) |
+| `widget` | object | Widget properties |
+| `widget.text` | object | Text element-group |
+| `widget.text.html` | object | Multilingual link text (`{ "en": "...", "pl": "..." }`) |
+| `widget.text.color` | string\|null | Text color (CSS or `"var:colorName"`) |
+| `widget.text.color:hover` | string\|null | Text color on hover |
+| `widget.icon` | object | Icon element-group |
+| `widget.icon.icon` | string\|null | Font Awesome icon class |
+| `widget.icon.position` | string | Icon position: `"left"`, `"right"`, or `"none"` |
+| `widget.config` | object | Configuration |
+| `widget.config.animation` | string | Hover animation: `"none"`, `"slide"`, `"fade"`, `"underline"` |
+| `widget.config.target_blank` | boolean | Open in new tab |
+| `widget.config.url` | string | Link URL |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response
@@ -65,42 +76,44 @@ The link widget supports displaying multiple links in a grid. When multiple item
   "items": [
     {
       "widget_type": "link",
-      "widget": { "icon": "fa-solid fa-arrow-right", "icon_position": "right", "animation": "slide", "color": "#50a5f1", "target_blank": false, "text": { "en": "About Us" }, "url": "/about" }
+      "widget": { "text": { "html": { "en": "About Us" }, "color": "#50a5f1", "color:hover": null }, "icon": { "icon": "fa-solid fa-arrow-right", "position": "right" }, "config": { "animation": "slide", "target_blank": false, "url": "/about" } }
     },
     {
       "widget_type": "link",
-      "widget": { "icon": "fa-solid fa-arrow-right", "icon_position": "right", "animation": "slide", "color": "#50a5f1", "target_blank": false, "text": { "en": "Contact" }, "url": "/contact" }
+      "widget": { "text": { "html": { "en": "Contact" }, "color": "#50a5f1", "color:hover": null }, "icon": { "icon": "fa-solid fa-arrow-right", "position": "right" }, "config": { "animation": "slide", "target_blank": false, "url": "/contact" } }
     }
   ],
   "settings": {}
 }
 ```
 
-Per-item fields (`text`, `url`, `target_blank`) are unique to each item. Shared fields (`icon`, `icon_position`, `animation`, `color`) are the same across all items.
+Per-item fields (`text.html`, `config.url`, `config.target_blank`) are unique to each item. Shared fields (`icon`, `text.color`, `config.animation`) are the same across all items.
 
 ## Usage Example
 
 ```javascript
 function renderLink(widget, language) {
-  const { icon, icon_position, animation, color, target_blank } = widget.widget;
-  const text = widget.widget?.text?.[language] || widget.widget?.text?.en || '';
-  const url = widget.widget?.url || '#';
+  const { text, icon, config } = widget.widget;
+  const label = text?.html?.[language] || text?.html?.en || '';
+  const url = config?.url || '#';
+  const animation = config?.animation || 'none';
+  const iconPosition = icon?.position || 'right';
 
-  const target = target_blank ? ' target="_blank" rel="noopener noreferrer"' : '';
-  const style = color ? ` style="color: ${color}"` : '';
+  const target = config?.target_blank ? ' target="_blank" rel="noopener noreferrer"' : '';
+  const style = text?.color ? ` style="color: ${text.color}"` : '';
 
   let iconHtml = '';
-  if (icon_position !== 'none') {
-    iconHtml = `<i class="${icon} link-icon link-icon--${icon_position}"></i>`;
+  if (iconPosition !== 'none' && icon?.icon) {
+    iconHtml = `<i class="${icon.icon} link-icon link-icon--${iconPosition}"></i>`;
   }
 
-  const leftIcon = icon_position === 'left' ? iconHtml : '';
-  const rightIcon = icon_position === 'right' ? iconHtml : '';
+  const leftIcon = iconPosition === 'left' ? iconHtml : '';
+  const rightIcon = iconPosition === 'right' ? iconHtml : '';
 
   return `
     <a href="${url}" class="link link--animation-${animation}"${style}${target}>
       ${leftIcon}
-      <span class="link-text">${text}</span>
+      <span class="link-text">${label}</span>
       ${rightIcon}
     </a>
   `;

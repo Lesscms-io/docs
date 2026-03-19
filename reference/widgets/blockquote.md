@@ -16,13 +16,13 @@ blockquote
 | `uuid` | string | Unique widget identifier |
 | `widget` | object | Widget properties |
 | `widget.quote` | object | Quote element group |
-| `widget.quote.content` | object | Multilingual quote text |
+| `widget.quote.html` | object | Multilingual quote text |
 | `widget.quote.color` | string\|null | Accent color for border/icon |
 | `widget.quote.color:hover` | string\|null | Accent color on hover |
 | `widget.author` | object | Author element group |
-| `widget.author.content` | object | Multilingual author name |
+| `widget.author.html` | object | Multilingual author name |
 | `widget.source` | object | Source element group |
-| `widget.source.content` | object | Multilingual source/publication |
+| `widget.source.html` | object | Multilingual source/publication |
 | `widget.config` | object | Configuration group |
 | `widget.config.blockquote_style` | string | Quote style: `"simple"`, `"bordered"`, `"filled"` |
 | `settings` | object | Style settings (padding, background, border, hover transforms) |
@@ -35,7 +35,7 @@ blockquote
   "uuid": "blockquote-123",
   "widget": {
     "quote": {
-      "content": {
+      "html": {
         "en": "The only way to do great work is to love what you do.",
         "pl": "Jedynym sposobem na wykonanie swietnej pracy jest kochanie tego, co sie robi."
       },
@@ -43,13 +43,13 @@ blockquote
       "color:hover": null
     },
     "author": {
-      "content": {
+      "html": {
         "en": "Steve Jobs",
         "pl": "Steve Jobs"
       }
     },
     "source": {
-      "content": {
+      "html": {
         "en": "Stanford Commencement Speech, 2005",
         "pl": "Przemowienie na Stanford, 2005"
       }
@@ -84,9 +84,9 @@ function renderBlockquote(widget, language) {
   const { quote, author, source, config } = widget.widget;
   const style = config?.blockquote_style || 'bordered';
 
-  const quoteText = quote?.content?.[language] || quote?.content?.en || '';
-  const authorText = author?.content?.[language] || author?.content?.en || '';
-  const sourceText = source?.content?.[language] || source?.content?.en || '';
+  const quoteText = quote?.html?.[language] || quote?.html?.en || '';
+  const authorText = author?.html?.[language] || author?.html?.en || '';
+  const sourceText = source?.html?.[language] || source?.html?.en || '';
 
   const accentColor = quote?.color || '#50a5f1';
   const borderStyle = style === 'bordered' ? `border-left: 4px solid ${accentColor}; padding-left: 20px;` : '';

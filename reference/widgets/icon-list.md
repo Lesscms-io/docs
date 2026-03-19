@@ -25,7 +25,7 @@ This widget supports the multi-item pattern. When multiple items exist, the resp
 | `widget.icon.color` | string\|null | Icon color |
 | `widget.icon.color:hover` | string\|null | Icon color on hover |
 | `widget.text` | object | Text element group |
-| `widget.text.content` | object | Multilingual item text |
+| `widget.text.html` | object | Multilingual item text (HTML) |
 | `widget.text.size` | string | Text size: `"sm"`, `"md"`, `"lg"` (default: `"md"`) |
 | `widget.item_style` | object | Item styling group |
 | `widget.item_style.background` | string\|null | Item background color |
@@ -46,7 +46,7 @@ This widget supports the multi-item pattern. When multiple items exist, the resp
       "color:hover": null
     },
     "text": {
-      "content": {
+      "html": {
         "en": "Free shipping worldwide",
         "pl": "Darmowa dostawa na caly swiat"
       },
@@ -79,7 +79,7 @@ function renderIconList(widget, language) {
   const iconColor = icon?.color || 'inherit';
   const iconSize = sizeMap[icon?.size || 'md'] || '24px';
   const textSize = textSizeMap[text?.size || 'md'] || '1rem';
-  const itemText = text?.content?.[language] || text?.content?.en || '';
+  const itemText = text?.html?.[language] || text?.html?.en || '';
   const bgColor = item_style?.background;
 
   return `

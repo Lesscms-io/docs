@@ -15,7 +15,7 @@ toc
 | `widget_type` | string | Always `"toc"` |
 | `uuid` | string | Unique widget identifier |
 | `widget.title` | object | Title element group |
-| `widget.title.content` | object | Multilingual title `{ "en": "Table of Contents", "pl": "Spis treści" }` |
+| `widget.title.html` | object | Multilingual title `{ "en": "Table of Contents", "pl": "Spis treści" }` |
 | `widget.title.color` | string\|null | Title text color (color variable or hex) |
 | `widget.title.color:hover` | string\|null | Title text color on hover |
 | `widget.title.font_size` | number\|null | Title font size in pixels |
@@ -42,7 +42,7 @@ toc
   "uuid": "toc-123",
   "widget": {
     "title": {
-      "content": {
+      "html": {
         "en": "Table of Contents",
         "pl": "Spis treści"
       },
@@ -84,7 +84,7 @@ toc
 function renderToc(widget, language) {
   const { title, text, highlight, config } = widget.widget;
 
-  const tocTitle = title.content?.[language] || title.content?.en || '';
+  const tocTitle = title.html?.[language] || title.html?.en || '';
   const textColor = text.color || '#495057';
   const highlightColor = highlight.color || '#50a5f1';
   const itemsGap = text.items_gap ?? 8;

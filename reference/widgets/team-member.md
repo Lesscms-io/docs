@@ -16,9 +16,9 @@ team-member
 | `uuid` | string | Unique widget identifier |
 | `widget` | object | Widget data |
 | `widget.member` | object | Member element group |
-| `widget.member.name` | object | Multilingual member name |
-| `widget.member.position` | object | Multilingual position/title |
-| `widget.member.bio` | object | Multilingual biography |
+| `widget.member.name_html` | object | Multilingual member name |
+| `widget.member.position_html` | object | Multilingual position/title |
+| `widget.member.bio_html` | object | Multilingual biography |
 | `widget.image` | object | Image element group |
 | `widget.image.image` | string\|null | Photo URL |
 | `widget.social` | object | Social element group |
@@ -37,9 +37,9 @@ team-member
   "uuid": "member-123",
   "widget": {
     "member": {
-      "name": { "en": "John Smith", "pl": "Jan Kowalski" },
-      "position": { "en": "CEO", "pl": "Dyrektor generalny" },
-      "bio": { "en": "Leading the company since 2015.", "pl": "Prowadzi firme od 2015 roku." }
+      "name_html": { "en": "John Smith", "pl": "Jan Kowalski" },
+      "position_html": { "en": "CEO", "pl": "Dyrektor generalny" },
+      "bio_html": { "en": "Leading the company since 2015.", "pl": "Prowadzi firme od 2015 roku." }
     },
     "image": {
       "image": "https://cdn.example.com/photos/john.jpg"
@@ -74,9 +74,9 @@ team-member
 function renderTeamMember(widget, language) {
   const { member, image, social, config } = widget.widget;
 
-  const name = member?.name?.[language] || member?.name?.en || '';
-  const position = member?.position?.[language] || member?.position?.en || '';
-  const bio = member?.bio?.[language] || member?.bio?.en || '';
+  const name = member?.name_html?.[language] || member?.name_html?.en || '';
+  const position = member?.position_html?.[language] || member?.position_html?.en || '';
+  const bio = member?.bio_html?.[language] || member?.bio_html?.en || '';
   const photo = image?.image || null;
   const style = config?.team_member_style || 'card';
   const accentColor = config?.accent_color || '#50a5f1';

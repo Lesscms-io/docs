@@ -324,10 +324,15 @@ Widgets are inside columns. Each widget has:
   "uuid": "widget-uuid",
   "widget_type": "heading",
   "widget": {
-    // All widget data in a flat object (multilingual + config)
-    "html": { "pl": "<p>Treść</p>", "en": "<p>Content</p>" },
-    "level": 2,
-    "content_source": "static"
+    "heading": {
+      "html": { "pl": "<h2>Nagłówek</h2>", "en": "<h2>Heading</h2>" },
+      "color": "var:dark",
+      "color:hover": null
+    },
+    "config": {
+      "content_source": "static",
+      "level": 2
+    }
   },
   "settings": {
     // Size
@@ -601,9 +606,15 @@ All widgets follow this structure:
   "uuid": "unique-id",
   "widget_type": "heading",
   "widget": {
-    "html": { "pl": "<p>Treść</p>", "en": "<p>Content</p>" },
-    "level": 2,
-    "content_source": "static"
+    "heading": {
+      "html": { "pl": "<h2>Nagłówek</h2>", "en": "<h2>Heading</h2>" },
+      "color": "var:dark",
+      "color:hover": null
+    },
+    "config": {
+      "content_source": "static",
+      "level": 2
+    }
   },
   "settings": {
     "paddingTop": 20,
@@ -614,7 +625,7 @@ All widgets follow this structure:
 }
 ```
 
-The `widget` key contains ALL widget-specific data in a flat object — both multilingual content and configuration. The `settings` key contains container styling (padding, margin, background, border, etc.).
+The `widget` key contains widget-specific data organized in element-groups (e.g. `heading`, `text`, `icon`) with color/hover support, plus a `config` group for non-visual settings. The `settings` key contains container styling (padding, margin, background, border, etc.).
 
 ### Multi-Item Widgets
 

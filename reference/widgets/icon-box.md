@@ -26,7 +26,7 @@ icon-box
 | `widget.icon.position` | string | Icon position: `left`, `right`, `top`, `bottom` |
 | `widget.icon.vertical_align` | string | Vertical alignment: `top`, `center`, `bottom` |
 | `widget.text` | object | Text element |
-| `widget.text.content` | object | Multilingual text content (HTML) |
+| `widget.text.html` | object | Multilingual text content (HTML) |
 | `widget.text.color` | string\|null | Text color |
 | `widget.text.color:hover` | string\|null | Text color on hover |
 | `widget.text.tag` | string | HTML tag for content (p, div, span) |
@@ -56,7 +56,7 @@ Yes — can be wrapped in a multi-column grid layout.
       "vertical_align": "top"
     },
     "text": {
-      "content": {
+      "html": {
         "en": "<p>Description of the icon box element.</p>",
         "pl": "<p>Opis elementu z ikoną.</p>"
       },
@@ -85,7 +85,7 @@ Yes — can be wrapped in a multi-column grid layout.
 function renderIconBox(widget, language) {
   const { icon, text } = widget.widget;
   const tag = text.tag || 'p';
-  const content = text.content?.[language] || text.content?.en || '';
+  const content = text.html?.[language] || text.html?.en || '';
   const isHorizontal = icon.position === 'left' || icon.position === 'right';
   const flexDir = icon.position === 'right' ? 'row-reverse'
     : icon.position === 'bottom' ? 'column-reverse'

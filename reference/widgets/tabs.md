@@ -23,8 +23,8 @@ tabs
 | `widget.config` | object | Behavior configuration |
 | `widget.config.alignment` | string | Tab alignment: `"left"`, `"center"`, `"right"`, `"stretch"` |
 | `widget.items` | array | List of tab items |
-| `widget.items[].title` | object | Multilingual tab title |
-| `widget.items[].content` | object | Multilingual tab content (HTML) |
+| `widget.items[].title_html` | object | Multilingual tab title |
+| `widget.items[].html` | object | Multilingual tab content (HTML) |
 | `settings` | object | [Shared widget settings](shared-settings.md) |
 
 ## Example Response
@@ -46,21 +46,21 @@ tabs
     },
     "items": [
       {
-        "title": {
+        "title_html": {
           "en": "Features",
           "pl": "Funkcje"
         },
-        "content": {
+        "html": {
           "en": "<p>Discover our powerful features.</p>",
           "pl": "<p>Odkryj nasze funkcje.</p>"
         }
       },
       {
-        "title": {
+        "title_html": {
           "en": "Pricing",
           "pl": "Cennik"
         },
-        "content": {
+        "html": {
           "en": "<p>Simple and transparent pricing.</p>",
           "pl": "<p>Prosty i przejrzysty cennik.</p>"
         }
@@ -95,7 +95,7 @@ function renderTabs(widget, language) {
   const { tab, config, items } = widget.widget;
 
   const tabHeaders = items.map((item, index) => {
-    const title = item.title?.[language] || item.title?.en || '';
+    const title = item.title_html?.[language] || item.title_html?.en || '';
     return `<button class="tab-btn ${index === 0 ? 'active' : ''}"
               data-tab="${index}"
               style="${index === 0 && tab.color ? `color: ${tab.color}; border-color: ${tab.color}` : ''}">
@@ -104,7 +104,7 @@ function renderTabs(widget, language) {
   }).join('');
 
   const tabPanels = items.map((item, index) => {
-    const content = item.content?.[language] || item.content?.en || '';
+    const content = item.html?.[language] || item.html?.en || '';
     return `<div class="tab-panel ${index === 0 ? 'active' : ''}" data-panel="${index}">
               ${content}
             </div>`;

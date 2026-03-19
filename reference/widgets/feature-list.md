@@ -32,7 +32,7 @@ Each widget contains an `items` array with feature entries:
 
 | Property | Type | Description |
 |----------|------|-------------|
-| `text` | object | Multilingual feature text `{ "en": "...", "pl": "..." }` |
+| `html` | object | Multilingual feature text `{ "en": "...", "pl": "..." }` |
 | `included` | boolean | Whether feature is included (default: true) |
 
 ## Example Response
@@ -57,15 +57,15 @@ Each widget contains an `items` array with feature entries:
     },
     "items": [
       {
-        "text": { "en": "Unlimited projects", "pl": "Nieograniczone projekty" },
+        "html": { "en": "Unlimited projects", "pl": "Nieograniczone projekty" },
         "included": true
       },
       {
-        "text": { "en": "Custom domains", "pl": "Własne domeny" },
+        "html": { "en": "Custom domains", "pl": "Własne domeny" },
         "included": true
       },
       {
-        "text": { "en": "Priority support", "pl": "Priorytetowe wsparcie" },
+        "html": { "en": "Priority support", "pl": "Priorytetowe wsparcie" },
         "included": false
       }
     ]
@@ -80,7 +80,7 @@ function renderFeatureList(widget, language) {
   const { items, included, excluded, config } = widget.widget;
 
   const listItems = items.map(item => {
-    const text = item.text?.[language] || item.text?.en || '';
+    const text = item.html?.[language] || item.html?.en || '';
     const icon = item.included ? included.icon : excluded.icon;
     const color = item.included ? (included.color || '#28a745') : (excluded.color || '#dc3545');
 

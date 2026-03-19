@@ -16,7 +16,7 @@ pill
 | `uuid` | string | Unique widget identifier |
 | `widget` | object | Widget data |
 | `widget.text` | object | Text element-group |
-| `widget.text.content` | object | Multilingual pill text |
+| `widget.text.html` | object | Multilingual pill text |
 | `widget.text.color` | string\|null | Text color (color variable or hex, default: `"var:white"`) |
 | `widget.text.color:hover` | string\|null | Text color on hover |
 | `widget.config` | object | Config element-group |
@@ -33,7 +33,7 @@ pill
   "uuid": "pill-123",
   "widget": {
     "text": {
-      "content": {
+      "html": {
         "en": "New",
         "pl": "Nowo\u015b\u0107"
       },
@@ -81,7 +81,7 @@ pill
 ```javascript
 function renderPill(widget, language) {
   const { text, config } = widget.widget;
-  const label = text?.content?.[language] || text?.content?.en || '';
+  const label = text?.html?.[language] || text?.html?.en || '';
   const variant = config?.variant || 'filled';
   const size = config?.size || 'md';
   const uppercase = config?.uppercase !== false;

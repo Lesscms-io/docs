@@ -44,3 +44,44 @@ Every widget returns a `settings` object with common style properties extracted 
 | `settings.responsive.mobile.hidden` | boolean | Hidden on mobile |
 
 These settings are always present in the API response and do not need to be documented per widget.
+
+## Example Response
+
+```json
+{
+  "settings": {
+    "paddingTop": 20,
+    "paddingRight": 16,
+    "paddingBottom": 20,
+    "paddingLeft": 16,
+    "marginTop": 0,
+    "marginBottom": 0,
+    "backgroundColor": "var:white",
+    "backgroundOpacity": 100,
+    "borderRadius": 8,
+    "borderWidth": 1,
+    "borderColor": "var:border",
+    "borderStyle": "solid",
+    "boxShadow": null,
+    "verticalAlign": "flex-start",
+    "horizontalAlign": "stretch",
+    "hidden": false,
+    "responsive": {
+      "tablet": {
+        "paddingTop": 16,
+        "paddingRight": 12,
+        "paddingBottom": 16,
+        "paddingLeft": 12,
+        "hidden": false
+      },
+      "mobile": {
+        "paddingTop": 12,
+        "paddingRight": 8,
+        "paddingBottom": 12,
+        "paddingLeft": 8,
+        "hidden": false
+      }
+    }
+  }
+}
+```

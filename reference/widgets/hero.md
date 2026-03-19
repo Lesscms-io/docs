@@ -15,10 +15,10 @@ hero
 | `widget_type` | string | Always `"hero"` |
 | `uuid` | string | Unique widget identifier |
 | `widget.heading` | object | Heading element group |
-| `widget.heading.title` | object | Multilingual title text `{ "en": "...", "pl": "..." }` |
-| `widget.heading.subtitle` | object | Multilingual subtitle text |
+| `widget.heading.title_html` | object | Multilingual title text (HTML) `{ "en": "...", "pl": "..." }` |
+| `widget.heading.subtitle_html` | object | Multilingual subtitle text (HTML) |
 | `widget.button` | object | Button element group |
-| `widget.button.content` | object | Multilingual CTA button text |
+| `widget.button.html` | object | Multilingual CTA button text (HTML) |
 | `widget.button.url` | string | CTA button URL (default: `"#"`) |
 | `widget.button.style` | string | Button style variant (default: `"primary"`) |
 | `widget.button.size` | string | Button size: `"sm"`, `"md"`, `"lg"` (default: `"md"`) |
@@ -64,17 +64,17 @@ hero
   "uuid": "hero-123",
   "widget": {
     "heading": {
-      "title": {
+      "title_html": {
         "en": "Welcome to Our Website",
         "pl": "Witamy na naszej stronie"
       },
-      "subtitle": {
+      "subtitle_html": {
         "en": "We build amazing digital experiences.",
         "pl": "Tworzymy niesamowite cyfrowe doswiadczenia."
       }
     },
     "button": {
-      "content": {
+      "html": {
         "en": "Get Started",
         "pl": "Rozpocznij"
       },
@@ -168,9 +168,9 @@ hero
 function renderHero(widget, language) {
   const { heading, button, config, text, overlay } = widget.widget;
 
-  const title = heading.title?.[language] || heading.title?.en || '';
-  const subtitle = heading.subtitle?.[language] || heading.subtitle?.en || '';
-  const buttonText = button.content?.[language] || button.content?.en || '';
+  const title = heading.title_html?.[language] || heading.title_html?.en || '';
+  const subtitle = heading.subtitle_html?.[language] || heading.subtitle_html?.en || '';
+  const buttonText = button.html?.[language] || button.html?.en || '';
   const backgroundUrl = config.background;
 
   const alignItems = config.text_position === 'top' ? 'flex-start'

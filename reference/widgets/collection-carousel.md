@@ -28,6 +28,7 @@ collection-carousel
 | `widget.show_title` | boolean | Display title (default: true) |
 | `widget.show_excerpt` | boolean | Display excerpt (default: true) |
 | `widget.exclude_current_entry` | boolean | Exclude current entry from carousel results (default: false) |
+| `widget.route_uuid` | string\|null | Route UUID for entry detail pages |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response
@@ -49,7 +50,8 @@ collection-carousel
     "image_field": "author_photo",
     "show_title": true,
     "show_excerpt": true,
-    "exclude_current_entry": false
+    "exclude_current_entry": false,
+    "route_uuid": null
   },
   "settings": {
     "paddingTop": 40,

@@ -18,6 +18,16 @@ gallery
 | `widget.images` | array | Array of image objects (each with `url` and `alt` properties) |
 | `widget.columns` | number\|string | Number of grid columns (default: 3) |
 | `widget.enable_lightbox` | boolean | Enable lightbox on click (default: false) |
+| `widget.type` | string | Gallery type: `"grid"`, `"masonry"`, `"carousel"`, `"mosaic"` |
+| `widget.gap` | number | Gap between gallery items in pixels |
+| `widget.aspect` | string | Image aspect ratio (e.g. `"16:9"`, `"4:3"`, `"1:1"`, `"auto"`) |
+| `widget.mosaic_variant` | string\|null | Mosaic layout variant |
+| `widget.carousel_style` | string\|null | Carousel visual style |
+| `widget.autoplay` | boolean | Auto-advance carousel slides |
+| `widget.interval` | number | Autoplay interval in milliseconds |
+| `widget.show_arrows` | boolean | Show navigation arrows |
+| `widget.show_dots` | boolean | Show navigation dots |
+| `widget.loop` | boolean | Loop carousel slides |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response

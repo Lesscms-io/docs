@@ -41,8 +41,8 @@ accordion
 | `widget.config.allow_multiple` | boolean | Allow multiple items open simultaneously |
 | `widget.config.first_open` | boolean | First item open by default |
 | `widget.items` | array | List of accordion items |
-| `widget.items[].title` | object | Multilingual item title |
-| `widget.items[].content` | object | Multilingual item content |
+| `widget.items[].title_html` | object | Multilingual item title |
+| `widget.items[].html` | object | Multilingual item content |
 | `settings` | object | [Shared widget settings](shared-settings.md) |
 
 ## Example Response
@@ -86,21 +86,21 @@ accordion
     },
     "items": [
       {
-        "title": {
+        "title_html": {
           "en": "What is LessCMS?",
           "pl": "Czym jest LessCMS?"
         },
-        "content": {
+        "html": {
           "en": "LessCMS is a headless content management system.",
           "pl": "LessCMS to bezgłowy system zarządzania treścią."
         }
       },
       {
-        "title": {
+        "title_html": {
           "en": "How to get started?",
           "pl": "Jak zacząć?"
         },
-        "content": {
+        "html": {
           "en": "Sign up for a free account and create your first project.",
           "pl": "Zarejestruj się za darmo i stwórz swój pierwszy projekt."
         }
@@ -133,8 +133,8 @@ function renderAccordion(widget, language) {
   return `
     <div class="accordion" data-allow-multiple="${config.allow_multiple}">
       ${items.map((item, index) => {
-        const title = item.title?.[language] || item.title?.en || '';
-        const body = item.content?.[language] || item.content?.en || '';
+        const title = item.title_html?.[language] || item.title_html?.en || '';
+        const body = item.html?.[language] || item.html?.en || '';
         const isOpen = config.first_open && index === 0;
         const borderStyle = border.color ? `border: 1px solid ${border.color}; border-radius: 8px;` : '';
         const separatorHtml = index > 0 && separator.color

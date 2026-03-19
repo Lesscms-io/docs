@@ -28,7 +28,7 @@ data-field
 | `widget.icon.gap` | number | Gap between icon and content in px (default: `12`) |
 | `widget.label` | object | Label element group |
 | `widget.label.position` | string | Label position: `"hidden"`, `"above"`, `"inline"` (default: `"hidden"`) |
-| `widget.label.content` | object | Multilingual label text `{ "en": "...", "pl": "..." }` |
+| `widget.label.html` | object | Multilingual label text `{ "en": "...", "pl": "..." }` |
 | `widget.label.background` | string\|null | Label background color |
 | `widget.label.background:hover` | string\|null | Label background on hover |
 | `widget.label.color` | string\|null | Label text color |
@@ -97,7 +97,7 @@ When `config.entry_source` is `"static"` and the API can resolve the entry, thes
     },
     "label": {
       "position": "above",
-      "content": { "en": "Full Name", "pl": "Imie i nazwisko" },
+      "html": { "en": "Full Name", "pl": "Imie i nazwisko" },
       "background": "#f8d775",
       "background:hover": null,
       "color": "#000000",
@@ -200,8 +200,8 @@ function renderDataField(widget, language) {
 
   // Build label HTML
   let labelHtml = '';
-  if (label.position !== 'hidden' && label.content) {
-    const labelText = label.content[language] || label.content.en || '';
+  if (label.position !== 'hidden' && label.html) {
+    const labelText = label.html[language] || label.html.en || '';
     if (labelText) {
       labelHtml = `<span class="data-field__label" style="
         color: ${label.color || 'inherit'};

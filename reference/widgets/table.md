@@ -15,7 +15,7 @@ table
 | `widget_type` | string | Always `"table"` |
 | `uuid` | string | Unique widget identifier |
 | `widget` | object | Widget data |
-| `widget.headers` | array | Table headers (each with multilingual `text` object) |
+| `widget.headers` | array | Table headers (each with multilingual `html` object) |
 | `widget.rows` | array | Table rows (array of arrays with multilingual cell values) |
 | `widget.header_bg` | string\|null | Header background color |
 | `widget.header_text` | string | Header text color: `"light"`, `"dark"` (default: `"light"`) |
@@ -31,9 +31,9 @@ table
   "uuid": "table-123",
   "widget": {
     "headers": [
-      { "text": { "en": "Feature", "pl": "Funkcja" } },
-      { "text": { "en": "Free", "pl": "Darmowy" } },
-      { "text": { "en": "Pro", "pl": "Pro" } }
+      { "html": { "en": "Feature", "pl": "Funkcja" } },
+      { "html": { "en": "Free", "pl": "Darmowy" } },
+      { "html": { "en": "Pro", "pl": "Pro" } }
     ],
     "rows": [
       [
@@ -63,7 +63,7 @@ function renderTable(widget, language) {
   const { headers, rows, header_bg, header_text, striped, bordered } = widget.widget;
 
   const headerCells = headers.map(h => {
-    const text = h.text?.[language] || h.text?.en || '';
+    const text = h.html?.[language] || h.html?.en || '';
     return `<th>${text}</th>`;
   }).join('');
 

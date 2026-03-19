@@ -17,9 +17,11 @@ alert
 | `widget.icon` | object | Icon element |
 | `widget.icon.icon` | string\|null | Custom icon class (Font Awesome) |
 | `widget.title` | object | Title element |
-| `widget.title.content` | object | Multilingual alert title |
+| `widget.title.html` | object | Multilingual alert title |
+| `widget.title.color` | string\|null | Title text color (CSS or `"var:colorName"`) |
+| `widget.title.color:hover` | string\|null | Title text color on hover |
 | `widget.text` | object | Text element |
-| `widget.text.content` | object | Multilingual alert message text |
+| `widget.text.html` | object | Multilingual alert message text |
 | `widget.text.color` | string\|null | Text color |
 | `widget.text.color:hover` | string\|null | Text color on hover |
 | `widget.config` | object | Configuration element |
@@ -48,13 +50,13 @@ alert
       "icon": "fa-solid fa-circle-info"
     },
     "title": {
-      "content": {
+      "html": {
         "en": "Important Notice",
         "pl": "Wazna informacja"
       }
     },
     "text": {
-      "content": {
+      "html": {
         "en": "Our office will be closed on December 25th for the holiday.",
         "pl": "Nasze biuro bedzie zamkniete 25 grudnia z powodu swieta."
       },
@@ -84,8 +86,8 @@ alert
 function renderAlert(widget, language) {
   const { icon, title, text, config } = widget.widget;
 
-  const titleText = title.content?.[language] || title.content?.en || '';
-  const messageText = text.content?.[language] || text.content?.en || '';
+  const titleText = title.html?.[language] || title.html?.en || '';
+  const messageText = text.html?.[language] || text.html?.en || '';
   const alertType = config.type || 'info';
   const showTitle = config.show_title !== false;
   const dismissible = config.dismissible || false;

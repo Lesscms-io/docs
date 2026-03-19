@@ -24,6 +24,7 @@ pdf-viewer
 | `widget.show_fullscreen` | boolean | Allow fullscreen mode (default: true) |
 | `widget.show_download` | boolean | Allow PDF download (default: true) |
 | `widget.background_color` | string | Viewer background color (default: `"#1a1a1a"`) |
+| `widget.height_mode` | string | Height mode: `"auto"` or `"fixed"` |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response

@@ -14,7 +14,11 @@ text
 |----------|------|-------------|
 | `widget_type` | string | Always `"text"` |
 | `uuid` | string | Unique widget identifier |
-| `widget` | object | Widget properties (inline-edited content, no configurable fields) |
+| `widget` | object | Widget properties |
+| `widget.text` | object | Text element-group |
+| `widget.text.html` | object | Multilingual HTML content (`{ "en": "<p>...</p>", "pl": "<p>...</p>" }`) |
+| `widget.text.color` | string\|null | Text color (CSS color or `"var:colorName"` variable reference) |
+| `widget.text.color:hover` | string\|null | Text color on hover |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response
@@ -23,8 +27,19 @@ text
 {
   "widget_type": "text",
   "uuid": "7e9d4859-a01a-4c76-af3d-4f73209a446b",
-  "widget": {},
+  "widget": {
+    "text": {
+      "html": {
+        "pl": "<h2>Lorem ipsum dolor sit amet</h2><p>Consectetur adipiscing elit.</p>",
+        "en": "<h2>Lorem ipsum dolor sit amet</h2><p>Consectetur adipiscing elit.</p>"
+      },
+      "color": "var:dark",
+      "color:hover": null
+    }
+  },
   "settings": {
+    "paddingTop": 8,
+    "paddingBottom": 8,
     "paddingRight": 0,
     "horizontalAlign": "center",
     "responsive": {
@@ -43,7 +58,7 @@ text
 
 ## Content Format
 
-The `widget.html` property contains HTML-formatted rich text. Common elements include:
+The `widget.text.html` property contains HTML-formatted rich text. Common elements include:
 
 - `<p>` - Paragraphs
 - `<h1>`-`<h6>` - Headings
@@ -54,15 +69,25 @@ The `widget.html` property contains HTML-formatted rich text. Common elements in
 - `<blockquote>` - Quotes
 - `<span style="...">` - Inline styling
 
+## Color Values
+
+The `color` and `color:hover` fields support two formats:
+
+- **CSS color**: Any valid CSS color string (e.g. `"#333333"`, `"rgb(0,0,0)"`)
+- **Variable reference**: `"var:colorName"` or `"var:colorName:opacity"` — references a project color variable (e.g. `"var:dark"`, `"var:primary:80"`)
+
 ## Usage Example
 
 ```javascript
 function renderText(widget, language) {
-  const html = widget.widget?.html?.[language]
-    || widget.widget?.html?.en
+  const text = widget.widget?.text || {};
+  const html = text.html?.[language]
+    || text.html?.en
     || '';
 
-  return `<div class="text-widget">${html}</div>`;
+  const style = text.color ? `color: ${resolveColor(text.color)}` : '';
+
+  return `<div class="text-widget" style="${style}">${html}</div>`;
 }
 ```
 
@@ -74,7 +99,7 @@ function renderText(widget, language) {
 import DOMPurify from 'dompurify';
 
 function renderTextSafe(widget, language) {
-  const html = widget.widget?.html?.[language] || '';
+  const html = widget.widget?.text?.html?.[language] || '';
   const sanitized = DOMPurify.sanitize(html);
 
   return `<div class="text-widget">${sanitized}</div>`;

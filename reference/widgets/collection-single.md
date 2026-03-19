@@ -24,6 +24,9 @@ collection-single
 | `widget.show_title` | boolean | Display title (default: true) |
 | `widget.show_content` | boolean | Display content (default: true) |
 | `widget.show_image` | boolean | Display image (default: true) |
+| `widget.route_uuid` | string\|null | Route UUID for entry detail pages |
+| `widget.use_custom_layout` | boolean | Use custom entry layout template |
+| `widget.layout_config` | object\|null | Custom layout configuration |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response
@@ -41,7 +44,10 @@ collection-single
     "image_field": "photo",
     "show_title": true,
     "show_content": true,
-    "show_image": true
+    "show_image": true,
+    "route_uuid": null,
+    "use_custom_layout": false,
+    "layout_config": null
   },
   "settings": {
     "responsive": {

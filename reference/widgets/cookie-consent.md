@@ -15,12 +15,16 @@ cookie-consent
 | `widget_type` | string | Always `"cookie-consent"` |
 | `uuid` | string | Unique widget identifier |
 | `widget` | object | Widget properties |
-| `widget.message` | object | Multilingual consent message (HTML) |
-| `widget.accept_text` | object | Multilingual accept button text |
+| `widget.message` | object | Message element group |
+| `widget.message.html` | object | Multilingual consent message (HTML) |
+| `widget.accept` | object | Accept button element group |
+| `widget.accept.html` | object | Multilingual accept button text |
 | `widget.show_decline` | boolean | Show a decline button |
-| `widget.decline_text` | object | Multilingual decline button text |
+| `widget.decline` | object | Decline button element group |
+| `widget.decline.html` | object | Multilingual decline button text |
 | `widget.policy_url` | string\|null | URL to privacy policy page |
-| `widget.policy_link_text` | object | Multilingual privacy policy link text |
+| `widget.policy` | object | Policy link element group |
+| `widget.policy.html` | object | Multilingual privacy policy link text |
 | `widget.position` | string | Banner position: `"bottom"`, `"top"`, `"bottom-left"`, `"bottom-right"` |
 | `widget.cookie_style` | string | Banner style: `"bar"`, `"box"`, `"minimal"` |
 | `widget.days_to_expire` | number | Days until consent expires (default: 365) |
@@ -38,22 +42,30 @@ cookie-consent
   "uuid": "cookie-consent-123",
   "widget": {
     "message": {
-      "en": "<p>We use cookies to improve your experience. By continuing to use this site, you agree to our use of cookies.</p>",
-      "pl": "<p>Korzystamy z plików cookie, aby poprawić Twoje doświadczenia. Kontynuując korzystanie ze strony, zgadzasz się na użycie plików cookie.</p>"
+      "html": {
+        "en": "<p>We use cookies to improve your experience. By continuing to use this site, you agree to our use of cookies.</p>",
+        "pl": "<p>Korzystamy z plików cookie, aby poprawić Twoje doświadczenia. Kontynuując korzystanie ze strony, zgadzasz się na użycie plików cookie.</p>"
+      }
     },
-    "accept_text": {
-      "en": "Accept",
-      "pl": "Akceptuję"
+    "accept": {
+      "html": {
+        "en": "Accept",
+        "pl": "Akceptuję"
+      }
     },
     "show_decline": true,
-    "decline_text": {
-      "en": "Decline",
-      "pl": "Odrzucam"
+    "decline": {
+      "html": {
+        "en": "Decline",
+        "pl": "Odrzucam"
+      }
     },
     "policy_url": "/privacy-policy",
-    "policy_link_text": {
-      "en": "Privacy Policy",
-      "pl": "Polityka prywatności"
+    "policy": {
+      "html": {
+        "en": "Privacy Policy",
+        "pl": "Polityka prywatności"
+      }
     },
     "position": "bottom",
     "cookie_style": "bar",
@@ -88,7 +100,7 @@ cookie-consent
 
 ```javascript
 function renderCookieConsent(widget, language) {
-  const { message, accept_text, show_decline, decline_text, policy_url, policy_link_text, position, style } = widget.widget;
+  const { message, accept, show_decline, decline, policy_url, policy, position, style } = widget.widget;
 
   const STORAGE_KEY = 'lcms-cookie-consent';
 
@@ -101,10 +113,10 @@ function renderCookieConsent(widget, language) {
     }
   }
 
-  const msgText = message?.[language] || message?.en || '';
-  const acceptBtnText = accept_text?.[language] || accept_text?.en || 'OK';
-  const declineBtnText = decline_text?.[language] || decline_text?.en || '';
-  const policyText = policy_link_text?.[language] || policy_link_text?.en || '';
+  const msgText = message.html?.[language] || message.html?.en || '';
+  const acceptBtnText = accept.html?.[language] || accept.html?.en || 'OK';
+  const declineBtnText = decline.html?.[language] || decline.html?.en || '';
+  const policyText = policy.html?.[language] || policy.html?.en || '';
 
   return `
     <div class="cookie-consent cookie-consent--${position} cookie-consent--${style}">

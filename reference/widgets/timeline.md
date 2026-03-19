@@ -23,9 +23,9 @@ timeline
 | `widget.config` | object | Behavior configuration |
 | `widget.config.layout` | string | Layout: `"left"`, `"right"`, `"alternate"` |
 | `widget.items` | array | List of timeline events |
-| `widget.items[].date` | object | Multilingual date label |
-| `widget.items[].title` | object | Multilingual event title |
-| `widget.items[].content` | object | Multilingual event description |
+| `widget.items[].date_html` | object | Multilingual date label |
+| `widget.items[].title_html` | object | Multilingual event title |
+| `widget.items[].html` | object | Multilingual event description |
 | `settings` | object | [Shared widget settings](shared-settings.md) |
 
 ## Example Response
@@ -48,14 +48,14 @@ timeline
     },
     "items": [
       {
-        "date": { "en": "January 2024", "pl": "Styczeń 2024" },
-        "title": { "en": "Company Founded", "pl": "Założenie firmy" },
-        "content": { "en": "We started with a small team of 3 people.", "pl": "Zaczęliśmy z małym zespołem 3 osób." }
+        "date_html": { "en": "January 2024", "pl": "Styczeń 2024" },
+        "title_html": { "en": "Company Founded", "pl": "Założenie firmy" },
+        "html": { "en": "We started with a small team of 3 people.", "pl": "Zaczęliśmy z małym zespołem 3 osób." }
       },
       {
-        "date": { "en": "June 2024", "pl": "Czerwiec 2024" },
-        "title": { "en": "Product Launch", "pl": "Premiera produktu" },
-        "content": { "en": "Our first product went live.", "pl": "Nasz pierwszy produkt został uruchomiony." }
+        "date_html": { "en": "June 2024", "pl": "Czerwiec 2024" },
+        "title_html": { "en": "Product Launch", "pl": "Premiera produktu" },
+        "html": { "en": "Our first product went live.", "pl": "Nasz pierwszy produkt został uruchomiony." }
       }
     ]
   },
@@ -85,9 +85,9 @@ function renderTimeline(widget, language) {
   const { line, dot, config, items } = widget.widget;
 
   const timelineItems = items.map((item, index) => {
-    const date = item.date?.[language] || item.date?.en || '';
-    const title = item.title?.[language] || item.title?.en || '';
-    const content = item.content?.[language] || item.content?.en || '';
+    const date = item.date_html?.[language] || item.date_html?.en || '';
+    const title = item.title_html?.[language] || item.title_html?.en || '';
+    const content = item.html?.[language] || item.html?.en || '';
     const side = config.layout === 'alternate' ? (index % 2 === 0 ? 'left' : 'right') : config.layout;
 
     return `

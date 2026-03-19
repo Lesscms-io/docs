@@ -16,11 +16,11 @@ service-card
 | `uuid` | string | Unique widget identifier |
 | `widget` | object | Widget data (element groups) |
 | `widget.heading` | object | Heading element group |
-| `widget.heading.content` | object | Multilingual heading text |
+| `widget.heading.html` | object | Multilingual heading text |
 | `widget.heading.color` | string\|null | Heading text color |
 | `widget.heading.color:hover` | string\|null | Heading text color on hover |
 | `widget.description` | object | Description element group |
-| `widget.description.content` | object | Multilingual description text |
+| `widget.description.html` | object | Multilingual description text |
 | `widget.description.color` | string\|null | Description text color |
 | `widget.description.color:hover` | string\|null | Description text color on hover |
 | `widget.icon` | object | Icon element group |
@@ -32,14 +32,19 @@ service-card
 | `widget.icon.background` | string\|null | Icon background color |
 | `widget.icon.background:hover` | string\|null | Icon background color on hover |
 | `widget.link` | object | Link element group |
-| `widget.link.content` | object | Multilingual link text |
+| `widget.link.html` | object | Multilingual link text |
 | `widget.link.url` | string\|null | Resolved link URL (server-side resolved from page/entry/route) |
 | `widget.link.show` | boolean | Whether to show the link (default: true) |
 | `widget.link.color` | string\|null | Link text color |
 | `widget.link.color:hover` | string\|null | Link text color on hover |
 | `widget.link.target_blank` | boolean | Open link in new tab (default: false) |
+| `widget.link.link_type` | string\|null | Link type: `"url"`, `"page"`, `"entry"`, `"route"` |
+| `widget.link.page_id` | string\|null | Page UUID for page links |
+| `widget.link.collection_code` | string\|null | Collection code for entry links |
+| `widget.link.entry_id` | string\|null | Entry UUID for entry links |
+| `widget.link.route_uuid` | string\|null | Route UUID for route links |
 | `widget.badge` | object | Badge element group |
-| `widget.badge.content` | object | Multilingual badge text |
+| `widget.badge.html` | object | Multilingual badge text |
 | `widget.badge.show` | boolean | Whether to show badge (default: false) |
 | `widget.badge.color` | string\|null | Badge text color |
 | `widget.badge.color:hover` | string\|null | Badge text color on hover |
@@ -55,12 +60,12 @@ service-card
   "uuid": "sc-001",
   "widget": {
     "heading": {
-      "content": { "pl": "Wycinka drzew", "en": "Tree Cutting" },
+      "html": { "pl": "Wycinka drzew", "en": "Tree Cutting" },
       "color": "var:dark",
       "color:hover": "var:light"
     },
     "description": {
-      "content": { "pl": "Bezpieczne usuwanie drzew.", "en": "Safe tree removal." },
+      "html": { "pl": "Bezpieczne usuwanie drzew.", "en": "Safe tree removal." },
       "color": "var:dark",
       "color:hover": "var:light"
     },
@@ -74,7 +79,7 @@ service-card
       "background:hover": "var:white"
     },
     "link": {
-      "content": { "pl": "Dowiedz si\u0119 wi\u0119cej", "en": "Learn more" },
+      "html": { "pl": "Dowiedz si\u0119 wi\u0119cej", "en": "Learn more" },
       "url": "/services/tree-cutting",
       "show": true,
       "color": "var:primary",
@@ -82,7 +87,7 @@ service-card
       "target_blank": false
     },
     "badge": {
-      "content": {},
+      "html": {},
       "show": false,
       "color": "var:white",
       "color:hover": null,
@@ -112,10 +117,10 @@ Service cards support wrapping — multiple cards can be grouped in a grid via t
 function renderServiceCard(widget, language) {
   const { heading, description, icon, link, badge, style } = widget.widget;
 
-  const title = heading.content?.[language] || heading.content?.pl || '';
-  const desc = description.content?.[language] || description.content?.pl || '';
-  const linkText = link.content?.[language] || link.content?.pl || '';
-  const badgeText = badge.content?.[language] || badge.content?.pl || '';
+  const title = heading.html?.[language] || heading.html?.pl || '';
+  const desc = description.html?.[language] || description.html?.pl || '';
+  const linkText = link.html?.[language] || link.html?.pl || '';
+  const badgeText = badge.html?.[language] || badge.html?.pl || '';
 
   const dur = style.transition_duration || 200;
 

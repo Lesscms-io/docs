@@ -16,7 +16,8 @@ form
 | `uuid` | string | Unique widget identifier |
 | `widget` | object | Widget data |
 | `widget.form_code` | string | Code of the form to render (references Forms API) |
-| `widget.submit_text` | string | Submit button text (multilingual) |
+| `widget.submit` | object | Submit button element group |
+| `widget.submit.html` | object | Submit button text (multilingual) `{ "en": "...", "pl": "..." }` |
 | `widget.button_style` | string | Submit button CSS style (default: `"info"`) |
 | `widget.button_size` | string | Submit button size: `"sm"`, `"md"`, `"lg"` (default: `"md"`) |
 | `widget.button_border_radius` | string | Button border radius: `"none"`, `"sm"`, `"md"`, `"lg"`, `"pill"` (default: `"md"`) |
@@ -48,7 +49,12 @@ form
   "uuid": "form-widget-123",
   "widget": {
     "form_code": "contact",
-    "submit_text": "Send Message",
+    "submit": {
+      "html": {
+        "en": "Send Message",
+        "pl": "Wyślij wiadomość"
+      }
+    },
     "button_style": "info",
     "button_size": "md",
     "button_border_radius": "md",
@@ -129,14 +135,12 @@ POST /v1/:workspace/:project/forms/:form_uuid/submit
 
 ```javascript
 async function renderFormWidget(widget, language, api) {
-  const { form_code, submit_text, button_align, label_position, columns } = widget.widget;
+  const { form_code, submit, button_align, label_position, columns } = widget.widget;
 
   const { data: form } = await api.getForm(form_code);
   if (!form) return '<p>Form not found</p>';
 
-  const submitLabel = typeof submit_text === 'object'
-    ? (submit_text[language] || submit_text.en || 'Submit')
-    : (submit_text || 'Submit');
+  const submitLabel = submit?.html?.[language] || submit?.html?.en || 'Submit';
 
   const fields = form.fields.map(field => {
     const label = field.label_translation?.[language] || field.label;

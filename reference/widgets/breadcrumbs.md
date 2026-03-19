@@ -21,6 +21,12 @@ breadcrumbs
 | `widget.color` | string | Link color (hex) |
 | `widget.active_color` | string | Active (current page) color (hex) |
 | `widget.show_dynamic_last` | boolean | Show dynamic last breadcrumb from URL (default: false) |
+| `widget.dynamic_last_collection_code` | string\|null | Collection code for dynamic last breadcrumb |
+| `widget.dynamic_last_field_code` | string\|null | Field code for dynamic last breadcrumb label |
+| `widget.dynamic_last_entry_source` | string\|null | Entry source for dynamic last breadcrumb |
+| `widget.dynamic_last_entry_id` | string\|null | Entry ID for dynamic last breadcrumb |
+| `widget.dynamic_last_url_segment` | string\|null | URL segment for dynamic last breadcrumb |
+| `widget.items` | array | Array of breadcrumb items |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response

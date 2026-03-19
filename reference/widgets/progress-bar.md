@@ -21,7 +21,7 @@ progress-bar
 | `widget.bar.percentage` | number | Progress percentage 0-100 (default: 0) |
 | `widget.bar.show_percentage` | boolean | Display percentage text (default: true) |
 | `widget.title` | object | Title element group |
-| `widget.title.content` | string\|object | Progress bar label (localized) |
+| `widget.title.html` | string\|object | Progress bar label (localized) |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response
@@ -38,7 +38,7 @@ progress-bar
       "show_percentage": true
     },
     "title": {
-      "content": {"en": "Project Progress", "pl": "Postep projektu"}
+      "html": {"en": "Project Progress", "pl": "Postep projektu"}
     }
   },
   "settings": {
@@ -57,7 +57,7 @@ function renderProgressBar(widget, language) {
   const percentage = bar.percentage || 0;
   const color = bar.color || 'var:primary';
   const showPercentage = bar.show_percentage !== false;
-  const titleText = typeof title.content === 'object' ? title.content[language] : title.content;
+  const titleText = typeof title.html === 'object' ? title.html[language] : title.html;
 
   const progressId = `progress-${widget.uuid}`;
 
