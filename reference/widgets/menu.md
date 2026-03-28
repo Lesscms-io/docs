@@ -17,15 +17,23 @@ menu
 | `widget.link` | object | Menu link styling |
 | `widget.link.color` | string\|null | Menu link text color |
 | `widget.link.color:hover` | string\|null | Menu link text color on hover |
+| `widget.link.color:scrolled` | string\|null | Menu link text color when page is scrolled |
 | `widget.link.background` | string\|null | Menu link background color |
 | `widget.link.background:hover` | string\|null | Menu link background color on hover |
 | `widget.link.hover_animation` | string | Hover animation effect: `"none"`, `"underline"`, `"overline"`, `"highlight"`, `"scale"`, `"bracket"` (default: `"none"`) |
 | `widget.link.hover_animation_color` | string\|null | Color for the animation element (falls back to `link.color:hover`) |
 | `widget.logo` | object | Logo settings |
+| `widget.logo.type` | string | Logo type: `"image"`, `"text"` (default: `"image"`) |
 | `widget.logo.light` | string\|null | Light logo image URL |
 | `widget.logo.dark` | string\|null | Dark logo image URL |
 | `widget.logo.height` | number | Logo height in pixels (default: `40`) |
 | `widget.logo.position` | string | Logo position: `"left"`, `"center"`, `"right"` (default: `"left"`) |
+| `widget.logo.text` | string\|null | Logo text (when type is `"text"`) |
+| `widget.logo.font_family` | string\|null | Logo text font family |
+| `widget.logo.font_size` | number | Logo text font size in pixels (default: `20`) |
+| `widget.logo.font_weight` | string | Logo text font weight (default: `"700"`) |
+| `widget.logo.color` | string\|null | Logo text color |
+| `widget.logo.color:scrolled` | string\|null | Logo text color when page is scrolled |
 | `widget.config` | object | Menu configuration |
 | `widget.config.menu_code` | string | Code of the menu to display |
 | `widget.config.label_field` | string\|null | Field code to use as label for menu items |
@@ -50,8 +58,13 @@ menu
 | `widget.cta.border_radius` | string | CTA button border radius: `"sm"`, `"md"`, `"lg"`, `"pill"` (default: `"md"`) |
 | `widget.cta.icon` | string\|null | CTA button icon class (e.g., `"bx bx-right-arrow-alt"`) |
 | `widget.cta.icon_position` | string | CTA icon position: `"left"`, `"right"` (default: `"left"`) |
+| `widget.cta.color:scrolled` | string\|null | CTA text color when page is scrolled |
+| `widget.cta.background:scrolled` | string\|null | CTA background color when page is scrolled |
 | `widget.dropdown` | object | Dropdown submenu styling |
 | `widget.dropdown.background` | string\|null | Dropdown submenu background color |
+| `widget.dropdown.link_color` | string\|null | Dropdown link text color |
+| `widget.dropdown.link_hover_color` | string\|null | Dropdown link text color on hover |
+| `widget.dropdown.font_size` | number | Dropdown link font size in pixels (default: `14`) |
 | `widget.dropdown.border_radius` | string | Dropdown border radius: `"none"`, `"sm"`, `"md"`, `"lg"` (default: `"md"`) |
 | `widget.dropdown.shadow` | string | Dropdown box shadow: `"none"`, `"sm"`, `"md"`, `"lg"` (default: `"lg"`) |
 | `settings` | object | [Shared widget settings](shared-settings.md) |
@@ -66,16 +79,24 @@ menu
     "link": {
       "color": "var:text",
       "color:hover": null,
+      "color:scrolled": null,
       "background": null,
       "background:hover": null,
       "hover_animation": "underline",
       "hover_animation_color": null
     },
     "logo": {
+      "type": "image",
       "light": "https://cdn.example.com/logo.png",
       "dark": "https://cdn.example.com/logo-dark.png",
       "height": 40,
-      "position": "left"
+      "position": "left",
+      "text": null,
+      "font_family": null,
+      "font_size": 20,
+      "font_weight": "700",
+      "color": null,
+      "color:scrolled": null
     },
     "config": {
       "menu_code": "main-nav",
@@ -101,10 +122,15 @@ menu
       "size": "md",
       "border_radius": "md",
       "icon": null,
-      "icon_position": "left"
+      "icon_position": "left",
+      "color:scrolled": null,
+      "background:scrolled": null
     },
     "dropdown": {
       "background": null,
+      "link_color": null,
+      "link_hover_color": null,
+      "font_size": 14,
       "border_radius": "md",
       "shadow": "lg"
     }
