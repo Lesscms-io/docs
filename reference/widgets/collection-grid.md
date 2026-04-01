@@ -53,12 +53,14 @@ collection-grid
 | `widget.show_extra` | boolean | Show extra field |
 | `widget.exclude_url_segment` | string\|null | URL segment to exclude from results |
 | `widget.filter_field` | string\|null | Field code to filter by |
-| `widget.filter_source` | string\|null | Filter value source (`"static"` or `"url"`) |
+| `widget.filter_source` | string | Filter value source: `"static"` or `"url"` (default: `"static"`) |
 | `widget.filter_value` | string\|null | Static filter value |
 | `widget.filter_url_segment` | string\|null | URL segment for dynamic filter value |
 | `widget.use_custom_layout` | boolean | Use custom entry layout template |
 | `widget.layout_config` | object\|null | Custom layout configuration |
 | `widget.field_order` | array\|null | Order of displayed fields (managed via drag & drop in CMS) |
+| `widget.entries` | array\|undefined | Pre-fetched collection entries (server-side enrichment) |
+| `widget.entries_meta` | object\|undefined | Pagination metadata for enriched entries (total, page, etc.) |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response
@@ -115,7 +117,9 @@ collection-grid
     "filter_url_segment": null,
     "use_custom_layout": false,
     "layout_config": null,
-    "field_order": ["image", "date", "title", "excerpt", "tags", "read_more"]
+    "field_order": ["image", "date", "title", "excerpt", "tags", "read_more"],
+    "entries": [],
+    "entries_meta": {}
   },
   "settings": {
     "responsive": {

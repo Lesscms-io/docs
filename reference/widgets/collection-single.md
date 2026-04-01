@@ -27,6 +27,7 @@ collection-single
 | `widget.route_uuid` | string\|null | Route UUID for entry detail pages |
 | `widget.use_custom_layout` | boolean | Use custom entry layout template |
 | `widget.layout_config` | object\|null | Custom layout configuration |
+| `widget.entry` | object\|undefined | Pre-fetched entry data (server-side enrichment, only when `entry_id` is set) |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response
@@ -47,7 +48,8 @@ collection-single
     "show_image": true,
     "route_uuid": null,
     "use_custom_layout": false,
-    "layout_config": null
+    "layout_config": null,
+    "entry": null
   },
   "settings": {
     "responsive": {

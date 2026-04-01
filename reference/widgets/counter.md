@@ -19,6 +19,7 @@ counter
 | `widget.number.number` | number | Target number to count to (default: 0) |
 | `widget.number.duration` | number | Animation duration in milliseconds (default: 2000) |
 | `widget.number.size` | string | Number font size preset: `"md"`, `"lg"`, `"xl"`, `"2xl"` (default: `"xl"`) |
+| `widget.number.tag` | string | HTML tag for the number element (default: `"p"`) |
 | `widget.number.prefix` | string | Text before the number (multilingual) |
 | `widget.number.suffix` | string | Text after the number (multilingual) |
 | `widget.number.color` | string\|null | Number text color (hex, `var:` variable, or null) |
@@ -26,10 +27,12 @@ counter
 | `widget.number.prefix_color` | string\|null | Prefix/suffix text color (hex, `var:` variable, or null) |
 | `widget.title` | object | Title element group |
 | `widget.title.html` | string | Counter title/label (multilingual) |
+| `widget.title.tag` | string | HTML tag for the title element (default: `"p"`) |
 | `widget.title.color` | string\|null | Title text color (hex, `var:` variable, or null) |
 | `widget.title.color:hover` | string\|null | Title text color on hover |
 | `widget.config` | object | Configuration group |
 | `widget.config.alignment` | string | Text alignment: `"left"`, `"center"`, `"right"` (default: `"center"`) |
+| `widget.config.gap` | number | Gap between counter items in pixels (default: 10) |
 | `settings` | object | Style settings (see [shared settings](shared-settings.md)) |
 
 ## Example Response
@@ -43,6 +46,7 @@ counter
       "number": 5000,
       "duration": 2000,
       "size": "xl",
+      "tag": "p",
       "prefix": "",
       "suffix": "+",
       "color": null,
@@ -51,11 +55,13 @@ counter
     },
     "title": {
       "html": "Happy Customers",
+      "tag": "p",
       "color": null,
       "color:hover": null
     },
     "config": {
-      "alignment": "center"
+      "alignment": "center",
+      "gap": 10
     }
   },
   "settings": {}
@@ -73,6 +79,7 @@ counter
       "number": 1500000,
       "duration": 2500,
       "size": "xl",
+      "tag": "p",
       "prefix": "$",
       "suffix": "",
       "color": "#50a5f1",
@@ -81,11 +88,13 @@ counter
     },
     "title": {
       "html": "Revenue Generated",
+      "tag": "p",
       "color": null,
       "color:hover": null
     },
     "config": {
-      "alignment": "center"
+      "alignment": "center",
+      "gap": 10
     }
   },
   "settings": {}
