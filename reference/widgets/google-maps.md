@@ -15,7 +15,6 @@ google-maps
 | `widget_type` | string | Always `"google-maps"` |
 | `uuid` | string | Unique widget identifier |
 | `widget` | object | Widget data |
-| `widget.api_key` | string | Google Maps API key (intentionally excluded from API response for security) |
 | `widget.address` | object | Multilingual address text `{ "en": "...", "pl": "..." }` |
 | `widget.zoom` | number | Zoom level (1-21, default: 14) |
 | `widget.map_type` | string | Map type: `"roadmap"` or `"satellite"` |
@@ -27,7 +26,7 @@ google-maps
 | `widget.draggable` | boolean | Allow map panning by dragging (default: true) |
 | `settings` | object | Style settings (optional) |
 
-> **Note**: The `api_key` field is intentionally excluded from the API response for security. The frontend application should provide its own Google Maps API key.
+> **Note**: The Google Maps API key is not included in the API response for security. The frontend application should provide its own Google Maps API key.
 
 ## Example Response
 

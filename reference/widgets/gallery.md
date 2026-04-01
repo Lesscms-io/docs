@@ -43,8 +43,18 @@ gallery
       { "url": "https://cdn.example.com/img3.jpg", "alt": "Image 3" },
       { "url": "https://cdn.example.com/img4.jpg", "alt": "Image 4" }
     ],
+    "type": "grid",
     "columns": 4,
-    "enable_lightbox": true
+    "gap": 8,
+    "aspect": "square",
+    "enable_lightbox": true,
+    "mosaic_variant": "featured",
+    "carousel_style": "default",
+    "autoplay": true,
+    "interval": 3000,
+    "show_arrows": true,
+    "show_dots": true,
+    "loop": true
   },
   "settings": {
     "responsive": {

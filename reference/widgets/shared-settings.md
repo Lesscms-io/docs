@@ -1,5 +1,7 @@
 # Shared Widget Settings
 
+> **Note:** This is a meta documentation page describing the shared `settings` object common to all widgets. It is not a widget definition. Every widget's API response includes these settings automatically.
+
 Every widget returns a `settings` object with common style properties extracted from `widget.data.style`. These are managed by the WidgetSettingsPanel (shared across all widgets).
 
 ## Settings Properties

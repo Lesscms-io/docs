@@ -27,8 +27,10 @@ button
 | `widget.link.url` | string | Resolved URL (or custom URL) |
 | `widget.link.link_type` | string | `"custom"`, `"page"`, or `"entry"` |
 | `widget.link.page_id` | string\|null | Page UUID (for `page` links) |
+| `widget.link.page_code` | string\|null | Resolved page code (for `page` links, enriched by server) |
 | `widget.link.collection_code` | string\|null | Collection code (for `entry` links) |
 | `widget.link.entry_id` | string\|null | Entry UUID (for `entry` links) |
+| `widget.link.entry_code` | string\|null | Resolved entry code (for `entry` links, enriched by server) |
 | `widget.link.route_uuid` | string\|null | Route UUID for URL resolution |
 | `widget.link.target_blank` | boolean | Open link in new tab |
 | `settings` | object | [Shared widget settings](shared-settings.md) |
@@ -55,11 +57,13 @@ button
       "icon_position": "left"
     },
     "link": {
-      "url": "https://example.com/contact",
-      "link_type": "custom",
-      "page_id": null,
+      "url": "/about-us",
+      "link_type": "page",
+      "page_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+      "page_code": "about-us",
       "collection_code": null,
       "entry_id": null,
+      "entry_code": null,
       "route_uuid": null,
       "target_blank": false
     }
@@ -81,8 +85,8 @@ button
 | Value | Description |
 |-------|-------------|
 | `custom` | Custom URL (use `widget.link.url`) |
-| `page` | Link to a page (server-resolved URL in `widget.link.url`) |
-| `entry` | Link to a collection entry (server-resolved URL in `widget.link.url`) |
+| `page` | Link to a page (server-resolved URL in `widget.link.url`, `page_code` enriched) |
+| `entry` | Link to a collection entry (server-resolved URL in `widget.link.url`, `entry_code` enriched) |
 
 ## Button Styles
 

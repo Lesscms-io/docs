@@ -15,12 +15,12 @@ pricing-table
 | `widget_type` | string | Always `"pricing-table"` |
 | `uuid` | string | Unique widget identifier |
 | `widget.heading` | object | Heading element group |
-| `widget.heading.title_html` | object | Multilingual plan name |
-| `widget.heading.subtitle_html` | object | Multilingual plan description |
-| `widget.heading.price_html` | object | Multilingual price display (e.g., "$29") |
-| `widget.heading.period_html` | object | Multilingual billing period (e.g., "month") |
+| `widget.heading.title_html` | object | Multilingual plan name (FE source: `heading.title`) |
+| `widget.heading.subtitle_html` | object | Multilingual plan description (FE source: `heading.subtitle`) |
+| `widget.heading.price_html` | object | Multilingual price display e.g. "$29" (FE source: `heading.price`) |
+| `widget.heading.period_html` | object | Multilingual billing period e.g. "month" (FE source: `heading.period`) |
 | `widget.badge` | object | Badge element group |
-| `widget.badge.html` | object | Multilingual badge text (e.g., "Most Popular") |
+| `widget.badge.html` | object | Multilingual badge text e.g. "Most Popular" (FE source: `badge.badge`) |
 | `widget.button` | object | Button element group |
 | `widget.button.html` | object | Multilingual CTA button text |
 | `widget.button.style` | string | Button style name (Bootstrap variant) (default: `"primary"`) |
@@ -30,12 +30,13 @@ pricing-table
 | `widget.button.icon` | string | Button icon class (Font Awesome) (default: `""`) |
 | `widget.button.icon_position` | string | Button icon position: `"left"`, `"right"` (default: `"left"`) |
 | `widget.button.color` | string | Button color variable (default: `"var:primary"`) |
-| `widget.button_link_type` | string\|null | Button link type |
-| `widget.button_target_blank` | boolean | Open button link in new tab |
-| `widget.button_page_id` | string\|null | Button page UUID |
-| `widget.button_route_uuid` | string\|null | Button route UUID |
-| `widget.button_entry_id` | string\|null | Button entry UUID |
-| `widget.button_collection_code` | string\|null | Button collection code |
+| `widget.button_url` | string\|null | Resolved button URL (server-side resolved from page/entry/custom) |
+| `widget.button_link_type` | string | Button link type: `"custom"`, `"page"`, `"entry"` (default: `"custom"`) |
+| `widget.button_target_blank` | boolean | Open button link in new tab (default: `false`) |
+| `widget.button_page_id` | string\|null | Button page UUID (only when `button_link_type` is `"page"`) |
+| `widget.button_route_uuid` | string\|null | Button route UUID (only when `button_link_type` is `"page"` or `"entry"`) |
+| `widget.button_entry_id` | string\|null | Button entry UUID (only when `button_link_type` is `"entry"`) |
+| `widget.button_collection_code` | string\|null | Button collection code (only when `button_link_type` is `"entry"`) |
 | `widget.config` | object | Configuration element group |
 | `widget.config.highlighted` | boolean | Whether this plan is featured/highlighted (default: `false`) |
 | `widget.config.highlight_color` | string | Border/accent color when highlighted (default: `"var:primary"`) |
@@ -81,7 +82,10 @@ pricing-table
       { "html": { "en": "Priority Support" }, "included": true },
       { "html": { "en": "Custom Domain" }, "included": true },
       { "html": { "en": "API Access" }, "included": false }
-    ]
+    ],
+    "button_url": "/pricing",
+    "button_link_type": "custom",
+    "button_target_blank": false
   },
   "settings": {}
 }

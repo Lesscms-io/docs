@@ -34,6 +34,7 @@ video
   "widget": {
     "source": "youtube",
     "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    "embed_url": "https://www.youtube.com/embed/dQw4w9WgXcQ",
     "autoplay": false,
     "loop": false,
     "muted": false

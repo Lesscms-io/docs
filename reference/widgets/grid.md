@@ -1,5 +1,7 @@
 # Grid Widget
 
+> **Note:** This is a meta documentation page for the grid/wrapper layout system, not a standard widget definition. The grid is a structural container used to arrange child widgets in columns. It does not appear in `widgetDefinitions.js` as a regular widget.
+
 A layout container that arranges child widgets in a responsive grid with configurable columns.
 
 ## Widget Type

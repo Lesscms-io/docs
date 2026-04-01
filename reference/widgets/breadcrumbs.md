@@ -44,7 +44,13 @@ breadcrumbs
     },
     "color": "#6c757d",
     "active_color": "#212529",
-    "show_dynamic_last": false
+    "show_dynamic_last": false,
+    "dynamic_last_collection_code": "",
+    "dynamic_last_field_code": "",
+    "dynamic_last_entry_source": "url",
+    "dynamic_last_entry_id": "",
+    "dynamic_last_url_segment": 1,
+    "items": []
   },
   "settings": {
     "responsive": {

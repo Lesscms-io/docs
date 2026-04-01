@@ -68,12 +68,12 @@ data-field
 
 ### Server-Side Enrichment Fields
 
-When `config.entry_source` is `"static"` and the API can resolve the entry, these fields are added to `config`:
+When `config.value_source` is `"dynamic"`, `config.entry_source` is `"static"`, and the API can resolve the entry, these fields are added to `widget.config`:
 
 | Property | Type | Description |
 |----------|------|-------------|
-| `config.value` | any | Pre-extracted field value from the entry (multilingual object or scalar) |
-| `config.entry_url` | string\|null | Resolved entry URL based on collection route configuration |
+| `widget.config.value` | any | Pre-extracted field value from the entry (multilingual object or scalar) |
+| `widget.config.entry_url` | string\|null | Resolved entry URL based on collection route configuration |
 
 ## Example Response
 
@@ -118,9 +118,9 @@ When `config.entry_source` is `"static"` and the API can resolve the entry, thes
     "config": {
       "collection_code": "team",
       "field_code": "name",
-      "entry_source": "url",
-      "entry_id": "",
-      "entry_url_segment": 2,
+      "entry_source": "static",
+      "entry_id": "entry-uuid-123",
+      "entry_url_segment": 1,
       "display_as": "h2",
       "value_source": "dynamic",
       "field_type": "text",
@@ -134,7 +134,9 @@ When `config.entry_source` is `"static"` and the API can resolve the entry, thes
       "image_width": null,
       "image_height": null,
       "image_object_fit": "contain",
-      "image_border_radius": 0
+      "image_border_radius": 0,
+      "value": { "en": "John Smith", "pl": "Jan Kowalski" },
+      "entry_url": "/team/john-smith"
     }
   },
   "settings": {
