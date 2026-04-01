@@ -84,8 +84,12 @@ pricing-table
       { "html": { "en": "API Access" }, "included": false }
     ],
     "button_url": "/pricing",
-    "button_link_type": "custom",
-    "button_target_blank": false
+    "button_link_type": "page",
+    "button_target_blank": false,
+    "button_page_id": "page-uuid-123",
+    "button_route_uuid": "route-uuid-456",
+    "button_entry_id": null,
+    "button_collection_code": null
   },
   "settings": {}
 }

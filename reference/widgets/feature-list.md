@@ -24,16 +24,10 @@ feature-list
 | `widget.excluded.color:hover` | string\|null | Excluded icon color on hover |
 | `widget.config` | object | Layout configuration |
 | `widget.config.columns` | number | Number of columns (1-3) |
+| `widget.items` | array | List of feature entries |
+| `widget.items[].html` | object | Multilingual feature text `{ "en": "...", "pl": "..." }` |
+| `widget.items[].included` | boolean | Whether feature is included (default: true) |
 | `settings` | object | [Shared widget settings](shared-settings.md) |
-
-### Items Array
-
-Each widget contains an `items` array with feature entries:
-
-| Property | Type | Description |
-|----------|------|-------------|
-| `html` | object | Multilingual feature text `{ "en": "...", "pl": "..." }` |
-| `included` | boolean | Whether feature is included (default: true) |
 
 ## Example Response
 
