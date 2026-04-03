@@ -671,6 +671,7 @@ When rendering, wrap items in a grid:
 - `gallery` - Image grid
 - `image-carousel` - Image slider
 - `google-maps` - Embedded map
+- `google-reviews` - Google Reviews (grid/carousel/list layout with rating summary)
 
 ### Layout Widgets
 - `hero` - Full-width hero section

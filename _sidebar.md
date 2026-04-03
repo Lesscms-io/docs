@@ -63,6 +63,7 @@
     * [Table of Contents](reference/widgets/toc.md)
   * [Integrations](reference/widgets/?id=integrations)
     * [Google Maps](reference/widgets/google-maps.md)
+    * [Google Reviews](reference/widgets/google-reviews.md)
     * [OpenStreetMap](reference/widgets/openstreetmap.md)
     * [Social Icons](reference/widgets/social-icons.md)
     * [Embed](reference/widgets/embed.md)
