@@ -23,6 +23,7 @@ product-detail
 | `widget.config.show_specifications` | boolean | Display product specifications table |
 | `widget.config.slug_source` | string | Where product slug comes from: `"url"` or `"static"` |
 | `widget.config.slug_url_segment` | number | Which URL segment holds the slug (when `slug_source="url"`) |
+| `widget.config.slug` | string | Hard-coded product slug (when `slug_source="static"`). Use this for landing pages dedicated to a specific product. |
 | `widget.add_to_cart_button` | object | Add to cart button element group |
 | `widget.add_to_cart_button.text` | string \| object | Add to cart button label (multilingual) |
 | `settings` | object | [Shared widget settings](shared-settings.md) |
@@ -40,7 +41,8 @@ product-detail
       "show_description": true,
       "show_specifications": true,
       "slug_source": "url",
-      "slug_url_segment": 2
+      "slug_url_segment": 2,
+      "slug": ""
     },
     "add_to_cart_button": { "text": { "pl": "Dodaj do koszyka", "en": "Add to cart" } }
   },

@@ -17,9 +17,12 @@ product-grid
 | `widget_type` | string | Always `"product-grid"` |
 | `uuid` | string | Unique widget identifier |
 | `widget.config` | object | Config element group |
-| `widget.config.source` | string | Product source: `"latest"`, `"category"`, or `"featured"` |
-| `widget.config.category_slug` | string | Category slug to filter by (used when `source` is `"category"`) |
-| `widget.config.limit` | number | Maximum number of products to display |
+| `widget.config.source` | string | Product source: `"latest"`, `"category"`, `"featured"`, or `"manual"` |
+| `widget.config.category_source` | string | Where the category slug comes from (when `source="category"`): `"static"` (hard-coded) or `"url"` (read from URL segment) |
+| `widget.config.category_slug` | string | Category slug to filter by (used when `source="category"` and `category_source="static"`) |
+| `widget.config.category_url_segment` | number | URL path segment (0-indexed) holding the category slug (used when `source="category"` and `category_source="url"`). E.g. for `/kategoria/elektronika` set to `1`. |
+| `widget.config.product_slugs` | string | Newline- or comma-separated list of product slugs (used when `source` is `"manual"`). Order is preserved; missing products are silently dropped. |
+| `widget.config.limit` | number | Maximum number of products to display (ignored when `source` is `"manual"`) |
 | `widget.config.columns` | number | Number of columns on desktop |
 | `widget.config.columns_tablet` | number | Number of columns on tablet |
 | `widget.config.columns_mobile` | number | Number of columns on mobile |
@@ -38,7 +41,10 @@ product-grid
   "widget": {
     "config": {
       "source": "latest",
+      "category_source": "static",
       "category_slug": "",
+      "category_url_segment": 1,
+      "product_slugs": "",
       "limit": 8,
       "columns": 4,
       "columns_tablet": 2,
@@ -71,6 +77,7 @@ product-grid
 | `latest` | Most recently added products |
 | `category` | Products from a specific category (use `category_slug` to specify) |
 | `featured` | Products marked as featured in LessCommerce |
+| `manual` | Hand-picked list of products by slug (use `product_slugs`, one per line). Order is preserved. Useful for landing pages with curated product selections. |
 
 ## Usage Example
 

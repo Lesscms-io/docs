@@ -22,6 +22,7 @@ category-header
 | `widget.config.show_product_count` | boolean | Show total product count |
 | `widget.config.slug_source` | string | Where category slug comes from: `"url"` or `"static"` |
 | `widget.config.slug_url_segment` | number | Which URL segment holds the slug (when `slug_source="url"`) |
+| `widget.config.slug` | string | Hard-coded category slug (when `slug_source="static"`). Use this for landing pages dedicated to a specific category. |
 | `settings` | object | [Shared widget settings](shared-settings.md) |
 
 ## Example Response
@@ -36,7 +37,8 @@ category-header
       "show_description": true,
       "show_product_count": true,
       "slug_source": "url",
-      "slug_url_segment": 2
+      "slug_url_segment": 2,
+      "slug": ""
     }
   },
   "settings": {
