@@ -146,6 +146,7 @@ Sections are the top-level containers. Each section has:
     "backgroundImageOpacity": 100,
     "backgroundImageSource": "static",
     "backgroundImageField": "",
+    "backgroundVideoUrl": "", // optional: uploaded video URL (mp4/webm); plays muted+looped under content, hidden on mobile. backgroundImage acts as poster/fallback.
 
     // Gradient
     "useGradient": false,

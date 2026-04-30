@@ -18,9 +18,10 @@ Every widget returns a `settings` object with common style properties extracted 
 | `settings.margin_left` | number | Left margin (px) |
 | `settings.background_color` | string\|null | Background color |
 | `settings.background_opacity` | number | Background opacity (0-100) |
-| `settings.background_image` | string\|null | Background image URL |
+| `settings.background_image` | string\|null | Background image URL. Also acts as poster/fallback for `background_video_url`. |
 | `settings.background_size` | string | Background size (cover, contain, etc.) |
 | `settings.background_position` | string | Background position |
+| `settings.background_video_url` | string\|null | Uploaded background video URL (mp4/webm). Plays muted+looped under content; hidden on mobile (< 768px). Use `background_image` as fallback/poster. |
 | `settings.border_radius` | number | Border radius (px) |
 | `settings.border_width` | number | Border width (px) |
 | `settings.border_color` | string\|null | Border color |

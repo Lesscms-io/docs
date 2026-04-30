@@ -79,6 +79,8 @@
     * [Mini Cart](reference/widgets/mini-cart.md)
     * [Account Icon](reference/widgets/account-icon.md)
     * [Search Bar](reference/widgets/search-bar.md)
+    * [Search Icon](reference/widgets/search-icon.md)
+    * [Ecommerce Icons](reference/widgets/ecommerce-icons.md)
     * [Product Grid](reference/widgets/product-grid.md)
     * [Product Carousel](reference/widgets/product-carousel.md)
     * [Category Grid](reference/widgets/category-grid.md)
@@ -86,8 +88,13 @@
     * [Register Form](reference/widgets/register-form.md)
     * [Cart](reference/widgets/cart.md)
     * [Checkout](reference/widgets/checkout.md)
+    * [Order Success](reference/widgets/order-success.md)
+    * [Order Failure](reference/widgets/order-failure.md)
     * [Customer Account](reference/widgets/customer-account.md)
     * [Product Detail](reference/widgets/product-detail.md)
+    * [Product Configurator](reference/widgets/product-configurator.md)
+    * [Product Configurator Wizard](reference/widgets/product-configurator-wizard.md)
+    * [Product Variants](reference/widgets/product-variants.md)
     * [Category Header](reference/widgets/category-header.md)
 
 * **Guides**

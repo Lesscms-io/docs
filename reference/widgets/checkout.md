@@ -19,7 +19,8 @@ checkout
 | `widget.config` | object | Config element group |
 | `widget.config.require_login` | boolean | Require customer login before checkout |
 | `widget.config.show_progress_bar` | boolean | Show multi-step progress bar |
-| `widget.config.thank_you_route` | string | Route to redirect to after successful order |
+| `widget.config.success_route` | string | Route to redirect to after the customer returns from the payment gateway. The [order-success](order-success.md) widget on that page decides whether to render success UI or forward the user to the failure route. Default `/zamowienie/sukces`. |
+| `widget.config.failure_route` | string | Fallback route used by the success widget when `payment_status` is failed/cancelled. Default `/zamowienie/niepowodzenie`. |
 | `widget.heading` | object | Heading element group |
 | `widget.heading.text` | string \| object | Page heading (multilingual) |
 | `widget.submit_button` | object | Submit button element group |
@@ -36,7 +37,8 @@ checkout
     "config": {
       "require_login": false,
       "show_progress_bar": true,
-      "thank_you_route": "/thank-you"
+      "success_route": "/zamowienie/sukces",
+      "failure_route": "/zamowienie/niepowodzenie"
     },
     "heading": { "text": { "pl": "Zamówienie", "en": "Checkout" } },
     "submit_button": { "text": { "pl": "Złóż zamówienie", "en": "Place order" } }
@@ -55,7 +57,7 @@ The widget reads the live cart state and submits the order via the LessCommerce 
 
 - `GET /api/cart/validate` — validate cart before showing the form (stock, prices, eligibility)
 - `POST /api/cart/checkout` — submit the order with shipping + payment details
-- On success: redirect to `widget.config.thank_you_route`
+- On success: redirect to `widget.config.success_route` (passing `?order=<order_number>`). The success widget verifies `payment_status` client-side and forwards to `widget.config.failure_route` if the gateway reported failure.
 
 ## Usage Example
 
@@ -69,7 +71,8 @@ async function submitCheckout(widget, formData) {
   });
 
   if (response.ok) {
-    window.location.href = config.thank_you_route;
+    const data = await response.json();
+    window.location.href = `${config.success_route}?order=${data.order_number}`;
   }
 }
 ```

@@ -22,6 +22,7 @@ menu
 | `widget.link.background:hover` | string\|null | Menu link background color on hover |
 | `widget.link.hover_animation` | string | Hover animation effect: `"none"`, `"underline"`, `"overline"`, `"highlight"`, `"scale"`, `"bracket"` (default: `"none"`) |
 | `widget.link.hover_animation_color` | string\|null | Color for the animation element (falls back to `link.color:hover`) |
+| `widget.link.font_size` | number | Main menu link font size in pixels (default: `14`) |
 | `widget.logo` | object | Logo settings |
 | `widget.logo.type` | string | Logo type: `"image"`, `"text"` (default: `"image"`) |
 | `widget.logo.light` | string\|null | Light logo image URL |
@@ -83,7 +84,8 @@ menu
       "background": null,
       "background:hover": null,
       "hover_animation": "underline",
-      "hover_animation_color": null
+      "hover_animation_color": null,
+      "font_size": 14
     },
     "logo": {
       "type": "image",
