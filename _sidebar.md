@@ -93,7 +93,6 @@
     * [Customer Account](reference/widgets/customer-account.md)
     * [Product Detail](reference/widgets/product-detail.md)
     * [Product Configurator](reference/widgets/product-configurator.md)
-    * [Product Configurator Wizard](reference/widgets/product-configurator-wizard.md)
     * [Product Variants](reference/widgets/product-variants.md)
     * [Category Header](reference/widgets/category-header.md)
 
