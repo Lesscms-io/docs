@@ -38,7 +38,8 @@ menu
 | `widget.config` | object | Menu configuration |
 | `widget.config.menu_code` | string | Code of the menu to display |
 | `widget.config.label_field` | string\|null | Field code to use as label for menu items |
-| `widget.config.layout` | string | Menu layout: `"horizontal"`, `"vertical"`, `"centered"` (default: `"horizontal"`) |
+| `widget.config.layout_preset` | string\|null | Layout preset (preferred for new widgets): `"logo-left"`, `"logo-right"`, `"logo-center-split"`, `"logo-center-below"`. When set, renderers should use this single value instead of `layout` + `logo.position` + `items_alignment`. `null` means legacy mode (use the three separate fields). |
+| `widget.config.layout` | string | Legacy layout (used only when `layout_preset` is `null`): `"horizontal"`, `"vertical"`, `"centered"` (default: `"horizontal"`) |
 | `widget.config.hamburger_breakpoint` | string | When to show hamburger: `"never"`, `"mobile"`, `"tablet"` (default: `"never"`) |
 | `widget.config.items_alignment` | string | Menu items alignment: `"left"`, `"center"`, `"right"` (default: `"left"`) |
 | `widget.config.items_gap` | number | Gap between menu items in pixels (default: `12`) |
@@ -103,6 +104,7 @@ menu
     "config": {
       "menu_code": "main-nav",
       "label_field": null,
+      "layout_preset": "logo-left",
       "layout": "horizontal",
       "hamburger_breakpoint": "mobile",
       "items_alignment": "left",

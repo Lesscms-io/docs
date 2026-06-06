@@ -21,6 +21,7 @@ customer-account
 | `widget.config.show_addresses` | boolean | Show Addresses tab |
 | `widget.config.show_profile` | boolean | Show Profile tab |
 | `widget.config.show_logout` | boolean | Show Logout button |
+| `widget.config.show_reorder` | boolean | Show "Reorder" button in expanded order details (default `true`) |
 | `widget.heading` | object | Heading element group |
 | `widget.heading.text` | string \| object | Page heading (multilingual) |
 | `settings` | object | [Shared widget settings](shared-settings.md) |
@@ -36,7 +37,8 @@ customer-account
       "show_orders": true,
       "show_addresses": true,
       "show_profile": true,
-      "show_logout": true
+      "show_logout": true,
+      "show_reorder": true
     },
     "heading": { "text": { "pl": "Moje konto", "en": "My account" } }
   },
@@ -56,6 +58,7 @@ The widget reads customer data from the LessCommerce API (requires authenticated
 - `GET /api/customers/me/orders` — list of customer's orders
 - `GET /api/customers/me/addresses` — shipping/billing addresses
 - `POST /api/customers/logout` — sign out the customer
+- `POST /api/cart/reorder` — copy items from a past order into the customer's cart (returns `{ cart, added, skipped }`)
 
 ## Usage Example
 

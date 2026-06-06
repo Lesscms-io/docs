@@ -15,7 +15,7 @@ gallery
 | `widget_type` | string | Always `"gallery"` |
 | `uuid` | string | Unique widget identifier |
 | `widget` | object | Widget data |
-| `widget.images` | array | Array of image objects (each with `url` and `alt` properties) |
+| `widget.images` | array | Array of media items. Each item: `url`, `alt`, `type` (`"image"` default, or `"video"`), and `poster` (optional poster URL for videos). Videos render as `<video>` and play in the lightbox. |
 | `widget.columns` | number\|string | Number of grid columns (default: 3) |
 | `widget.enable_lightbox` | boolean | Enable lightbox on click (default: false) |
 | `widget.type` | string | Gallery type: `"grid"`, `"masonry"`, `"carousel"`, `"mosaic"` |
@@ -38,10 +38,10 @@ gallery
   "uuid": "gallery-123",
   "widget": {
     "images": [
-      { "url": "https://cdn.example.com/img1.jpg", "alt": "Image 1" },
-      { "url": "https://cdn.example.com/img2.jpg", "alt": "Image 2" },
-      { "url": "https://cdn.example.com/img3.jpg", "alt": "Image 3" },
-      { "url": "https://cdn.example.com/img4.jpg", "alt": "Image 4" }
+      { "url": "https://cdn.example.com/img1.jpg", "alt": "Image 1", "type": "image" },
+      { "url": "https://cdn.example.com/clip.mp4", "alt": "Clip", "type": "video" },
+      { "url": "https://cdn.example.com/img3.jpg", "alt": "Image 3", "type": "image" },
+      { "url": "https://cdn.example.com/img4.jpg", "alt": "Image 4", "type": "image" }
     ],
     "type": "grid",
     "columns": 4,
@@ -73,16 +73,21 @@ function renderGallery(widget) {
 
   if (!images || images.length === 0) return '';
 
-  const imageItems = images.map((img, index) => `
-    <div class="gallery-item" style="aspect-ratio: 1/1;">
-      <img
-        src="${img.url}"
-        alt="${img.alt || ''}"
-        loading="lazy"
-        ${enable_lightbox ? `style="cursor: pointer;" onclick="openLightbox(${index})"` : ''}
-      >
-    </div>
-  `).join('');
+  const imageItems = images.map((img, index) => {
+    // Videos: show the first frame with a play overlay; play in the lightbox.
+    const isVideo = img.type === 'video';
+    // Video tiles are always clickable; images only when the lightbox is enabled.
+    const clickable = enable_lightbox || isVideo;
+    const media = isVideo
+      ? `<video src="${img.url}" ${img.poster ? `poster="${img.poster}"` : ''} preload="metadata" muted playsinline></video>`
+      : `<img src="${img.url}" alt="${img.alt || ''}" loading="lazy">`;
+    return `
+      <div class="gallery-item" style="aspect-ratio: 1/1;"
+        ${clickable ? `onclick="openLightbox(${index})" style="cursor: pointer;"` : ''}>
+        ${media}
+      </div>
+    `;
+  }).join('');
 
   return `
     <div class="gallery-grid" style="

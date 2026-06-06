@@ -19,7 +19,13 @@ product-configurator
 | `widget.config` | object | Config element group |
 | `widget.config.show_heading` | boolean | Show the section heading above the options |
 | `widget.config.show_price_summary` | boolean | Show the running "Total:" row below the options |
-| `widget.config.show_required_badge` | boolean | Show the `required` badge on mandatory option groups |
+| `widget.config.show_required_badge` | boolean | Show the `*` asterisk badge on mandatory option groups |
+| `widget.config.show_option_prices` | boolean | Show the per-option price delta inline next to color/image swatches |
+| `widget.config.swatch_size` | string | Size of color/image swatches: `"sm"`, `"md"` (default), `"lg"` |
+| `widget.config.wizard_mode` | boolean | Render the configurator as a step-by-step wizard with prev/next nav and a final summary |
+| `widget.config.show_progress` | boolean | Show the wizard progress bar (used only when `wizard_mode=true`) |
+| `widget.config.show_step_count` | boolean | Show "Step X of Y" label below the progress bar (used only when `wizard_mode=true`) |
+| `widget.config.wizard_steps` | array | Optional grouping of option groups into wizard steps. Each entry: `{ label?: { lang: string }, group_codes: string[] }`. Empty/missing = one group per step. Group codes that don't match a visible group are silently dropped; visible groups not assigned to any step get their own trailing step. |
 | `widget.config.slug_source` | string | Where product slug comes from: `"url"` or `"static"` |
 | `widget.config.slug_url_segment` | number | Which URL segment holds the slug (when `slug_source="url"`) |
 | `widget.config.slug` | string | Hard-coded product slug (when `slug_source="static"`) |
@@ -62,6 +68,12 @@ product-configurator
       "show_heading": true,
       "show_price_summary": true,
       "show_required_badge": true,
+      "show_option_prices": true,
+      "swatch_size": "md",
+      "wizard_mode": false,
+      "show_progress": true,
+      "show_step_count": true,
+      "wizard_steps": [],
       "slug_source": "url",
       "slug_url_segment": 2,
       "slug": ""

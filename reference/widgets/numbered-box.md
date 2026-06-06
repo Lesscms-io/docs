@@ -1,6 +1,6 @@
 # Numbered Box Widget
 
-A widget combining an auto-generated number (01, 02, 03...) with a heading and rich text content. Uses element-group governance — each visual element is a nested object. Commonly used for step-by-step processes, feature lists, or numbered highlights.
+A widget combining a number with a heading and rich text content. By default the number is auto-generated (01, 02, 03...) from the item index, but the editor can override it with custom rich text via `widget.number.html` (e.g. `Krok 1`, `①`, formatted markup). Uses element-group governance — each visual element is a nested object. Commonly used for step-by-step processes, feature lists, or numbered highlights.
 
 ## Widget Type
 
@@ -16,6 +16,7 @@ numbered-box
 | `uuid` | string | Unique widget identifier |
 | `widget` | object | Widget data (element groups) |
 | `widget.number` | object | Number element group |
+| `widget.number.html` | object | Multilingual override HTML for the number. If empty, renderers must fall back to the auto-counter `String(itemIndex + 1).padStart(2, '0')` |
 | `widget.number.color` | string\|null | Number text color |
 | `widget.number.color:hover` | string\|null | Number text color on hover |
 | `widget.number.background` | string\|null | Number background color |
@@ -45,6 +46,7 @@ numbered-box
   "uuid": "numbox-123",
   "widget": {
     "number": {
+      "html": { "en": "", "pl": "" },
       "color": "var:primary",
       "color:hover": null,
       "background": "var:primary:15",
@@ -96,7 +98,13 @@ Used when `number.position` is `"left"` or `"right"`:
 ```javascript
 function renderNumberedBox(widget, language, itemIndex = 0) {
   const { number, heading, text } = widget.widget;
-  const displayNumber = String(itemIndex + 1).padStart(2, '0');
+  const autoCounter = String(itemIndex + 1).padStart(2, '0');
+  // Optional editor override — strip outer <p>/<div> wrapper for inline display
+  const rawNumberHtml = number.html?.[language] || number.html?.en || '';
+  const customNumber = rawNumberHtml
+    .replace(/^<(p|div)[^>]*>(.*)<\/\1>$/s, '$2')
+    .trim();
+  const displayNumber = customNumber || autoCounter;
 
   const numberStyle = [
     `font-size: ${number.size}px`,

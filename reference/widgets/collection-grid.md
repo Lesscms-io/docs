@@ -53,7 +53,7 @@ collection-grid
 | `widget.show_extra` | boolean | Show extra field |
 | `widget.exclude_url_segment` | string\|null | URL segment to exclude from results |
 | `widget.filter_field` | string\|null | Field code to filter by |
-| `widget.filter_source` | string | Filter value source: `"static"` or `"url"` (default: `"static"`) |
+| `widget.filter_source` | string | Filter value source: `"static"`, `"url"` or `"current_entry"` (default: `"static"`). With `current_entry`, the renderer uses the `entry_id` of the collection entry currently displayed on the page (typical use: a relation field pointing to that page's entry). |
 | `widget.filter_value` | string\|null | Static filter value |
 | `widget.filter_url_segment` | string\|null | URL segment for dynamic filter value |
 | `widget.use_custom_layout` | boolean | Use custom entry layout template |

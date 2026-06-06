@@ -141,7 +141,7 @@ Sections are the top-level containers. Each section has:
     "backgroundColor": "#ffffff",
     "backgroundOpacity": 100,
     "backgroundImage": "https://...",
-    "backgroundSize": "cover",
+    "backgroundSize": "cover", // "cover" | "contain" | "auto" | raw CSS like "200px auto" or "30% auto"
     "backgroundPosition": "center center",
     "backgroundImageOpacity": 100,
     "backgroundImageSource": "static",
@@ -244,7 +244,7 @@ Columns are inside sections. Each column has:
     "backgroundColor": "",
     "backgroundOpacity": 100,
     "backgroundImage": "",
-    "backgroundSize": "cover",
+    "backgroundSize": "cover", // "cover" | "contain" | "auto" | raw CSS like "200px auto" or "30% auto"
     "backgroundPosition": "center center",
     "backgroundImageOpacity": 100,
     "useGradient": false,
@@ -346,7 +346,7 @@ Widgets are inside columns. Each widget has:
     "backgroundColor": "",
     "backgroundOpacity": 100,
     "backgroundImage": "",
-    "backgroundSize": "cover",
+    "backgroundSize": "cover", // "cover" | "contain" | "auto" | raw CSS like "200px auto" or "30% auto"
     "backgroundPosition": "center center",
     "backgroundImageOpacity": 100,
     "useGradient": false,
@@ -669,6 +669,7 @@ When rendering, wrap items in a grid:
 
 ### Media Widgets
 - `video` - YouTube/Vimeo/URL embed
+- `audio` - Audio player with optional playlist (streamed with Range support)
 - `gallery` - Image grid
 - `image-carousel` - Image slider
 - `google-maps` - Embedded map
