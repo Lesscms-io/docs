@@ -2,7 +2,7 @@
 
 > **LessCommerce Widget** — This widget requires an active [LessCommerce](https://lesscommerce.io) account connected to your LessCMS project.
 
-Displays products in a responsive grid layout. Supports filtering by source (latest, category, or featured) with configurable columns and display options.
+Displays products in a responsive grid layout. Supports filtering by source (latest, category, featured, manual, or search results) with configurable columns and display options.
 
 ## Widget Type
 
@@ -17,15 +17,20 @@ product-grid
 | `widget_type` | string | Always `"product-grid"` |
 | `uuid` | string | Unique widget identifier |
 | `widget.config` | object | Config element group |
-| `widget.config.source` | string | Product source: `"latest"`, `"category"`, `"featured"`, or `"manual"` |
+| `widget.config.source` | string | Product source: `"latest"`, `"category"`, `"featured"`, `"manual"`, `"search"`, or `"related"` |
+| — related mode | | With `source="related"` the grid renders products resolved by the shop's related-product rules (Shop settings → Related products). It reads the current product from the injected product (SSR), then the route `slug` param, then the URL segment given by `related_slug_url_segment`. No product in context renders an empty grid rather than falling back to unrelated products. |
+| `widget.config.related_set` | string | Which rule set to run (used when `source="related"`). Empty = first enabled set. |
+| `widget.config.related_slug_url_segment` | number | 1-indexed URL segment holding the product slug, used only when the product is not injected and the route has no `slug` param. Defaults to `1`. |
 | `widget.config.category_source` | string | Where the category slug comes from (when `source="category"`): `"static"` (hard-coded) or `"url"` (read from URL segment) |
 | `widget.config.category_slug` | string | Category slug to filter by (used when `source="category"` and `category_source="static"`) |
 | `widget.config.category_url_segment` | number | URL path segment (0-indexed) holding the category slug (used when `source="category"` and `category_source="url"`). E.g. for `/kategoria/elektronika` set to `1`. |
 | `widget.config.product_slugs` | string | Newline- or comma-separated list of product slugs (used when `source` is `"manual"`). Order is preserved; missing products are silently dropped. |
+| — search mode | | With `source="search"` the grid reads the `?q=` URL parameter (the search-bar widget navigates there) and calls the storefront `/products/search` endpoint. Empty `q` renders a "type a phrase" prompt; no hits render "no results for …". Pagination works via `?page=`. Place the widget on the page the search bar routes to (`commerce.routes.search`, default `/szukaj`). |
 | `widget.config.limit` | number | Maximum number of products to display (ignored when `source` is `"manual"`) |
 | `widget.config.columns` | number | Number of columns on desktop |
 | `widget.config.columns_tablet` | number | Number of columns on tablet |
 | `widget.config.columns_mobile` | number | Number of columns on mobile |
+| `widget.config.gap` | number | Gap between tiles in pixels (default: `12`) |
 | `widget.config.show_price` | boolean | Whether to display product prices |
 | `widget.config.show_category` | boolean | Whether to display product category labels |
 | `widget.config.show_discount_badge` | boolean | Fallback auto discount badge (`-X%`) shown when the product has no marketing labels. Set `false` to hide. Defaults to `true`. |
@@ -41,6 +46,10 @@ product-grid
 | `widget.see_all` | object | "See all" link shown in the top-right of the header |
 | `widget.see_all.text` | object | Multilingual link text (e.g. `"Zobacz wszystkie"`). Empty = link hidden. |
 | `widget.see_all.url` | string | Link target URL. Empty = link hidden. |
+| `widget.all_tile` | object | Optional "all products" tile appended as the last grid cell |
+| `widget.all_tile.enabled` | boolean | Render the tile at the end of the grid (default `false`) |
+| `widget.all_tile.text` | object | Multilingual tile label. Empty = "Wszystkie produkty"/"All products". |
+| `widget.all_tile.url` | string | Tile target URL. Empty = falls back to `see_all.url`; no URL at all hides the tile. |
 | `settings` | object | [Shared widget settings](shared-settings.md) |
 
 ## Marketing Labels (Badges)
@@ -79,6 +88,7 @@ When a product has at least one label in `marketing_labels[]`, render all of the
       "columns": 4,
       "columns_tablet": 2,
       "columns_mobile": 1,
+      "gap": 12,
       "show_price": true,
       "show_category": true,
       "show_discount_badge": true,
@@ -104,6 +114,14 @@ When a product has at least one label in `marketing_labels[]`, render all of the
       "text": {
         "en": "See all",
         "pl": "Zobacz wszystkie"
+      },
+      "url": "/products"
+    },
+    "all_tile": {
+      "enabled": true,
+      "text": {
+        "en": "All products",
+        "pl": "Wszystkie produkty"
       },
       "url": "/products"
     }

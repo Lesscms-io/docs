@@ -22,6 +22,7 @@
     * [Button](reference/widgets/button.md)
     * [Divider](reference/widgets/divider.md)
     * [Spacer](reference/widgets/spacer.md)
+    * [Icon](reference/widgets/icon.md)
     * [Icon Box](reference/widgets/icon-box.md)
     * [Numbered Box](reference/widgets/numbered-box.md)
     * [Service Card](reference/widgets/service-card.md)
@@ -86,6 +87,7 @@
     * [Product Grid](reference/widgets/product-grid.md)
     * [Product Carousel](reference/widgets/product-carousel.md)
     * [Category Grid](reference/widgets/category-grid.md)
+    * [Category Tree](reference/widgets/category-tree.md)
     * [Login Form](reference/widgets/login-form.md)
     * [Register Form](reference/widgets/register-form.md)
     * [Cart](reference/widgets/cart.md)
@@ -96,6 +98,7 @@
     * [Product Detail](reference/widgets/product-detail.md)
     * [Product Configurator](reference/widgets/product-configurator.md)
     * [Product Variants](reference/widgets/product-variants.md)
+    * [Related Products](reference/widgets/related-products.md)
     * [Category Header](reference/widgets/category-header.md)
 
 * **Guides**

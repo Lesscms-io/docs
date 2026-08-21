@@ -18,6 +18,8 @@ image
 | `widget.image_source` | string | Content source: `"static"` or `"dynamic"` (default: `"static"`) |
 | `widget.image` | string\|null | Image URL |
 | `widget.image_style` | string | Image style preset (default: `"none"`) |
+| `widget.alt` | string\|object\|null | Alt text — plain string or multilingual object |
+| `widget.enable_lightbox` | boolean | Click opens a fullscreen preview (default: `false`) |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response
@@ -29,7 +31,9 @@ image
   "widget": {
     "image_source": "static",
     "image": "https://cdn.example.com/images/hero.jpg",
-    "image_style": "rounded-shadow"
+    "image_style": "rounded-shadow",
+    "alt": {"pl": "Zdjęcie albumu"},
+    "enable_lightbox": true
   },
   "settings": {
     "responsive": {

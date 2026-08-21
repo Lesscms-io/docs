@@ -231,6 +231,7 @@ Settings can have responsive overrides for tablet (768-1199px) and mobile (0-767
 - [Button](reference/widgets/button.md)
 - [Divider](reference/widgets/divider.md)
 - [Spacer](reference/widgets/spacer.md)
+- [Icon](reference/widgets/icon.md)
 - [Icon Box](reference/widgets/icon-box.md)
 - [Numbered Box](reference/widgets/numbered-box.md)
 - [Service Card](reference/widgets/service-card.md)

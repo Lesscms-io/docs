@@ -17,7 +17,9 @@ product-carousel
 | `widget_type` | string | Always `"product-carousel"` |
 | `uuid` | string | Unique widget identifier |
 | `widget.config` | object | Config element group |
-| `widget.config.source` | string | Product source: `"latest"`, `"category"`, `"featured"`, or `"manual"` |
+| `widget.config.source` | string | Product source: `"latest"`, `"category"`, `"featured"`, `"manual"`, or `"related"` |
+| `widget.config.related_set` | string | Which related-product rule set to run (used when `source="related"`). Empty = first enabled set. |
+| `widget.config.related_slug_url_segment` | number | 1-indexed URL segment holding the product slug, used when the product is not injected and the route has no `slug` param. Defaults to `1`. |
 | `widget.config.category_source` | string | Where the category slug comes from (when `source="category"`): `"static"` (hard-coded) or `"url"` (read from URL segment) |
 | `widget.config.category_slug` | string | Category slug to filter by (used when `source="category"` and `category_source="static"`) |
 | `widget.config.category_url_segment` | number | URL path segment (0-indexed) holding the category slug (used when `source="category"` and `category_source="url"`). E.g. for `/kategoria/elektronika` set to `1`. |

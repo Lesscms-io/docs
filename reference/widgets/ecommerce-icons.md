@@ -30,6 +30,7 @@ ecommerce-icons
 | `widget.config` | object | Layout configuration |
 | `widget.config.size` | number | Icon size in pixels (default: `20`) |
 | `widget.config.gap` | number | Horizontal gap between items in pixels (default: `16`) |
+| `widget.config.mobile_dock` | bool | On mobile (<768px) the icon group renders as a fixed bar docked to the bottom of the viewport (app-style tab bar); cart/search panels open upward. Default: `false` |
 | `widget.icon` | object | Shared icon styling |
 | `widget.icon.color` | string\|null | Default icon color |
 | `widget.icon.color:hover` | string\|null | Icon color on hover |
@@ -53,7 +54,7 @@ ecommerce-icons
       { "type": "account", "icon": "fa-solid fa-user", "url": null, "label": { "pl": "Konto" }, "target_blank": false },
       { "type": "cart", "icon": "fa-solid fa-bag-shopping", "url": null, "label": { "pl": "Koszyk" }, "target_blank": false }
     ],
-    "config": { "size": 20, "gap": 16 },
+    "config": { "size": 20, "gap": 16, "mobile_dock": false },
     "icon": { "color": "var:text", "color:hover": "var:primary" },
     "badge": { "background": "var:primary", "color": "var:white" },
     "search": { "placeholder": { "pl": "Szukaj produktów..." }, "navigate_url": "/search" }

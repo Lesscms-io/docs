@@ -42,7 +42,7 @@ accordion
 | `widget.config.first_open` | boolean | First item open by default |
 | `widget.items` | array | List of accordion items |
 | `widget.items[].title_html` | object | Multilingual item title |
-| `widget.items[].html` | object | Multilingual item content |
+| `widget.items[].html` | object | Multilingual item content — rich text HTML (paragraphs, bold, links, lists, images with class `lcms-rich-img`). Legacy items may still contain plain text; render with newline→paragraph fallback |
 | `settings` | object | [Shared widget settings](shared-settings.md) |
 
 ## Example Response
