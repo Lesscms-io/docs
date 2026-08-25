@@ -7,6 +7,9 @@
   <meta name="description" content="Official API documentation for LessCMS Public API">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Belanosima:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css">
 
   <style>
@@ -66,7 +69,7 @@
     }
 
     .sidebar-nav ul ul {
-      padding-left: 20px !important;
+      padding-left: 20px;
       margin-left: 0;
     }
 
@@ -90,23 +93,23 @@
       color: var(--text-secondary);
       font-size: 14px;
       line-height: 1.5;
-      text-decoration: none !important;
+      text-decoration: none;
       transition: all 0.15s ease;
       border-left: 3px solid transparent;
     }
 
     .sidebar-nav ul ul a {
-      padding-left: 36px !important;
+      padding-left: 36px;
     }
 
     .sidebar-nav ul ul ul a {
-      padding-left: 52px !important;
+      padding-left: 52px;
     }
 
     .sidebar-nav a:hover {
       color: var(--primary);
       background: rgba(0, 112, 243, 0.05);
-      text-decoration: none !important;
+      text-decoration: none;
     }
 
     .sidebar-nav a.active {
@@ -338,10 +341,10 @@
 
     /* Copy code button */
     .docsify-copy-code-button {
-      background: var(--primary) !important;
-      color: white !important;
-      font-size: 12px !important;
-      border-radius: 4px !important;
+      background: var(--primary);
+      color: white;
+      font-size: 12px;
+      border-radius: 4px;
     }
 
     /* Scrollbar */
@@ -410,8 +413,36 @@
       }
     }
   </style>
+  <link rel="stylesheet" href="assets/lesstools.css">
+  <!-- Google Analytics 4 — ta sama usługa co strona produktowa,
+       żeby ruch z dokumentacji nie liczył się osobno -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-E54Z63WVMY"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-E54Z63WVMY');
+  </script>
 </head>
 <body>
+  
+  <!-- belka nad wyszukiwarką (wstrzykiwana do sidebara) -->
+  <template id="lt-sidebar-head">
+    <div class="lt-side-head">
+      <a class="lt-back" href="https://lesscms.io" title="Wróć na lesscms.io" aria-label="Wróć na lesscms.io">
+        <svg width="17" height="17" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a class="lt-side-logo" href="https://lesscms.io">
+        <svg width="21" height="27" viewBox="0 0 160 210" aria-hidden="true"><path d="M135 86.863724 33.773899 172.173767 12.764706 41.025482Z" fill="none" stroke="currentColor" stroke-width="12.31722" stroke-linejoin="round"/></svg><span class="word">LESSCMS</span>
+      </a>
+      <span class="lt-side-tag" data-pl="API" data-en="API">API</span>
+      <div class="lt-side-lang" role="group" aria-label="Language">
+        <a class="lt-lang" data-lang="pl" href="#/">PL</a>
+        <a class="lt-lang" data-lang="en" href="#/en/">EN</a>
+      </div>
+    </div>
+  </template>
+
   <div id="app"></div>
   <script>
     window.$docsify = {
@@ -460,5 +491,44 @@
   <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-json.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-php.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-python.min.js"></script>
+  <script>
+    // Docsify buduje sidebar sam, więc belkę doklejamy po jego renderze.
+    (function () {
+      function wstaw() {
+        var side = document.querySelector('.sidebar');
+        if (!side || side.querySelector('.lt-side-head')) return;
+        var szablon = document.getElementById('lt-sidebar-head');
+        side.insertBefore(szablon.content.cloneNode(true), side.firstChild);
+      }
+      new MutationObserver(wstaw).observe(document.body, {childList: true, subtree: true});
+      document.addEventListener('DOMContentLoaded', wstaw);
+      wstaw();
+    })();
+  </script>
+  <script>
+    // Przełącznik języka: zamienia prefiks /en/ w bieżącej ścieżce, żeby
+    // klikając „EN" zostać na tej samej stronie, a nie wracać na początek.
+    (function () {
+      function sciezka() {
+        var h = location.hash.replace(/^#/, '') || '/';
+        return h.split('?')[0];
+      }
+      function odswiez() {
+        var s = sciezka();
+        var teraz = s.indexOf('/en/') === 0 || s === '/en' ? 'en' : 'pl';
+        var tag = document.querySelector('.lt-side-tag');
+        if (tag) tag.textContent = tag.dataset[teraz] || tag.textContent;
+        document.querySelectorAll('.lt-lang').forEach(function (a) {
+          var kod = a.dataset.lang;
+          a.classList.toggle('on', kod === teraz);
+          var bez = s.replace(/^\/en(\/|$)/, '/');
+          a.setAttribute('href', '#' + (kod === 'pl' ? bez : ('/en' + bez).replace(/\/$/, '/')));
+        });
+      }
+      window.addEventListener('hashchange', odswiez);
+      document.addEventListener('DOMContentLoaded', odswiez);
+      odswiez();
+    })();
+  </script>
 </body>
 </html>

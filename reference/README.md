@@ -30,7 +30,7 @@ Complete reference documentation for all LessCMS Public API endpoints.
 All endpoints follow this pattern:
 
 ```
-https://api.lesscms.com/v1/:workspace_code/:project_code/:resource
+https://api.lesscms.io/v1/:workspace_code/:project_code/:resource
 ```
 
 **Parameters:**
@@ -44,7 +44,7 @@ All requests require the `x-api-key` header:
 
 ```bash
 curl -H "x-api-key: YOUR_API_KEY" \
-  https://api.lesscms.com/v1/workspace/project/pages
+  https://api.lesscms.io/v1/workspace/project/pages
 ```
 
 ### Language Parameter

@@ -10,7 +10,7 @@ XML sitemap generation for SEO.
 
 ```bash
 curl -H "x-api-key: YOUR_API_KEY" \
-  https://api.lesscms.com/v1/workspace/project/sitemap.xml
+  https://api.lesscms.io/v1/workspace/project/sitemap.xml
 ```
 
 ### Response

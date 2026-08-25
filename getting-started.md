@@ -40,14 +40,14 @@ Let's fetch all pages from your project.
 
 ```bash
 curl -H "x-api-key: YOUR_API_KEY" \
-  https://api.lesscms.com/v1/workspace123/project456/pages
+  https://api.lesscms.io/v1/workspace123/project456/pages
 ```
 
 ### Using JavaScript (fetch)
 
 ```javascript
 const response = await fetch(
-  'https://api.lesscms.com/v1/workspace123/project456/pages',
+  'https://api.lesscms.io/v1/workspace123/project456/pages',
   {
     headers: {
       'x-api-key': 'YOUR_API_KEY'
@@ -65,7 +65,7 @@ console.log(data.pages);
 <?php
 $ch = curl_init();
 
-curl_setopt($ch, CURLOPT_URL, 'https://api.lesscms.com/v1/workspace123/project456/pages');
+curl_setopt($ch, CURLOPT_URL, 'https://api.lesscms.io/v1/workspace123/project456/pages');
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_HTTPHEADER, [
     'x-api-key: YOUR_API_KEY'
@@ -85,7 +85,7 @@ print_r($data['pages']);
 import requests
 
 response = requests.get(
-    'https://api.lesscms.com/v1/workspace123/project456/pages',
+    'https://api.lesscms.io/v1/workspace123/project456/pages',
     headers={'x-api-key': 'YOUR_API_KEY'}
 )
 
@@ -127,7 +127,7 @@ Before rendering content, fetch your project's style configuration. The `/config
 
 ```bash
 curl -H "x-api-key: YOUR_API_KEY" \
-  https://api.lesscms.com/v1/workspace123/project456/config
+  https://api.lesscms.io/v1/workspace123/project456/config
 ```
 
 ### Key Fields in the Response
@@ -146,7 +146,7 @@ curl -H "x-api-key: YOUR_API_KEY" \
 ```javascript
 async function loadConfig() {
   const response = await fetch(
-    'https://api.lesscms.com/v1/workspace/project/config',
+    'https://api.lesscms.io/v1/workspace/project/config',
     { headers: { 'x-api-key': API_KEY } }
   );
   const { data } = await response.json();
@@ -234,7 +234,7 @@ Fetch a single page by its code:
 
 ```bash
 curl -H "x-api-key: YOUR_API_KEY" \
-  https://api.lesscms.com/v1/workspace123/project456/pages/homepage
+  https://api.lesscms.io/v1/workspace123/project456/pages/homepage
 ```
 
 ### Get Content in a Specific Language
@@ -243,7 +243,7 @@ Use the `language` query parameter:
 
 ```bash
 curl -H "x-api-key: YOUR_API_KEY" \
-  "https://api.lesscms.com/v1/workspace123/project456/pages/homepage?language=pl"
+  "https://api.lesscms.io/v1/workspace123/project456/pages/homepage?language=pl"
 ```
 
 Response with Polish content:
@@ -267,14 +267,14 @@ Collections are perfect for structured content like blog posts, products, or tea
 
 ```bash
 curl -H "x-api-key: YOUR_API_KEY" \
-  https://api.lesscms.com/v1/workspace123/project456/collections/blog-posts
+  https://api.lesscms.io/v1/workspace123/project456/collections/blog-posts
 ```
 
 ### Get a Single Entry
 
 ```bash
 curl -H "x-api-key: YOUR_API_KEY" \
-  https://api.lesscms.com/v1/workspace123/project456/collections/blog-posts/my-first-post
+  https://api.lesscms.io/v1/workspace123/project456/collections/blog-posts/my-first-post
 ```
 
 ### Filter and Sort
@@ -284,15 +284,15 @@ Collections support powerful filtering:
 ```bash
 # Filter by field value
 curl -H "x-api-key: YOUR_API_KEY" \
-  "https://api.lesscms.com/v1/workspace123/project456/collections/blog-posts?filter[category]=technology"
+  "https://api.lesscms.io/v1/workspace123/project456/collections/blog-posts?filter[category]=technology"
 
 # Sort results
 curl -H "x-api-key: YOUR_API_KEY" \
-  "https://api.lesscms.com/v1/workspace123/project456/collections/blog-posts?sort=-published_date"
+  "https://api.lesscms.io/v1/workspace123/project456/collections/blog-posts?sort=-published_date"
 
 # Limit results
 curl -H "x-api-key: YOUR_API_KEY" \
-  "https://api.lesscms.com/v1/workspace123/project456/collections/blog-posts?limit=10"
+  "https://api.lesscms.io/v1/workspace123/project456/collections/blog-posts?limit=10"
 ```
 
 [Learn more about Collections →](reference/collections.md)
@@ -303,7 +303,7 @@ Menus provide navigation structures for your site:
 
 ```bash
 curl -H "x-api-key: YOUR_API_KEY" \
-  https://api.lesscms.com/v1/workspace123/project456/menus/main-navigation
+  https://api.lesscms.io/v1/workspace123/project456/menus/main-navigation
 ```
 
 Response:
@@ -345,7 +345,7 @@ Response:
 // Fetch all pages during build
 async function getAllPages() {
   const response = await fetch(
-    'https://api.lesscms.com/v1/workspace/project/pages',
+    'https://api.lesscms.io/v1/workspace/project/pages',
     {
       headers: { 'x-api-key': process.env.LESSCMS_API_KEY }
     }
@@ -366,7 +366,7 @@ async function getAllPages() {
 // Fetch recent blog posts
 async function getRecentPosts(limit = 10) {
   const response = await fetch(
-    `https://api.lesscms.com/v1/workspace/project/collections/blog-posts?sort=-published_date&limit=${limit}`,
+    `https://api.lesscms.io/v1/workspace/project/collections/blog-posts?sort=-published_date&limit=${limit}`,
     {
       headers: { 'x-api-key': process.env.LESSCMS_API_KEY }
     }
@@ -383,7 +383,7 @@ async function getRecentPosts(limit = 10) {
 // Get route configuration
 async function getRoutes() {
   const response = await fetch(
-    'https://api.lesscms.com/v1/workspace/project/routes',
+    'https://api.lesscms.io/v1/workspace/project/routes',
     {
       headers: { 'x-api-key': process.env.LESSCMS_API_KEY }
     }
@@ -453,7 +453,7 @@ const API_KEY = process.env.LESSCMS_API_KEY;
 const WORKSPACE = process.env.LESSCMS_WORKSPACE;
 const PROJECT = process.env.LESSCMS_PROJECT;
 
-const baseUrl = `https://api.lesscms.com/v1/${WORKSPACE}/${PROJECT}`;
+const baseUrl = `https://api.lesscms.io/v1/${WORKSPACE}/${PROJECT}`;
 ```
 
 ## Next Steps

@@ -40,7 +40,7 @@ The LessCMS Public API is a RESTful API that allows you to retrieve published co
 
 ```bash
 curl -H "x-api-key: YOUR_API_KEY" \
-  https://api.lesscms.com/v1/workspace123/project456/pages
+  https://api.lesscms.io/v1/workspace123/project456/pages
 ```
 
 ```json
@@ -74,7 +74,7 @@ Ready to start using the API? Follow these steps:
 The LessCMS API uses URL-based versioning. The current version is **v1**.
 
 ```
-https://api.lesscms.com/v1/:workspace_code/:project_code/:resource
+https://api.lesscms.io/v1/:workspace_code/:project_code/:resource
 ```
 
 We maintain backward compatibility within each major version. When breaking changes are necessary, we release a new version and support the previous version for 12 months.
@@ -86,7 +86,7 @@ We maintain backward compatibility within each major version. When breaking chan
 All API requests should be made to:
 
 ```
-https://api.lesscms.com
+https://api.lesscms.io
 ```
 
 For development/testing, you can use your local instance:
@@ -101,7 +101,7 @@ All API requests require authentication using an API key passed in the `x-api-ke
 
 ```bash
 curl -H "x-api-key: YOUR_API_KEY" \
-  https://api.lesscms.com/v1/workspace123/project456/pages
+  https://api.lesscms.io/v1/workspace123/project456/pages
 ```
 
 [Learn more about authentication →](guides/authentication.md)

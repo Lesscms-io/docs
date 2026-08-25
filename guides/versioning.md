@@ -7,7 +7,7 @@ The LessCMS Public API uses URL-based versioning to ensure backward compatibilit
 The current API version is **v1**.
 
 ```
-https://api.lesscms.com/v1/:workspace_code/:project_code/:resource
+https://api.lesscms.io/v1/:workspace_code/:project_code/:resource
 ```
 
 ## Version Format
@@ -146,10 +146,10 @@ Always include version in URLs:
 
 ```javascript
 // Good
-const baseUrl = 'https://api.lesscms.com/v1/workspace/project';
+const baseUrl = 'https://api.lesscms.io/v1/workspace/project';
 
 // Bad
-const baseUrl = 'https://api.lesscms.com/workspace/project';
+const baseUrl = 'https://api.lesscms.io/workspace/project';
 ```
 
 ### 2. Use Environment Variables
@@ -158,7 +158,7 @@ Make version configurable:
 
 ```javascript
 const API_VERSION = process.env.LESSCMS_API_VERSION || 'v1';
-const baseUrl = `https://api.lesscms.com/${API_VERSION}/workspace/project`;
+const baseUrl = `https://api.lesscms.io/${API_VERSION}/workspace/project`;
 ```
 
 ### 3. Test New Versions Early

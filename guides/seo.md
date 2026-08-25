@@ -33,7 +33,7 @@ Generate HTML at build time using frameworks like:
 // pages/[slug].js
 export async function getStaticProps({ params }) {
   const response = await fetch(
-    `https://api.lesscms.com/v1/workspace/project/pages/${params.slug}`,
+    `https://api.lesscms.io/v1/workspace/project/pages/${params.slug}`,
     {
       headers: { 'x-api-key': process.env.LESSCMS_API_KEY }
     }
@@ -49,7 +49,7 @@ export async function getStaticProps({ params }) {
 
 export async function getStaticPaths() {
   const response = await fetch(
-    'https://api.lesscms.com/v1/workspace/project/pages',
+    'https://api.lesscms.io/v1/workspace/project/pages',
     {
       headers: { 'x-api-key': process.env.LESSCMS_API_KEY }
     }
@@ -97,7 +97,7 @@ Render HTML on each request:
 // pages/blog/[slug].js
 export async function getServerSideProps({ params }) {
   const response = await fetch(
-    `https://api.lesscms.com/v1/workspace/project/collections/blog-posts/${params.slug}`,
+    `https://api.lesscms.io/v1/workspace/project/collections/blog-posts/${params.slug}`,
     {
       headers: { 'x-api-key': process.env.LESSCMS_API_KEY }
     }
@@ -166,7 +166,7 @@ function App() {
   const [page, setPage] = useState(null);
 
   useEffect(() => {
-    fetch('https://api.lesscms.com/v1/workspace/project/pages/homepage', {
+    fetch('https://api.lesscms.io/v1/workspace/project/pages/homepage', {
       headers: { 'x-api-key': API_KEY }
     })
       .then(r => r.json())
@@ -269,7 +269,7 @@ function BlogPost({ post }) {
 // pages/sitemap.xml.js
 export async function getServerSideProps({ res }) {
   const response = await fetch(
-    'https://api.lesscms.com/v1/workspace/project/sitemap.xml',
+    'https://api.lesscms.io/v1/workspace/project/sitemap.xml',
     {
       headers: { 'x-api-key': process.env.LESSCMS_API_KEY }
     }
@@ -355,7 +355,7 @@ npx nuxi init my-website
 const route = useRoute();
 
 const { data: page } = await useFetch(
-  `https://api.lesscms.com/v1/workspace/project/pages/${route.params.slug}`,
+  `https://api.lesscms.io/v1/workspace/project/pages/${route.params.slug}`,
   {
     headers: { 'x-api-key': useRuntimeConfig().public.apiKey }
   }
@@ -382,7 +382,7 @@ npm create astro@latest
 const { slug } = Astro.params;
 
 const response = await fetch(
-  `https://api.lesscms.com/v1/workspace/project/pages/${slug}`,
+  `https://api.lesscms.io/v1/workspace/project/pages/${slug}`,
   {
     headers: { 'x-api-key': import.meta.env.LESSCMS_API_KEY }
   }

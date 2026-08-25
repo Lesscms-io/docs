@@ -26,7 +26,7 @@ GET /v1/:workspace_code/:project_code/blocks
 
 ```bash
 curl -H "x-api-key: YOUR_API_KEY" \
-  https://api.lesscms.com/v1/workspace/project/blocks
+  https://api.lesscms.io/v1/workspace/project/blocks
 ```
 
 ### Example Response
@@ -96,7 +96,7 @@ GET /v1/:workspace_code/:project_code/blocks/:code
 
 ```bash
 curl -H "x-api-key: YOUR_API_KEY" \
-  https://api.lesscms.com/v1/workspace/project/blocks/main-phone
+  https://api.lesscms.io/v1/workspace/project/blocks/main-phone
 ```
 
 ### Example Response
@@ -182,7 +182,7 @@ GET /v1/:workspace_code/:project_code/blocks/preview/:preview_token
 
 ```bash
 curl -H "x-api-key: YOUR_API_KEY" \
-  https://api.lesscms.com/v1/workspace/project/blocks/preview/abc123xyz789
+  https://api.lesscms.io/v1/workspace/project/blocks/preview/abc123xyz789
 ```
 
 **Note:** Draft previews are not cached.
@@ -196,7 +196,7 @@ curl -H "x-api-key: YOUR_API_KEY" \
 ```javascript
 async function loadBlocks() {
   const response = await fetch(
-    'https://api.lesscms.com/v1/workspace/project/blocks',
+    'https://api.lesscms.io/v1/workspace/project/blocks',
     { headers: { 'x-api-key': API_KEY } }
   );
 

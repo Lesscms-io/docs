@@ -41,7 +41,7 @@ Some errors may include additional fields for context.
 
 ```bash
 curl -H "x-api-key: YOUR_API_KEY" \
-  https://api.lesscms.com/v1/workspace/project/pages
+  https://api.lesscms.io/v1/workspace/project/pages
 ```
 
 ### 401 - Invalid API Key
@@ -257,7 +257,7 @@ console.log('Response body:', data);
 Ensure URLs match the expected format:
 
 ```
-https://api.lesscms.com/v1/:workspace_code/:project_code/:resource
+https://api.lesscms.io/v1/:workspace_code/:project_code/:resource
 ```
 
 ### 4. Test with cURL
@@ -266,7 +266,7 @@ Isolate issues by testing with cURL:
 
 ```bash
 curl -v -H "x-api-key: YOUR_API_KEY" \
-  https://api.lesscms.com/v1/workspace/project/pages
+  https://api.lesscms.io/v1/workspace/project/pages
 ```
 
 The `-v` flag shows detailed request/response information.

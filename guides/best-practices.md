@@ -218,7 +218,7 @@ Create a single API client module:
 // api/client.js
 class LessCMSClient {
   constructor(apiKey, workspace, project) {
-    this.baseUrl = `https://api.lesscms.com/v1/${workspace}/${project}`;
+    this.baseUrl = `https://api.lesscms.io/v1/${workspace}/${project}`;
     this.headers = { 'x-api-key': apiKey };
   }
 

@@ -12,7 +12,7 @@ Returns project configuration including fonts, widgets, routing schemas, and hom
 
 ```bash
 curl -H "x-api-key: YOUR_API_KEY" \
-  https://api.lesscms.com/v1/workspace/project/config
+  https://api.lesscms.io/v1/workspace/project/config
 ```
 
 ### Response

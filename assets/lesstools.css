@@ -1,0 +1,130 @@
+/* ==========================================================================
+   Wygląd dokumentacji spójny ze stroną lesscms.io
+   Źródło tokenów: fronts/lesstools-www/site/lesscms/assets/site.css
+   Ładowany PO motywie docsify, więc świadomie nadpisuje jego reguły.
+   ========================================================================== */
+
+:root{
+  --grad:linear-gradient(95deg,#34c38f 0%,#50a5f1 55%,#556ee6 100%);
+  --lt-primary:#556ee6;
+  --lt-info:#50a5f1;
+  --lt-ink:#0b1220;
+  --lt-ink-2:#3d4a5c;
+  --lt-muted:#6b7890;
+  --lt-line:#e5e9f0;
+  --lt-bg-alt:#f7f9fc;
+  --lt-panel:#2a3042;
+
+  /* nadpisania motywu docsify */
+  --primary:#556ee6;
+  --primary-dark:#4658c9;
+  --bg-main:#fff;
+  --bg-sidebar:#fbfcfe;
+  --text-primary:var(--lt-ink);
+  --text-secondary:var(--lt-ink-2);
+  --text-tertiary:var(--lt-muted);
+  --border:var(--lt-line);
+  --code-bg:#0f1626;
+}
+
+body{
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif !important;
+  color:var(--lt-ink);
+  background:#fff;
+}
+
+/* ── docsify: treść ── */
+.sidebar{top:0 !important;background:var(--bg-sidebar);border-right:1px solid var(--lt-line);
+  padding-top:18px}
+.sidebar>h1{display:none}
+.content{top:0 !important;padding-top:0 !important}
+.markdown-section{max-width:820px;padding:60px 32px 96px;margin:0 auto}
+.markdown-section h1{font-size:clamp(28px,3.4vw,40px);font-weight:800;letter-spacing:-.022em;
+  line-height:1.12;margin:0 0 18px}
+.markdown-section h2{font-size:25px;font-weight:800;letter-spacing:-.015em;margin:44px 0 14px;
+  padding-top:22px;border-top:1px solid var(--lt-line)}
+.markdown-section h3{font-size:18.5px;font-weight:700;margin:28px 0 10px}
+.markdown-section p,.markdown-section li{font-size:16px;line-height:1.68;color:var(--lt-ink-2)}
+.markdown-section strong{color:var(--lt-ink);font-weight:650}
+.markdown-section a{color:var(--lt-primary);text-decoration:none;border-bottom:1px solid transparent}
+.markdown-section a:hover{border-bottom-color:currentColor}
+
+.markdown-section code{background:#eef1f7;color:#3d4a5c;border-radius:5px;padding:2px 6px;
+  font-size:.88em;font-family:ui-monospace,'SF Mono',Menlo,monospace}
+.markdown-section pre{background:#0f1626;border-radius:12px;padding:0}
+.markdown-section pre>code{background:transparent;color:#c8d4e6;font-size:13.5px;line-height:1.65;padding:18px 20px}
+
+.markdown-section blockquote{border-left:3px solid var(--lt-info);background:#eaf0ff;
+  border-radius:0 10px 10px 0;padding:14px 18px;color:var(--lt-ink-2)}
+.markdown-section table{border-collapse:collapse;width:100%;font-size:14.5px}
+.markdown-section th{background:var(--lt-bg-alt);font-size:11.5px;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--lt-muted);font-weight:700;text-align:left}
+.markdown-section th,.markdown-section td{border:1px solid var(--lt-line);padding:10px 14px}
+
+/* ── nawigacja boczna ── */
+.sidebar ul li a{font-size:14.5px;color:var(--lt-ink-2);border-radius:8px;padding:6px 10px;
+  transition:.14s ease}
+.sidebar ul li a:hover{background:#eef2f9;color:var(--lt-primary)}
+.sidebar ul li.active>a{color:var(--lt-primary);font-weight:650;background:#eef2f9;border-right:0}
+.sidebar ul li strong,.sidebar>ul>li>p strong{font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--lt-muted);font-weight:700}
+
+/* ── wyszukiwarka ── */
+.search input{border:1px solid var(--lt-line) !important;border-radius:10px !important;
+  background:#fff !important;font-size:14px;padding:10px 12px !important}
+.search input:focus{border-color:var(--lt-info) !important;outline:none}
+.search .results-panel .matching-post{border-bottom:1px solid var(--lt-line)}
+
+@media (max-width:768px){
+  .lt-nav-links{display:none}
+  .lt-bar .lt-right a:not(:last-child){display:none}
+}
+
+/* ── przełącznik menu (mobile) ── */
+.sidebar-toggle{background:transparent;padding:0;width:auto;
+  top:20px !important;bottom:auto !important;left:auto !important;right:calc(100% - 268px)}
+.sidebar-toggle .sidebar-toggle-button span{background-color:var(--lt-muted);height:2px;border-radius:2px}
+@media (min-width:769px){.sidebar-toggle{display:none}}
+@media (max-width:768px){
+  .sidebar{top:0 !important}
+  .content{top:0 !important}
+  .sidebar-toggle{top:14px !important;left:12px !important;right:auto}
+}
+
+.markdown-section hr{display:none}
+
+/* ── belka marki nad wyszukiwarką ── */
+.lt-side-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:16px 20px 12px;
+  border-bottom:1px solid var(--lt-line);margin:0 0 14px}
+.lt-back{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;
+  flex:0 0 30px;border-radius:9px;border:1px solid var(--lt-line);background:#fff;
+  color:var(--lt-muted);text-decoration:none;transition:.14s ease}
+.lt-back:hover{color:var(--lt-primary);border-color:var(--lt-primary);background:#eef2f9}
+.lt-side-logo{display:flex;align-items:center;gap:11px;color:var(--lt-ink);text-decoration:none;
+  min-width:0}
+.lt-side-logo svg{flex:0 0 auto}
+.lt-side-logo .word{font-family:'Belanosima',sans-serif;font-size:18px;letter-spacing:.16em;
+  font-weight:400;line-height:1}
+.lt-side-tag{order:4;flex-basis:100%;font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+  font-weight:700;color:var(--lt-muted);line-height:1;margin-top:2px}
+
+/* wcięcie podpunktów: motyw docsify dokładał 20px na <ul> i 36px na <a> */
+.sidebar-nav{padding:0 12px}
+.sidebar-nav ul ul{padding-left:0}
+.sidebar-nav ul ul a{padding:7px 10px}
+.sidebar-nav ul ul ul a{padding-left:24px}
+.sidebar-nav strong,.sidebar>ul>li>p strong{padding-left:8px}
+
+/* menu boczne nigdy nie podkreśla — podświetlenie robi tło pigułki */
+.sidebar a,.sidebar a:hover,.sidebar a:focus,.sidebar a:active,
+.sidebar ul li a,.sidebar ul li a:hover,.sidebar ul li a:focus,.sidebar ul li a:active,
+.sidebar-nav ul li a:hover,.sidebar-nav a,.sidebar-nav a:hover,.sidebar-nav a.active,
+.lt-side-head a,.lt-side-head a:hover{text-decoration:none;border-bottom:0}
+
+/* ── przełącznik języka w belce ── */
+.lt-side-lang{display:flex;gap:4px;margin-left:auto;flex:0 0 auto;order:3}
+.lt-lang{font-size:11px;font-weight:700;letter-spacing:.06em;color:var(--lt-muted);
+  padding:4px 7px;border-radius:7px;text-decoration:none;line-height:1;
+  border:1px solid transparent;transition:.14s ease}
+.lt-lang:hover{color:var(--lt-primary);background:#eef2f9}
+.lt-lang.on{color:var(--lt-primary);background:#eef2f9;border-color:#d6dff2}

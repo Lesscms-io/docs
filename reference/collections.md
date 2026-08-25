@@ -28,7 +28,7 @@ GET /v1/:workspace_code/:project_code/collections
 
 ```bash
 curl -H "x-api-key: YOUR_API_KEY" \
-  https://api.lesscms.com/v1/workspace123/project456/collections
+  https://api.lesscms.io/v1/workspace123/project456/collections
 ```
 
 ### Example Response
@@ -93,7 +93,7 @@ GET /v1/:workspace_code/:project_code/collections/:code
 
 ```bash
 curl -H "x-api-key: YOUR_API_KEY" \
-  https://api.lesscms.com/v1/workspace123/project456/collections/blog-posts
+  https://api.lesscms.io/v1/workspace123/project456/collections/blog-posts
 ```
 
 ### Example Response (Flat Format)
@@ -215,11 +215,11 @@ Filter entries by any field using query parameters:
 ```bash
 # Filter by author
 curl -H "x-api-key: YOUR_API_KEY" \
-  "https://api.lesscms.com/v1/workspace/project/collections/blog-posts?author=John"
+  "https://api.lesscms.io/v1/workspace/project/collections/blog-posts?author=John"
 
 # Filter by multiple fields
 curl -H "x-api-key: YOUR_API_KEY" \
-  "https://api.lesscms.com/v1/workspace/project/collections/blog-posts?author=John&category=technology"
+  "https://api.lesscms.io/v1/workspace/project/collections/blog-posts?author=John&category=technology"
 ```
 
 Filters use case-insensitive substring matching (regex).
@@ -231,7 +231,7 @@ When building "related posts" or "other entries" widgets, exclude the currently 
 ```bash
 # Exclude a specific entry by its entry_id
 curl -H "x-api-key: YOUR_API_KEY" \
-  "https://api.lesscms.com/v1/workspace/project/collections/blog-posts?exclude_entry_id=my-current-post"
+  "https://api.lesscms.io/v1/workspace/project/collections/blog-posts?exclude_entry_id=my-current-post"
 ```
 
 ### Pagination
@@ -239,7 +239,7 @@ curl -H "x-api-key: YOUR_API_KEY" \
 ```bash
 # Get page 2 with 10 entries per page
 curl -H "x-api-key: YOUR_API_KEY" \
-  "https://api.lesscms.com/v1/workspace/project/collections/blog-posts?page=2&pageSize=10"
+  "https://api.lesscms.io/v1/workspace/project/collections/blog-posts?page=2&pageSize=10"
 ```
 
 ### Response Headers
@@ -269,7 +269,7 @@ GET /v1/:workspace_code/:project_code/collections/:code/:id
 
 ```bash
 curl -H "x-api-key: YOUR_API_KEY" \
-  https://api.lesscms.com/v1/workspace123/project456/collections/blog-posts/my-first-post
+  https://api.lesscms.io/v1/workspace123/project456/collections/blog-posts/my-first-post
 ```
 
 ### Example Response
@@ -352,7 +352,7 @@ GET /v1/:workspace_code/:project_code/collections/:code/templates/:template_id
 
 ```bash
 curl -H "x-api-key: YOUR_API_KEY" \
-  https://api.lesscms.com/v1/workspace123/project456/collections/blog-posts/templates/48bd5d18-84d3-46e5-9446-d6f30a1f4123
+  https://api.lesscms.io/v1/workspace123/project456/collections/blog-posts/templates/48bd5d18-84d3-46e5-9446-d6f30a1f4123
 ```
 
 ### Example Response
@@ -490,7 +490,7 @@ GET /v1/:workspace_code/:project_code/collections/preview/:preview_token
 
 ```bash
 curl -H "x-api-key: YOUR_API_KEY" \
-  https://api.lesscms.com/v1/workspace/project/collections/preview/abc123xyz789
+  https://api.lesscms.io/v1/workspace/project/collections/preview/abc123xyz789
 ```
 
 ### Example Response
@@ -604,7 +604,7 @@ The grouping field is configured in collection settings (`nested_by_field`).
 ```javascript
 // Fetch all blog posts
 const response = await fetch(
-  'https://api.lesscms.com/v1/workspace/project/collections/blog-posts?pageSize=10',
+  'https://api.lesscms.io/v1/workspace/project/collections/blog-posts?pageSize=10',
   {
     headers: { 'x-api-key': API_KEY }
   }
@@ -624,7 +624,7 @@ posts.forEach(post => {
 ```javascript
 // Fetch products in specific category
 const response = await fetch(
-  'https://api.lesscms.com/v1/workspace/project/collections/products?category=electronics&page=1&pageSize=20',
+  'https://api.lesscms.io/v1/workspace/project/collections/products?category=electronics&page=1&pageSize=20',
   {
     headers: { 'x-api-key': API_KEY }
   }
@@ -638,7 +638,7 @@ const { data: products } = await response.json();
 ```javascript
 // Fetch all team members (nested by department)
 const response = await fetch(
-  'https://api.lesscms.com/v1/workspace/project/collections/team-members',
+  'https://api.lesscms.io/v1/workspace/project/collections/team-members',
   {
     headers: { 'x-api-key': API_KEY }
   }

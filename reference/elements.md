@@ -26,7 +26,7 @@ GET /v1/:workspace_code/:project_code/elements
 
 ```bash
 curl -H "x-api-key: YOUR_API_KEY" \
-  https://api.lesscms.com/v1/workspace/project/elements
+  https://api.lesscms.io/v1/workspace/project/elements
 ```
 
 ### Example Response
@@ -133,7 +133,7 @@ GET /v1/:workspace_code/:project_code/elements/:code
 
 ```bash
 curl -H "x-api-key: YOUR_API_KEY" \
-  https://api.lesscms.com/v1/workspace/project/elements/contact-info
+  https://api.lesscms.io/v1/workspace/project/elements/contact-info
 ```
 
 ### Example Response
@@ -289,7 +289,7 @@ GET /v1/:workspace_code/:project_code/elements/preview/:preview_token
 
 ```bash
 curl -H "x-api-key: YOUR_API_KEY" \
-  https://api.lesscms.com/v1/workspace/project/elements/preview/def456uvw012
+  https://api.lesscms.io/v1/workspace/project/elements/preview/def456uvw012
 ```
 
 ### Example Response
@@ -347,7 +347,7 @@ Elements can be embedded directly into page content. When a page has a section w
 ```javascript
 async function loadElement(code) {
   const response = await fetch(
-    `https://api.lesscms.com/v1/workspace/project/elements/${code}`,
+    `https://api.lesscms.io/v1/workspace/project/elements/${code}`,
     {
       headers: { 'x-api-key': API_KEY }
     }
@@ -371,7 +371,7 @@ async function loadElement(code) {
 ```javascript
 // When you just need simple field values
 const response = await fetch(
-  'https://api.lesscms.com/v1/workspace/project/elements/contact-info',
+  'https://api.lesscms.io/v1/workspace/project/elements/contact-info',
   {
     headers: { 'x-api-key': API_KEY }
   }
@@ -392,7 +392,7 @@ document.querySelector('.footer-phone').textContent = phone;
 ```javascript
 async function loadAllElements() {
   const response = await fetch(
-    'https://api.lesscms.com/v1/workspace/project/elements',
+    'https://api.lesscms.io/v1/workspace/project/elements',
     {
       headers: { 'x-api-key': API_KEY }
     }

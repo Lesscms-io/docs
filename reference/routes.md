@@ -10,7 +10,7 @@ Dynamic routing configuration for your website. Returns all pages and collection
 
 ```bash
 curl -H "x-api-key: YOUR_API_KEY" \
-  https://api.lesscms.com/v1/workspace/project/routes
+  https://api.lesscms.io/v1/workspace/project/routes
 ```
 
 ### Response
@@ -240,7 +240,7 @@ Collection entry URL patterns support these placeholders:
 ```javascript
 async function setupRoutes() {
   const response = await fetch(
-    'https://api.lesscms.com/v1/workspace/project/routes',
+    'https://api.lesscms.io/v1/workspace/project/routes',
     { headers: { 'x-api-key': API_KEY } }
   );
 
@@ -290,7 +290,7 @@ async function setupRoutes() {
 ```javascript
 export async function getStaticPaths() {
   const response = await fetch(
-    'https://api.lesscms.com/v1/workspace/project/routes',
+    'https://api.lesscms.io/v1/workspace/project/routes',
     { headers: { 'x-api-key': process.env.LESSCMS_API_KEY } }
   );
 

@@ -35,7 +35,7 @@ All requests must include the `x-api-key` header:
 
 ```bash
 curl -H "x-api-key: YOUR_API_KEY" \
-  https://api.lesscms.com/v1/workspace123/project456/pages
+  https://api.lesscms.io/v1/workspace123/project456/pages
 ```
 
 ### Language Examples
@@ -44,7 +44,7 @@ curl -H "x-api-key: YOUR_API_KEY" \
 
 ```javascript
 const response = await fetch(
-  'https://api.lesscms.com/v1/workspace/project/pages',
+  'https://api.lesscms.io/v1/workspace/project/pages',
   {
     headers: {
       'x-api-key': process.env.LESSCMS_API_KEY
@@ -59,7 +59,7 @@ const response = await fetch(
 const axios = require('axios');
 
 const response = await axios.get(
-  'https://api.lesscms.com/v1/workspace/project/pages',
+  'https://api.lesscms.io/v1/workspace/project/pages',
   {
     headers: {
       'x-api-key': process.env.LESSCMS_API_KEY
@@ -74,7 +74,7 @@ const response = await axios.get(
 <?php
 $ch = curl_init();
 
-curl_setopt($ch, CURLOPT_URL, 'https://api.lesscms.com/v1/workspace/project/pages');
+curl_setopt($ch, CURLOPT_URL, 'https://api.lesscms.io/v1/workspace/project/pages');
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_HTTPHEADER, [
     'x-api-key: ' . $_ENV['LESSCMS_API_KEY']
@@ -92,7 +92,7 @@ import requests
 import os
 
 response = requests.get(
-    'https://api.lesscms.com/v1/workspace/project/pages',
+    'https://api.lesscms.io/v1/workspace/project/pages',
     headers={'x-api-key': os.environ['LESSCMS_API_KEY']}
 )
 ```
@@ -133,7 +133,7 @@ This allows you to revoke keys independently if compromised.
 <!-- BAD -->
 <script>
 const apiKey = 'workspace_project_1234...';
-fetch('https://api.lesscms.com/...', {
+fetch('https://api.lesscms.io/...', {
   headers: { 'x-api-key': apiKey }
 });
 </script>
@@ -145,7 +145,7 @@ fetch('https://api.lesscms.com/...', {
 // GOOD - Backend API route
 app.get('/api/pages', async (req, res) => {
   const response = await fetch(
-    'https://api.lesscms.com/v1/workspace/project/pages',
+    'https://api.lesscms.io/v1/workspace/project/pages',
     {
       headers: { 'x-api-key': process.env.LESSCMS_API_KEY }
     }
@@ -168,7 +168,7 @@ Track API key usage in your dashboard to detect unusual patterns.
 ### Missing API Key
 
 ```bash
-curl https://api.lesscms.com/v1/workspace/project/pages
+curl https://api.lesscms.io/v1/workspace/project/pages
 ```
 
 Response:
@@ -185,7 +185,7 @@ HTTP Status: `401 Unauthorized`
 
 ```bash
 curl -H "x-api-key: invalid_key" \
-  https://api.lesscms.com/v1/workspace/project/pages
+  https://api.lesscms.io/v1/workspace/project/pages
 ```
 
 Response:

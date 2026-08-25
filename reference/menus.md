@@ -24,7 +24,7 @@ GET /v1/:workspace_code/:project_code/menus
 
 ```bash
 curl -H "x-api-key: YOUR_API_KEY" \
-  https://api.lesscms.com/v1/workspace123/project456/menus
+  https://api.lesscms.io/v1/workspace123/project456/menus
 ```
 
 ### Example Response
@@ -91,7 +91,7 @@ GET /v1/:workspace_code/:project_code/menus/:code
 
 ```bash
 curl -H "x-api-key: YOUR_API_KEY" \
-  https://api.lesscms.com/v1/workspace/project/menus/main-navigation
+  https://api.lesscms.io/v1/workspace/project/menus/main-navigation
 ```
 
 ### Example Response
@@ -274,7 +274,7 @@ GET /v1/:workspace_code/:project_code/menus/preview/:preview_token
 
 ```bash
 curl -H "x-api-key: YOUR_API_KEY" \
-  https://api.lesscms.com/v1/workspace/project/menus/preview/abc123xyz789
+  https://api.lesscms.io/v1/workspace/project/menus/preview/abc123xyz789
 ```
 
 ### Example Response
@@ -303,7 +303,7 @@ curl -H "x-api-key: YOUR_API_KEY" \
 ```javascript
 async function renderMenu(menuCode, language = 'en') {
   const response = await fetch(
-    `https://api.lesscms.com/v1/workspace/project/menus/${menuCode}`,
+    `https://api.lesscms.io/v1/workspace/project/menus/${menuCode}`,
     {
       headers: { 'x-api-key': API_KEY }
     }

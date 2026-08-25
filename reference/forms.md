@@ -24,7 +24,7 @@ GET /v1/:workspace_code/:project_code/forms
 
 ```bash
 curl -H "x-api-key: YOUR_API_KEY" \
-  https://api.lesscms.com/v1/workspace/project/forms
+  https://api.lesscms.io/v1/workspace/project/forms
 ```
 
 ### Example Response
@@ -123,7 +123,7 @@ GET /v1/:workspace_code/:project_code/forms/:form_code
 
 ```bash
 curl -H "x-api-key: YOUR_API_KEY" \
-  https://api.lesscms.com/v1/workspace/project/forms/contact
+  https://api.lesscms.io/v1/workspace/project/forms/contact
 ```
 
 ### Example Response
@@ -259,7 +259,7 @@ curl -X POST \
     },
     "_captcha_token": "0.turnstile_token_here..."
   }' \
-  https://api.lesscms.com/v1/workspace/project/forms/550e8400-e29b-41d4-a716-446655440000/submit
+  https://api.lesscms.io/v1/workspace/project/forms/550e8400-e29b-41d4-a716-446655440000/submit
 ```
 
 ### Success Response
@@ -346,7 +346,7 @@ HTTP Status: `403 Forbidden`
 ```javascript
 async function renderForm(formCode, language) {
   const response = await fetch(
-    `https://api.lesscms.com/v1/workspace/project/forms/${formCode}`,
+    `https://api.lesscms.io/v1/workspace/project/forms/${formCode}`,
     { headers: { 'x-api-key': API_KEY } }
   );
 
@@ -416,7 +416,7 @@ async function handleSubmit(formElement) {
   const formUuid = formElement.dataset.formUuid;
 
   const response = await fetch(
-    `https://api.lesscms.com/v1/workspace/project/forms/${formUuid}/submit`,
+    `https://api.lesscms.io/v1/workspace/project/forms/${formUuid}/submit`,
     {
       method: 'POST',
       headers: {

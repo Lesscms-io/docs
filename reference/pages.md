@@ -26,7 +26,7 @@ GET /v1/:workspace_code/:project_code/pages
 
 ```bash
 curl -H "x-api-key: YOUR_API_KEY" \
-  https://api.lesscms.com/v1/workspace123/project456/pages
+  https://api.lesscms.io/v1/workspace123/project456/pages
 ```
 
 ### Example Response
@@ -102,7 +102,7 @@ GET /v1/:workspace_code/:project_code/pages/:code
 
 ```bash
 curl -H "x-api-key: YOUR_API_KEY" \
-  https://api.lesscms.com/v1/workspace123/project456/pages/homepage
+  https://api.lesscms.io/v1/workspace123/project456/pages/homepage
 ```
 
 ### Example Response
@@ -267,7 +267,7 @@ GET /v1/:workspace_code/:project_code/pages/:code/content/:scope/:mode?
 
 ```bash
 curl -H "x-api-key: YOUR_API_KEY" \
-  https://api.lesscms.com/v1/workspace/project/pages/homepage/content/schema
+  https://api.lesscms.io/v1/workspace/project/pages/homepage/content/schema
 ```
 
 ```json
@@ -303,7 +303,7 @@ curl -H "x-api-key: YOUR_API_KEY" \
 
 ```bash
 curl -H "x-api-key: YOUR_API_KEY" \
-  https://api.lesscms.com/v1/workspace/project/pages/homepage/content/schema/flat
+  https://api.lesscms.io/v1/workspace/project/pages/homepage/content/schema/flat
 ```
 
 ```json
@@ -330,7 +330,7 @@ curl -H "x-api-key: YOUR_API_KEY" \
 
 ```bash
 curl -H "x-api-key: YOUR_API_KEY" \
-  https://api.lesscms.com/v1/workspace/project/pages/homepage/content/custom
+  https://api.lesscms.io/v1/workspace/project/pages/homepage/content/custom
 ```
 
 ```json
@@ -385,7 +385,7 @@ GET /v1/:workspace_code/:project_code/pages/preview/:preview_token
 
 ```bash
 curl -H "x-api-key: YOUR_API_KEY" \
-  https://api.lesscms.com/v1/workspace/project/pages/preview/abc123xyz789
+  https://api.lesscms.io/v1/workspace/project/pages/preview/abc123xyz789
 ```
 
 ### Example Response
@@ -652,7 +652,7 @@ Widget settings can include responsive overrides for tablet (768-1199px) and mob
 ```javascript
 async function renderPage(pageCode) {
   const response = await fetch(
-    `https://api.lesscms.com/v1/workspace/project/pages/${pageCode}`,
+    `https://api.lesscms.io/v1/workspace/project/pages/${pageCode}`,
     {
       headers: { 'x-api-key': API_KEY }
     }
@@ -682,7 +682,7 @@ async function renderPage(pageCode) {
 ```javascript
 async function getPageFields(pageCode) {
   const response = await fetch(
-    `https://api.lesscms.com/v1/workspace/project/pages/${pageCode}/content/schema/flat`,
+    `https://api.lesscms.io/v1/workspace/project/pages/${pageCode}/content/schema/flat`,
     {
       headers: { 'x-api-key': API_KEY }
     }
@@ -703,7 +703,7 @@ async function getPageFields(pageCode) {
 ```javascript
 async function generateStaticSite() {
   const response = await fetch(
-    'https://api.lesscms.com/v1/workspace/project/pages',
+    'https://api.lesscms.io/v1/workspace/project/pages',
     {
       headers: { 'x-api-key': process.env.LESSCMS_API_KEY }
     }
@@ -713,7 +713,7 @@ async function generateStaticSite() {
 
   for (const pageMeta of pages) {
     const fullPage = await fetch(
-      `https://api.lesscms.com/v1/workspace/project/pages/${pageMeta.code}`,
+      `https://api.lesscms.io/v1/workspace/project/pages/${pageMeta.code}`,
       {
         headers: { 'x-api-key': process.env.LESSCMS_API_KEY }
       }

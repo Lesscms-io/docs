@@ -12,7 +12,7 @@ URL redirect management.
 
 ```bash
 curl -H "x-api-key: YOUR_API_KEY" \
-  https://api.lesscms.com/v1/workspace/project/redirects
+  https://api.lesscms.io/v1/workspace/project/redirects
 ```
 
 ### Response
@@ -40,7 +40,7 @@ curl -H "x-api-key: YOUR_API_KEY" \
 
 ```bash
 curl -H "x-api-key: YOUR_API_KEY" \
-  https://api.lesscms.com/v1/workspace/project/redirects/old-page
+  https://api.lesscms.io/v1/workspace/project/redirects/old-page
 ```
 
 ### Response

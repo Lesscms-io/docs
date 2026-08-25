@@ -14,7 +14,7 @@ Cache-Tag: project-{uuid} page-{code}
 
 ```bash
 curl -I -H "x-api-key: YOUR_API_KEY" \
-  https://api.lesscms.com/v1/workspace/project/pages/homepage
+  https://api.lesscms.io/v1/workspace/project/pages/homepage
 ```
 
 Response headers:

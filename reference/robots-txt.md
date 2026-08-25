@@ -10,7 +10,7 @@ Robots.txt file configuration for search engine crawlers.
 
 ```bash
 curl -H "x-api-key: YOUR_API_KEY" \
-  https://api.lesscms.com/v1/workspace/project/robots.txt
+  https://api.lesscms.io/v1/workspace/project/robots.txt
 ```
 
 ### Response
