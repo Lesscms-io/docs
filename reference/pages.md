@@ -98,6 +98,12 @@ GET /v1/:workspace_code/:project_code/pages/:code
 |-----------|------|-------------|
 | `code` | string | **Required.** Page code (e.g., `homepage`, `about`) |
 
+### Query Parameters
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `lang` | string | Language of links resolved inside widgets (buttons, CTA, hero, cards…). For a non-default language, page links become `/{lang}/…` (translated route if set) and entry links use `metadata.urls[lang]` when the entry is translated. Omit it for the default language — the response is then identical to the request without the parameter. |
+
 ### Example Request
 
 ```bash
@@ -407,6 +413,22 @@ curl -H "x-api-key: YOUR_API_KEY" \
 }
 ```
 
+### Editor live canvas (internal)
+
+The page builder's live canvas embeds the renderer with
+`?preview_token=<token>&editor=1`. The renderer resolves the project from the
+token alone via the internal endpoint (renderer key required, not a public
+API):
+
+```
+GET /v1/internal/preview-token/:preview_token
+x-renderer-key: <RENDERER_SECRET>
+```
+
+Response: `project_code`, `project_uuid`, `workspace_code`, `encrypted_api_key`,
+`type: "editor"`, `default_language`, `commerce`, `page_code`, `page_uuid`.
+Returns `404` when no draft carries that token.
+
 **Note:** Draft previews are not cached.
 
 ---
@@ -441,6 +463,7 @@ A horizontal section of the page:
     "backgroundSize": "cover",
     "backgroundPosition": "center center",
     "contentWidth": "1200px",
+    "column_gap": 16,
     "sectionHeight": 500,
     "fullHeight": false,
     "stackOnTablet": false,

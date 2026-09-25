@@ -144,6 +144,7 @@ Sections are the top-level containers. Each section has:
     "backgroundSize": "cover", // "cover" | "contain" | "auto" | raw CSS like "200px auto" or "30% auto"
     "backgroundPosition": "center center",
     "backgroundImageOpacity": 100,
+    "backgroundAttachment": "scroll", // "fixed" = image pinned to the viewport, content scrolls over it (parallax-like); with a gradient use `scroll, fixed`
     "backgroundImageSource": "static",
     "backgroundImageField": "",
     "backgroundVideoUrl": "", // optional: uploaded video URL (mp4/webm); plays muted+looped under content, hidden on mobile. backgroundImage acts as poster/fallback.
@@ -215,7 +216,16 @@ Sections are the top-level containers. Each section has:
 | `fullHeight` | boolean | `false` | Section takes 100vh height |
 | `sectionHeight` | number/null | `null` | Fixed height in pixels |
 | `contentWidth` | string | `"100%"` | Inner content width ("100%", "1400px", "1200px", "960px", "custom") |
-| `customWidth` | number | `1200` | Custom width in pixels when contentWidth is "custom" |
+| `customWidth` | number | `1200` | Custom width when contentWidth is "custom" |
+| `customWidthUnit` | string | `"px"` | Unit of `customWidth`: `"px"`, `"%"`, `"vw"` — the API emits `content_width` with the unit (e.g. `"80%"`) |
+| `contentAlign` | string | `"center"` | Placement of a narrower content box: `"left"`, `"center"`, `"right"` (margin auto on the free side) |
+| `customMaxWidth` | number/null | `null` | px cap for a `%`/`vw` custom width — API emits `content_max_width`, renderer uses `max-width: min(80%, 1080px)` |
+| `backgroundTarget` | string | `"section"` | `"section"` paints background/border/shadow on the section; `"content"` paints them on the inner content box (`.lcms-section__grid`) — Divi-style "row card" |
+| `contentPaddingTop/Right/Bottom/Left` | number | `0` | Inner padding of the content box (independent of the section padding) |
+| `contentPaddingUnit` | string | `"px"` | Unit for the content padding: `"px"`, `"%"`, `"vw"`, `"em"` |
+| `columnGapUnit` | string | `"px"` | Unit of `columnGap`: `"px"` or `"%"` |
+| `paddingUnit` | string | `"px"` | Unit shared by the four padding values: `"px"`, `"%"`, `"vw"`, `"em"` |
+| `marginUnit` | string | `"px"` | Unit shared by the four margin values: `"px"`, `"%"`, `"vw"`, `"em"` |
 | `columnGap` | number | `0` | Gap between columns in pixels |
 | `stackOnTablet` | boolean | `false` | Stack columns vertically on tablet |
 | `stackOnMobile` | boolean | `true` | Stack columns vertically on mobile |
@@ -308,6 +318,11 @@ Columns are inside sections. Each column has:
 | `span` | number | `12` | Column span in a 12-column grid (e.g., 6 = 50% width) |
 | `columnHeight` | number/null | `null` | Fixed column height in pixels |
 | `minHeight` | number/null | `null` | Minimum column height in pixels |
+| `maxWidth` | number/null | `null` | Max width of the column box inside its grid track (API emits it with the unit, e.g. `"62%"`) |
+| `widgetGap` | number/null | `null` | Vertical gap between the column's widgets in px; `0` is allowed, unset = theme default (1rem) |
+| `maxWidthUnit` | string | `"px"` | Unit of `maxWidth`: `"px"`, `"%"`, `"vw"` |
+| `paddingUnit` | string | `"px"` | Unit shared by the four padding values: `"px"`, `"%"`, `"vw"`, `"em"` |
+| `marginUnit` | string | `"px"` | Unit shared by the four margin values: `"px"`, `"%"`, `"vw"`, `"em"` |
 | `verticalAlign` | string | `"flex-start"` | Vertical alignment ("flex-start", "center", "flex-end") |
 | `horizontalAlign` | string | `"stretch"` | Horizontal alignment ("flex-start", "center", "flex-end", "stretch") |
 | `cssId` | string | `""` | HTML ID attribute for anchor links |
@@ -495,6 +510,8 @@ Widgets support hover effects that are applied when the user hovers over the ele
 | `boxShadow` | string | `""` | Box shadow on hover (CSS value) |
 | `transitionDuration` | number | `300` | Transition animation duration in milliseconds |
 
+Widget-level `settings` may additionally carry `lift:hover` (px), `scale:hover` (factor), `shadow_preset:hover` (`none|sm|md|lg`) and `animation:hover` — a looping animation while hovered: `pulse` (`scale 1 → 1.1 → 0.9`, 1s linear infinite), `bob` (translateY −8px ↔ −4px, 1.5s infinite) or `wobble` (small rotate, 1s once). Render `animation:hover` as `element:hover { animation: <keyframes> }`.
+
 #### Rendering Hover Effects
 
 To render hover effects, generate a dynamic `<style>` tag with CSS `:hover` rules:
@@ -665,33 +682,63 @@ When rendering, wrap items in a grid:
 - `spacer` - Vertical space
 - `icon-box` - Icon + content block
 - `numbered-box` - Auto-numbered (01, 02...) + content block
-- `star-rating` - Star rating display
+- `link` - Clickable link with optional icon and hover animations
+- `service-card` - Card with icon, title, description, link and badge
+- `pill` - Inline badge/pill with text and background
+- `cta-box` - Call-to-action box with heading and link
+- `feature-list` - Bulleted list of features/benefits
+- `icon-list` - List of items with icons and text
+- `blockquote` - Quote/testimonial text with optional attribution
+- `timeline` - Vertical timeline with events and dates
+- `family-tree` - Hierarchical tree structure with connected nodes
+- `table` - Data table with rows/columns and optional header/footer
+- `embed` - Embedded HTML/iframe content
+- `team-member` - Card displaying person info (photo, name, role, bio)
+- `breadcrumbs` - Navigation breadcrumb trail
+- `toc` - Table of contents with anchor links
+- `block-content` - Reusable content block (fetches from /blocks/{code})
+- `pricing-table` - Pricing plans table with features and CTA buttons
+- `animated-headline` - Premium heading with a rotating / typed / highlighted word (plan feature `premium_widgets`)
+- `flip-box` - Premium two-sided card revealed by flip / slide / zoom (plan feature `premium_widgets`)
 
 ### Media Widgets
 - `video` - YouTube/Vimeo/URL embed
 - `audio` - Audio player with optional playlist (streamed with Range support)
 - `gallery` - Image grid
-- `image-carousel` - Image slider
 - `google-maps` - Embedded map
 - `google-reviews` - Google Reviews (grid/carousel/list layout with rating summary)
+- `pdf-viewer` - Embedded PDF viewer with zoom/download controls
+- `openstreetmap` - OpenStreetMap with customizable markers and GeoJSON overlay
+- `before-after` - Premium before/after image compare with draggable divider (plan feature `premium_widgets`)
+- `hotspots` - Premium image with pinned markers and tooltips (plan feature `premium_widgets`)
+- `video-lightbox` - Premium poster + play button opening the video in a lightbox (plan feature `premium_widgets`)
+- `lottie` - Premium Lottie JSON animation with viewport / hover / click / scroll triggers (plan feature `premium_widgets`)
 
 ### Layout Widgets
 - `hero` - Full-width hero section
-- `toggle` - Accordion/collapsible
+- `hero-slider` - Premium multi-slide hero with layered entrance animations (plan feature `premium_widgets`)
 - `grid` - Nested grid with columns containing widgets
+- `wrapper` - Flat container of widgets (`data.layout` `grid`|`inline`, `data.columns`, `gap`, `equal_height`, `columns_tablet/mobile`); wrappers cannot be nested. `style.background_image` (+ `background_size`, `background_position`, `background_image_opacity`) and `style.gradient` paint the wrapper box like a column — with opacity < 100 the image goes to a `::before` layer (`has-bg-image-opacity`), children get `z-index: 1`. `equal_height` stretches every cell (`grid-auto-rows: 1fr`, first child `flex: 1`).
 
 ### Collection Widgets
-- `collection-grid` - Grid of collection entries
+- `collection-grid` - Grid of collection entries. Its responsive class is deterministic (`lcms-grid-c{cols}-t{tablet}-m{mobile}`), so SSR and client markup match; option/relation values are enriched objects (`{code,label}` / `{entry_id,…}`), the card shows the label.
 - `collection-carousel` - Carousel of entries
 - `collection-single` - Single entry display
-- `collection-field` - Single field from entry
+- `collection-field` - Single field from entry (fetches from collection entry)
 - `collection-grouped` - Entries grouped by field
-- `dynamic-hero` - Hero with dynamic content
 - `value-list` - Unique values from field
 
 ### Navigation
 - `menu` - Navigation menu (fetches from /menus/{code})
+- `mega-menu` - Premium navigation bar with per-item simple/mega dropdown panels, featured cards and a mobile drawer; items from /menus/{code} (plan feature `premium_widgets`)
 - `social-icons` - Social media links
+- `off-canvas` - Premium trigger + side drawer with menu and rich text (plan feature `premium_widgets`)
+- `language-switcher` - Links to the current page in other languages (dropdown or inline). Build the list from the entry's `metadata.urls` or the page's route `url_translation` (with `/{lang}` prefix for non-default languages); show only languages that have an address, render nothing when there is only one
+
+### Multilingual links
+- Language = first URL segment (`/en/...`); no prefix = project `default_language`
+- Pass `?lang={current}` to `/pages/{code}`, `/menus/{code}` and `/collections/{code}` so links in widgets, menus and entry lists point to the current language
+- Entry URL in a language: `metadata.urls[lang]` if present, otherwise `metadata.url` (untranslated entries link to the default-language version)
 
 ### Interactive
 - `countdown` - Countdown timer
@@ -700,6 +747,56 @@ When rendering, wrap items in a grid:
 - `testimonial` - Quote with author
 - `alert` - Notification box
 - `form` - Contact form (fetches definition from /forms/{code}), supports full input styling (background, text, border, focus, placeholder colors)
+- `accordion` - Expandable/collapsible content sections
+- `tabs` - Tabbed content interface
+
+### Content Widgets
+- `business-info` - Business contact information (address, phone, email, hours)
+- `data-field` - Display single data field with label
+- `cookie-consent` - Cookie consent banner with customizable message and settings
+
+### E-Commerce Widgets
+**Note:** Requires active LessCommerce account linked to project.
+
+#### Product Widgets
+- `product-grid` - Grid of products (latest, category, featured, manual, or search results)
+- `product-carousel` - Carousel/slider of products
+- `product-detail` - Single product with gallery, variants, price, add-to-cart
+- `product-variants` - Product variant selector with stock status
+- `product-configurator` - Premium product configuration tool with options and pricing (plan feature `premium_widgets`)
+- `product-gallery` - Product image gallery with lightbox
+- `product-price` - Single product price display
+- `product-cart` - Add-to-cart button with quantity selector
+- `product-field` - Display single product field
+
+#### Category & Search Widgets
+- `category-grid` - Grid of product categories
+- `category-header` - Category title and description
+- `category-tree` - Hierarchical category navigation
+- `related-products` - Products related to current product
+- `search-bar` - Product search input field
+- `search-icon` - Search icon trigger/button
+
+#### Cart & Checkout Widgets
+- `mini-cart` - Shopping cart preview/dropdown
+- `cart` - Full shopping cart page with items and summary
+- `checkout` - Checkout form (payment, shipping, billing)
+- `order-success` - Order confirmation message
+- `order-failure` - Order error/cancellation message
+- `customer-account` - Customer profile and order history
+
+#### Misc E-Commerce Widgets
+- `account-icon` - User account menu/button
+- `ecommerce-icons` - Product icons/badges (new, sale, etc.)
+
+#### E-Commerce Forms
+- `login-form` - Customer login form
+- `register-form` - Customer registration form
+
+### Navigation & Marketing Widgets
+- `nav-bar` - Navigation bar (differs from `menu` — direct item config vs /menus/{code} fetch)
+- `marketing-topbar` - Marketing announcement banner
+- `campaign-banner` - Campaign-specific banner with CTA
 
 ## CSS Structure
 

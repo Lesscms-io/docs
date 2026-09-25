@@ -48,6 +48,7 @@ value-list
 | `widget.card_icon` | string\|null | Default icon class for card style |
 | `widget.card_icon_bg_color` | string\|null | Card icon background color (hex or `var:*`) |
 | `widget.card_icon_color` | string\|null | Card icon color (hex or `var:*`) |
+| `widget.empty_text` | string\|object\|null | Empty state message (multilingual). Empty value hides the placeholder. |
 | `settings` | object | Style settings (optional) |
 
 ### Server-Side Enrichment
@@ -93,7 +94,8 @@ When the API can resolve the collection data server-side, it includes `widget.en
     "more_text_color": null,
     "card_icon": null,
     "card_icon_bg_color": null,
-    "card_icon_color": null
+    "card_icon_color": null,
+    "empty_text": null
   },
   "settings": {
     "responsive": {

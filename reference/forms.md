@@ -8,6 +8,8 @@ Contact forms and data collection. Forms are defined in the CMS and can be embed
 
 <span class="endpoint-badge get">GET</span> `/v1/:workspace_code/:project_code/forms/:form_code`
 
+<span class="endpoint-badge post">POST</span> `/v1/:workspace_code/:project_code/forms/:form_uuid/upload`
+
 <span class="endpoint-badge post">POST</span> `/v1/:workspace_code/:project_code/forms/:form_uuid/submit`
 
 ---
@@ -194,6 +196,19 @@ curl -H "x-api-key: YOUR_API_KEY" \
 }
 ```
 
+### Field Object
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `code` | string | Field identifier — the key you send in `data` |
+| `type` | string | `text`, `email`, `textarea`, `select`, `checkbox` or `file` |
+| `label` | string \| object | Field label. Either a plain string or a multilingual object (`{"pl": "...", "en": "..."}`) |
+| `placeholder` | string | Placeholder text |
+| `required` | boolean | Whether the field must be filled in |
+| `options` | array | Options for `select` fields |
+| `accept` | string | **`file` only.** Accept list mirroring the HTML attribute, e.g. `".pdf,.jpg"` or `"image/*"`. Empty means any allowed type |
+| `max_size` | integer | **`file` only.** Maximum size in MB (default 10, hard ceiling 20) |
+
 ### Consent Object
 
 | Field | Type | Description |
@@ -218,6 +233,67 @@ HTTP Status: `404 Not Found`
 
 ---
 
+## Upload Attachment
+
+Upload one file for a field of type `file`. Upload first, then send the returned
+object as that field's value in the submit request — that way the visitor sees a
+type/size error immediately and the submission stays a small JSON body.
+
+```
+POST /v1/:workspace_code/:project_code/forms/:form_uuid/upload
+```
+
+### Request Body (multipart/form-data)
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `file` | file | Yes | The file itself. Max 20 MB (or the field's `max_size`, whichever is lower) |
+| `field_code` | string | Yes | Code of the `file` field the upload belongs to |
+
+### Example Request
+
+```bash
+curl -X POST \
+  -H "x-api-key: YOUR_API_KEY" \
+  -F "file=@brief.pdf" \
+  -F "field_code=brief" \
+  https://api.lesscms.io/v1/workspace/project/forms/550e8400-e29b-41d4-a716-446655440000/upload
+```
+
+### Success Response
+
+```json
+{
+  "data": {
+    "name": "brief.pdf",
+    "size": 184320,
+    "mime": "application/pdf",
+    "path": "projects/<project_uuid>/form-uploads/contact-form/2f1c…-brief.pdf",
+    "url": "https://cdn.lesscms.io/projects/<project_uuid>/form-uploads/contact-form/2f1c…-brief.pdf"
+  }
+}
+```
+
+HTTP Status: `201 Created`
+
+Attachments are stored outside the project's file manager, so a visitor's upload
+never lands among the editor's media. Executable file types (`.php`, `.exe`,
+`.svg`, `.html`, …) are rejected regardless of `accept`.
+
+### Error Responses
+
+| Status | Body | When |
+|--------|------|------|
+| `400` | `{"error": "Missing file"}` / `{"error": "Missing field_code"}` | Incomplete request |
+| `404` | `{"error": "Form not found"}` | Unknown or inactive form |
+| `422` | `{"error": "Field is not a file field"}` | `field_code` has a different type |
+| `422` | `{"error": "File type not allowed", "field": "brief"}` | Blocked extension, or not matching `accept` |
+| `422` | `{"error": "File too large", "field": "brief", "max_size_mb": 10}` | Over the field's `max_size` |
+| `429` | `{"error": "Too many uploads. Please try again later."}` | More than 10 uploads per IP per form per minute |
+| `503` | `{"error": "Uploads are not configured"}` | Attachment storage is not configured on the server |
+
+---
+
 ## Submit Form
 
 Submit form data. Includes built-in anti-spam protection.
@@ -236,7 +312,7 @@ POST /v1/:workspace_code/:project_code/forms/:form_uuid/submit
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `data` | object | Yes | Key-value pairs matching form field codes |
+| `data` | object | Yes | Key-value pairs matching form field codes. For a `file` field, pass the whole object returned by the upload endpoint |
 | `consents` | object | No | Key-value pairs of consent codes to boolean values. Required consents must be `true` |
 | `page_uuid` | string | No | UUID of the page the form was submitted from |
 | `_captcha_token` | string | No* | Cloudflare Turnstile token. Required when Turnstile is configured on the server |
@@ -251,7 +327,14 @@ curl -X POST \
     "data": {
       "name": "John Doe",
       "email": "john@example.com",
-      "message": "Hello, I have a question."
+      "message": "Hello, I have a question.",
+      "brief": {
+        "name": "brief.pdf",
+        "size": 184320,
+        "mime": "application/pdf",
+        "path": "projects/<project_uuid>/form-uploads/contact-form/2f1c…-brief.pdf",
+        "url": "https://cdn.lesscms.io/projects/<project_uuid>/form-uploads/contact-form/2f1c…-brief.pdf"
+      }
     },
     "consents": {
       "privacy_policy": true,
@@ -299,7 +382,7 @@ HTTP Status: `422 Unprocessable Entity`
 
 ### Rate Limiting
 
-Form submissions are rate-limited to **5 requests per IP per form per minute**. Exceeding the limit returns:
+Form submissions are rate-limited to **5 requests per IP per form per minute**, uploads to **10 per IP per form per minute**. Exceeding the limit returns:
 
 ```json
 {

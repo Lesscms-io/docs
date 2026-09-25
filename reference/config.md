@@ -69,6 +69,7 @@ curl -H "x-api-key: YOUR_API_KEY" \
     "fonts": ["Inter", "Playfair Display"],
     "custom_css_urls": ["https://cdn.example.com/custom.css"],
     "custom_css": ".my-class { color: red; font-weight: bold; }",
+    "custom_html": "<div id=\"chat-widget\">…</div>",
     "available_widgets": [
       "text", "heading", "image", "gallery", "button", "link", "pill",
       "divider", "spacer", "blockquote", "icon-list", "video",
@@ -119,6 +120,7 @@ curl -H "x-api-key: YOUR_API_KEY" \
 | `fonts` | array | Google Font family names enabled for this project |
 | `custom_css_urls` | array | URLs to external custom stylesheets |
 | `custom_css` | string\|null | Inline custom CSS code for the project (`null` if not set) |
+| `custom_html` | string\|null | Raw HTML the renderer appends at the end of `<body>` on every page (third-party widgets, chat bubbles). `<script>` tags are executed. |
 | `available_widgets` | array | Widget type codes enabled for page builder |
 | `available_fonts` | array | All available Google Fonts for font picker |
 | `google_fonts_url` | string | Pre-built Google Fonts URL for `<link>` tag |

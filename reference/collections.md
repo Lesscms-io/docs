@@ -87,7 +87,11 @@ GET /v1/:workspace_code/:project_code/collections/:code
 | `page` | integer | Page number for pagination (default: `1`) |
 | `pageSize` | integer | Number of entries per page (default: `20`) |
 | `exclude_entry_id` | string | Exclude entry with this `entry_id` from results. Useful for "related posts" widgets that should not show the currently viewed entry. |
-| `{field_name}` | string | Filter by field value (case-insensitive substring match) |
+| `{field_name}` | string | Filter by field value — schema-aware: select-type fields match the option code, relation fields match the related entry's `entry_id`, text fields use a case-insensitive substring match |
+| `q` | string | Free-text search: case-insensitive match across all text fields of the collection (plain strings and the `lang` value of multilingual fields) |
+| `orderBy` | string | Sort by `created_at`, `updated_at` or a field code. Omitted = natural (insertion) order |
+| `orderDir` | string | `asc` or `desc` (default: `desc`) |
+| `lang` | string | Language code for response (default: project's `default_language`, typically `pl`). Used for: resolving multilingual field values, per-language URLs, and `q` free-text search |
 
 ### Example Request
 
@@ -222,7 +226,21 @@ curl -H "x-api-key: YOUR_API_KEY" \
   "https://api.lesscms.io/v1/workspace/project/collections/blog-posts?author=John&category=technology"
 ```
 
-Filters use case-insensitive substring matching (regex).
+Filters are schema-aware: select / multiselect / radio / checkbox fields match the **option code**, relation fields match the related entry's **`entry_id`**, bool fields accept `1|true|tak|yes` (anything else = false), number fields match exactly, everything else uses a case-insensitive substring match (regex).
+
+### Searching and Sorting
+
+```bash
+# Free-text search across all text fields
+curl -H "x-api-key: YOUR_API_KEY" \
+  "https://api.lesscms.io/v1/workspace/project/collections/blog-posts?q=kubernetes&lang=en"
+
+# Newest first, then page 2
+curl -H "x-api-key: YOUR_API_KEY" \
+  "https://api.lesscms.io/v1/workspace/project/collections/blog-posts?orderBy=created_at&orderDir=desc&page=2&pageSize=12"
+```
+
+`q`, field filters, `orderBy` and pagination combine freely — this is what the Collection Grid widget's AJAX filters use.
 
 ### Excluding Current Entry
 
@@ -252,10 +270,10 @@ Cache-Tag: project-{project_uuid} project-{project_uuid}-collections collection-
 
 ## Get Single Entry
 
-Retrieve a specific entry from a collection.
+Retrieve a specific entry from a collection by entry_id or per-language slug.
 
 ```
-GET /v1/:workspace_code/:project_code/collections/:code/:id
+GET /v1/:workspace_code/:project_code/collections/:code/:id?lang=xx
 ```
 
 ### Path Parameters
@@ -263,13 +281,28 @@ GET /v1/:workspace_code/:project_code/collections/:code/:id
 | Parameter | Type | Description |
 |-----------|------|-------------|
 | `code` | string | **Required.** Collection code |
-| `id` | string | **Required.** Entry ID (entry_id from metadata) |
+| `id` | string | **Required.** Entry ID (`entry_id` from metadata) OR per-language slug (matched against `metadata.slugs[lang]`) |
 
-### Example Request
+### Query Parameters
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `lang` | string | Language code for lookup and response (default: project's `default_language`). When `?lang=en` is provided, the endpoint first tries to match `id` against `entry_id` (backward compat), then against `metadata.slugs.en`. The response includes URLs and slugs for the requested language. |
+
+### Example Requests
 
 ```bash
+# Lookup by entry_id (works for any language)
 curl -H "x-api-key: YOUR_API_KEY" \
   https://api.lesscms.io/v1/workspace123/project456/collections/blog-posts/my-first-post
+
+# Lookup by slug with language specification
+curl -H "x-api-key: YOUR_API_KEY" \
+  https://api.lesscms.io/v1/workspace123/project456/collections/blog-posts/my-first-blog-post?lang=en
+
+# Lookup with default language (typically Polish)
+curl -H "x-api-key: YOUR_API_KEY" \
+  https://api.lesscms.io/v1/workspace123/project456/collections/blog-posts/moj-pierwszy-wpis
 ```
 
 ### Example Response
@@ -526,11 +559,14 @@ System-generated metadata about the entry:
 |-------|------|-------------|
 | `code` | string | Unique entry identifier |
 | `collection_uuid` | string | Parent collection UUID |
-| `entry_id` | string | User-friendly entry ID |
+| `entry_id` | string | User-friendly entry ID (default language slug or legacy entry_id) |
 | `created_at` | string | ISO 8601 creation timestamp |
 | `updated_at` | string | ISO 8601 last update timestamp |
 | `is_public` | boolean | Whether entry is published |
-| `url` | string | Full URL path for the entry |
+| `url` | string | URL for the requested language (from `?lang=` parameter). Falls back to default language URL if not available. |
+| `slugs` | object | Per-language slugs, e.g., `{"pl": "moj-wpis", "en": "my-post"}`. Key is language code, value is URL-safe slug. |
+| `route_paths` | object | Per-language route paths without language prefix, e.g., `{"pl": "/blog/moj-wpis", "en": "/blog/my-post"}`. Built from collection's URL pattern. |
+| `urls` | object | Per-language public URLs with language prefix for non-default languages, e.g., `{"pl": "/blog/moj-wpis", "en": "/en/blog/my-post"}`. |
 
 #### `seo` (optional)
 SEO metadata if configured:

@@ -17,11 +17,15 @@ menu
 | `widget.link` | object | Menu link styling |
 | `widget.link.color` | string\|null | Menu link text color |
 | `widget.link.color:hover` | string\|null | Menu link text color on hover |
+| `widget.link.color:active` | string\|null | Text color of the item linking to the current page (falls back to `color:hover`); renderer adds `lcms-menu__link--active` / `lcms-menu__item--active` |
 | `widget.link.color:scrolled` | string\|null | Menu link text color when page is scrolled |
 | `widget.link.background` | string\|null | Menu link background color |
 | `widget.link.background:hover` | string\|null | Menu link background color on hover |
+| `widget.link.background:active` | string\|null | Background of the item linking to the current page (falls back to `background:hover`) |
 | `widget.link.hover_animation` | string | Hover animation effect: `"none"`, `"underline"`, `"overline"`, `"highlight"`, `"scale"`, `"bracket"` (default: `"none"`) |
 | `widget.link.hover_animation_color` | string\|null | Color for the animation element (falls back to `link.color:hover`) |
+| `widget.link.divider` | boolean | Thin vertical divider between top-level items (horizontal layouts; default: `false`) |
+| `widget.link.divider_color` | string\|null | Divider color (falls back to the link color) |
 | `widget.link.font_size` | number | Main menu link font size in pixels (default: `14`) |
 | `widget.logo` | object | Logo settings |
 | `widget.logo.type` | string | Logo type: `"image"`, `"text"` (default: `"image"`) |
@@ -45,6 +49,7 @@ menu
 | `widget.config.items_gap` | number | Gap between menu items in pixels (default: `12`) |
 | `widget.config.items_padding` | number | Padding for each menu item link in pixels (default: `0`) |
 | `widget.config.items_indent` | number | Left indent for menu items in pixels (default: `0`) |
+| `widget.config.dropdown_indicator` | string | Marker after items that have a submenu: `"none"`, `"caret"`, `"chevron"` (default: `"none"`) |
 | `widget.cta` | object | Call-to-action button |
 | `widget.cta.html` | string | CTA button text |
 | `widget.cta.position` | string | CTA position: `"left"`, `"right"`, `"below"` (default: `"right"`) |
@@ -60,6 +65,12 @@ menu
 | `widget.cta.border_radius` | string | CTA button border radius: `"sm"`, `"md"`, `"lg"`, `"pill"` (default: `"md"`) |
 | `widget.cta.icon` | string\|null | CTA button icon class (e.g., `"bx bx-right-arrow-alt"`) |
 | `widget.cta.icon_position` | string | CTA icon position: `"left"`, `"right"` (default: `"left"`) |
+| `widget.cta.custom_colors` | boolean | When `true`, the colors below override the `style` preset (default: `false`) |
+| `widget.cta.background` | string\|null | CTA background (custom colors) |
+| `widget.cta.color` | string\|null | CTA text color (custom colors) |
+| `widget.cta.border_color` | string\|null | CTA border color (custom colors) |
+| `widget.cta.background:hover` | string\|null | CTA background on hover (custom colors) |
+| `widget.cta.color:hover` | string\|null | CTA text color on hover (custom colors) |
 | `widget.cta.color:scrolled` | string\|null | CTA text color when page is scrolled |
 | `widget.cta.background:scrolled` | string\|null | CTA background color when page is scrolled |
 | `widget.dropdown` | object | Dropdown submenu styling |
@@ -81,11 +92,15 @@ menu
     "link": {
       "color": "var:text",
       "color:hover": null,
+      "color:active": null,
       "color:scrolled": null,
       "background": null,
       "background:hover": null,
+      "background:active": null,
       "hover_animation": "underline",
       "hover_animation_color": null,
+      "divider": false,
+      "divider_color": null,
       "font_size": 14
     },
     "logo": {
@@ -110,7 +125,8 @@ menu
       "items_alignment": "left",
       "items_gap": 12,
       "items_padding": 0,
-      "items_indent": 0
+      "items_indent": 0,
+      "dropdown_indicator": "none"
     },
     "cta": {
       "html": "Get Started",
@@ -127,6 +143,12 @@ menu
       "border_radius": "md",
       "icon": null,
       "icon_position": "left",
+      "custom_colors": false,
+      "background": null,
+      "color": null,
+      "border_color": null,
+      "background:hover": null,
+      "color:hover": null,
       "color:scrolled": null,
       "background:scrolled": null
     },

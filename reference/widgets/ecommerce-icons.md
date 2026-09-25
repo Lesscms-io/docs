@@ -27,6 +27,7 @@ ecommerce-icons
 | `widget.items[].url` | string\|null | Override URL (required for `custom`, optional override for `account`) |
 | `widget.items[].label` | string\|object\|null | Multilingual aria label |
 | `widget.items[].target_blank` | boolean | Open in new tab (only honored for `custom`) |
+| `widget.items[].highlighted` | boolean | Whether this item has a highlight background shape (default: `false`) |
 | `widget.config` | object | Layout configuration |
 | `widget.config.size` | number | Icon size in pixels (default: `20`) |
 | `widget.config.gap` | number | Horizontal gap between items in pixels (default: `16`) |
@@ -40,6 +41,11 @@ ecommerce-icons
 | `widget.search` | object | Search popover configuration |
 | `widget.search.placeholder` | string\|object\|null | Search input placeholder (multilingual) |
 | `widget.search.navigate_url` | string | Target page for search results (default: `"/search"`) |
+| `widget.highlight` | object | Highlight background styling (for emphasized icons) |
+| `widget.highlight.shape` | string | Shape of the highlight: `"circle"` or `"square"` |
+| `widget.highlight.background` | string\|null | Highlight background color |
+| `widget.highlight.color` | string\|null | Icon color when highlighted |
+| `widget.highlight.padding` | number | Padding around the icon inside the highlight shape in pixels (default: `12`) |
 | `settings` | object | [Shared widget settings](shared-settings.md) |
 
 ## Example Response
@@ -50,14 +56,15 @@ ecommerce-icons
   "uuid": "ei-101",
   "widget": {
     "items": [
-      { "type": "search", "icon": "fa-solid fa-magnifying-glass", "url": null, "label": { "pl": "Szukaj" }, "target_blank": false },
-      { "type": "account", "icon": "fa-solid fa-user", "url": null, "label": { "pl": "Konto" }, "target_blank": false },
-      { "type": "cart", "icon": "fa-solid fa-bag-shopping", "url": null, "label": { "pl": "Koszyk" }, "target_blank": false }
+      { "type": "search", "icon": "fa-solid fa-magnifying-glass", "url": null, "label": { "pl": "Szukaj" }, "target_blank": false, "highlighted": false },
+      { "type": "account", "icon": "fa-solid fa-user", "url": null, "label": { "pl": "Konto" }, "target_blank": false, "highlighted": false },
+      { "type": "cart", "icon": "fa-solid fa-bag-shopping", "url": null, "label": { "pl": "Koszyk" }, "target_blank": false, "highlighted": true }
     ],
     "config": { "size": 20, "gap": 16, "mobile_dock": false },
     "icon": { "color": "var:text", "color:hover": "var:primary" },
     "badge": { "background": "var:primary", "color": "var:white" },
-    "search": { "placeholder": { "pl": "Szukaj produktów..." }, "navigate_url": "/search" }
+    "search": { "placeholder": { "pl": "Szukaj produktów..." }, "navigate_url": "/search" },
+    "highlight": { "shape": "circle", "background": null, "color": null, "padding": 12 }
   },
   "settings": {
     "padding_top": 0,

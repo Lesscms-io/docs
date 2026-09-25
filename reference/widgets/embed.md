@@ -53,3 +53,7 @@ function renderEmbed(widget) {
 ## Security Note
 
 Embed code is rendered as raw HTML. When using this widget, ensure you trust the content source. Consider using CSP headers and sanitizing the embed code if displaying user-generated content.
+
+## Inline scripts
+
+`<script>` tags inside `code` are emitted verbatim by SSR, so they execute on a full page load (the renderer's menu links are plain `<a href>` navigations). They are **not** re-executed when the widget is re-rendered on the client (builder preview, hydration updates). External `<script src>` tags work the same way. Use this for self-contained tools (calculators, converters) migrated 1:1 from another CMS.

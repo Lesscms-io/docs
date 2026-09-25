@@ -87,11 +87,21 @@ GET /v1/:workspace_code/:project_code/menus/:code
 |-----------|------|-------------|
 | `code` | string | **Required.** Menu code (e.g., `main-navigation`) |
 
+### Query Parameters
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `lang` | string | Language of the generated `metadata.url` (default: project's `default_language`). For a non-default language, page and collection links get the `/{lang}` prefix (page links use the page's translated route if set); entry links use `metadata.urls[lang]`, falling back to the default-language URL when the entry is not translated. `custom_route` is returned unchanged. |
+
 ### Example Request
 
 ```bash
 curl -H "x-api-key: YOUR_API_KEY" \
   https://api.lesscms.io/v1/workspace/project/menus/main-navigation
+
+# URLs for the English version of the site
+curl -H "x-api-key: YOUR_API_KEY" \
+  "https://api.lesscms.io/v1/workspace/project/menus/main-navigation?lang=en"
 ```
 
 ### Example Response
@@ -241,7 +251,7 @@ Each menu node contains:
 | `link_type` | string | Type of link: `page`, `collection`, `entry`, or `custom` |
 | `link_target` | string | UUID of linked resource (for page/collection/entry types) |
 | `custom_route` | string | Custom URL (for custom link type) |
-| `url` | string | **Generated URL** - resolved from link_type/link_target |
+| `url` | string | **Generated URL** - resolved from link_type/link_target; a page link to the project homepage resolves to `/` |
 | `target` | string | Link target: `_self` or `_blank` |
 | `is_public` | boolean | Whether node is visible |
 

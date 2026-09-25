@@ -12,9 +12,11 @@ Widgets are the building blocks of page content in LessCMS. Each widget has spec
 | **Layout** | Grid |
 | **Interactive** | Hero, Countdown, Counter, Progress Bar, Testimonial, Alert, Accordion, Tabs, Timeline, Cookie Consent |
 | **Cards** | CTA Box, Feature List, Icon List |
-| **Navigation** | Menu |
+| **Navigation** | Menu, Language Switcher |
 | **Integrations** | Google Maps, Social Icons, Embed, Table |
 | **Collections** | Collection Grid, Collection Carousel, Collection Single, Collection Grouped, Value List, Data Field |
+| **E-Commerce** | Mini Cart, Account Icon, Search Bar, Search Icon, Ecommerce Icons, Product Grid, Product Carousel, Product Detail, Product Field, Product Gallery, Product Price, Product Cart, Product Configurator, Product Variants, Related Products, Category Grid, Category Tree, Category Header, Login Form, Register Form, Cart, Checkout, Order Success, Order Failure, Customer Account, Marketing Topbar, Campaign Banner |
+| **Content** | Business Info |
 
 ## Common Widget Structure
 
@@ -264,6 +266,7 @@ Settings can have responsive overrides for tablet (768-1199px) and mobile (0-767
 - [Accordion](reference/widgets/accordion.md)
 - [Tabs](reference/widgets/tabs.md)
 - [Timeline](reference/widgets/timeline.md)
+- [Family Tree](reference/widgets/family-tree.md)
 - [Cookie Consent](reference/widgets/cookie-consent.md)
 
 ### Cards Widgets
@@ -273,6 +276,7 @@ Settings can have responsive overrides for tablet (768-1199px) and mobile (0-767
 
 ### Navigation Widgets
 - [Menu](reference/widgets/menu.md)
+- [Language Switcher](reference/widgets/language-switcher.md)
 
 ### Integration Widgets
 - [Google Maps](reference/widgets/google-maps.md)
@@ -287,3 +291,35 @@ Settings can have responsive overrides for tablet (768-1199px) and mobile (0-767
 - [Collection Grouped](reference/widgets/collection-grouped.md)
 - [Value List](reference/widgets/value-list.md)
 - [Data Field](reference/widgets/data-field.md)
+
+### E-Commerce Widgets
+- [Mini Cart](reference/widgets/mini-cart.md)
+- [Account Icon](reference/widgets/account-icon.md)
+- [Search Bar](reference/widgets/search-bar.md)
+- [Search Icon](reference/widgets/search-icon.md)
+- [Ecommerce Icons](reference/widgets/ecommerce-icons.md)
+- [Product Grid](reference/widgets/product-grid.md)
+- [Product Carousel](reference/widgets/product-carousel.md)
+- [Product Detail](reference/widgets/product-detail.md)
+- [Product Field](reference/widgets/product-field.md)
+- [Product Gallery](reference/widgets/product-gallery.md)
+- [Product Price](reference/widgets/product-price.md)
+- [Product Cart](reference/widgets/product-cart.md)
+- [Product Configurator](reference/widgets/product-configurator.md)
+- [Product Variants](reference/widgets/product-variants.md)
+- [Related Products](reference/widgets/related-products.md)
+- [Category Grid](reference/widgets/category-grid.md)
+- [Category Tree](reference/widgets/category-tree.md)
+- [Category Header](reference/widgets/category-header.md)
+- [Login Form](reference/widgets/login-form.md)
+- [Register Form](reference/widgets/register-form.md)
+- [Cart](reference/widgets/cart.md)
+- [Checkout](reference/widgets/checkout.md)
+- [Order Success](reference/widgets/order-success.md)
+- [Order Failure](reference/widgets/order-failure.md)
+- [Customer Account](reference/widgets/customer-account.md)
+- [Marketing Topbar](reference/widgets/marketing-topbar.md)
+- [Campaign Banner](reference/widgets/campaign-banner.md)
+
+### Content Widgets
+- [Business Info](reference/widgets/business-info.md)

@@ -23,6 +23,7 @@ button
 | `widget.config.padding` | string\|null | Custom padding CSS value |
 | `widget.config.icon` | string\|null | Icon class (e.g. `"fa-solid fa-arrow-right"`) or SVG string prefixed with `"svg:"` |
 | `widget.config.icon_position` | string | Icon position: `"left"` or `"right"` |
+| `widget.config.icon_hover_only` | boolean | When `true` the icon is hidden and slides in on hover (Divi-style reveal) |
 | `widget.link` | object | Link element group |
 | `widget.link.url` | string | Resolved URL (or custom URL) |
 | `widget.link.link_type` | string | `"custom"`, `"page"`, or `"entry"` |
@@ -54,7 +55,8 @@ button
       "border_radius": "md",
       "padding": null,
       "icon": null,
-      "icon_position": "left"
+      "icon_position": "left",
+      "icon_hover_only": false
     },
     "link": {
       "url": "/about-us",
@@ -104,7 +106,7 @@ function renderButton(widget, language) {
   const label = text.html?.[language] || text.html?.en || '';
   const url = link.url || '#';
   const target = link.target_blank ? ' target="_blank" rel="noopener"' : '';
-  const iconHtml = config.icon ? `<i class="${config.icon}"></i> ` : '';
+  const iconHtml = config.icon ? `<i class="${config.icon}${config.icon_hover_only ? ' icon-hover-only' : ''}"></i> ` : '';
 
   const content = config.icon_position === 'right'
     ? `${label} ${iconHtml}`

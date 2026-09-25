@@ -21,7 +21,12 @@ product-configurator
 | `widget.config.show_price_summary` | boolean | Show the running "Total:" row below the options |
 | `widget.config.show_required_badge` | boolean | Show the `*` asterisk badge on mandatory option groups |
 | `widget.config.show_option_prices` | boolean | Show the per-option price delta inline next to color/image swatches |
+| `widget.config.show_quantity` | boolean | Show a quantity picker next to add-to-cart (default `true`). Hidden automatically for flow products and plugin CTAs, which always buy one |
 | `widget.config.swatch_size` | string | Size of color/image swatches: `"sm"`, `"md"` (default), `"lg"` |
+| `widget.config.swatch_columns` | number | Number of columns for swatch grid layout (default: `2`, min: `1`, max: `8`) |
+| `widget.config.swatch_image_max_height` | number \| null | Maximum height in pixels for image swatches (null = auto height) |
+| `widget.config.radio_columns` | number | Number of columns for radio button layout (default: `1`, min: `1`, max: `6`) |
+| `widget.config.display_mode` | string | Display mode: `"flat"`, `"grouped"`, or `"wizard"`. When `null`, falls back to `wizard_mode` flag for backward compatibility |
 | `widget.config.wizard_mode` | boolean | Render the configurator as a step-by-step wizard with prev/next nav and a final summary |
 | `widget.config.show_progress` | boolean | Show the wizard progress bar (used only when `wizard_mode=true`) |
 | `widget.config.show_step_count` | boolean | Show "Step X of Y" label below the progress bar (used only when `wizard_mode=true`) |
@@ -51,10 +56,12 @@ product-configurator
 | `widget.price_summary.amount_color` | string\|null | Color of the summary amount |
 | `widget.add_to_cart_button` | object | Add to cart button element group |
 | `widget.add_to_cart_button.text` | string \| object | Button label (multilingual) |
-| `widget.add_to_cart_button.background` | string\|null | Button background |
-| `widget.add_to_cart_button.background:hover` | string\|null | Button background on hover |
-| `widget.add_to_cart_button.color` | string\|null | Button text color |
-| `widget.add_to_cart_button.color:hover` | string\|null | Button text color on hover |
+| `widget.add_to_cart_button.style` | string | Button style: `"primary"`, `"secondary"`, `"success"`, `"danger"`, etc. |
+| `widget.add_to_cart_button.size` | string | Button size: `"sm"`, `"md"` (default), `"lg"` |
+| `widget.add_to_cart_button.border_radius` | string | Border radius preset: `"sm"`, `"md"`, `"lg"`, `"full"` |
+| `widget.add_to_cart_button.padding` | string | Custom CSS padding value (e.g. `"10px 20px"`) |
+| `widget.add_to_cart_button.icon` | string | Icon identifier (FontAwesome class or icon code) |
+| `widget.add_to_cart_button.icon_position` | string | Icon position relative to text: `"left"` or `"right"` |
 | `settings` | object | [Shared widget settings](shared-settings.md) |
 
 ## Example Response
@@ -69,7 +76,12 @@ product-configurator
       "show_price_summary": true,
       "show_required_badge": true,
       "show_option_prices": true,
+      "show_quantity": true,
       "swatch_size": "md",
+      "swatch_columns": 2,
+      "swatch_image_max_height": null,
+      "radio_columns": 1,
+      "display_mode": null,
       "wizard_mode": false,
       "show_progress": true,
       "show_step_count": true,
@@ -101,10 +113,12 @@ product-configurator
     },
     "add_to_cart_button": {
       "text": { "pl": "Dodaj do koszyka", "en": "Add to cart" },
-      "background": null,
-      "background:hover": null,
-      "color": null,
-      "color:hover": null
+      "style": "primary",
+      "size": "md",
+      "border_radius": "md",
+      "padding": "",
+      "icon": "",
+      "icon_position": "left"
     }
   },
   "settings": {

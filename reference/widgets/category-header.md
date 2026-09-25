@@ -18,6 +18,7 @@ category-header
 | `uuid` | string | Unique widget identifier |
 | `widget.config` | object | Config element group |
 | `widget.config.show_breadcrumbs` | boolean | Show breadcrumb navigation |
+| `widget.config.show_image` | boolean | Show category image (default `true`) |
 | `widget.config.show_description` | boolean | Show category description |
 | `widget.config.show_product_count` | boolean | Show total product count |
 | `widget.config.slug_source` | string | Where category slug comes from: `"url"` or `"static"` |
@@ -34,6 +35,7 @@ category-header
   "widget": {
     "config": {
       "show_breadcrumbs": true,
+      "show_image": true,
       "show_description": true,
       "show_product_count": true,
       "slug_source": "url",

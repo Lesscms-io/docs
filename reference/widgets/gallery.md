@@ -21,6 +21,7 @@ gallery
 | `widget.type` | string | Gallery type: `"grid"`, `"masonry"`, `"carousel"`, `"mosaic"` |
 | `widget.gap` | number | Gap between gallery items in pixels |
 | `widget.aspect` | string | Image aspect ratio (e.g. `"16:9"`, `"4:3"`, `"1:1"`, `"auto"`) |
+| `widget.captions` | string | Captions display mode: `"none"` (default), `"hover"`, `"overlay"` |
 | `widget.mosaic_variant` | string\|null | Mosaic layout variant |
 | `widget.carousel_style` | string\|null | Carousel visual style |
 | `widget.autoplay` | boolean | Auto-advance carousel slides |
@@ -48,6 +49,7 @@ gallery
     "gap": 8,
     "aspect": "square",
     "enable_lightbox": true,
+    "captions": "none",
     "mosaic_variant": "featured",
     "carousel_style": "default",
     "autoplay": true,

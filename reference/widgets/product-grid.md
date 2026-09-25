@@ -27,6 +27,8 @@ product-grid
 | `widget.config.product_slugs` | string | Newline- or comma-separated list of product slugs (used when `source` is `"manual"`). Order is preserved; missing products are silently dropped. |
 | — search mode | | With `source="search"` the grid reads the `?q=` URL parameter (the search-bar widget navigates there) and calls the storefront `/products/search` endpoint. Empty `q` renders a "type a phrase" prompt; no hits render "no results for …". Pagination works via `?page=`. Place the widget on the page the search bar routes to (`commerce.routes.search`, default `/szukaj`). |
 | `widget.config.limit` | number | Maximum number of products to display (ignored when `source` is `"manual"`) |
+| `widget.config.enable_pagination` | boolean | Enable pagination when showing products (default: `false`). When enabled, the grid respects `?page=N` URL parameter. |
+| `widget.config.sort_by` | string | Sort order: `"newest"` (default), `"price_asc"`, `"price_desc"`, `"popularity"`, `"rating"`, `"sales"` |
 | `widget.config.columns` | number | Number of columns on desktop |
 | `widget.config.columns_tablet` | number | Number of columns on tablet |
 | `widget.config.columns_mobile` | number | Number of columns on mobile |
@@ -85,6 +87,8 @@ When a product has at least one label in `marketing_labels[]`, render all of the
       "category_url_segment": 1,
       "product_slugs": "",
       "limit": 8,
+      "enable_pagination": false,
+      "sort_by": "newest",
       "columns": 4,
       "columns_tablet": 2,
       "columns_mobile": 1,

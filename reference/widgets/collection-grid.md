@@ -49,6 +49,9 @@ collection-grid
 | `widget.card_style` | string | Card visual style (e.g. `"default"`, `"bordered"`) |
 | `widget.entry_template` | string\|null | Entry template code for custom layouts |
 | `widget.extra_field` | string\|null | Extra field code to display |
+| `widget.extra_field_2` | string\|null | Second extra field; rendered after the first one joined with ` • ` (e.g. `2026 • Redesign`) |
+| `widget.link_field` | string\|null | Field code holding a URL — cards link there instead of the entry page (portfolio, partners); values without a scheme get `https://` |
+| `widget.link_target` | string | `_self` (default) or `_blank` (adds `rel="noopener"`) |
 | `widget.show_pagination` | boolean | Show pagination controls |
 | `widget.show_extra` | boolean | Show extra field |
 | `widget.exclude_url_segment` | string\|null | URL segment to exclude from results |
@@ -56,6 +59,18 @@ collection-grid
 | `widget.filter_source` | string | Filter value source: `"static"`, `"url"` or `"current_entry"` (default: `"static"`). With `current_entry`, the renderer uses the `entry_id` of the collection entry currently displayed on the page (typical use: a relation field pointing to that page's entry). |
 | `widget.filter_value` | string\|null | Static filter value |
 | `widget.filter_url_segment` | string\|null | URL segment for dynamic filter value |
+| `widget.filters_enabled` | boolean | **Premium.** Visitor-facing AJAX filters (no reload) |
+| `widget.filter_fields` | array | Field codes exposed as filters (select-like and relation fields) |
+| `widget.filters_style` | string | `"chips"`, `"select"`, `"sidebar"` (chips stacked vertically) |
+| `widget.filters_all_text` | object | Multilingual label of the "all" chip / option |
+| `widget.search_enabled` | boolean | Free-text search box (`?q=` across the collection's text fields) |
+| `widget.search_placeholder` | object | Multilingual search placeholder |
+| `widget.show_results_count` | boolean | Show the number of matching entries |
+| `widget.filters` | array | Resolved filter definitions (only when `filters_enabled`): `{ code, name, type, options: [{ value, label }] }` — options come from the field's select options or, for relations, the target collection's entries (`value` = entry id) |
+| `widget.pagination_mode` | string | `"none"`, `"load_more"` (button appends the next page), `"infinite"` (auto-load on scroll) |
+| `widget.load_more_text` | object | Multilingual "Load more" label |
+| `widget.load_more_style` | string | Button style for "Load more" (`primary`, `outline-primary`, …) |
+| `widget.entries_meta` | object | Pagination of the enriched first page: `{ total, page, pageSize, totalPages }` |
 | `widget.use_custom_layout` | boolean | Use custom entry layout template |
 | `widget.layout_config` | object\|null | Custom layout configuration |
 | `widget.field_order` | array\|null | Order of displayed fields (managed via drag & drop in CMS) |
@@ -108,6 +123,9 @@ collection-grid
     "card_style": "default",
     "entry_template": null,
     "extra_field": null,
+    "extra_field_2": null,
+    "link_field": null,
+    "link_target": "_self",
     "show_pagination": false,
     "show_extra": false,
     "exclude_url_segment": null,
@@ -115,6 +133,20 @@ collection-grid
     "filter_source": null,
     "filter_value": null,
     "filter_url_segment": null,
+    "filters_enabled": true,
+    "filter_fields": ["category"],
+    "filters_style": "chips",
+    "filters_all_text": { "en": "All", "pl": "Wszystkie" },
+    "search_enabled": true,
+    "search_placeholder": { "en": "Search…", "pl": "Szukaj…" },
+    "show_results_count": true,
+    "filters": [
+      { "code": "category", "name": { "en": "Category", "pl": "Kategoria" }, "type": "select", "options": [ { "value": "news", "label": { "en": "News", "pl": "Aktualności" } } ] }
+    ],
+    "pagination_mode": "load_more",
+    "load_more_text": { "en": "Load more", "pl": "Pokaż więcej" },
+    "load_more_style": "outline-primary",
+    "entries_meta": { "total": 48, "page": 1, "pageSize": 6, "totalPages": 8 },
     "use_custom_layout": false,
     "layout_config": null,
     "field_order": ["image", "date", "title", "excerpt", "tags", "read_more"],
@@ -192,3 +224,18 @@ function renderCollectionGrid(widget, language) {
   `;
 }
 ```
+
+## AJAX filters, search and load more (premium)
+
+When `filters_enabled` is on, render the `filters` definitions as chips or
+selects and the search box; on change call the collection endpoint with the
+same parameters the page API used:
+
+```
+GET /collections/{code}?page=1&pageSize={posts_count}&lang={lang}&{field}={value}&q={query}&orderBy={order_by}&orderDir={order_dir}
+```
+
+- `{field}={value}` — one param per active filter (select code or related entry id); the API resolves the field type from the schema.
+- `q` — case-insensitive search across the collection's text fields (plain and multilingual values).
+- `orderBy` / `orderDir` — sorting (`created_at`, `updated_at` or a field code). Without `orderBy` the natural order is kept.
+- Use `meta.total` / `meta.totalPages` for the results count and to decide whether to show "Load more"; `pagination_mode: "infinite"` appends the next page when a sentinel below the grid enters the viewport.

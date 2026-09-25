@@ -39,6 +39,11 @@ form
 | `widget.input_border_style` | string | Input border style: `"solid"`, `"dashed"`, `"dotted"` |
 | `widget.input_focus_border_color` | string | Input border color on focus |
 | `widget.input_placeholder_color` | string | Input placeholder text color |
+| `widget.file_choose_text` | string \| object | Copy of the "choose a file" button for `file` fields (multilingual) |
+| `widget.file_uploading_text` | string \| object | Copy shown while an attachment is uploading |
+| `widget.file_remove_text` | string \| object | Copy of the "remove file" action |
+| `widget.file_too_large_text` | string \| object | Error shown when the file exceeds the field's `max_size` (`{max}` is replaced with the limit in MB) |
+| `widget.file_error_text` | string \| object | Error shown when the upload fails |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response
@@ -75,7 +80,15 @@ form
     "input_border_width": "",
     "input_border_style": "",
     "input_focus_border_color": "var:primary",
-    "input_placeholder_color": ""
+    "input_placeholder_color": "",
+    "file_choose_text": {
+      "en": "Choose a file",
+      "pl": "Wybierz plik"
+    },
+    "file_uploading_text": "",
+    "file_remove_text": "",
+    "file_too_large_text": "",
+    "file_error_text": ""
   },
   "settings": {
     "responsive": {

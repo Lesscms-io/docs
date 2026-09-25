@@ -68,9 +68,19 @@ curl -H "x-api-key: YOUR_API_KEY" \
           "en": "Blog Posts",
           "pl": "Wpisy blogowe"
         },
+        "entry_url_pattern": "/blog/{slug}",
+        "entry_url_pattern_translation": {
+          "en": "/en/blog/{slug}",
+          "pl": "/blog/{slug}"
+        },
+        "entry_url_field": null,
         "routes": [
           {
             "url_pattern": "/blog/{slug}",
+            "url_pattern_translation": {
+              "en": "/en/blog/{slug}",
+              "pl": "/blog/{slug}"
+            },
             "filter_rules": null,
             "page_code": "blog-template",
             "name": "Blog post detail",
@@ -78,6 +88,10 @@ curl -H "x-api-key: YOUR_API_KEY" \
           },
           {
             "url_pattern": "/blog",
+            "url_pattern_translation": {
+              "en": "/en/blog",
+              "pl": "/blog"
+            },
             "filter_rules": {"category": "news"},
             "page_code": "blog-list",
             "name": "News blog list",
@@ -102,7 +116,9 @@ curl -H "x-api-key: YOUR_API_KEY" \
           }
         ]
       }
-    ]
+    ],
+    "languages": ["pl", "en"],
+    "default_language": "pl"
   }
 }
 ```
@@ -116,6 +132,8 @@ curl -H "x-api-key: YOUR_API_KEY" \
 | `homepage` | object\|null | Homepage page info, or `null` if not set |
 | `pages` | array | All public pages with their URLs |
 | `collections` | array | Collections with entry URL patterns (only those with patterns configured) |
+| `languages` | array | Array of language codes available in the project (e.g., `["pl", "en"]`) |
+| `default_language` | string | Project's default language code (e.g., `"pl"`) |
 
 #### Homepage Object
 
@@ -143,6 +161,9 @@ curl -H "x-api-key: YOUR_API_KEY" \
 | `code` | string | Collection code |
 | `name` | string | Collection name |
 | `name_translation` | object | Multilingual collection name |
+| `entry_url_pattern` | string\|null | Base URL pattern for entries (e.g., `/blog/{slug}`) |
+| `entry_url_pattern_translation` | object | Per-language URL patterns, e.g., `{"pl": "/blog/{slug}", "en": "/en/blog/{slug}"}` |
+| `entry_url_field` | string\|null | Field code to use for `{slug}` placeholder (if not specified, uses entry's slug field or entry_id) |
 | `routes` | array | Array of route configurations for this collection |
 
 #### Collection Route Object
@@ -150,6 +171,7 @@ curl -H "x-api-key: YOUR_API_KEY" \
 | Field | Type | Description |
 |-------|------|-------------|
 | `url_pattern` | string | URL pattern with placeholders (e.g., `/blog/{slug}`, `/pokoje/{entry_id}`) |
+| `url_pattern_translation` | object | Per-language URL patterns for this route (e.g., `{"pl": "/blog/{slug}", "en": "/en/blog/{slug}"}`) |
 | `filter_rules` | object\|null | Filter rules for list routes (e.g., `{"category": "news"}`) |
 | `page_code` | string\|null | Code of the page template to render this route |
 | `name` | string | Human-readable name for this route |
