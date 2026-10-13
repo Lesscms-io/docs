@@ -20,6 +20,12 @@ accordion
 | `widget.header.background` | string\|null | Header background color |
 | `widget.header.background:hover` | string\|null | Header background on hover |
 | `widget.header.tag` | string | HTML tag for title (h2-h6, p, span) |
+| `widget.meta` | object | Meta text (columns layout: 2nd and 3rd column) |
+| `widget.meta.color` | string\|null | Meta text color (also applies on hover, see `hover_color` in appearance) |
+| `widget.index` | object | Item number (columns layout, shown when `config.show_index`) |
+| `widget.index.style` | string | `outline` (contour, fills on hover/open) or `fill` |
+| `widget.index.color` | string\|null | Number color (outline/fill) |
+| `widget.index.color:hover` | string\|null | Number color on hover / when open |
 | `widget.content` | object | Content area styling |
 | `widget.content.color` | string\|null | Content text color |
 | `widget.content.color:hover` | string\|null | Content text color on hover |
@@ -31,18 +37,37 @@ accordion
 | `widget.icon.color:hover` | string\|null | Icon color on hover |
 | `widget.icon.open` | string | Icon class when item is open (e.g. `fa-solid fa-minus`) |
 | `widget.icon.closed` | string | Icon class when item is closed (e.g. `fa-solid fa-plus`) |
+| `widget.icon.background` | string\|null | Icon background (used by `plus-circle` style) |
+| `widget.icon.background:hover` | string\|null | Icon background on hover / when open |
 | `widget.border` | object | Item border |
 | `widget.border.color` | string\|null | Border color around each item |
 | `widget.border.color:hover` | string\|null | Item border color on hover |
 | `widget.separator` | object | Separator line between items |
 | `widget.separator.color` | string\|null | Separator line color |
 | `widget.separator.color:hover` | string\|null | Separator color on hover |
+| `widget.divider` | object | Row divider lines (columns layout) |
+| `widget.divider.color` | string\|null | Divider line color |
+| `widget.accent_line` | object | Accent line drawn across the top of a row on hover / open |
+| `widget.accent_line.enabled` | boolean | Show the accent line |
+| `widget.accent_line.color` | string\|null | Accent line color (default: primary) |
 | `widget.config` | object | Behavior configuration |
 | `widget.config.allow_multiple` | boolean | Allow multiple items open simultaneously |
 | `widget.config.first_open` | boolean | First item open by default |
+| `widget.config.header_layout` | string | `simple` (boxed rows) or `columns` (index / title / meta1 / meta2 / icon row, "zestawienie realizacji") |
+| `widget.config.show_index` | boolean | Show item number (columns layout) |
+| `widget.config.icon_style` | string | `chevron` (default, uses `icon.open` / `icon.closed`) or `plus-circle` (outlined round button, rotates to x when open) |
+| `widget.config.content_type` | string | `text` (default), `gallery` or `text_gallery` |
+| `widget.config.lightbox` | boolean | Gallery images open the lightbox on click (default: `true`) |
+| `widget.config.lightbox_zoom` | boolean | Zoom inside the lightbox (default: `true`) |
+| `widget.config.source` | string | `manual` (items below) or `collection` (entries of a collection, mapped through `config.map`) |
+| `widget.config.collection` | string\|null | Collection code (when `source` = `collection`) |
+| `widget.config.map` | object | Collection field mapping: `title`, `meta1`, `meta2`, `images`, `content` (field codes) |
 | `widget.items` | array | List of accordion items |
 | `widget.items[].title_html` | object | Multilingual item title |
 | `widget.items[].html` | object | Multilingual item content — rich text HTML (paragraphs, bold, links, lists, images with class `lcms-rich-img`). Legacy items may still contain plain text; render with newline→paragraph fallback |
+| `widget.items[].meta1_html` | object | Multilingual meta text 1 (e.g. city) |
+| `widget.items[].meta2_html` | object | Multilingual meta text 2 (e.g. scope) |
+| `widget.items[].images` | array | Gallery images `[{ "url": "...", "alt"?: "...", "type"?: "video" }]`. Rendered on click-to-open lightbox (zoom) |
 | `settings` | object | [Shared widget settings](shared-settings.md) |
 
 ## Example Response
@@ -80,9 +105,31 @@ accordion
       "color": "var:border",
       "color:hover": null
     },
+    "meta": {
+      "color": "var:muted"
+    },
+    "index": {
+      "style": "outline",
+      "color": "var:primary",
+      "color:hover": "var:primary"
+    },
+    "divider": {
+      "color": "var:border"
+    },
+    "accent_line": {
+      "color": "var:primary",
+      "enabled": false
+    },
     "config": {
       "allow_multiple": false,
-      "first_open": true
+      "first_open": true,
+      "header_layout": "simple",
+      "show_index": false,
+      "icon_style": "chevron",
+      "content_type": "text",
+      "source": "manual",
+      "collection": null,
+      "map": { "title": null, "meta1": null, "meta2": null, "images": null, "content": null }
     },
     "items": [
       {
@@ -93,7 +140,10 @@ accordion
         "html": {
           "en": "LessCMS is a headless content management system.",
           "pl": "LessCMS to bezgłowy system zarządzania treścią."
-        }
+        },
+        "meta1_html": {},
+        "meta2_html": {},
+        "images": []
       },
       {
         "title_html": {
@@ -117,6 +167,10 @@ accordion
   }
 }
 ```
+
+## Collection source
+
+With `config.source = "collection"` the API fetches entries of `config.collection` (up to 20, newest first) and builds `items[]` from them: `title_html` ← `config.map.title`, `meta1_html` ← `config.map.meta1`, `meta2_html` ← `config.map.meta2`, `html` ← `config.map.content`, `images` ← `config.map.images`. Gallery fields with a single image value are accepted too. Items stored under `widget.data.items` are ignored in this mode.
 
 ## Wrappable
 

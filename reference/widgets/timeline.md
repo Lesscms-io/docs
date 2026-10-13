@@ -17,11 +17,26 @@ timeline
 | `widget.line` | object | Timeline line styling |
 | `widget.line.color` | string\|null | Timeline line color |
 | `widget.line.color:hover` | string\|null | Timeline line color on hover |
-| `widget.dot` | object | Timeline dot styling |
-| `widget.dot.color` | string\|null | Timeline dot color |
-| `widget.dot.color:hover` | string\|null | Timeline dot color on hover |
+| `widget.line.active_color` | string\|null | Color of the drawn (animated) part of the line |
+| `widget.line.width` | number | Line width in px |
+| `widget.marker` | object | Marker (step circle) styling |
+| `widget.marker.style` | string | `"outline"` or `"filled"` |
+| `widget.marker.content` | string | `"number"`, `"icon"` (item `icon`, falls back to number) or `"dot"` |
+| `widget.marker.size` | number | Marker diameter in px |
+| `widget.marker.color` | string\|null | Marker border color (filled: background) |
+| `widget.marker.color:hover` | string\|null | Marker color on hover |
+| `widget.marker.background` | string\|null | Marker background (outline style) |
+| `widget.marker.number_color` | string\|null | Number / icon color |
+| `widget.title` | object | Item title styling |
+| `widget.title.color` | string\|null | Title color |
+| `widget.title.tag` | string | HTML tag of the title (`h2`–`h6`, `p`, `span`, `div`) |
+| `widget.content` | object | Item description styling |
+| `widget.content.color` | string\|null | Description color |
 | `widget.config` | object | Behavior configuration |
-| `widget.config.layout` | string | Layout: `"left"`, `"right"`, `"alternate"` |
+| `widget.config.variant` | string | `"steps"` (markers, new widgets) or `"cards"` (classic look: cards with background, 12px dot; legacy data) |
+| `widget.config.layout` | string | `"vertical"` or `"horizontal"` (horizontal falls back to vertical on mobile) |
+| `widget.config.side` | string | Vertical layout only: `"left"`, `"right"`, `"alternate"` |
+| `widget.config.animate_line` | boolean | Line draws in and steps light up in sequence on scroll into view |
 | `widget.config.show_relative` | boolean | Render a "how long ago" line for each item (computed from `date_from` to now) |
 | `widget.config.show_duration` | boolean | Render a "how long it lasted" line for items that have a `date_to` |
 | `widget.items` | array | List of timeline events |
@@ -30,6 +45,7 @@ timeline
 | `widget.items[].date_html` | object | Optional custom label (multilingual). When empty, the header is auto-formatted from `date_from`/`date_to` |
 | `widget.items[].title_html` | object | Multilingual event title |
 | `widget.items[].html` | object | Multilingual event description |
+| `widget.items[].icon` | string\|null | Icon class (e.g. `fa-solid fa-star`), used when `marker.content` is `"icon"` |
 | `settings` | object | [Shared widget settings](shared-settings.md) |
 
 ## Computed date fields
@@ -56,14 +72,26 @@ the two boolean flags), so localize the wording to the render language.
   "widget": {
     "line": {
       "color": "var:border",
-      "color:hover": null
+      "color:hover": null,
+      "active_color": "var:primary",
+      "width": 2
     },
-    "dot": {
+    "marker": {
+      "style": "outline",
+      "content": "number",
+      "size": 56,
       "color": "var:primary",
-      "color:hover": null
+      "color:hover": null,
+      "background": null,
+      "number_color": null
     },
+    "title": { "color": null, "tag": "h4" },
+    "content": { "color": null },
     "config": {
-      "layout": "left",
+      "variant": "steps",
+      "layout": "vertical",
+      "side": "left",
+      "animate_line": true,
       "show_relative": true,
       "show_duration": true
     },
@@ -97,11 +125,23 @@ the two boolean flags), so localize the wording to the render language.
 
 ## Layout Options
 
-| Value | Description |
-|-------|-------------|
+| `config.layout` | Description |
+|-----------------|-------------|
+| `vertical` | Items stacked along a vertical line; side set by `config.side` |
+| `horizontal` | N columns, line through the marker centers. Tablet (≤1100px): 2 columns without line. Mobile (≤768px): vertical list |
+
+| `config.side` (vertical) | Description |
+|--------------------------|-------------|
 | `left` | Items on the left side of the line |
 | `right` | Items on the right side of the line |
-| `alternate` | Items alternate left and right |
+| `alternate` | Items alternate left and right (single column on mobile) |
+
+## Legacy data
+
+Records saved before the element-group migration (flat `line_color`, `dot_color`,
+`hover_line_color`, `hover_dot_color`, `config.layout` = `left|right|alternate`, and
+a `dot` group) are normalized by the transformer. Records without a `marker` group
+are returned as a filled 16px dot, as before.
 
 ## Usage Example
 

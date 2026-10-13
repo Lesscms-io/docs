@@ -36,6 +36,7 @@ Every widget returns a `settings` object with common style properties extracted 
 | `settings.hidden` | boolean | Hidden on desktop |
 | `settings.css_id` | string\|null | Custom CSS ID |
 | `settings.css_class` | string\|null | Custom CSS class |
+| `settings.custom_css` | string\|null | Own CSS for the element; `selector` = the element itself (max 20000 chars) |
 | `settings.link` | object\|null | Widget clickability link |
 | `settings.animation_type` | string\|null | Scroll animation type |
 | `settings.animation_duration` | number | Animation duration (ms) |

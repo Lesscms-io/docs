@@ -163,7 +163,7 @@ Strona
 - `stickyZIndex` — z-index dla sticky elementu
 
 #### Animacje scroll
-- `animationType` — animacja przy wejściu w viewport: `none`, `fade-in`, `slide-up`, `slide-down`, `slide-left`, `slide-right`, `zoom-in`, `zoom-out`, `flip`
+- `animationType` — animacja przy wejściu w viewport: `none`, `fade-in`, `slide-up`, `slide-down`, `slide-left`, `slide-right`, `zoom-in`, `zoom-out`, `mask-reveal`, `mask-reveal-lines` (tylko text), `clip-up`, `flip`
 - `animationDuration` — czas trwania animacji (ms)
 - `animationDelay` — opóźnienie animacji (ms)
 - `animationOnce` — animacja odtwarza się tylko raz (domyślnie true)

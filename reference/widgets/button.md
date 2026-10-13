@@ -19,11 +19,18 @@ button
 | `widget.config` | object | Config element group |
 | `widget.config.style` | string | Button style preset: `"primary"`, `"secondary"`, `"outline"`, etc. |
 | `widget.config.size` | string | Button size: `"sm"`, `"md"`, `"lg"` |
-| `widget.config.border_radius` | string | Border radius preset: `"none"`, `"sm"`, `"md"`, `"lg"`, `"pill"` |
+| `widget.config.border_radius` | string | Border radius preset: `"none"`, `"sm"`, `"md"`, `"lg"`, `"pill"`, `"circle"` (round button, diameter from `circle_size`) |
 | `widget.config.padding` | string\|null | Custom padding CSS value |
 | `widget.config.icon` | string\|null | Icon class (e.g. `"fa-solid fa-arrow-right"`) or SVG string prefixed with `"svg:"` |
 | `widget.config.icon_position` | string | Icon position: `"left"` or `"right"` |
 | `widget.config.icon_hover_only` | boolean | When `true` the icon is hidden and slides in on hover (Divi-style reveal) |
+| `widget.config.hover_effect` | string | `"none"` or `"fill-up"` (fill slides up from the bottom on hover) |
+| `widget.config.fill_color` | string\|null | Fill color for `fill-up` (`var:code` or hex); `null` = white |
+| `widget.config.fill_text_color` | string\|null | Text color on hover for `fill-up`; `null` = dark |
+| `widget.config.magnetic` | boolean | When `true` the button follows the cursor inside itself (pointer devices only, off with reduced motion) |
+| `widget.config.magnetic_strength` | number | 0.1–0.6, share of the cursor offset applied as translate (default 0.3) |
+| `widget.config.circle_size` | number\|null | Diameter in px for `border_radius: "circle"` (default 210) |
+| `widget.config.circle_size_mobile` | number\|null | Diameter in px on mobile; falls back to `min(circle_size, 150px)` |
 | `widget.link` | object | Link element group |
 | `widget.link.url` | string | Resolved URL (or custom URL) |
 | `widget.link.link_type` | string | `"custom"`, `"page"`, or `"entry"` |
@@ -56,7 +63,14 @@ button
       "padding": null,
       "icon": null,
       "icon_position": "left",
-      "icon_hover_only": false
+      "icon_hover_only": false,
+      "hover_effect": "none",
+      "fill_color": null,
+      "fill_text_color": null,
+      "magnetic": false,
+      "magnetic_strength": 0.3,
+      "circle_size": 210,
+      "circle_size_mobile": null
     },
     "link": {
       "url": "/about-us",

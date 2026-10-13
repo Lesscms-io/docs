@@ -685,6 +685,7 @@ When rendering, wrap items in a grid:
 - `link` - Clickable link with optional icon and hover animations
 - `service-card` - Card with icon, title, description, link and badge
 - `pill` - Inline badge/pill with text and background
+- `credits` - Footer credit line: "Made by [Softmasters logo] · Running on [LessCMS logo]"
 - `cta-box` - Call-to-action box with heading and link
 - `feature-list` - Bulleted list of features/benefits
 - `icon-list` - List of items with icons and text
@@ -748,6 +749,8 @@ When rendering, wrap items in a grid:
 - `alert` - Notification box
 - `form` - Contact form (fetches definition from /forms/{code}), supports full input styling (background, text, border, focus, placeholder colors)
 - `accordion` - Expandable/collapsible content sections
+- `marquee` - Full-width endless scrolling band: big text words (outline alternation, separators) or partner logos (mono, hover opacity, edge fade)
+- `service-map` - SVG map of the service area: country outline, city dots with coordinates, HQ marker, lines from HQ drawn on scroll, automatic label placement
 - `tabs` - Tabbed content interface
 
 ### Content Widgets

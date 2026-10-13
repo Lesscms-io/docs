@@ -17,7 +17,14 @@ counter
 | `widget` | object | Widget properties |
 | `widget.number` | object | Number element group |
 | `widget.number.number` | number | Target number to count to (default: 0) |
-| `widget.number.duration` | number | Animation duration in milliseconds (default: 2000) |
+| `widget.number.from` | number\|null | Count-up start value (null = auto: target − 20 if target > 1000, else 0) |
+| `widget.number.duration` | number | Animation duration in milliseconds (default: 1600) |
+| `widget.number.decimals` | number\|null | Decimal places (null = derived from `number`) |
+| `widget.number.separator` | string | Thousands separator: `"none"`, `"space"`, `"dot"`, `"comma"` (default: `"none"`) |
+| `widget.number.style` | string | `"fill"` (solid) or `"outline"` (stroked digits, filled on hover) (default: `"fill"`) |
+| `widget.number.outline_width` | number | Outline stroke width in px, used when `style` is `"outline"` (default: 1.5) |
+| `widget.number.font_stretch` | number\|null | Letter width in percent (null = preset/default) |
+| `widget.number.text_style` | string | Project text style preset code (`lcms-ts-<code>` class), empty = none |
 | `widget.number.size` | string | Number font size preset: `"md"`, `"lg"`, `"xl"`, `"2xl"` (default: `"xl"`) |
 | `widget.number.tag` | string | HTML tag for the number element (default: `"p"`) |
 | `widget.number.prefix` | string | Text before the number (multilingual) |
@@ -25,14 +32,16 @@ counter
 | `widget.number.color` | string\|null | Number text color (hex, `var:` variable, or null) |
 | `widget.number.color:hover` | string\|null | Number text color on hover |
 | `widget.number.prefix_color` | string\|null | Prefix/suffix text color (hex, `var:` variable, or null) |
-| `widget.title` | object | Title element group |
-| `widget.title.html` | string | Counter title/label (multilingual) |
-| `widget.title.tag` | string | HTML tag for the title element (default: `"p"`) |
-| `widget.title.color` | string\|null | Title text color (hex, `var:` variable, or null) |
-| `widget.title.color:hover` | string\|null | Title text color on hover |
+| `widget.label` | object | Label element group (legacy `title` is read as fallback) |
+| `widget.label.text` | string | Label text under the number (multilingual) |
+| `widget.label.tag` | string | HTML tag for the label element (default: `"p"`) |
+| `widget.label.color` | string\|null | Label text color (hex, `var:` variable, or null) |
+| `widget.label.color:hover` | string\|null | Label text color on hover |
 | `widget.config` | object | Configuration group |
 | `widget.config.alignment` | string | Text alignment: `"left"`, `"center"`, `"right"` (default: `"center"`) |
-| `widget.config.gap` | number | Gap between counter items in pixels (default: 10) |
+| `widget.config.gap` | number | Gap between number and label in pixels (default: 10) |
+| `widget.config.animate_on_scroll` | boolean | Count up when the widget enters the viewport; false = static value (default: true) |
+| `widget.config.once` | boolean | Count up only the first time (true) or on every entry into the viewport (default: true) |
 | `settings` | object | Style settings (see [shared settings](shared-settings.md)) |
 
 ## Example Response
@@ -51,17 +60,26 @@ counter
       "suffix": "+",
       "color": null,
       "color:hover": null,
-      "prefix_color": null
+      "prefix_color": null,
+      "from": null,
+      "decimals": null,
+      "separator": "none",
+      "style": "outline",
+      "outline_width": 1.5,
+      "font_stretch": null,
+      "text_style": ""
     },
-    "title": {
-      "html": "Happy Customers",
+    "label": {
+      "text": "Happy Customers",
       "tag": "p",
       "color": null,
       "color:hover": null
     },
     "config": {
       "alignment": "center",
-      "gap": 10
+      "gap": 10,
+      "animate_on_scroll": true,
+      "once": true
     }
   },
   "settings": {}
@@ -86,8 +104,8 @@ counter
       "color:hover": null,
       "prefix_color": "#50a5f1"
     },
-    "title": {
-      "html": "Revenue Generated",
+    "label": {
+      "text": "Revenue Generated",
       "tag": "p",
       "color": null,
       "color:hover": null
@@ -105,7 +123,7 @@ counter
 
 ```javascript
 function renderCounter(widget, language) {
-  const { number, title, config } = widget.widget;
+  const { number, label, config } = widget.widget;
 
   const counterId = `counter-${widget.uuid}`;
 
@@ -113,7 +131,7 @@ function renderCounter(widget, language) {
     <div id="${counterId}" class="counter-widget"
       style="text-align: ${config.alignment || 'center'}"
       data-target="${number.number}"
-      data-duration="${number.duration || 2000}"
+      data-duration="${number.duration || 1600}"
     >
       <div class="counter-value"
         ${number.color ? `style="color: ${number.color}"` : ''}
@@ -126,9 +144,9 @@ function renderCounter(widget, language) {
           ${number.prefix_color ? `style="color: ${number.prefix_color}"` : ''}
         >${number.suffix || ''}</span>
       </div>
-      ${title.html ? `<div class="counter-title"
-        ${title.color ? `style="color: ${title.color}"` : ''}
-      >${title.html}</div>` : ''}
+      ${label.text ? `<div class="counter-title"
+        ${label.color ? `style="color: ${label.color}"` : ''}
+      >${label.text}</div>` : ''}
     </div>
   `;
 }

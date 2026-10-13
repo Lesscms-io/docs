@@ -20,6 +20,7 @@ image
 | `widget.image_style` | string | Image style preset (default: `"none"`) |
 | `widget.alt` | string\|object\|null | Alt text — plain string or multilingual object |
 | `widget.enable_lightbox` | boolean | Click opens a fullscreen preview (default: `false`) |
+| `widget.lightbox_zoom` | boolean | Zoom inside the lightbox (default: `true`) |
 | `settings` | object | Style settings (optional) |
 
 ## Example Response

@@ -18,6 +18,7 @@ gallery
 | `widget.images` | array | Array of media items. Each item: `url`, `alt`, `type` (`"image"` default, or `"video"`), and `poster` (optional poster URL for videos). Videos render as `<video>` and play in the lightbox. |
 | `widget.columns` | number\|string | Number of grid columns (default: 3) |
 | `widget.enable_lightbox` | boolean | Enable lightbox on click (default: false) |
+| `widget.lightbox_zoom` | boolean | Zoom inside the lightbox: wheel, double click, +/−, pinch (default: `true`) |
 | `widget.type` | string | Gallery type: `"grid"`, `"masonry"`, `"carousel"`, `"mosaic"` |
 | `widget.gap` | number | Gap between gallery items in pixels |
 | `widget.aspect` | string | Image aspect ratio (e.g. `"16:9"`, `"4:3"`, `"1:1"`, `"auto"`) |
