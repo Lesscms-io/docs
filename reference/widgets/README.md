@@ -313,6 +313,7 @@ Settings can have responsive overrides for tablet (768-1199px) and mobile (0-767
 - [Category Header](reference/widgets/category-header.md)
 - [Login Form](reference/widgets/login-form.md)
 - [Register Form](reference/widgets/register-form.md)
+- [Group Application](reference/widgets/group-application.md)
 - [Cart](reference/widgets/cart.md)
 - [Checkout](reference/widgets/checkout.md)
 - [Order Success](reference/widgets/order-success.md)
