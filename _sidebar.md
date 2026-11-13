@@ -128,6 +128,7 @@
 
 * **Guides**
   * [AI Frontend Generation](guides/ai-frontend-generation.md)
+  * [MCP Server (AI agents)](guides/mcp.md)
   * [Authentication](guides/authentication.md)
   * [Error Handling](guides/errors.md)
   * [Caching Strategy](guides/caching.md)

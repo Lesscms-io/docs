@@ -32,6 +32,17 @@ embed
 }
 ```
 
+## Script execution
+
+In the official renderer (`@lesscms/vue-widgets`, used by LessCMS-hosted sites) `<script>` tags inside `code` are executed in the browser after the widget mounts:
+
+- in document order; an external `src` script (without `async`) is awaited before the next one runs,
+- never during SSR and never inside the panel editor (Page Builder preview),
+- non-JavaScript types (e.g. `application/ld+json`) are kept as-is and not executed,
+- when `code` changes, pending scripts of the previous version are cancelled (side effects of scripts that already ran are not undone).
+
+If you render `code` yourself with `innerHTML`, browsers do **not** execute scripts — re-create each `<script>` element as shown below.
+
 ## Usage Example
 
 ```javascript
@@ -54,6 +65,17 @@ function renderEmbed(widget) {
 
 Embed code is rendered as raw HTML. When using this widget, ensure you trust the content source. Consider using CSP headers and sanitizing the embed code if displaying user-generated content.
 
-## Inline scripts
+## Running scripts in your own frontend
 
-`<script>` tags inside `code` are emitted verbatim by SSR, so they execute on a full page load (the renderer's menu links are plain `<a href>` navigations). They are **not** re-executed when the widget is re-rendered on the client (builder preview, hydration updates). External `<script src>` tags work the same way. Use this for self-contained tools (calculators, converters) migrated 1:1 from another CMS.
+```javascript
+function mountEmbed(container, code) {
+  container.innerHTML = code;
+  // innerHTML never runs <script> — re-create them so the browser executes them
+  container.querySelectorAll('script').forEach((old) => {
+    const s = document.createElement('script');
+    for (const { name, value } of old.attributes) s.setAttribute(name, value);
+    s.textContent = old.textContent;
+    old.replaceWith(s);
+  });
+}
+```
