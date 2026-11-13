@@ -86,5 +86,5 @@ The `embed` widget renders raw HTML. Scripts inside it run in the browser on the
 ## Related systems
 
 - LessCommerce: `https://be.lesscommerce.io/mcp`
-- LessSEO: `https://api-seo.lesstools.cloud/mcp` — includes `create_site` and `research_keywords` (search volume, CPC, competition and related keyword ideas from DataForSEO; results cached for 7 days and counted against the DataForSEO budget).
+- LessSEO: `https://api.lessseo.io/mcp` — includes `create_site` and `research_keywords` (search volume, CPC, competition and related keyword ideas from DataForSEO; results cached for 7 days and counted against the DataForSEO budget).
 - Backoffice (LessTools staff only): workspace setup tools (`create_workspace`, `set_workspace_plan`, `add_workspace_member`, `list_plans`).
